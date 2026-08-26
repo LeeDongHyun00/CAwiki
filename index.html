@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CAwiki — 아키텍처 지도</title>
+  <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body class="home">
+  <div class="home-wrap">
+    <p class="home-eyebrow">CAWIKI · COMPUTER ARCHITECTURE</p>
+    <h1>작동 순서로 배우는<br>컴퓨터 아키텍처</h1>
+    <p class="sub">일상의 동작 하나가 하드웨어를 어떤 경로로 통과하는지, 아키텍처별로 한 단계씩 따라갑니다. 스크롤·방향키·클릭 — 어떤 입력이든 <b>정확히 한 단계</b>만 진행되고, 애니메이션이 끝나기 전에는 건너뛸 수 없습니다.</p>
+
+    <div class="arch-grid">
+      <a class="arch-card" href="./scenarios/boot.html" style="--acc:#96A4B3">
+        <span class="no">ARCH 01 · POWER ON</span>
+        <h2>부팅 — 전원에서 로그인까지</h2>
+        <p>PSU → UEFI 펌웨어 → POST → 부트로더 → 커널. 전원 버튼 하나로 시작되는 일곱 부품의 릴레이.</p>
+        <span class="meta">8단계 · 메인보드 구성</span>
+      </a>
+      <a class="arch-card" href="./scenarios/game.html" style="--acc:#7DA8F5">
+        <span class="no">ARCH 02 · INPUT TO PHOTON</span>
+        <h2>게임 — 클릭에서 픽셀까지</h2>
+        <p>입력 장치 → CPU 게임 루프 → GPU 렌더링 → 스캔아웃 → 모니터. 초당 수백 번 반복되는 파이프라인.</p>
+        <span class="meta">8단계 · 파이프라인 구성</span>
+      </a>
+      <a class="arch-card" href="./scenarios/search.html" style="--acc:#62C795">
+        <span class="no">ARCH 03 · ROUND TRIP</span>
+        <h2>검색 — 집에서 데이터센터까지</h2>
+        <p>DNS → TCP·TLS → 공유기 → ISP → 해저케이블 → 로드밸런서 → 검색 서버. 지구 크기의 왕복.</p>
+        <span class="meta">8단계 · 네트워크 지형 구성</span>
+      </a>
+      <a class="arch-card" href="./scenarios/storage.html" style="--acc:#E0AC4E">
+        <span class="no">ARCH 04 · STORAGE READ PATH</span>
+        <h2>파일 열기 — 셀에서 화면까지</h2>
+        <p>파일시스템 → NVMe → DMA → RAM 페이지 캐시 → CPU 캐시 계층 → 화면. SSD가 빠른 이유.</p>
+        <span class="meta">8단계 · 읽기 경로 구성</span>
+      </a>
+    </div>
+
+    <div class="home-note">
+      <b>새 아키텍처 추가하기</b> — 부품은 <code>lib/components.js</code>의 팩토리 함수(CPU, GPU, RAM, SSD, Node …)를 재사용합니다.
+      <code>scenarios/</code>에 HTML 셸과 JS 한 쌍을 만들고 <code>defineScenario({ compose, steps })</code>만 채우면 됩니다.
+      자세한 방법은 <code>README.md</code> 참고. 다음 후보: 키보드 입력, Ctrl+S, 유튜브 스트리밍, 절전 모드…
+    </div>
+  </div>
+</body>
+</html>
