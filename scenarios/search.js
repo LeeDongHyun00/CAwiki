@@ -7,7 +7,7 @@ import { Node, Router, ServerRack, C } from '../lib/components.js';
 
 defineScenario({
   id: 'search',
-  title: '검색 — 집에서 데이터센터까지',
+  title: '엔터를 치면 신호는 어디까지 갔다 올까?',
   tagline: '패킷이 지구 반대편까지 갔다 돌아오는 왕복이 눈 깜빡임보다 빠르다.',
 
   compose(stage) {
@@ -37,17 +37,30 @@ defineScenario({
   steps: [
     {
       title: '개요 — 검색은 왕복이다',
-      body: `검색은 내 컴퓨터 혼자 하는 일이 아닙니다. 요청이 <b>집 → 인터넷 인프라 → 데이터센터</b>를 지나갔다가, 같은 길로 돌아옵니다. 스크롤로 패킷을 따라가 보세요.`,
+      lead: '검색은 내 컴퓨터 혼자 하는 일이 아닙니다 — 지구를 왕복합니다.',
+      points: [
+        '요청이 <b>집 → 인터넷 인프라 → 데이터센터</b>를 지나갔다가 같은 길로 돌아옵니다',
+      ],
+      detail: '스크롤로 패킷을 따라가 보세요.',
       focus: null, lit: [],
     },
     {
       title: '요청 준비',
-      body: `검색어를 입력하면 <b>브라우저</b>(CPU와 RAM 위에서 실행되는 프로그램)가 검색 URL과 HTTP 요청을 구성합니다. 그런데 보낼 곳의 주소를 아직 모릅니다 — <code>www.google.com</code>은 이름일 뿐, 주소가 아니니까요.`,
+      lead: '<b data-comp="browser">브라우저</b>가 검색 요청을 만듭니다.',
+      points: [
+        '검색 URL과 HTTP 요청을 구성 (CPU·RAM 위에서 실행)',
+        '아직 보낼 곳의 주소를 모름 — <code>www.google.com</code>은 이름일 뿐',
+      ],
       focus: ['browser', 'nic'], lit: ['browser'],
     },
     {
       title: 'DNS 조회',
-      body: `이름을 IP 주소로 바꿉니다: <code>www.google.com → 142.250.…</code> OS 캐시 → 공유기 → <b>ISP의 DNS 서버</b> 순서로 물어봅니다. 캐시에 있으면 0ms, 없어도 보통 수십 ms면 답이 옵니다.`,
+      lead: '이름을 IP 주소로 바꿉니다.',
+      points: [
+        '<code>www.google.com → 142.250.…</code>',
+        'OS 캐시 → 공유기 → <b data-comp="dns">ISP의 DNS 서버</b> 순으로 조회',
+      ],
+      detail: '캐시에 있으면 0ms, 없어도 보통 수십 ms면 답이 옵니다.',
       focus: ['browser', 'dns'], lit: ['browser', 'dns'],
       traces: [{ id: 't_dns', color: C.net }],
       flows: [
@@ -57,7 +70,12 @@ defineScenario({
     },
     {
       title: 'TCP · TLS 연결',
-      body: `주소를 알았으니 서버와 <b>TCP 3-way 핸드셰이크</b>로 연결을 만들고, <b>TLS</b>로 암호화를 협상합니다. 암호화 연산은 CPU의 전용 명령(<code>AES-NI</code>)이 가속하므로 체감 부담이 거의 없습니다.`,
+      lead: '서버와 연결을 만들고 암호화를 협상합니다.',
+      points: [
+        '<b>TCP 3-way 핸드셰이크</b>로 연결 수립',
+        '<b>TLS</b>로 암호화 협상',
+      ],
+      detail: '암호화 연산은 CPU 전용 명령(<code>AES-NI</code>)이 가속해 체감 부담이 거의 없습니다.',
       focus: ['browser', 'nic', 'router', 'isp'], lit: ['browser', 'nic', 'router'],
       traces: [{ id: 't1', color: C.net }, { id: 't2', color: C.net }, { id: 't3', color: C.net }],
       flows: [
@@ -68,7 +86,12 @@ defineScenario({
     },
     {
       title: '패킷의 여행',
-      body: `<b>NIC·Wi-Fi 모듈</b>이 패킷을 전기신호·전파로 바꿔 <b>공유기</b>로 보내고, 모뎀이 광신호로 변환해 ISP 망에 태웁니다. 패킷은 라우터 수십 대를 <b>홉(hop)</b>마다 갈아타며 백본망과 해저 광케이블을 지나 데이터센터에 도착합니다.`,
+      lead: '패킷이 라우터 수십 대를 갈아타며 데이터센터로 갑니다.',
+      points: [
+        '<b data-comp="nic">NIC·Wi-Fi</b>가 패킷을 전기신호·전파로 변환 → <b data-comp="router">공유기</b>',
+        '모뎀이 광신호로 바꿔 ISP 망에 태움',
+        '<b>홉(hop)</b>마다 갈아타며 백본망·해저 광케이블 통과',
+      ],
       focus: ['nic', 'isp', 'bb', 'lb'], lit: ['nic', 'router', 'isp', 'bb'],
       traces: [{ id: 't1', color: C.net }, { id: 't2', color: C.net }, { id: 't3', color: C.net }, { id: 't4', color: C.net }, { id: 't5', color: C.net }],
       flows: [
@@ -79,21 +102,32 @@ defineScenario({
     },
     {
       title: '서버 처리',
-      body: `<b>로드밸런서</b>가 수만 대의 서버 중 하나로 요청을 분배합니다. <b>검색 서버</b>는 미리 만들어 둔 인덱스를 조회해(전 웹을 그 자리에서 뒤지는 게 아닙니다) 결과 HTML을 만들어 회신합니다.`,
+      lead: '데이터센터가 요청을 받아 검색 결과를 만듭니다.',
+      points: [
+        '<b data-comp="lb">로드밸런서</b>가 수만 대 서버 중 하나로 분배',
+        '<b data-comp="rack">검색 서버</b>가 미리 만든 인덱스를 조회해 HTML로 회신',
+      ],
+      detail: '전 웹을 그 자리에서 뒤지는 게 아니라, 미리 만들어 둔 색인을 봅니다.',
       focus: ['lb', 'rack'], lit: ['lb', 'rack'],
       traces: [{ id: 't6', color: C.net }],
       flows: [{ trace: 't6', color: C.net, n: 2, speed: 0.5 }],
     },
     {
       title: '응답, 그리고 렌더링',
-      body: `응답이 같은 길을 되짚어 돌아옵니다 — 전체 왕복이 <b>수십 ms</b>. 브라우저는 HTML을 파싱해 DOM을 만들고 레이아웃·페인트를 거쳐 GPU 합성으로 화면에 띄웁니다. 이 마지막 구간은 <b>게임 아키텍처의 후반부</b>와 같은 경로입니다.`,
+      lead: '응답이 같은 길을 되짚어 돌아와 화면에 뜹니다.',
+      points: [
+        '전체 왕복이 <b>수십 ms</b>',
+        '브라우저가 HTML 파싱 → DOM → 레이아웃·페인트 → GPU 합성',
+      ],
+      detail: '이 마지막 구간은 <b>게임 아키텍처의 후반부</b>와 같은 경로입니다.',
       focus: null, lit: ['rack', 'browser'],
       traces: [{ id: 't_ret', color: C.accent }],
       flows: [{ trace: 't_ret', color: C.accent, n: 3, speed: 0.3 }],
     },
     {
       title: '전체 왕복 복기',
-      body: `<b>브라우저 → DNS → NIC → 공유기 → ISP → 백본 → 로드밸런서 → 검색 서버 → (같은 길로) → 브라우저.</b> 내 컴퓨터의 하드웨어만으로는 완성되지 않는, 지구 크기의 아키텍처입니다.`,
+      lead: '<b>브라우저 → DNS → NIC → 공유기 → ISP → 백본 → 로드밸런서 → 검색 서버</b>, 그리고 같은 길로 복귀.',
+      detail: '내 컴퓨터의 하드웨어만으로는 완성되지 않는, 지구 크기의 아키텍처입니다.',
       focus: null, lit: ['browser', 'nic', 'router', 'isp', 'bb', 'dns', 'lb', 'rack'],
       traces: [
         { id: 't1', color: C.net }, { id: 't2', color: C.net }, { id: 't3', color: C.net },

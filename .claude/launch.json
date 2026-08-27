@@ -4,8 +4,20 @@
     {
       "name": "cawiki",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4173"],
+      "runtimeArgs": [
+        "serve.py",
+        "4173"
+      ],
       "port": 4173
+    },
+    {
+      "name": "cawiki-hw",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "serve.py",
+        "4188"
+      ],
+      "port": 4188
     }
   ]
 }

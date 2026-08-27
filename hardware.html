@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>하드웨어 관계 지도 — CAwiki</title>
+  <link rel="stylesheet" href="./assets/hardware.css">
+</head>
+<body>
+  <div class="hw-app">
+    <!-- 무대: SVG 그래프 -->
+    <main class="hw-stage">
+      <svg id="stage" role="application" aria-label="하드웨어 관계 지도. 화살표 키로 이웃을 순회하고 Enter로 이동합니다."></svg>
+
+      <!-- 상단 브레드크럼(현위치) -->
+      <nav class="hw-crumbs" aria-label="방문 경로"></nav>
+
+      <!-- 카테고리 범례 -->
+      <ul class="hw-legend" aria-hidden="true"></ul>
+
+      <!-- 스크린리더 안내 -->
+      <p class="sr-live" aria-live="polite"></p>
+
+      <!-- 상세 모드 하단 스텝 바 -->
+      <div class="hw-stepbar" hidden>
+        <button class="hw-stepbtn hw-prev" aria-label="이전 부품">←</button>
+        <div class="hw-stepmeta"><span class="hw-stepcount"></span><div class="hw-progress"><i></i></div></div>
+        <button class="hw-stepbtn hw-next" aria-label="다음 부품">→</button>
+      </div>
+    </main>
+
+    <!-- 사이드 패널: 설명 -->
+    <aside class="hw-panel">
+      <a class="hw-home" href="./wiki.html">← CAwiki 도감</a>
+      <div class="hw-panel-head">
+        <span class="hw-cat-badge"></span>
+        <h1 class="hw-name">CPU</h1>
+        <p class="hw-name-en"></p>
+      </div>
+      <p class="hw-oneline"></p>
+
+      <!-- 역할 / 부품 설명이 모드에 따라 갈아끼워짐 -->
+      <div class="hw-body"></div>
+
+      <div class="hw-actions">
+        <button class="hw-detail-btn">부품·작동 자세히 보기 →</button>
+        <button class="hw-back-btn" hidden>← 관계 지도로</button>
+      </div>
+
+      <p class="hw-hint"></p>
+    </aside>
+  </div>
+
+  <script type="module" src="./lib/hw-graph.js"></script>
+</body>
+</html>

@@ -6,3 +6,6 @@ venv/
 data/official/
 .pytest_cache/
 .DS_Store
+
+# Rust WASM 빌드 산출물 (lib/cawiki.wasm은 커밋 — 런타임 무빌드 유지)
+wasm/target/

@@ -6,7 +6,12 @@
   --bg-deep: #07080A;
   --panel: #0D1014;
   --ink: #F2F4F7;
+  --ink-2: #C7CDD6;   /* 본문용 near-ink — soft보다 밝아 본문 자체가 잘 읽힌다 */
   --ink-soft: #97A0AB;
+  /* 설명 텍스트 3단 위계 토큰 (리드/본문/캡션) */
+  --fs-lead: 1rem;
+  --fs-body: 0.9rem;
+  --fs-caption: 0.8rem;
   --line: #1E252E;
   --board: #10161D;
   --board-edge: #202B36;
@@ -71,20 +76,57 @@ ol.steplist li .st-num {
   font-family: var(--mono); font-size: 11px; color: var(--ink-soft);
   border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; flex: none;
 }
-ol.steplist li .st-title { font-size: .92rem; font-weight: 600; color: var(--ink-soft); }
+ol.steplist li .st-title { font-size: .95rem; font-weight: 600; color: var(--ink-soft); }
 ol.steplist li .st-body {
-  display: none; margin: 8px 0 2px 0; color: var(--ink-soft);
-  font-size: .84rem; line-height: 1.68;
+  display: none; margin: 10px 0 2px 0; color: var(--ink-2);
+  font-size: var(--fs-body); line-height: 1.62;
 }
-ol.steplist li .st-body b { color: var(--ink); font-weight: 600; }
-ol.steplist li .st-body code {
-  font-family: var(--mono); font-size: .8em; background: #161C24;
-  border-radius: 4px; padding: 1px 5px;
+/* 리드: 결론 한 문장 (왜/무엇). 밝고 살짝 크게, 굵기로 위계 */
+ol.steplist li .st-lead {
+  margin: 0 0 10px; color: var(--ink); font-size: var(--fs-lead);
+  font-weight: 600; letter-spacing: -.01em; line-height: 1.5;
+}
+/* 마이크로리스트: 부품 → 역할 → 값. 밀집 문단을 스캔 가능한 덩어리로 */
+ol.steplist li .st-points { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+ol.steplist li .st-points li {
+  position: relative; padding: 0 0 0 14px; margin: 0; border: 0; border-radius: 0;
+  cursor: default; background: none; transition: none;
+  color: var(--ink-2); font-size: var(--fs-body); line-height: 1.55;
+}
+ol.steplist li .st-points li:hover { background: none; }
+ol.steplist li .st-points li::before {
+  content: ''; position: absolute; left: 0; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--accent); opacity: .7;
+}
+/* 심화 디테일: 값·주소·약어. 작고 차분하게 뒤로 */
+ol.steplist li .st-detail {
+  margin: 12px 0 2px; color: var(--ink-soft);
+  font-size: var(--fs-caption); line-height: 1.6;
+}
+ol.steplist li .st-body b, ol.steplist li .st-points b, ol.steplist li .st-lead b,
+ol.steplist li .st-detail b { color: var(--ink); font-weight: 650; }
+/* 본문 부품명 ↔ 다이어그램 도형 연결(deixis): 점선 밑줄로 '가리킬 수 있음'을 표시,
+   호버/포커스 시 양쪽이 함께 강조된다 (Mayer signaling·색 부호화 근거) */
+ol.steplist li.cur b[data-comp] {
+  border-bottom: 1px dotted color-mix(in srgb, var(--accent) 50%, transparent);
+  cursor: default;
+}
+ol.steplist li b[data-comp].xhi {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  border-radius: 3px; border-bottom-color: transparent;
+}
+ol.steplist li .st-body code, ol.steplist li .st-points code,
+ol.steplist li .st-lead code, ol.steplist li .st-detail code {
+  font-family: var(--mono); font-size: .88em; color: #E7EBF0;
+  background: #1B222C; border-radius: 5px; padding: 1.5px 6px;
 }
 ol.steplist li.cur { background: #12171E; border-color: #26303B; }
 ol.steplist li.cur .st-num { color: var(--accent); border-color: rgba(224,154,95,.5); }
 ol.steplist li.cur .st-title { color: var(--ink); }
 ol.steplist li.cur .st-body { display: block; }
+ol.steplist li .st-lead, ol.steplist li .st-points, ol.steplist li .st-detail { display: none; }
+ol.steplist li.cur .st-lead, ol.steplist li.cur .st-points, ol.steplist li.cur .st-detail { display: block; }
+ol.steplist li.cur .st-points { display: flex; }
 ol.steplist li.done .st-num { color: var(--accent); opacity: .55; }
 
 .panel-foot {
@@ -130,6 +172,9 @@ svg text.mn { font-family: var(--mono); }
 .comp.lit .body { filter: drop-shadow(0 0 13px rgba(224,154,95,.8)) brightness(1.32); }
 .comp.trail .body { filter: drop-shadow(0 0 6px rgba(224,154,95,.32)) brightness(1.12); }
 .comp.lit .clabel { fill: var(--accent); }
+/* 교차 강조 — 본문 부품명을 가리켰을 때 그 도형을 순간 강조 (lit보다 강하게) */
+.comp.xhi .body { filter: drop-shadow(0 0 14px rgba(224,154,95,.95)) brightness(1.45); }
+.comp.xhi .clabel { fill: var(--accent); }
 
 .trace-group .trace {
   fill: none; stroke: var(--trace); stroke-width: 3;
@@ -157,28 +202,139 @@ svg text.mn { font-family: var(--mono); }
   .blades { animation: none; }
 }
 
-/* ============ 홈 ============ */
-body.home { background: radial-gradient(700px 420px at 20% 0%, rgba(125,168,245,.08), transparent 70%), radial-gradient(800px 520px at 90% 100%, rgba(176,142,240,.07), transparent 70%), var(--bg); }
-.home-wrap { max-width: 880px; margin: 0 auto; padding: 72px 24px 96px; }
-.home-eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .2em; color: var(--accent); margin: 0 0 14px; }
-.home-wrap h1 { font-size: clamp(2rem, 5.5vw, 3.1rem); margin: 0 0 12px; letter-spacing: -0.02em; line-height: 1.2; }
-.home-wrap .sub { color: var(--ink-soft); max-width: 40rem; line-height: 1.75; margin: 0 0 40px; }
-.arch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-@media (max-width: 640px) { .arch-grid { grid-template-columns: 1fr; } }
-.arch-card {
-  display: block; text-decoration: none; color: var(--ink);
-  background: #10141A; border: 1px solid var(--line); border-radius: 14px;
-  padding: 20px 22px 18px; transition: border-color .3s, transform .3s var(--ease);
-  border-top: 3px solid var(--acc, var(--accent));
+/* ============================================================
+   메인 페이지 — 실리콘 지도
+   [1] 리빌 구간: --reveal (0..1) 이 스크롤 진행도. JS가 매 프레임 갱신한다.
+   [2] 투어 구간: body.tour
+   ============================================================ */
+body.silicon {
+  --reveal: 0;
+  overflow: hidden;
+  background: var(--bg-deep);
 }
-.arch-card:hover { border-color: var(--acc, var(--accent)); transform: translateY(-3px); }
-.arch-card .no { font-family: var(--mono); font-size: 11px; color: var(--acc, var(--accent)); letter-spacing: .12em; }
-.arch-card h2 { font-size: 1.15rem; margin: 6px 0 6px; }
-.arch-card p { margin: 0; color: var(--ink-soft); font-size: .86rem; line-height: 1.6; }
-.arch-card .meta { margin-top: 12px; font-family: var(--mono); font-size: 10.5px; color: var(--ink-soft); }
-.home-note {
-  margin-top: 36px; border: 1px dashed #2A3541; border-radius: 12px;
-  padding: 16px 20px; color: var(--ink-soft); font-size: .85rem; line-height: 1.7;
+body.silicon .stagewrap { position: fixed; inset: 0; }
+body.silicon .progress {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+  height: 2px; background: transparent;
+  opacity: 0; transition: opacity .5s;
 }
-.home-note code { font-family: var(--mono); font-size: .82em; background: #161C24; border-radius: 4px; padding: 1px 6px; }
-.home-note b { color: var(--ink); }
+body.silicon.tour .progress { opacity: 1; background: var(--line); }
+
+/* 화면 밖 어둠 — 리빌 초반에 '모니터 안을 보고 있다'는 느낌을 만든다 */
+body.silicon .stagewrap::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  box-shadow: inset 0 0 calc(120px * (1 - var(--reveal))) calc(30px * (1 - var(--reveal))) rgba(0,0,0,.85);
+  opacity: calc(1 - var(--reveal));
+  transition: opacity .2s linear;
+}
+
+/* 히어로 문구 — 리빌이 끝나면 화면 안 콘텐츠로 잦아든다 */
+.hero-line { transition: fill .6s var(--ease); }
+.hero-eyebrow { opacity: calc(1 - var(--reveal) * 1.6); }
+body.silicon.revealed .hero-line { fill: #6E7A88; }
+
+/* 리빌 안내 */
+.reveal-hint {
+  position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+  z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: .22em;
+  color: var(--ink-soft); transition: opacity .6s var(--ease);
+  padding: 8px 16px 6px; border-radius: 14px;
+  background: radial-gradient(60% 80% at 50% 60%, rgba(7,8,10,.72), rgba(7,8,10,0) 75%);
+}
+.reveal-hint svg { animation: bob 2.1s var(--ease) infinite; }
+@keyframes bob { 0%,100% { transform: translateY(0); opacity: .45; } 50% { transform: translateY(6px); opacity: 1; } }
+.reveal-skip {
+  margin-top: 4px; font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
+  color: var(--ink-soft); background: none; border: 1px solid var(--line);
+  border-radius: 999px; padding: 4px 12px; cursor: pointer; transition: border-color .3s, color .3s;
+}
+.reveal-skip:hover, .reveal-skip:focus-visible { color: var(--accent); border-color: var(--accent); }
+body.silicon.tour .reveal-hint { opacity: 0; pointer-events: none; }
+
+/* 클릭 가능한 부품 */
+.comp.clickable { cursor: pointer; }
+body.silicon.tour .comp.clickable:not(.dim):hover .body { filter: drop-shadow(0 0 12px rgba(224,154,95,.7)) brightness(1.25); }
+body.silicon:not(.tour) .comp.clickable { pointer-events: none; }
+
+/* ---------- 투어 캡션 ---------- */
+.captions {
+  position: fixed; left: 26px; bottom: 26px; z-index: 20;
+  width: min(410px, calc(100vw - 52px));
+  opacity: 0; pointer-events: none; transition: opacity .5s var(--ease);
+}
+body.silicon.tour .captions { opacity: 1; }
+.cap {
+  position: absolute; left: 0; bottom: 0; width: 100%;
+  opacity: 0; transform: translateY(14px); pointer-events: none;
+  transition: opacity .5s var(--ease), transform .5s var(--ease);
+  background: rgba(9,11,14,.76); backdrop-filter: blur(12px);
+  border: 1px solid var(--line); border-radius: 15px;
+  padding: 17px 20px 16px;
+}
+body.silicon.tour .cap.cur { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.cap-eyebrow {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .18em;
+  margin: 0 0 5px; color: var(--cc, var(--accent));
+}
+.cap h2 { font-size: 1.24rem; margin: 0 0 6px; letter-spacing: -.01em; }
+.cap-body { margin: 0; color: var(--ink-soft); font-size: .86rem; line-height: 1.65; }
+.cap-body b { color: var(--ink); font-weight: 600; }
+.cap .chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 11px; }
+.cap .chip {
+  font-family: var(--mono); font-size: 10px; padding: 2.5px 9px; border-radius: 999px;
+  color: var(--cc, var(--ink-soft)); border: 1px solid var(--cc, var(--line));
+  border-color: color-mix(in srgb, var(--cc, #97A0AB) 40%, transparent);
+}
+.cap-link {
+  display: inline-block; margin-top: 12px; font-family: var(--mono); font-size: 11.5px;
+  color: var(--accent); text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.cap-link:hover { border-bottom-color: var(--accent); }
+
+/* 마지막 단계의 '위키로' CTA */
+.wiki-cta {
+  display: inline-flex; align-items: center; gap: 9px; margin-top: 14px;
+  text-decoration: none; color: #0B0D10; font-weight: 700; font-size: .92rem;
+  background: var(--accent); border-radius: 999px; padding: 10px 20px;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+  box-shadow: 0 4px 18px -6px rgba(224,154,95,.5);
+}
+.wiki-cta .wc-arrow { transition: transform .25s var(--ease); }
+.wiki-cta:hover, .wiki-cta:focus-visible { transform: translateY(-2px); box-shadow: 0 8px 26px -6px rgba(224,154,95,.6); }
+.wiki-cta:hover .wc-arrow, .wiki-cta:focus-visible .wc-arrow { transform: translateX(4px); }
+
+/* ---------- 점 네비게이션 ---------- */
+.dotnav {
+  position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 20;
+  display: flex; flex-direction: column; gap: 14px;
+  opacity: 0; pointer-events: none; transition: opacity .5s var(--ease);
+}
+body.silicon.tour .dotnav { opacity: 1; pointer-events: auto; }
+.dotnav button {
+  width: 8px; height: 8px; padding: 0; border: none; border-radius: 50%;
+  background: var(--line); cursor: pointer; position: relative;
+  transition: background .3s, transform .3s var(--ease);
+}
+.dotnav button.on { background: var(--accent); transform: scale(1.45); }
+.dotnav button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.dotnav button span {
+  position: absolute; right: 17px; top: 50%; transform: translateY(-50%);
+  font-family: var(--mono); font-size: 10.5px; color: var(--ink-soft);
+  white-space: nowrap; opacity: 0; transition: opacity .25s; pointer-events: none;
+  background: rgba(9,11,14,.85); padding: 3px 9px; border-radius: 6px;
+}
+.dotnav button:hover span, .dotnav button:focus-visible span { opacity: 1; }
+
+@media (max-width: 720px) {
+  .captions { left: 14px; right: 14px; bottom: 14px; width: auto; }
+  .cap { padding: 14px 15px; }
+  .arch-cards { grid-template-columns: 1fr; }
+  .dotnav { right: 9px; gap: 11px; }
+}
+
+/* 포커스 표시 (전역) */
+a:focus-visible, button:focus-visible, .comp:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px;
+}

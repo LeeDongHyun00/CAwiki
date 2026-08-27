@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>아키텍처 도감 — CAwiki</title>
+  <meta name="description" content="일상의 컴퓨터 동작을 종류별로 나눠, 작동 순서를 한 편씩 따라가는 아키텍처 도감.">
+  <!-- 첫 페인트 전에 테마를 심어 깜빡임 방지 -->
+  <script>
+    try {
+      var t = localStorage.getItem('cawiki-theme');
+      document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : 'dark');
+    } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  </script>
+  <link rel="stylesheet" href="./assets/wiki.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="./index.html">CAwiki <span>아키텍처 도감</span></a>
+      <div class="top-right">
+        <button type="button" class="theme-toggle" aria-label="테마 전환">
+          <svg class="i-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16 11.5A6.5 6.5 0 1 1 8.5 4a5 5 0 0 0 7.5 7.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <svg class="i-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.6" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M15.3 4.7l-1.4 1.4M6.1 13.9l-1.4 1.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <a class="back" href="./hardware.html">하드웨어 지도</a>
+        <a class="back" href="./index.html">← 실리콘 지도</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <h1>컴퓨터는 어떻게 일하는가</h1>
+      <p class="lede">클릭 한 번, 검색 한 번, 저장 한 번 — <b>매일 하는 동작</b>이 하드웨어를 어떤 경로로 통과하는지, 종류별로 나눠 한 편씩 따라갑니다.</p>
+      <p class="hero-hint"></p>
+    </div>
+  </section>
+
+  <nav class="filters" aria-label="카테고리 필터">
+    <div class="wrap"><div class="row"></div></div>
+  </nav>
+
+  <main>
+    <div class="wrap"></div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <span class="note">CAwiki · 작동 순서로 배우는 컴퓨터 아키텍처</span>
+      <a href="./index.html">실리콘 지도로 돌아가기 →</a>
+    </div>
+  </footer>
+
+  <script src="./lib/boot-notice.js"></script>
+  <script type="module" src="./lib/wiki.js"></script>
+</body>
+</html>

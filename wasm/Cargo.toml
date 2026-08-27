@@ -1,0 +1,17 @@
+[package]
+name    = "cawiki"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+# 의존성 0 — 오프라인에서 빌드되고, 산출물 lib/cawiki.wasm은 커밋되어
+# 런타임에는 어떤 툴체인도 필요 없다 (무빌드 원칙 유지).
+
+[profile.release]
+opt-level     = "z"
+lto           = true
+panic         = "abort"
+codegen-units = 1
+strip         = true
