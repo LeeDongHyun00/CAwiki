@@ -2,17 +2,25 @@
 <html lang="ko" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>하드웨어 관계 지도 — CAwiki</title>
-  <link rel="stylesheet" href="./assets/hardware.css?v=3">
+  <link rel="stylesheet" href="./assets/hardware.css?v=5">
 </head>
-<body>
+<body class="lv-standard">
   <div class="hw-app">
     <!-- 무대: SVG 그래프 -->
     <main class="hw-stage">
       <svg id="stage" role="application" aria-label="하드웨어 관계 지도. 화살표 키로 이웃을 순회하고 Enter로 이동합니다."></svg>
 
-      <!-- 상단 브레드크럼(현위치) -->
+      <!-- 학습 단계 세그먼트 컨트롤 -->
+      <div class="hw-levels" role="tablist" aria-label="학습 단계" style="--i:1">
+        <span class="hw-level-thumb" aria-hidden="true"></span>
+        <button class="hw-level" data-level="beginner" role="tab" aria-selected="false">입문</button>
+        <button class="hw-level" data-level="standard" role="tab" aria-selected="true">표준</button>
+        <button class="hw-level" data-level="expert" role="tab" aria-selected="false">전문가</button>
+      </div>
+
+      <!-- 브레드크럼(현위치) -->
       <nav class="hw-crumbs" aria-label="방문 경로"></nav>
 
       <!-- 카테고리 범례 -->
@@ -39,11 +47,14 @@
       </div>
       <p class="hw-oneline"></p>
 
-      <!-- 역할 / 부품 설명이 모드에 따라 갈아끼워짐 -->
+      <!-- 역할 / 레슨 / 데이터시트가 단계·모드에 따라 갈아끼워짐 -->
       <div class="hw-body"></div>
 
       <div class="hw-actions">
-        <button class="hw-detail-btn">부품·작동 자세히 보기 →</button>
+        <button class="hw-lesson-next hw-primary" hidden>다음 →</button>
+        <button class="hw-lesson-prev" hidden>← 이전</button>
+        <button class="hw-detail-btn hw-primary">부품·작동 자세히 보기 →</button>
+        <button class="hw-map-btn" hidden>전체 지도 보기 (M)</button>
         <button class="hw-back-btn" hidden>← 관계 지도로</button>
       </div>
 
@@ -51,6 +62,21 @@
     </aside>
   </div>
 
-  <script type="module" src="./lib/hw-graph.js?v=3"></script>
+  <!-- 첫 방문 환영 시트 -->
+  <div class="hw-welcome" hidden role="dialog" aria-modal="true" aria-labelledby="hw-welcome-title">
+    <div class="hw-sheet">
+      <button class="hw-welcome-close" aria-label="닫기">✕</button>
+      <p class="hw-eyebrow">CAwiki 하드웨어 지도</p>
+      <h2 id="hw-welcome-title">컴퓨터 속이 궁금하신가요?</h2>
+      <p class="hw-sheet-sub">어디서부터 볼지 골라 주세요. 위쪽 단계 버튼으로 언제든 바꿀 수 있어요.</p>
+      <div class="hw-choices">
+        <button class="hw-choice" data-level="beginner"><b>처음이에요</b><span>핵심 6가지를 하나씩, 쉬운 말과 비유로</span></button>
+        <button class="hw-choice" data-level="standard"><b>어느 정도 알아요</b><span>21가지 하드웨어의 관계 지도를 자유롭게 탐험</span></button>
+        <button class="hw-choice" data-level="expert"><b>전문가예요</b><span>모든 관계·부품·사양·개념을 한 화면에, 전체 지도와 단축키</span></button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./lib/hw-graph.js?v=5"></script>
 </body>
 </html>

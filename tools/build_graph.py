@@ -56,6 +56,8 @@ def main():
         n["parts"] = slim_parts(d.get("parts"))
         n["how_it_works"] = slim_steps(d.get("how_it_works"))
         n["key_concepts"] = slim_concepts(d.get("key_concepts"))
+        n["analogy"] = d.get("analogy") or ""
+        n["specs"] = [{"metric": x.get("metric"), "value": x.get("value"), "note": x.get("note")} for x in (d.get("specs") or [])]
         nodes.append(n)
 
     ids = {n["id"] for n in nodes}
