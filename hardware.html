@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>하드웨어 관계 지도 — CAwiki</title>
-  <link rel="stylesheet" href="./assets/hardware.css?v=5">
+  <link rel="stylesheet" href="./assets/hardware.css?v=7">
 </head>
 <body class="lv-standard">
   <div class="hw-app">
@@ -28,6 +28,9 @@
 
       <!-- 스크린리더 안내 -->
       <p class="sr-live" aria-live="polite"></p>
+
+      <!-- 표준·전문가 ego: 카테고리 필터 칩 (이웃이 많을 때만) -->
+      <div class="hw-filters" role="group" aria-label="카테고리 필터" hidden></div>
 
       <!-- 상세 모드 하단 스텝 바 -->
       <div class="hw-stepbar" hidden>
@@ -77,6 +80,6 @@
     </div>
   </div>
 
-  <script type="module" src="./lib/hw-graph.js?v=6"></script>
+  <script type="module" src="./lib/hw-graph.js?v=7"></script>
 </body>
 </html>
