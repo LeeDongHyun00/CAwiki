@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>클릭이 한 프레임이 되기까지 — 모션 설계</title><link rel="stylesheet" href="./scenario-study.css"></head>
+<body>
+<canvas id="story-world" tabindex="0" role="img" aria-label="스크롤로 탐색하는 클릭부터 화면 출력까지의 3D 작동 원리"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<main id="journey" aria-label="클릭에서 화면까지, 여섯 장면">
+<section><h2>손끝에서 시작된 변화</h2></section><section><h2>입력을 읽다</h2></section><section><h2>다음 상태를 계산하다</h2></section><section><h2>그리기를 요청하다</h2></section><section><h2>한 프레임을 만들다</h2></section><section><h2>변화가 눈에 닿다</h2></section>
+</main>
+<div class="topline"><span>INPUT TO PIXEL</span><span>SCROLL STUDY / 01</span></div>
+<div class="caption"><p class="eyebrow" id="story-phase">01 / 06 — INPUT</p><h1 id="story-title">손끝에서 시작된 변화</h1><p id="story-copy">클릭 한 번이 어떻게 화면을 바꿀까요?</p><button id="why" aria-haspopup="dialog">원리 자세히 <span>↗</span></button></div>
+<div id="object-tag" aria-hidden="true">MOUSE</div>
+<div class="bottomline"><span id="gesture">위로 드래그하여 따라가기 <span>↑</span></span><button id="restart" hidden>처음으로 ↺</button><a href="../../index.html#wiki">Computer Wiki →</a></div>
+<div id="track" role="group" aria-label="시나리오 단계"></div><div id="line" aria-hidden="true"></div>
+<dialog id="detail"><button id="close-detail" aria-label="설명 닫기">닫기 ×</button><p class="eyebrow">WHAT HAPPENS HERE</p><h2 id="detail-title"></h2><p id="detail-copy"></p><small>동작 순서를 느리게 펼친 개념 표현입니다 물리적인 시간과 데이터 크기는 축척을 맞추지 않았습니다</small></dialog>
+<p id="loading" role="status">장면을 준비하고 있습니다</p><p id="live" class="sr-only" aria-live="polite"></p>
+<script type="module" src="./scenario-study.js"></script>
+</body></html>
