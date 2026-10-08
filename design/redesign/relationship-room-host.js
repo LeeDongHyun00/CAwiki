@@ -10,7 +10,7 @@ export class RelationshipRoomHost {
     this.frame.contentWindow.postMessage({channel:'inside-room-host',type:'open',scroll:this.scroll,animate:this.animate},location.origin);
    }else if(data.type==='visible'){
     this.status?.remove();this.status=null;this.frame.style.visibility='visible';document.querySelector('#wiki-page').inert=true;document.querySelector('#wiki-page').removeAttribute('aria-busy');
-    this.frame.focus();document.body.style.overflow='hidden';
+    this.frame.focus();document.body.dataset.mode='map';document.body.style.overflow='hidden';
    }else if(data.type==='return')this.onReturn(this.scroll);
    else if(data.type==='route'&&/^#(?:all|group\/[a-z]+|node\/[a-z]+(?:\?.*)?)$/.test(data.hash))this.onRoute(data.hash==='#all'?'#map':'#map/'+data.hash.slice(1));
   });
@@ -23,6 +23,7 @@ export class RelationshipRoomHost {
   frame.style.cssText='position:fixed;inset:0;width:100%;height:100%;border:0;z-index:100;visibility:hidden;background:#ecece9';
   const route=animate?'wiki':hash==='map'?'all':hash.slice(4);
   frame.src=new URL('./relationship-room-study.html?embedded=1#'+route,import.meta.url).href;
+  const quality=new URLSearchParams(location.search).get('quality');if(quality){const url=new URL(frame.src);url.searchParams.set('quality',quality);frame.src=url.href;}
   document.body.append(frame);
  }
  leave(){this.status?.remove();this.status=null;document.querySelector('#wiki-page').removeAttribute('aria-busy');this.frame?.remove();this.frame=null;document.querySelector('#wiki-page').inert=false;document.body.style.removeProperty('overflow');}

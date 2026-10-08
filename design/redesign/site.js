@@ -98,7 +98,7 @@ async function route(){
   const wasCollection=dialog.open;closeCollection();
   const spatialRoute=mapRoute&&!hash.startsWith('map/scenario/');
   if(spatialRoute){
-    const animate=mode==='wiki',scroll=animate?scrollY:0;
+    const animate=mode==='wiki'&&hash==='map',scroll=mode==='wiki'?scrollY:0;
     relationshipMap.leave();film.leave();experience.pause();experience.clear();pauseCinema();
     if(mode==='home')homeScroll=scrollY;mode='map';currentId='';currentKey='';lastExperience='#'+hash;
     $('#story-sequence').hidden=true;$('#object-ui').hidden=$('#story-ui').hidden=true;$('#wiki-page').hidden=!animate;

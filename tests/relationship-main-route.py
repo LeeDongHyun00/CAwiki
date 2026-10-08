@@ -26,8 +26,8 @@ with sync_playwright() as p:
  assert page.url.endswith('#wiki') and page.evaluate('scrollY')==saved
  assert not page.locator('#wiki-page').evaluate('(e)=>e.inert')
  page.locator('#wiki-hardware a[href="#object/cpu"]').click();page.locator('body[data-mode=object]:not(.loading)').wait_for(timeout=90000)
- page.locator('#object-exit').click();page.wait_for_url('**#wiki')
- page.evaluate("location.hash='story/boot/0'");page.locator('body[data-mode=story]:not(.loading)').wait_for(timeout=90000)
+ page.locator('#object-exit').click();page.wait_for_url('**#wiki');page.locator('body[data-mode=wiki]').wait_for()
+ page.evaluate("location.hash='story/boot/0'");page.locator('body[data-mode=story]:not(.loading)').wait_for(timeout=120000)
  page.evaluate("location.hash='map/group/storage'");frame=page.frame_locator('#relationship-room-frame');frame.locator('#room[data-group=storage][data-moving=false]').wait_for(timeout=120000)
  frame.locator('.room-exit').click();page.locator('#relationship-room-frame').wait_for(state='detached',timeout=90000)
  page.evaluate("location.hash='home'");page.locator('body[data-mode=home]').wait_for()

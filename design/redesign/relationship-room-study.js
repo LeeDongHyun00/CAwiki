@@ -331,7 +331,7 @@ function createWalls(){
  wall(34,20,[0,0,-12.8],[0,0,0],0xf7f7f4);wall(27,20,[-17,0,.7],[0,Math.PI/2,0],0xf2f3ed);wall(27,20,[17,0,.7],[0,-Math.PI/2,0],0xfafaf7);wall(34,27,[0,10,.7],[Math.PI/2,0,0],0xfafaf7);wall(34,27,[0,-9.8,.7],[-Math.PI/2,0,0],0xf4f5ef);
 }
 async function start(){
- drawRail();try{
+ drawRail();if(new URLSearchParams(location.search).get('quality')==='still'){room.dataset.ready='fallback';renderFallback();return;}try{
   renderer=new T.WebGLRenderer({canvas:$('#room-world'),alpha:true,antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;
   const studio=new T.Scene();studio.background=new T.Color(0x17191c);
   for(const [w,h,pos,intensity,color] of [[9,12,[-8,9,5],5.5,0xf2f1ef],[2,14,[8,4,0],5,0xc9daf5],[12,3,[0,8,-8],6.5,0xffffff],[6,5,[-1,-7,6],1.4,0xffffff],[3,9,[2,1,10],1.9,0xffffff]]){const p=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshBasicMaterial({color:new T.Color(color).multiplyScalar(intensity),side:T.DoubleSide}));p.position.set(...pos);p.lookAt(0,0,0);studio.add(p);}
