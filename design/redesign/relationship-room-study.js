@@ -1,4 +1,4 @@
-// Reviewable spatial prototype. The published production map keeps its routes.
+// Spatial gallery shared by the main #map route and the standalone preview.
 import * as T from '../../lib/vendor/three/three.module.js';
 import { createComputer, batchStaticMeshes } from './cinema-models.js';
 import { createCollectionModel } from './collection-models.js';
@@ -16,6 +16,9 @@ const range=(v,a,b)=>ease((v-a)/(b-a)),mix=T.MathUtils.lerp,wrap=(v,n)=>((v+n/2)
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const asset=id=>window.__insideAssets?.['redesign/'+id+'.webp']||'../../assets/models/redesign/'+id+'.webp';
 const siteURL='../../index.html';
+const embedded=new URLSearchParams(location.search).has('embedded')&&parent!==window;
+const tellHost=(type,extra={})=>{if(embedded)parent.postMessage({channel:'inside-room',type,...extra},location.origin);};
+function writeRoute(hash){history.replaceState(null,'',hash);tellHost('route',{hash});}
 const scope={data:'데이터의 기능적 연결을 표현합니다 실제 전송은 컨트롤러·운영체제·프로토콜을 거칠 수 있습니다',power:'전력 공급 관계이며 데이터의 이동을 뜻하지 않습니다',thermal:'열의 발생과 방출 관계입니다',structure:'포함되거나 장착되는 구조적 관계입니다 제품에 따라 실제 구성이 다를 수 있습니다',context:'역할과 사용 맥락의 관계이며 직접 연결된 배선을 뜻하지 않습니다'};
 
 // Positions are persistent, deliberately irregular exhibits on five surfaces.
@@ -132,14 +135,14 @@ function select(id){
  document.body.classList.remove('has-detail','detail-ready','has-pair');$('#room-detail').hidden=true;railEl.inert=false;
  title.textContent=RELATION_GROUPS.find(g=>g.id===id)?.title||'관계지도';
  $('#room-status').textContent=id?`${title.textContent} 관련 하드웨어 ${RELATION_GROUPS.find(g=>g.id===id).nodes.length}개`:'모든 하드웨어 23개';
- history.replaceState(null,'',id?'#group/'+id:'#all');drawRail();transition(id?'gather':was?'restore':'focus');
+ writeRoute(id?'#group/'+id:'#all');drawRail();transition(id?'gather':was?'restore':'focus');
 }
 function openDetail(id){
  if(!detail)detailOrigin=id;detail=id;selectedEdge=null;tab='role';partIndex=0;peerPage=0;
  document.body.classList.add('has-detail');document.body.classList.remove('detail-ready','has-pair');$('#room-detail').hidden=false;railEl.inert=true;
  pointer={x:0,y:0};look={x:0,y:0};pan={x:0,y:0};renderDetail();transition();writeDetailURL();$('#room-close').focus({preventScroll:true});
 }
-function writeDetailURL(){const p=new URLSearchParams();if(active)p.set('from',active);if(tab!=='role')p.set('tab',tab);if(selectedEdge)p.set('edge',selectedEdge.id);history.replaceState(null,'','#node/'+detail+(p.size?'?'+p:''));}
+function writeDetailURL(){const p=new URLSearchParams();if(active)p.set('from',active);if(tab!=='role')p.set('tab',tab);if(selectedEdge)p.set('edge',selectedEdge.id);writeRoute('#node/'+detail+(p.size?'?'+p:''));}
 function closeDetail(){restoreFocus=detailOrigin;select(active);}
 $('#room-close').onclick=closeDetail;
 function chooseEdge(edge){
@@ -195,7 +198,7 @@ function completeEntry(){
  // Commit both the rendered pose and its hit targets before announcing that
  // entry is complete; the orbit no longer supplies spare WebGL frames.
  if(renderer){cameraX=0;roomScene.children.filter(m=>m.userData.wall).forEach(m=>m.material.opacity=1);camera.position.set(0,.65,innerWidth<700?16:14);camera.fov=innerWidth<700?72:70;camera.lookAt(0,.65,-12);camera.updateProjectionMatrix();camera.updateMatrixWorld();items.forEach(i=>updateModel(i,0));drawScene();}
- room.dataset.moving='false';room.dataset.phase='idle';history.replaceState(null,'','#all');buttons[0].focus({preventScroll:true});
+ room.dataset.moving='false';room.dataset.phase='idle';writeRoute('#all');buttons[0].focus({preventScroll:true});
  wakeRail();
 }
 function exitRoom(){
@@ -217,7 +220,7 @@ function exitRoom(){
 function completeExit(){
  view='wiki';moving=false;transitionKind='idle';exitCamera=null;cancelAnimationFrame(frame);cancelAnimationFrame(railFrame);frame=railFrame=0;detail=null;selectedEdge=null;active=null;restoreFocus=null;railDrag=null;roomDrag=null;
  room.hidden=true;room.dataset.moving='false';room.dataset.phase='idle';railEl.inert=false;$('.room-exit').disabled=false;wiki.hidden=false;wiki.inert=false;wiki.removeAttribute('aria-busy');wiki.style.removeProperty('transform');wiki.style.removeProperty('opacity');wiki.style.removeProperty('--wiki-portraits');$('#room-world').style.removeProperty('opacity');$('.room-vignette').style.removeProperty('opacity');$('#room-detail').hidden=true;
- document.body.classList.remove('has-detail','has-pair','detail-ready');document.body.dataset.mode='wiki';showTab('hardware');history.replaceState(null,'','#wiki');scrollTo({top:wikiScroll,behavior:'instant'});$('[data-wiki-tab=map]').focus({preventScroll:true});
+ document.body.classList.remove('has-detail','has-pair','detail-ready');document.body.dataset.mode='wiki';showTab('hardware');history.replaceState(null,'','#wiki');scrollTo({top:wikiScroll,behavior:'instant'});$('[data-wiki-tab=map]').focus({preventScroll:true});tellHost('return');
 }
 $('.room-exit').onclick=exitRoom;
 addEventListener('keydown',e=>{
@@ -378,7 +381,16 @@ async function initialRoute(){
  if(hash.startsWith('node/')){const id=hash.split('/')[1].split('?')[0];if(nodes.has(id)){openDetail(id);if(['parts','relations'].includes(params.get('tab'))){tab=params.get('tab');renderDetail();}const e=RELATION_SOURCE.edges.find(e=>e.id===params.get('edge')&&(e.a===id||e.b===id));if(e){tab='relations';chooseEdge(e);}}}
  renderFallback();wake();
 }
-initialRoute();
+if(embedded){
+ addEventListener('message',async event=>{
+  if(event.source!==parent||event.origin!==location.origin||event.data?.channel!=='inside-room-host')return;
+  if(event.data.type==='open'){
+   if(event.data.animate){showTab('hardware');scrollTo({top:Number(event.data.scroll)||0,behavior:'instant'});tellHost('visible');enterRoom();}
+   else{await initialRoute();tellHost('visible');}
+  }else if(event.data.type==='escape')dispatchEvent(new KeyboardEvent('keydown',{key:'Escape'}));
+ });
+ stageReady.then(()=>tellHost('ready'));
+}else initialRoute();
 addEventListener('resize',resize);reduced.addEventListener('change',()=>{if(view==='entering'){items.forEach(i=>i.pose={...i.to});completeEntry();}else if(view==='exiting')completeExit();else if(view==='room')transition();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(frame);cancelAnimationFrame(railFrame);frame=railFrame=0;}else wake();});
 $('#room-world').addEventListener('webglcontextlost',e=>{e.preventDefault();renderer=null;if(view==='entering')completeEntry();else if(view==='exiting')completeExit();moving=false;room.dataset.ready='fallback';room.dataset.moving='false';renderFallback();});

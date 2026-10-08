@@ -2,6 +2,7 @@
 from pathlib import Path
 import base64
 import json
+import hashlib
 
 ROOT = Path(__file__).resolve().parents[1]
 STUDY = ROOT / 'design/redesign'
@@ -20,6 +21,7 @@ MODULES = {
     'inside/data': STUDY / 'site-data.js',
     'inside/experience': STUDY / 'experience.js',
     'inside/site': STUDY / 'site.js',
+    'inside/room-host': STUDY / 'relationship-room-host.js',
     'inside/wiki-arrival': STUDY / 'wiki-arrival.js',
     'inside/hardware-portraits': STUDY / 'hardware-portraits.js',
     'inside/scenario-data': STUDY / 'scenario-data.js',
@@ -53,6 +55,7 @@ IMPORTS = {
     './cinema-models.js': 'inside/cinema-models',
     './cinema-timeline.js': 'inside/cinema-timeline',
     './study.js': 'inside/study',
+    './relationship-room-host.js': 'inside/room-host',
     './wiki-arrival.js': 'inside/wiki-arrival',
     './hardware-portraits.js': 'inside/hardware-portraits',
     './site-data.js': 'inside/data',
@@ -80,6 +83,7 @@ for path in sorted((ROOT / 'assets/models').glob('*.png')) + sorted((ROOT / 'ass
     images[name] = f'data:{mime};base64,' + base64.b64encode(path.read_bytes()).decode()
 assert len([name for name in images if name.startswith('redesign/')]) == 23, 'Render all 23 collection thumbnails first'
 images['scenarios/usb-action-atlas.webp'] = 'data:image/webp;base64,' + base64.b64encode((ROOT / 'assets/scenarios/usb-action-atlas.webp').read_bytes()).decode()
+room_version=hashlib.sha256(b''.join((STUDY / ('relationship-room-study.'+ext)).read_bytes() for ext in ['js','css','html'])).hexdigest()[:12]
 sources = {}
 for name, path in MODULES.items():
     source = path.read_text()
@@ -89,6 +93,8 @@ for name, path in MODULES.items():
         original = 'const asset=file=>new URL(`../../assets/models/${file}`,import.meta.url).href;'
         assert original in source
         source = source.replace(original, 'const asset=file=>window.__insideAssets[file];')
+    if name == 'inside/room-host':
+        source = source.replace("new URL('./relationship-room-study.html?embedded=1#'+route,import.meta.url).href", f"new URL('./relationship-room-study.html?embedded=1&v={room_version}#'+route,location.href).href")
     if name == 'inside/story-usb-preview':
         original = "new URL('../../assets/scenarios/usb-action-atlas.webp',import.meta.url).href"
         assert original in source
@@ -121,8 +127,7 @@ target = ROOT / 'artifacts/inside-site.html'
 target.write_text(html)
 print(f'{target} ({target.stat().st_size:,} bytes)')
 
-# The relationship room is a separate, reviewable design study. It shares
-# actual models/data but does not replace any production relationship route.
+# Shared gallery document: embedded in the main #map route and independently viewable.
 room_sources = dict(sources)
 room_code = (STUDY / 'relationship-room-study.js').read_text()
 for original, alias in IMPORTS.items():
