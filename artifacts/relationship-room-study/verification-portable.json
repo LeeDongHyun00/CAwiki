@@ -1,5 +1,10 @@
 {
   "wikiEntry": true,
+  "wikiReturn": true,
+  "returnScroll": true,
+  "returnInterruption": true,
+  "nativeTouchOrbit": true,
+  "touchCancel": true,
   "cameraMovesRight": false,
   "walls": 5,
   "models": 23,

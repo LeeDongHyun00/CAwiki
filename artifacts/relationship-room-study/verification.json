@@ -1,6 +1,11 @@
 {
   "source": {
     "wikiEntry": true,
+    "wikiReturn": true,
+    "returnScroll": true,
+    "returnInterruption": true,
+    "nativeTouchOrbit": true,
+    "touchCancel": true,
     "cameraMovesRight": true,
     "walls": 5,
     "models": 23,
@@ -18,6 +23,11 @@
   },
   "portable": {
     "wikiEntry": true,
+    "wikiReturn": true,
+    "returnScroll": true,
+    "returnInterruption": true,
+    "nativeTouchOrbit": true,
+    "touchCancel": true,
     "cameraMovesRight": false,
     "walls": 5,
     "models": 23,
