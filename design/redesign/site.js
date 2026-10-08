@@ -8,7 +8,6 @@ import { RelationshipMap } from './relationship-map.js';
 
 const $=selector=>document.querySelector(selector);
 const asset=file=>new URL(`../../assets/models/${file}`,import.meta.url).href;
-const scenarioAsset=id=>new URL(`../../assets/scenarios/${id}.webp`,import.meta.url).href;
 if(new URLSearchParams(location.search).has('thumb'))document.body.classList.add('thumbnail');
 const dialog=$('#collection-dialog');
 let mode='home',currentId='',currentStep=0,currentKey='',lastExperience='#journey',homeScroll=0,routeToken=0,filter='all',query='',lastFocus=null;
@@ -19,7 +18,7 @@ const imageTag=(id,alt='')=>`<img src="${asset(`redesign/${id}.webp`)}" data-fal
 function imageFallbacks(){dialog.querySelectorAll('img[data-fallback]').forEach(img=>img.addEventListener('error',()=>{img.src=img.dataset.fallback;},{once:true}));}
 $('#category-filter').innerHTML=GROUPS.map(([id,name])=>`<button data-filter="${id}" aria-pressed="${id==='all'}">${name}</button>`).join('');
 const scenarioLabels={typing:'TYPING',launch:'APP LAUNCH',save:'SAVE',music:'MUSIC',streaming:'STREAMING',call:'VIDEO CALL',multitasking:'MULTITASKING',usb:'USB',sleep:'SLEEP & WAKE',ai:'AI',loading:'GAME LOADING',record:'SCREEN RECORDING'};
-const storyCards=scope=>RELATION_SCENARIOS.map((scenario,i)=>{const {id}=scenario,s=STORIES[id]||scenario,href=STORY_ORDER.includes(id)?`#story/${id}/0`:`#map/scenario/${id}/0`;return `<li><a class="story-card" data-scenario="${id}" href="${href}" aria-labelledby="${scope}-${id}-title">${storyCover(id,scope,scenarioAsset)}<div class="story-card-heading"><div><p>${String(i+1).padStart(2,'0')} / ${s.en||scenarioLabels[id]}</p><h3 id="${scope}-${id}-title">${s.title}</h3></div><span aria-hidden="true">↗</span></div></a></li>`;}).join('');
+const storyCards=scope=>RELATION_SCENARIOS.map((scenario,i)=>{const {id}=scenario,s=STORIES[id]||scenario,href=STORY_ORDER.includes(id)?`#story/${id}/0`:`#map/scenario/${id}/0`;return `<li><a class="story-card" data-scenario="${id}" href="${href}" aria-labelledby="${scope}-${id}-title">${storyCover(id,scope)}<div class="story-card-heading"><div><p>${String(i+1).padStart(2,'0')} / ${s.en||scenarioLabels[id]}</p><h3 id="${scope}-${id}-title">${s.title}</h3></div><span aria-hidden="true">↗</span></div></a></li>`;}).join('');
 $('#story-grid').innerHTML=storyCards('stories');
 function renderCollection(){
   const search=query.toLocaleLowerCase();

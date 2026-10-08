@@ -23,6 +23,7 @@ MODULES = {
     'inside/scenario-data': STUDY / 'scenario-data.js',
     'inside/scenario-film': STUDY / 'scenario-film.js',
     'inside/story-covers': STUDY / 'story-covers.js',
+    'inside/story-actions': STUDY / 'story-actions.js',
     'inside/relationship-map': STUDY / 'relationship-map.js',
     'inside/relation-source': STUDY / 'relation-source.js',
     'inside/relation-scenarios': STUDY / 'relation-scenarios.js',
@@ -47,6 +48,7 @@ IMPORTS = {
     './scenario-data.js': 'inside/scenario-data',
     './scenario-film.js': 'inside/scenario-film',
     './story-covers.js': 'inside/story-covers',
+    './story-actions.js': 'inside/story-actions',
     './relationship-map.js': 'inside/relationship-map',
     './relation-source.js': 'inside/relation-source',
     './relation-scenarios.js': 'inside/relation-scenarios',
@@ -57,9 +59,6 @@ for path in sorted((ROOT / 'assets/models').glob('*.png')) + sorted((ROOT / 'ass
     mime = 'image/webp' if path.suffix == '.webp' else 'image/png'
     images[name] = f'data:{mime};base64,' + base64.b64encode(path.read_bytes()).decode()
 assert len([name for name in images if name.startswith('redesign/')]) == 23, 'Render all 23 collection thumbnails first'
-for path in sorted((ROOT / 'assets/scenarios').glob('*.webp')):
-    images['scenarios/'+path.name] = 'data:image/webp;base64,' + base64.b64encode(path.read_bytes()).decode()
-assert len([name for name in images if name.startswith('scenarios/')]) == 12, 'Generate all 12 additional scenario covers first'
 sources = {}
 for name, path in MODULES.items():
     source = path.read_text()
@@ -69,9 +68,6 @@ for name, path in MODULES.items():
         original = 'const asset=file=>new URL(`../../assets/models/${file}`,import.meta.url).href;'
         assert original in source
         source = source.replace(original, 'const asset=file=>window.__insideAssets[file];')
-        original = 'const scenarioAsset=id=>new URL(`../../assets/scenarios/${id}.webp`,import.meta.url).href;'
-        assert original in source
-        source = source.replace(original, "const scenarioAsset=id=>window.__insideAssets['scenarios/'+id+'.webp'];")
     if name == 'inside/study':
         original = 'new URL(`../../assets/models/${id}.png`,import.meta.url).href'
         assert original in source

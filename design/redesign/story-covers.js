@@ -1,20 +1,7 @@
+import { ACTION_STORIES, actionScene } from './story-actions.js';
 // Original vector scenes: a still before the action, then one finite CSS sequence.
 // Every instance has its own paint-server IDs, including the Wiki and dialog copies.
 export const STORY_ORDER=['boot','game','search','storage'];
-const generatedScenes={
- typing:['키보드의 키를 눌러 문서에 글자를 입력하는 장면','입력 완료'],
- launch:['바탕화면의 앱 아이콘을 열기 직전인 장면','실행됨'],
- save:['키보드와 문서 창에서 저장을 준비하는 장면','저장 완료'],
- music:['음악 플레이어와 스피커가 놓인 데스크','재생 중'],
- streaming:['모니터에서 영상을 재생하기 직전인 장면','재생 중'],
- call:['웹캠과 마이크로 화상통화를 준비하는 장면','연결됨'],
- multitasking:['여러 프로그램 창이 함께 열린 컴퓨터 화면','작업 전환'],
- usb:['컴퓨터의 포트에 USB를 연결하기 직전인 장면','연결됨'],
- sleep:['대기 상태로 들어가는 어두운 모니터와 키보드','대기 모드'],
- ai:['AI 대화 화면에서 답변을 기다리는 장면','응답 도착'],
- loading:['게임 화면과 로딩 진행 막대','준비 완료'],
- record:['컴퓨터 화면에서 녹화를 시작하기 직전인 장면','녹화 중'],
-};
 const descriptions={
  boot:'길고 얇은 막대로 본체의 전원 버튼을 누르면 전원 표시등과 팬이 켜지는 장면',
  game:'게임 화면 앞의 마우스를 길고 얇은 막대로 클릭하면 표적과 게임 화면이 반응하는 장면',
@@ -93,14 +80,10 @@ function desktop(id){
  ${cursor(398,271,'file-pointer')}${click(361,206)}
  <g class="cover-status"><text x="64" y="446" class="cover-before">READY TO OPEN</text><text x="64" y="446" class="cover-after">FILE OPENED</text></g>`;
 }
-export function storyCover(story,scope,asset){
- if(generatedScenes[story]){
-  const [description,result]=generatedScenes[story];
-  return `<figure class="story-cover cover-${story} cover-generated" role="img" aria-label="${description}"><img src="${asset(story)}" alt="" width="1200" height="750" loading="lazy" decoding="async"><span class="generated-light" aria-hidden="true"></span><span class="generated-feedback" aria-hidden="true"><span class="generated-signal"><i></i><i></i><i></i></span>${result}</span><span class="generated-progress" aria-hidden="true"></span></figure>`;
- }
+export function storyCover(story,scope){
  const id=`cover-${scope}-${story}`;
- const scene={boot:power,game,search:browser,storage:desktop}[story](id);
- return `<figure class="story-cover cover-${story}" role="img" aria-label="${descriptions[story]}"><svg viewBox="0 0 800 480" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs>
+ const scene=ACTION_STORIES[story]?actionScene(story,id,{cursor,click,rod,mountain}):{boot:power,game,search:browser,storage:desktop}[story](id);
+ return `<figure class="story-cover cover-${story}" role="img" aria-label="${descriptions[story]||ACTION_STORIES[story]}"><svg viewBox="0 0 800 480" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs>
  <radialGradient id="${id}-bg" cx="58%" cy="30%" r="85%"><stop stop-color="#314447"/><stop offset=".62" stop-color="#182a30"/><stop offset="1" stop-color="#0e1a21"/></radialGradient>
  <linearGradient id="${id}-caseTop" x2=".8" y2="1"><stop stop-color="#586664"/><stop offset=".55" stop-color="#314348"/><stop offset="1" stop-color="#23373f"/></linearGradient>
  <linearGradient id="${id}-caseFront" x2="1" y2=".7"><stop stop-color="#34454a"/><stop offset=".55" stop-color="#1c2a32"/><stop offset="1" stop-color="#101e27"/></linearGradient>

@@ -100,8 +100,16 @@ CAWIKI_TEST_URL=http://127.0.0.1:4173/artifacts/inside-site.html python3 tests/r
 
 ## 시나리오 카드 통합 — 2026-10-08
 
-`python3 tests/scenario-catalog.py`로 위키·전체 화면 목록의 16개 중복 없는 카드와 01–16 번호, 기존 네 SVG 표지·새 이미지 12장, 호버·키보드 포커스·복귀 상태, 추가 12편의 상세 연결, 이전 목록 주소 리다이렉트를 확인했다
-모바일 배치·모션 감소·터치·독립 HTML의 모든 표지 오프라인 로딩도 통과했다
+`python3 tests/scenario-catalog.py`로 위키·전체 화면 목록의 16개 중복 없는 카드와 01–16 번호, 16개 SVG 상황 장면, 호버·키보드 포커스·복귀 상태, 추가 12편의 상세 연결, 이전 목록 주소 리다이렉트를 확인했다
+모바일 배치·모션 감소·터치·독립 HTML의 모든 표지 오프라인 표시도 통과했다
 `tests/relationship-map.py`와 `tests/relationship-integration.py`를 다시 실행해 관계지도 64단계와 기존 3D 화면 왕복을 확인했다
 
 [통합 목록](../../artifacts/scenario-catalog/wiki-all-scenarios.png) · [음악 카드 호버](../../artifacts/scenario-catalog/music-hover.png) · [모바일 목록](../../artifacts/scenario-catalog/mobile-scenarios.png)
+
+
+## 시나리오 썸네일 동작 — 2026-10-08
+
+`python3 tests/scenario-actions.py`로 추가 12편의 동작 전·후, 개별 요소 변화, 포인터 이탈 후 복귀, 키보드 재실행과 같은 결과, 모션 감소 설정, 무한 애니메이션 없음, 기존 네 편의 결과 표시, 두 목록의 SVG ID·그라디언트 참조를 검사한다
+`python3 tests/scenario-catalog.py`로 16편의 상세 링크·모바일·터치·독립 HTML을 검증한다
+
+[05–10 동작 전·후](../../artifacts/scenario-actions/review-0.jpg) · [11–16 동작 전·후](../../artifacts/scenario-actions/review-6.jpg)
