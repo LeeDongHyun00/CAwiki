@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="./design/redesign/study.css">
   <link rel="stylesheet" href="./design/redesign/site.css">
   <link rel="stylesheet" href="./design/redesign/story-covers.css">
+  <link rel="stylesheet" href="./design/redesign/relationship-map.css">
   <link rel="stylesheet" href="./design/redesign/scenario-film.css">
 </head>
 <body data-mode="home">
@@ -50,10 +51,11 @@
     <section id="wiki-page" hidden aria-labelledby="wiki-title">
       <div class="wiki-top"><span class="micro">HARDWARE &amp; HOW IT WORKS</span><a href="#home">필름 다시 보기 <span>↗</span></a></div>
       <div class="wiki-heading"><h1 id="wiki-title" tabindex="-1">Computer Wiki</h1><p>부품에서 시작해, 작동 원리까지</p></div>
-      <div class="wiki-tabs" role="group" aria-label="탐색할 콘텐츠"><button data-wiki-tab="hardware" aria-pressed="true">하드웨어 <sup>23</sup></button><button data-wiki-tab="stories" aria-pressed="false">시나리오 <sup>04</sup></button></div>
+      <div class="wiki-tabs" role="group" aria-label="탐색할 콘텐츠"><button data-wiki-tab="hardware" aria-pressed="true">하드웨어 <sup>23</sup></button><button data-wiki-tab="stories" aria-pressed="false">시나리오 <sup>04</sup></button><button data-wiki-tab="map" aria-pressed="false">관계지도</button></div>
       <ul id="wiki-hardware" class="collection-grid"></ul>
       <ul id="wiki-stories" class="story-grid" hidden></ul>
     </section>
+    <section id="relationship-page" class="relation-page" hidden aria-labelledby="relation-title"></section>
     <section id="object-ui" class="object-ui" hidden aria-labelledby="object-name">
       <div class="object-title"><span id="object-counter" class="micro"></span><h1 id="object-name" tabindex="-1">CPU</h1><span id="object-ko"></span></div>
       <div class="object-tools" role="group" aria-label="모델 탐색과 조작">
@@ -62,6 +64,7 @@
         <button id="object-reset" class="icon-button" aria-label="모델 시점 초기화">↺</button>
         <button id="object-next" class="icon-button" aria-label="다음 부품">→</button>
         <a href="#collection" class="collection-button" aria-label="전체 부품 선택">전체 보기 ↗</a>
+        <a id="object-relations" href="#map/node/cpu">관계 보기 ↗</a>
       </div>
       <p class="object-hint">드래그로 회전 · 스크롤로 확대</p>
       <p class="sr-only" id="object-structure" aria-live="polite"></p>
@@ -78,7 +81,7 @@
       <div class="scenario-bottom"><span id="story-gesture">위로 드래그하여 따라가기 ↑</span><button id="story-restart" hidden>처음으로 ↺</button><a href="#wiki">Computer Wiki →</a></div>
       <div id="story-track" role="group" aria-label="시나리오 단계"></div><div id="story-progress" aria-hidden="true"></div><span id="story-count" class="sr-only"></span>
     </section>
-    <dialog id="story-detail" aria-labelledby="story-detail-title"><button id="story-detail-close" aria-label="설명 닫기">닫기 ×</button><h2 id="story-detail-title"></h2><p id="story-detail-copy"></p><small>동작 순서를 느리게 펼친 개념 표현입니다 물리적인 시간과 데이터 크기는 축척을 맞추지 않았습니다</small></dialog>
+    <dialog id="story-detail" aria-labelledby="story-detail-title"><button id="story-detail-close" aria-label="설명 닫기">닫기 ×</button><h2 id="story-detail-title"></h2><p id="story-detail-copy"></p><small>동작 순서를 느리게 펼친 개념 표현입니다 물리적인 시간과 데이터 크기는 축척을 맞추지 않았습니다</small><a id="story-map" href="#map/scenario/boot/0">관계지도에서 보기 ↗</a></dialog>
     <div id="model-labels" aria-label="장면에 있는 부품"></div>
     <dialog id="collection-dialog" aria-labelledby="collection-title">
       <div class="collection-top"><div class="collection-tabs" role="group" aria-label="전시 선택"><button data-tab="collection" aria-pressed="true">OBJECTS <sup>23</sup></button><button data-tab="stories" aria-pressed="false">STORIES <sup>04</sup></button></div><button id="collection-close" class="close-button" aria-label="컬렉션 닫기">닫기 <span>×</span></button></div>
@@ -87,7 +90,7 @@
       <ul id="collection-grid" class="collection-grid"></ul>
       <p id="no-results" hidden>찾는 부품이 없습니다</p>
       <ul id="story-grid" class="story-grid" hidden></ul>
-      <div class="collection-bottom"><span id="collection-total">23 OBJECTS</span><a href="#home">처음으로 ↗</a></div>
+      <div class="collection-bottom"><span id="collection-total">23 OBJECTS</span><a id="all-map-scenarios" href="#map/scenarios" hidden>16가지 작동 원리 ↗</a><a href="#home">처음으로 ↗</a></div>
     </dialog>
   </main>
   <noscript><style>#fallback{opacity:1}</style><p class="no-script">3D 모션을 보려면 JavaScript를 활성화해 주세요</p></noscript>

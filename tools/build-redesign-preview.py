@@ -23,6 +23,9 @@ MODULES = {
     'inside/scenario-data': STUDY / 'scenario-data.js',
     'inside/scenario-film': STUDY / 'scenario-film.js',
     'inside/story-covers': STUDY / 'story-covers.js',
+    'inside/relationship-map': STUDY / 'relationship-map.js',
+    'inside/relation-source': STUDY / 'relation-source.js',
+    'inside/relation-scenarios': STUDY / 'relation-scenarios.js',
 }
 IMPORTS = {
     './three.module.js': 'inside/three',
@@ -44,6 +47,9 @@ IMPORTS = {
     './scenario-data.js': 'inside/scenario-data',
     './scenario-film.js': 'inside/scenario-film',
     './story-covers.js': 'inside/story-covers',
+    './relationship-map.js': 'inside/relationship-map',
+    './relation-source.js': 'inside/relation-source',
+    './relation-scenarios.js': 'inside/relation-scenarios',
 }
 images = {}
 for path in sorted((ROOT / 'assets/models').glob('*.png')) + sorted((ROOT / 'assets/models/redesign').glob('*.webp')):
@@ -66,7 +72,7 @@ for name, path in MODULES.items():
         source = source.replace(original, "window.__insideAssets[id+'.png']")
     sources[name] = source
 html = (STUDY / 'index.html').read_text()
-for stylesheet in ['study.css', 'site.css', 'scenario-film.css', 'story-covers.css']:
+for stylesheet in ['study.css', 'site.css', 'scenario-film.css', 'story-covers.css', 'relationship-map.css']:
     html = html.replace(f'<link rel="stylesheet" href="./{stylesheet}">', '<style>' + (STUDY / stylesheet).read_text() + '</style>')
 html = html.replace('../../assets/models/cpu.png', images['cpu.png'])
 payload = json.dumps({'modules': sources, 'images': images}, ensure_ascii=False).replace('<', '\\u003c')

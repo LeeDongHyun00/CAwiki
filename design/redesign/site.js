@@ -3,6 +3,7 @@ import { ScenarioFilm } from './scenario-film.js';
 import { pauseCinema, resumeCinema } from './study.js';
 import { HARDWARE, HARDWARE_BY_ID, GROUPS, STORIES } from './site-data.js';
 import { STORY_ORDER, storyCover } from './story-covers.js';
+import { RelationshipMap } from './relationship-map.js';
 
 const $=selector=>document.querySelector(selector);
 const asset=file=>new URL(`../../assets/models/${file}`,import.meta.url).href;
@@ -11,6 +12,7 @@ const dialog=$('#collection-dialog');
 let mode='home',currentId='',currentStep=0,currentKey='',lastExperience='#journey',homeScroll=0,routeToken=0,filter='all',query='',lastFocus=null;
 const experience=new Experience();
 const film=new ScenarioFilm(updateStory);
+const relationshipMap=new RelationshipMap($('#relationship-page'),asset);
 const imageTag=(id,alt='')=>`<img src="${asset(`redesign/${id}.webp`)}" data-fallback="${asset(`${id}.png`)}" alt="${alt}" loading="lazy" decoding="async">`;
 function imageFallbacks(){dialog.querySelectorAll('img[data-fallback]').forEach(img=>img.addEventListener('error',()=>{img.src=img.dataset.fallback;},{once:true}));}
 $('#category-filter').innerHTML=GROUPS.map(([id,name])=>`<button data-filter="${id}" aria-pressed="${id==='all'}">${name}</button>`).join('');
@@ -34,12 +36,14 @@ document.querySelectorAll('.story-card').forEach(card=>{
 });
 $('#wiki-page').querySelectorAll('img[data-fallback]').forEach(img=>img.addEventListener('error',()=>{img.src=img.dataset.fallback;},{once:true}));
 document.querySelectorAll('[data-wiki-tab]').forEach(b=>b.onclick=()=>{
+  if(b.dataset.wikiTab==='map'){location.hash='map';return;}
   const stories=b.dataset.wikiTab==='stories';$('#wiki-hardware').hidden=stories;$('#wiki-stories').hidden=!stories;
   document.querySelectorAll('[data-wiki-tab]').forEach(tab=>tab.setAttribute('aria-pressed',String(tab===b)));
 });
 function showCollection(kind){
   if(!dialog.open){lastFocus=document.activeElement;experience.pause();film.pause();pauseCinema();document.body.classList.add('modal-open');dialog.showModal();}
   const stories=kind==='stories';$('#collection-title').textContent=stories?'시나리오':'하드웨어';
+  $('#all-map-scenarios').hidden=!stories;
   $('#collection-grid').hidden=stories;$('#story-grid').hidden=!stories;$('#category-filter').hidden=stories;$('.search').hidden=stories;
   $('#no-results').hidden=stories||$('#collection-grid').children.length>0;
   document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===kind)));
@@ -47,19 +51,21 @@ function showCollection(kind){
 }
 function closeCollection(){
   if(dialog.open)dialog.close();document.body.classList.remove('modal-open');
-  if(mode==='home')resumeCinema();else if(mode==='story')film.resume();else if(mode!=='wiki')experience.resume();
+  if(mode==='home')resumeCinema();else if(mode==='story')film.resume();else if(mode!=='wiki'&&mode!=='map')experience.resume();
 }
 function fallbackImage(id){
   const img=$('#fallback');img.onerror=()=>{img.onerror=null;img.src=asset(`${id}.png`);};img.src=asset(`redesign/${id}.webp`);img.alt=HARDWARE_BY_ID[id]?.name||'하드웨어 모델';
   if(document.body.classList.contains('failed')){document.documentElement.style.setProperty('--paper','#ecece9');document.documentElement.style.setProperty('--ink','45,47,48');}
 }
 function updateObject(id){
+  $('#object-relations').href=`#map/node/${id==='coproc'?'mainboard':id}`;
   const p=HARDWARE_BY_ID[id];$('#object-name').textContent=p.title;$('#object-ko').textContent=p.name;
   $('#object-counter').textContent=`${String(p.index+1).padStart(2,'0')} / 23`;
   $('#explode').textContent='구조 펼치기';$('#explode').setAttribute('aria-pressed','false');$('#object-structure').textContent='조립된 외형';
   $('#world').setAttribute('aria-label',`${p.name} 3D 모델`);document.title=`${p.name} — Inside`;fallbackImage(id);
 }
 function updateStory(index,story){
+  $('#story-map').href=`#map/scenario/${currentId}/0`;
   const step=story.steps[index];currentStep=index;
   $('#story-kicker').textContent=story.en;$('#story-title').textContent=step.title;$('#story-copy').textContent=step.copy;
   $('#story-count').textContent=`${String(index+1).padStart(2,'0')} / ${String(story.steps.length).padStart(2,'0')}`;
@@ -70,12 +76,22 @@ function updateStory(index,story){
 async function route(){
   const token=++routeToken;let hash;try{hash=decodeURIComponent(location.hash.slice(1));}catch{hash='collection';}
   if(hash==='collection'||hash==='stories'){showCollection(hash);return;}
+  const mapRoute=hash==='map'||hash.startsWith('map/');
   const objectMatch=hash.match(/^(?:object\/|part-)([a-z]+)$/),storyMatch=hash.match(/^story\/([a-z]+)(?:\/(\d+))?$/);
   if((objectMatch&&!HARDWARE_BY_ID[objectMatch[1]])||(storyMatch&&!STORIES[storyMatch[1]])){history.replaceState(null,'','#collection');showCollection('collection');return;}
   const wasCollection=dialog.open;closeCollection();
+  if(!mapRoute)relationshipMap.leave();
   if(!storyMatch)film.leave();
   $('#story-sequence').hidden=!storyMatch;
   $('#wiki-page').hidden=hash!=='wiki';
+  if(mapRoute){
+    if(mode==='home')homeScroll=scrollY;
+    mode='map';currentId='';currentKey='';lastExperience='#'+hash;
+    experience.pause();experience.clear();pauseCinema();document.body.dataset.mode='map';
+    document.body.classList.remove('loading');$('#object-ui').hidden=$('#story-ui').hidden=true;
+    document.documentElement.style.setProperty('--paper','#ecece9');document.documentElement.style.setProperty('--ink','45,47,48');
+    relationshipMap.enter(hash);if(!wasCollection)scrollTo({top:0,behavior:'instant'});return;
+  }
   if(hash==='wiki'){
     if(mode==='home')homeScroll=scrollY;
     mode='wiki';currentId='';currentKey='';lastExperience='#wiki';
@@ -123,6 +139,7 @@ $('#explode').onclick=()=>{const value=$('#explode').getAttribute('aria-pressed'
 addEventListener('hashchange',route);
 addEventListener('keydown',e=>{
   if(dialog.open||$('#story-detail').open||e.altKey||e.ctrlKey||e.metaKey||e.target.closest('input,textarea,select'))return;
+  if(mode==='map'){if(e.key==='Escape'){e.preventDefault();location.hash=location.hash==='#map'?'wiki':'map';}return;}
   if(e.key==='Escape'&&mode!=='home'){location.hash=mode==='story'?'stories':'collection';return;}
   if(e.target.closest('button,a'))return;
   if(mode==='object'){
