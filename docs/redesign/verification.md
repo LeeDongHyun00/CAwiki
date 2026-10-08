@@ -202,3 +202,20 @@ HTTPS 검증은 시스템 신뢰 저장소를 사용하는 Python으로 수행�
 공개 응답으로 부품 포인트·드래그·모니터 결과·모바일 스피커·상세 팝업·16개 목록을 검증했다
 시스템 신뢰 저장소로 인증서를 검증하는 Python HTTPS 클라이언트가 받은 공개 응답을 Chromium 요청에 전달했으며 TLS 검증을 끄지 않았다
 [공개 검증 결과](../../artifacts/scenario-spatial/public-verification.json) · [공개 멀티태스킹](../../artifacts/scenario-spatial/public-multitasking.png) · [공개 결과 화면](../../artifacts/scenario-spatial/public-streaming.png)
+
+## 통화 픽토그램·출처가 보이는 프레임·절전 메뉴 · 2026-10-08
+
+[연출 결정과 전체 적용 범위](scenario-frame-redesign.md)에 따라 통화 화면의 얼굴·입·손을 없애고 하나의 사람 픽토그램으로 바꿨다
+GPU 관련 11개 장면에는 해당 시나리오의 실제 글자·풍경·픽토그램·게임·녹화 화면에서 가져온 조각을 사용한다
+압축 데이터와 원본 이미지를 구분하며 AI 행렬 연산에는 영상 프레임을 표시하지 않는다
+절전은 전원 메뉴에서 절전을 선택하고 화면이 꺼진 뒤 같은 작업으로 복귀한다
+
+- `tests/scenario-frame-redesign.py`: 11개 GPU 장면의 이미지 변화·역방향 복원, 통화 픽토그램의 움직임·되감기, 절전 메뉴 선택·검은 화면·동일한 문서 위치 복귀 확인
+- 같은 검사에서 10개 모바일 GPU/통화 화면과 절전 메뉴, 포인트 라벨의 화면 밖 잘림·상세 팝업 확인
+- `tests/scenario-screen-motion.py`: 12개 모니터 결과의 변화·정확한 되감기와 기존 연속성 검사 통과
+- `tests/scenario-spatial-package.py`: 독립 HTML의 터치·오프라인 모델·12개 WebGL 대체 화면 검사 통과
+- `tests/scenario-spatial.py`의 `restore`, `layers`: 메인 무대 복원, 실제 불투명 모델 앞의 설명판과 상세 팝업 검사 통과
+- JavaScript/Python 구문과 Git 공백 검사 통과
+
+[프레임 검증 결과](../../artifacts/scenario-frame-redesign/verification.json) · [영상 프레임](../../artifacts/scenario-frame-redesign/streaming-5.png) · [절전 선택](../../artifacts/scenario-frame-redesign/sleep-select.png)
+Chromium 소프트웨어 WebGL과 모바일 에뮬레이션에서 검증했으며 실제 기기 GPU와 Safari는 별도 측정하지 않았다

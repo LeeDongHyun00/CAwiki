@@ -30,13 +30,14 @@ function player(c,time,{game=false}={}){
  }
 }
 function portrait(c,x,y,w,h,time=0,color='#90b09c'){
- rect(c,x,y,w,h,'#23413e',12);const sway=Math.sin(time*1.8)*w*.012,headX=x+w*.5+sway,headY=y+h*.37+Math.sin(time*2.2)*h*.009;
- c.fillStyle=color;c.beginPath();c.ellipse(x+w*.5,y+h*.99,w*.29,h*.30,0,0,Math.PI*2);c.fill();
- c.beginPath();c.ellipse(headX,headY,w*.13,h*.175,Math.sin(time)*.025,0,Math.PI*2);c.fill();
- c.fillStyle='#304e45';for(const sign of [-1,1]){c.beginPath();c.ellipse(headX+sign*w*.041,headY-h*.025,w*.011,h*.007,0,0,Math.PI*2);c.fill();}
- c.beginPath();c.ellipse(headX,headY+h*.07,w*.026,h*(.007+Math.abs(Math.sin(time*8))*.013),0,0,Math.PI*2);c.fill();
- // A small greeting follows the same progress as the remote voice indicator.
- const handX=x+w*.76,handY=y+h*(.63-.08*Math.sin(time*2));c.fillStyle=color;c.beginPath();c.ellipse(handX,handY,w*.055,h*.075,-.3+Math.sin(time*3)*.16,0,Math.PI*2);c.fill();
+ // A single, faceless person symbol moves as a whole; there is no facial animation.
+ clip(c,x,y,w,h,()=>{
+  rect(c,x,y,w,h,'#203936',12);const size=Math.min(w,h),cx=x+w*.5,cy=y+h*.5;
+  const glow=c.createRadialGradient(cx,cy,0,cx,cy,size*.65);glow.addColorStop(0,'#39594a66');glow.addColorStop(1,'#20393600');rect(c,x,y,w,h,glow,0);
+  c.save();c.translate(cx+Math.sin(time*1.2)*size*.013,cy+Math.sin(time*1.7)*size*.009);c.rotate(Math.sin(time*.9)*.018);c.scale(size,size);
+  c.fillStyle=color;c.beginPath();c.arc(0,-.125,.105,0,Math.PI*2);c.fill();
+  c.beginPath();c.moveTo(-.205,.205);c.bezierCurveTo(-.205,.065,-.105,.032,0,.032);c.bezierCurveTo(.105,.032,.205,.065,.205,.205);c.quadraticCurveTo(.205,.235,.175,.235);c.lineTo(-.175,.235);c.quadraticCurveTo(-.205,.235,-.205,.205);c.fill();c.restore();
+ });
 }
 function audioBars(c,x,y,w,h,time,color=C.mint){for(let j=0;j<30;j++){const height=(.12+.88*Math.abs(Math.sin(j*.73+time*6)*Math.sin(j*.19+time*2)))*h;rect(c,x+j*w/30,y+(h-height)/2,w/30-4,height,color,2);}}
 function windowFrame(c,x,y,w,h,title,draw,color=C.panel){rect(c,x,y,w,h,color,13);txt(c,title,x+24,y+36,22);line(c,x+24,y+53,x+w-24,y+53,C.edge,1);clip(c,x+12,y+60,w-24,h-72,draw);}
@@ -48,6 +49,28 @@ function document(c,{letter=null,caret=true,lines=0}={}){
  });
 }
 function desktop(c){for(let j=0;j<3;j++){rect(c,72,82+j*96,47,47,[C.dim,C.edge,'#a3b198'][j],9);rect(c,66,140+j*96,60,3,C.edge,1);}rect(c,303,504,354,18,'#29443e',9);}
+function powerIcon(c,x,y,size=12,color=C.mint){c.strokeStyle=color;c.lineWidth=2;c.lineCap='round';c.beginPath();c.arc(x,y,size,-Math.PI*.32,Math.PI*1.32);c.stroke();line(c,x,y-size-3,x,y-1,color,2);}
+function sleepWorkspace(c){
+ desktop(c);c.save();c.translate(192,34);c.scale(.70,.78);document(c,{lines:1});line(c,117,381,117,404,C.mint,2);c.restore();
+ rect(c,55,458,850,64,'#1b302ddd',12);rect(c,74,472,52,37,C.edge,7);powerIcon(c,100,490,10);txt(c,'작업 중인 문서',155,496,19,C.dim);
+}
+function sleepScreen(c,e,local){
+ rect(c,0,0,960,540,'#020607',0);
+ const request=e==='sleep-request',resume=e==='resumed',dim=request?1-ease((local-.43)/.20):resume?ease(local/.6):0;
+ alpha(c,dim,()=>{
+  sleepWorkspace(c);if(!request)return;
+  const menu=ease((local-.06)/.13),move=ease((local-.16)/.17),chosen=ease((local-.32)/.07);
+  alpha(c,menu,()=>{
+   c.save();c.translate(0,12*(1-menu));rect(c,74,230,278,214,'#29423bed',12);txt(c,'전원',98,267,20,C.dim);
+   alpha(c,move,()=>rect(c,85,282,256,45,chosen>.5?'#627c67':'#3c5b4e',6));
+   // Crescent, power and restart icons distinguish sleep from shutting down.
+   c.fillStyle=C.mint;c.beginPath();c.arc(113,304,11,.2,Math.PI*1.8);c.quadraticCurveTo(96,304,122,298);c.fill();txt(c,'절전',144,312,24);
+   powerIcon(c,113,356,9,C.dim);txt(c,'시스템 종료',144,364,22,C.dim);
+   c.strokeStyle=C.dim;c.lineWidth=2;c.beginPath();c.arc(113,407,10,-.4,Math.PI*1.7);c.stroke();line(c,120,397,123,407,C.dim);line(c,123,407,114,405,C.dim);txt(c,'다시 시작',144,415,22,C.dim);c.restore();
+  });
+  const press=Math.sin(Math.PI*clamp((local-.32)/.10));pointer(c,mix(104,195,move),mix(491,306,move),press);
+ });
+}
 function jobWindows(c,t,{opening=false}={}){
  const jobs=[{x:62,y:52,w:448,h:303,title:'문서',color:'#29473d'},{x:338,y:115,w:534,h:310,title:'브라우저',color:'#233d43'},{x:173,y:293,w:335,h:200,title:'음악',color:'#3d4d40'}];
  jobs.forEach((a,j)=>{const q=opening?ease(t*2-j*.28):1;c.save();c.globalAlpha=q;c.translate(a.x+a.w/2,a.y+a.h/2+15*(1-q));c.scale(.92+.08*q,.92+.08*q);c.translate(-a.w/2,-a.h/2);
@@ -103,8 +126,7 @@ export function paintScenarioScreen(c,id,e,local,p,{remote=false}={}){
    }else{txt(c,'연결한 장치를 준비합니다',286,269,24,C.dim);dots(c,458,306,p);}
   });
  }else if(id==='sleep'){
-  let glow=1;if(e==='sleep-request')glow=1-action*.35;if(['quiesce','retain'].includes(e))glow=.25*(1-action);if(['power-low','wake','restore'].includes(e))glow=0;if(e==='resumed')glow=ease(local/.6);
-  alpha(c,glow,()=>{document(c,{lines:1});line(c,117,381,117,404,C.mint,2);});
+  sleepScreen(c,e,local);
  }else if(id==='ai'){
   windowFrame(c,80,50,800,444,'답변',()=>{
    const prompt='컴퓨터는 어떻게 답을 만들까?',submitted=e!=='prompt'||action>.52;
@@ -129,4 +151,18 @@ export function paintScenarioScreen(c,id,e,local,p,{remote=false}={}){
    alpha(c,ease((local-.2)/.3),()=>txt(c,'녹화한 영상',91,86,22));
   }
  }
+}
+
+// The GPU and the final display draw from the same scene, so a frame has a source.
+export function paintScenarioFrame(c,id,time=0){
+ c.clearRect(0,0,960,540);rect(c,0,0,960,540,C.bg,0);
+ if(id==='call'){portrait(c,0,0,960,540,time,'#94b6a3');return;}
+ if(id==='streaming'){landscape(c,0,0,960,540,time);return;}
+ if(id==='record'){player(c,time);return;}
+ if(id==='loading'){player(c,time,{game:true});return;}
+ if(id==='typing'){
+  rect(c,0,0,960,540,C.panel,0);txt(c,'가',328,387,330);line(c,670,145,670,402,C.dim,5);return;
+ }
+ const result={launch:'window',usb:'drive',save:'saved',multitasking:'multitask-result',sleep:'resumed',ai:'answer',music:'speaker'}[id];
+ if(result)paintScenarioScreen(c,id,result,1,1);
 }

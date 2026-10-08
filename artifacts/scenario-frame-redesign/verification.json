@@ -1,0 +1,76 @@
+{
+  "errors": [],
+  "gpu": {
+    "typing/5": {
+      "source_fragments": 24,
+      "change": 4.8071591796875,
+      "reverse": 0.0
+    },
+    "streaming/5": {
+      "source_fragments": 24,
+      "change": 10.1273974609375,
+      "reverse": 0.0
+    },
+    "streaming/6": {
+      "source_fragments": 25,
+      "change": 9.7895654296875,
+      "reverse": 7.12890625e-05
+    },
+    "call/3": {
+      "source_fragments": 1,
+      "change": 5.308998046875,
+      "reverse": 0.0
+    },
+    "call/6": {
+      "source_fragments": 24,
+      "change": 6.0049912109375,
+      "reverse": 1.953125e-06
+    },
+    "call/7": {
+      "source_fragments": 25,
+      "change": 6.0122060546875,
+      "reverse": 0.0
+    },
+    "loading/4": {
+      "source_fragments": 3,
+      "change": 5.0104609375,
+      "reverse": 0.0
+    },
+    "loading/5": {
+      "source_fragments": 24,
+      "change": 9.163671875,
+      "reverse": 0.0
+    },
+    "record/1": {
+      "source_fragments": 25,
+      "change": 8.049779296875,
+      "reverse": 3.61328125e-05
+    },
+    "record/2": {
+      "source_fragments": 1,
+      "change": 8.6985986328125,
+      "reverse": 0.0001982421875
+    },
+    "record/6": {
+      "source_fragments": 1,
+      "change": 9.974048828125,
+      "reverse": 0.0002802734375
+    }
+  },
+  "mobile": {
+    "typing/5": "pass",
+    "streaming/5": "pass",
+    "call/3": "pass",
+    "call/6": "pass",
+    "call/8": "pass",
+    "loading/4": "pass",
+    "loading/5": "pass",
+    "record/1": "pass",
+    "record/2": "pass",
+    "record/6": "pass",
+    "sleep-menu": "pass"
+  },
+  "ai_not_a_video_frame": "pass",
+  "call_motion": "pass",
+  "sleep_menu_off_and_same_work_resume": "pass"
+}

@@ -2,6 +2,7 @@
 // teaching diagrams, never a claim about a manufacturer's physical floorplan.
 import * as T from '../../lib/vendor/three/three.module.js';
 import { createModelKit } from './collection-models.js';
+import { ScenarioFrames } from './scenario-frames.js';
 const clamp=x=>T.MathUtils.clamp(x,0,1),mix=T.MathUtils.lerp;
 const ease=x=>{x=clamp(x);return x*x*x*(x*(x*6-15)+10);};
 const MINT=0x9bcab7,GOLD=0xd6bb83,BLUE=0x8ca9c9,DIM=0x29433d;
@@ -36,6 +37,7 @@ export class ScenarioSignals {
   this.cells=new Instances(this.root,'active component regions',new T.BoxGeometry(1,1,1),256);
   this.packets=new Instances(this.root,'moving data and tasks',new T.BoxGeometry(1,1,1),128);
   this.rings=new Instances(this.root,'component contact rings',new T.TorusGeometry(1,.027,8,48),24);
+  this.frames=new ScenarioFrames(this.root);
   this.linePositions=new Float32Array(4096*3);this.lineColors=new Float32Array(4096*3);
   const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(this.linePositions,3));g.setAttribute('color',new T.BufferAttribute(this.lineColors,3));
   this.lines=new T.LineSegments(g,new T.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.66,depthWrite:false}));this.lines.frustumCulled=false;this.root.add(this.lines);
@@ -116,7 +118,11 @@ export class ScenarioSignals {
  flow(step,t,alpha){
   if(!step.flow)return;const [a,b]=step.flow.split('>');if(!this.model(a)||!this.model(b))return;
   const source=this.anchor(a),target=this.anchor(b),command=step.kind==='command';
-  this.link(source,target,t,{alpha,color:command?GOLD:MINT,command,count:command?2:5,arc:source.distanceTo(target)>6?.7:.22});
+  if(step.kind==='frame'){
+   const mid=source.clone().lerp(target,.5).addScaledVector(UP,.6),curve=new T.QuadraticBezierCurve3(source,mid,target);
+   for(let j=0;j<28;j++)this.line(curve.getPoint(j/28),curve.getPoint((j+1)/28),MINT,alpha*.4);
+   for(let j=0;j<3;j++){const u=clamp(t*1.5-j*.24),opacity=ease(u/.12)*(1-ease((u-.9)/.1))*alpha;this.frames.add(curve.getPoint(u),.40,.225,this.f.camera.quaternion,opacity);}
+  }else this.link(source,target,t,{alpha,color:command?GOLD:MINT,command,count:command?2:5,arc:source.distanceTo(target)>6?.7:.22});
  }
  reveal(step,weight){
   if(weight<.001)return;const mode=step.visual.mode,id=step.target,model=this.model(id);
@@ -133,6 +139,7 @@ export class ScenarioSignals {
  update(p,step,local){
   const f=this.f,index=f.config.steps.indexOf(step),next=f.config.steps[index+1],travel=matchMedia('(prefers-reduced-motion: reduce)').matches?0:ease((local-.55)/.45);
   this.root.visible=true;this.hud.hidden=false;this.cells.reset();this.packets.reset();this.rings.reset();this.lineCount=0;this.restoreColors();
+  this.frames.begin(f.id,p*2.7);
   // Reset opacity on borrowed materials; peripheral fading is owned by the film.
   for(const [id,list] of this.styles)if(f.computer.parts[id])for(const s of list){s.m.opacity=s.opacity;s.m.transparent=s.transparent;s.m.depthWrite=s.depthWrite;}
   const weights=new Map();for(const [s,w] of [[step,1-travel],[next,travel]])if(s){const key=s.target+':'+s.visual.mode;const entry=weights.get(key);if(entry)entry.weight+=w;else weights.set(key,{step:s,weight:w});}
@@ -141,7 +148,7 @@ export class ScenarioSignals {
   if(f.extras.audio?.signalCircuit)f.extras.audio.signalCircuit.visible=false;
   this.render(step,ease(local/.62),1-travel,p);
   if(next&&travel>0)this.render(next,0,travel,p);
-  this.cells.flush();this.packets.flush();this.rings.flush();this.lines.geometry.setDrawRange(0,this.lineCount);this.lines.geometry.attributes.position.needsUpdate=true;this.lines.geometry.attributes.color.needsUpdate=true;
+  this.cells.flush();this.packets.flush();this.rings.flush();this.frames.flush();this.lines.geometry.setDrawRange(0,this.lineCount);this.lines.geometry.attributes.position.needsUpdate=true;this.lines.geometry.attributes.color.needsUpdate=true;
   this.paintCues(step,local,1-travel*.8);
  }
  render(step,t,alpha,p){
@@ -238,17 +245,63 @@ export class ScenarioSignals {
   if(e==='tokens'||e==='next-token'){
    for(let j=0;j<5;j++){const visible=e==='tokens'?1:clamp(t*5-j);this.packets.add(base.clone().add(new T.Vector3(j*.14-.28,.10,0)),new T.Vector3(.10,.07,.13),j===4?GOLD:MINT,alpha*visible,this.f.camera.quaternion);}return;
   }
-  if(weights)return;
-  const spread=encode?1-t:t;
-  for(let y=0;y<4;y++)for(let x=0;x<6;x++){
-   const j=y*6+x,dx=(x-2.5)*.125,dy=(y-1.5)*.085;
-   const offset=new T.Vector3(dx*spread,dy*spread,.03*j*(1-spread)).applyQuaternion(this.f.camera.quaternion);
-   const position=base.clone().add(offset);const visibility=e==='drain'?1-ease((t-j/35)*2):e==='first-frame'?clamp(t*1.5-j/32):1;
-   this.packets.add(position,new T.Vector3(mix(.034,.11,spread),mix(.028,.073,spread),.016),COLORS[(x+Math.floor(y/2))%3],alpha*visibility*.85,this.f.camera.quaternion);
-   if(capture)this.packets.add(position.clone().add(new T.Vector3(.6*t,.20*t,0)),new T.Vector3(.11,.073,.016),MINT,alpha*t*.7,this.f.camera.quaternion);
+  if(weights){
+   if(e==='upload'){
+    const at=this.anchor(id,'memory'),q=this.f.camera.quaternion,right=new T.Vector3(1,0,0).applyQuaternion(q);
+    for(let j=0;j<3;j++)this.frames.add(at.clone().addScaledVector(right,(j-1)*.33).add(new T.Vector3(0,.22+.18*(1-t),0)),.29,.233,q,alpha*ease(t*2-j*.2),[j*.32,.30,.28,.40]);
+   }
+   return;
   }
-  if(e==='av-sync'){const a=base.clone().add(new T.Vector3(-.5,.25,0)),b=base.clone().add(new T.Vector3(.5,.25,0));this.link(a,b,t,{alpha,color:GOLD,count:4,arc:0});}
+  if(e==='matrix'){
+   // Model inference is arithmetic on weights and tokens, not a video frame.
+   this.link(this.anchor(id,'memory'),center,t,{alpha,color:BLUE,count:4,arc:.28});return;
+  }
+  const q=this.f.camera.quaternion,right=new T.Vector3(1,0,0).applyQuaternion(q),up=new T.Vector3(0,1,0).applyQuaternion(q);
+  const origin=this.frameCenter(id),w=1.38,h=w*9/16,compressed=origin.clone().addScaledVector(right,.92);
+  if(e==='drain'){
+   for(let j=0;j<3;j++){
+    const u=clamp(t*1.6-j*.28),at=origin.clone().addScaledVector(right,j*.13+.6*u).addScaledVector(up,-j*.09);
+    this.frames.add(at,w,h,q,alpha*(1-ease((u-.6)/.4))*(1-j*.16));
+   }
+  }else{
+   if(capture)this.frames.add(origin.clone().addScaledVector(right,-.36),w,h,q,alpha*.34);
+   if(encode)this.frames.add(origin.clone().addScaledVector(right,-.35),w*.76,h*.76,q,alpha*ease((t-.4)/.4));
+   for(let y=0;y<4;y++)for(let x=0;x<6;x++){
+    const j=y*6+x,dx=(x-2.5)*w/6,dy=(1.5-y)*h/4;
+    const gap=encode?Math.sin(t*Math.PI)*.22:(1-t)*.25;
+    const at=origin.clone().addScaledVector(right,dx*(1+gap)).addScaledVector(up,dy*(1+gap));
+    let opacity=1,size=1;
+    if(encode){const u=ease((t-.22-j*.003)/.64);at.lerp(compressed,u);size=mix(1,.16,u);opacity=1-ease((u-.65)/.35);}
+    else if(capture){at.addScaledVector(right,mix(-.36,.34,t));opacity=ease(t*3-j*.025);}
+    else if(['first-frame','pixels'].includes(e))opacity=ease(t*1.7-j/28);
+    else opacity=.22+.78*ease(t*2-j*.015);
+    this.frames.add(at,w/6*size,h/4*size,q,alpha*opacity,[x/6,1-(y+1)/4,1/6,1/4]);
+   }
+  }
+  if(encode||e==='decode'){
+   const at=encode?compressed:origin.clone().addScaledVector(right,-.95),strength=encode?ease((t-.45)/.4):1-ease(t/.65);
+   for(let j=0;j<4;j++){
+    const pos=at.clone().addScaledVector(up,(j-1.5)*.065);
+    this.packets.add(pos,new T.Vector3(.25,.036,.022),j%2?GOLD:MINT,alpha*strength,q);
+    this.line(pos.clone().addScaledVector(right,-.08),pos.clone().addScaledVector(right,.08),DIM,alpha*strength);
+   }
+  }
+  if(encode){
+   const end=compressed.clone().addScaledVector(right,-.19),start=origin.clone().addScaledVector(right,.24),opacity=alpha*ease((t-.4)/.4);
+   this.line(start,end,GOLD,opacity);for(const sign of [-1,1])this.line(end,end.clone().addScaledVector(right,-.07).addScaledVector(up,sign*.04),GOLD,opacity);
+  }
+  const bottom=origin.clone().addScaledVector(up,-h*.5-.05);this.line(center,bottom,MINT,alpha*.35);
+  if(e==='av-sync'){
+   const start=bottom.clone().addScaledVector(right,-.62),end=bottom.clone().addScaledVector(right,.62);this.line(start,end,GOLD,alpha*.6);
+   for(let j=0;j<28;j++){
+    const at=start.clone().lerp(end,j/27),height=.025+.075*Math.abs(Math.sin(j*.8+t*8));
+    this.line(at.clone().addScaledVector(up,-height),at.clone().addScaledVector(up,height),GOLD,alpha);
+   }
+   const at=start.clone().lerp(end,t);this.line(at.clone().addScaledVector(up,-.14),at.clone().addScaledVector(up,.14),MINT,alpha);
+  }
  }
+ frameCenter(id){return this.anchor(id).add(new T.Vector3(.13,.86,.14).applyQuaternion(this.f.camera.quaternion));}
+
  audio(step,t,alpha,p){
   const e=step.effect,audio=this.f.extras.audio,n=audio.root,inside=e==='dac'||e==='amplify';
   if(inside){
@@ -269,24 +322,36 @@ export class ScenarioSignals {
  }
  capture(step,t,alpha){
   const mic=step.effect==='mic',a=this.anchor('camera',mic?'mic':'center');this.rings.add(a,new T.Vector3(.13,.13,.13),mic?GOLD:MINT,alpha,this.f.camera.quaternion);
+  if(!mic){
+   const q=this.f.camera.quaternion,right=new T.Vector3(1,0,0).applyQuaternion(q),up=new T.Vector3(0,1,0).applyQuaternion(q);
+   for(let j=0;j<3;j++){const u=clamp(t*1.6-j*.25),at=a.clone().addScaledVector(right,(j-1)*.36).addScaledVector(up,.25+u*.28);this.frames.add(at,.33,.186,q,alpha*ease(u/.2));}return;
+  }
   for(let j=0;j<12;j++){
    const p=a.clone().add(new T.Vector3((j-5.5)*.065,.3,0));
-   if(mic)this.packets.add(p,new T.Vector3(.025,.08+Math.abs(Math.sin(j*.7+t*10))*.18,.025),GOLD,alpha,this.f.camera.quaternion);
-   else this.packets.add(p,new T.Vector3(.056,.10,.018),j/12<t?MINT:DIM,alpha,this.f.camera.quaternion);
+   this.packets.add(p,new T.Vector3(.025,.08+Math.abs(Math.sin(j*.7+t*10))*.18,.025),GOLD,alpha,this.f.camera.quaternion);
   }
  }
  screen(step,t,alpha){
   const root=this.node(step.target),e=step.effect;
   if(['play','video-request','load-request','record-start','prompt','sleep-request'].includes(e)){
-   const point=this.world(root,[0,170,11.3]);this.rings.add(point,new T.Vector3(.13+t*.16,.13+t*.16,.13),GOLD,alpha*(1-t)*.7,root.getWorldQuaternion(new T.Quaternion()));
+   const point=e==='sleep-request'?this.sleepPoint(this.f.localProgress):this.world(root,[0,170,11.3]);this.rings.add(point,new T.Vector3(.13+t*.16,.13+t*.16,.13),GOLD,alpha*(1-t)*.7,root.getWorldQuaternion(new T.Quaternion()));
   }
  }
+ sleepPoint(local){const t=ease((local-.16)/.17),x=mix(104,195,t),y=mix(491,306,t);return this.world(this.node('display'),[(x/960-.5)*508,205+(.5-y/540)*286,11.3]);}
  paintCues(step,local,alpha){
   const mode=step.visual.mode,e=step.effect,id=step.target;
   let entries=[{point:this.anchor(id),label:step.visual.label,color:MINT}];
   if(mode==='tasks')entries=[{point:this.anchor('cpu','left'),label:e==='waiting'?'실행 중':e==='parallel'?'코어 · 첫 작업':'CPU · 실행',color:MINT},{point:this.world(this.node('cpu','silicon'),e==='parallel'?[2.6,1.8,5.5]:[20,4,6]),label:e==='waiting'?'I/O 대기':e==='parallel'?'코어 · 다른 작업':e==='resume-thread'?'보관한 위치':'실행 상태',color:GOLD}];
   if(mode==='storage')entries=[{point:this.anchor('ssd'),label:'컨트롤러',color:GOLD},{point:this.anchor('ssd','nand'),label:'NAND · '+(['files','music-file','assets'].includes(e)?'읽기':'기록'),color:MINT}];
   if(mode==='audio')entries=[{point:this.anchor('audio',e==='dac'?'dac':e==='amplify'?'amp':'center'),label:step.visual.label,color:e==='speaker'?MINT:GOLD}];
+  if(mode==='server'&&e==='matrix')entries=[{point:this.anchor(id,'memory'),label:'가중치 예시 · 0.2',color:BLUE},{point:this.anchor(id),label:'입력 × 가중치 · 합산',color:MINT}];
+  if(e==='upload')entries=[{point:this.anchor(id,'memory'),label:'이미지 자원 → VRAM',color:BLUE}];
+  if(e==='sleep-request')entries=[{point:this.sleepPoint(local),label:local>.16?'절전 선택':'전원 메뉴',color:GOLD}];
+  if(mode==='graphics'&&e!=='upload'){
+   const source={typing:'글자 → 픽셀',streaming:'영상의 한 프레임',call:'카메라의 한 프레임',record:'녹화할 화면',loading:'게임의 첫 장면'}[this.f.id];
+   if(source)entries.push({point:this.frameCenter(id).add(new T.Vector3(e==='encode'?.17:.63,e==='encode'?.33:.43,0).applyQuaternion(this.f.camera.quaternion)),label:source,color:MINT});
+   if(e==='encode'&&local>.20)entries.push({point:this.frameCenter(id).add(new T.Vector3(.92,-.12,0).applyQuaternion(this.f.camera.quaternion)),label:'압축 데이터',color:GOLD});
+  }
   if(e==='save-keys')entries=[{point:this.anchor('input','ctrl'),label:'Ctrl',color:GOLD},{point:this.anchor('input','s'),label:'S',color:GOLD}];
   if(mode==='screen'&&local>.42)entries=[];
   this.cues.forEach((el,i)=>{

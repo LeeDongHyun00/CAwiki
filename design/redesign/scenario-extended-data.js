@@ -181,7 +181,7 @@ export const EXTENDED_SCENARIOS={
     "visual": {
      "mode": "graphics",
      "label": "픽셀 생성",
-     "intent": "GPU 덮개를 옆으로 열고 다이에서 결과 픽셀 타일을 조합",
+     "intent": "실제 글자 이미지의 조각이 GPU 위에서 하나의 화면으로 합쳐짐",
      "panel": false
     },
     "focus": [
@@ -1795,7 +1795,7 @@ export const EXTENDED_SCENARIOS={
     "visual": {
      "mode": "graphics",
      "label": "프레임 복원",
-     "intent": "GPU의 전용 처리 영역 옆에서 압축 조각이 프레임 타일로 펼쳐짐",
+     "intent": "원본 영상의 이미지 조각이 GPU 위에서 읽을 수 있는 한 프레임으로 복원됨",
      "panel": false
     },
     "focus": [
@@ -1824,7 +1824,7 @@ export const EXTENDED_SCENARIOS={
     "visual": {
      "mode": "graphics",
      "label": "출력 시각",
-     "intent": "프레임과 소리 표식을 같은 시각으로 맞춘 뒤 출력",
+     "intent": "복원한 실제 프레임 아래 소리 파형과 재생 시점을 함께 정렬",
      "panel": false
     },
     "focus": [
@@ -2182,7 +2182,7 @@ export const EXTENDED_SCENARIOS={
     "visual": {
      "mode": "graphics",
      "label": "프레임 압축",
-     "intent": "프레임 타일이 전용 처리 영역을 지나 작은 묶음으로 모임",
+     "intent": "카메라 또는 녹화 화면의 조각이 모여 압축 데이터로 바뀌고 작은 원본을 남겨 출처를 보임",
      "panel": false
     },
     "focus": [
@@ -2269,7 +2269,7 @@ export const EXTENDED_SCENARIOS={
     "visual": {
      "mode": "graphics",
      "label": "프레임 복원",
-     "intent": "GPU의 전용 처리 영역 옆에서 압축 조각이 프레임 타일로 펼쳐짐",
+     "intent": "원본 영상의 이미지 조각이 GPU 위에서 읽을 수 있는 한 프레임으로 복원됨",
      "panel": false
     },
     "focus": [
@@ -2298,7 +2298,7 @@ export const EXTENDED_SCENARIOS={
     "visual": {
      "mode": "graphics",
      "label": "출력 시각",
-     "intent": "프레임과 소리 표식을 같은 시각으로 맞춘 뒤 출력",
+     "intent": "복원한 실제 프레임 아래 소리 파형과 재생 시점을 함께 정렬",
      "panel": false
     },
     "focus": [
@@ -3283,8 +3283,8 @@ export const EXTENDED_SCENARIOS={
    {
     "at": 0.0,
     "title": "작업을 잠시 멈추다",
-    "copy": "운영체제가 현재 작업을 정리하고 절전을 준비합니다",
-    "detail": "운영체제가 작업과 장치를 절전 상태로 전환할 준비를 합니다",
+    "copy": "전원 메뉴에서 절전을 선택합니다",
+    "detail": "전원 메뉴의 절전을 선택하면 운영체제가 장치와 작업의 절전 전환을 준비합니다 이 시나리오는 RAM에 전원을 남겨 내용을 유지하는 S3 절전을 예로 들며, 완전히 종료하는 동작과 다릅니다",
     "target": "display",
     "effect": "sleep-request",
     "flow": "",
@@ -3292,7 +3292,7 @@ export const EXTENDED_SCENARIOS={
     "visual": {
      "mode": "screen",
      "label": "절전 요청",
-     "intent": "화면이 서서히 어두워져 내부 전력 장면으로 연결",
+     "intent": "전원 메뉴를 열어 절전을 선택하고 같은 문서 화면이 천천히 꺼짐",
      "panel": false
     },
     "focus": [
@@ -4109,7 +4109,7 @@ export const EXTENDED_SCENARIOS={
     "visual": {
      "mode": "graphics",
      "label": "VRAM 준비",
-     "intent": "GPU 주위 메모리 칩을 차례로 밝히며 자원을 채움",
+     "intent": "게임 장면에 쓰는 실제 이미지 자원을 VRAM 영역으로 옮김",
      "panel": false
     },
     "focus": [
@@ -4138,7 +4138,7 @@ export const EXTENDED_SCENARIOS={
     "visual": {
      "mode": "graphics",
      "label": "첫 프레임",
-     "intent": "GPU 다이에서 작은 타일이 채워져 하나의 화면이 됨",
+     "intent": "게임 풍경과 캐릭터가 담긴 조각이 합쳐져 첫 화면을 완성",
      "panel": false
     },
     "focus": [
@@ -4460,7 +4460,7 @@ export const EXTENDED_SCENARIOS={
     "visual": {
      "mode": "graphics",
      "label": "프레임 복사",
-     "intent": "GPU 위 기존 프레임에서 복사본이 분리되어 인코더로 전달",
+     "intent": "현재 녹화할 화면을 이미지로 보여주고 같은 화면을 복제해 인코더로 전달",
      "panel": false
     },
     "focus": [
@@ -4489,7 +4489,7 @@ export const EXTENDED_SCENARIOS={
     "visual": {
      "mode": "graphics",
      "label": "프레임 압축",
-     "intent": "프레임 타일이 전용 처리 영역을 지나 작은 묶음으로 모임",
+     "intent": "카메라 또는 녹화 화면의 조각이 모여 압축 데이터로 바뀌고 작은 원본을 남겨 출처를 보임",
      "panel": false
     },
     "focus": [
@@ -4605,7 +4605,7 @@ export const EXTENDED_SCENARIOS={
     "visual": {
      "mode": "graphics",
      "label": "남은 프레임",
-     "intent": "새 입력은 멈추고 남은 프레임 묶음만 차례로 빠져나감",
+     "intent": "남은 녹화 화면을 순서대로 처리한 뒤 대기열을 비움",
      "panel": false
     },
     "focus": [
