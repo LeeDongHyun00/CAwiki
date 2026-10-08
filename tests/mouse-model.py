@@ -1,4 +1,4 @@
-"""Render the rebuilt mouse, animate its layers, orbit and revisit after disposal."""
+"""Render the rebuilt mouse, verify its single exit, orbit and revisit after disposal."""
 from pathlib import Path
 from io import BytesIO
 import os
@@ -18,11 +18,7 @@ with sync_playwright() as p:
     for name in ['센서','PCB','클릭','휠']:
         assert name in page.locator('#object-structure').text_content()
     page.wait_for_timeout(300);assembled=page.locator('#world').screenshot();page.screenshot(path=str(OUT/'mouse.png'))
-    page.locator('#explode').click();page.wait_for_timeout(350)
-    expanded=page.locator('#world').screenshot();page.screenshot(path=str(OUT/'mouse-exploded.png'))
-    assert diff(assembled,expanded)>3,'Separating the shell, buttons, wheel and PCB must visibly change the model'
-    page.locator('#explode').click();page.wait_for_timeout(350)
-    assert diff(assembled,page.locator('#world').screenshot())<1,'Reassembly must reproduce the original'
+    assert page.locator('.object-tools a,.object-tools button').count()==1
     page.locator('#world').focus();page.keyboard.press('a');page.keyboard.press('a');page.keyboard.press('a');page.wait_for_timeout(300)
     assert diff(assembled,page.locator('#world').screenshot())>1,'Orbit must reveal another side'
     page.screenshot(path=str(OUT/'mouse-side.png'))
@@ -38,7 +34,7 @@ with sync_playwright() as p:
     page.evaluate('location.hash="screen"');page.wait_for_function('document.body.dataset.chapter==="screen"');assert page.locator('.wiki-enter').is_visible()
     assert not errors,errors
     if 'inside-site.html' in BASE:assert all(r.split('#')[0]==BASE.split('#')[0] or r.startswith(('blob:','data:')) for r in requests),requests
-    print('Mouse: assembled / separated / restored / orbit / scenario / recreated PASS',flush=True)
+    print('Mouse: assembled / single exit / orbit / scenario / recreated PASS',flush=True)
     print('Reduced motion: desktop + mobile skip before monitor, ending CTA PASS',flush=True)
     if 'inside-site.html' in BASE:print('Self-contained preview works offline; no external asset requests PASS',flush=True)
     browser.close()

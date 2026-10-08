@@ -36,3 +36,7 @@ body[data-mode="wiki"] #stage,body[data-mode="wiki"] #sequence,body[data-mode="w
 .wiki-heading{padding:8vh 0 6vh}.wiki-heading h1{font-size:clamp(44px,7.3vw,112px);font-weight:400;letter-spacing:-.075em;line-height:1;margin:0}.wiki-heading h1 span{color:#8e9a96}.wiki-heading p{font-size:12px;letter-spacing:-.025em;color:#8b918e;margin:24px 0 0}
 .wiki-tabs{display:flex;gap:30px;border-bottom:1px solid #3d474324;margin-bottom:45px}.wiki-tabs button{padding:18px 0;min-height:54px;font-size:12px;color:#9a9d99}.wiki-tabs button[aria-pressed="true"]{color:#262d2e;border-bottom:1px solid #333}.wiki-tabs sup{font-size:8px;margin-left:8px}
 @media(max-width:760px){#sequence{height:2300svh}.ending{bottom:14vh}.ending p{font-size:7px;letter-spacing:.18em}.wiki-enter{gap:34px;font-size:26px}.collection-entry{font-size:11px}.caption{font-size:8px;max-width:52vw}.caption-rule{width:14px}.caption{gap:9px}#wiki-page{padding:20px 25px 28px}.wiki-top .micro{font-size:7px;letter-spacing:.1em}.wiki-top a{font-size:10px;gap:12px}.wiki-heading{padding:65px 0 36px}.wiki-heading h1{font-size:48px}.wiki-heading p{font-size:11px}.wiki-tabs{margin-bottom:28px}}
+
+/* The object view is a focused model viewer with one exit. */
+#object-exit{min-width:64px;min-height:44px;padding:0 8px;border-bottom:1px solid rgba(var(--ink),.24)}
+@media(max-width:600px){.object-ui{display:flex;gap:16px}.object-title{margin-bottom:0;flex-wrap:wrap;gap:8px 12px}.object-tools{flex:none}.object-hint{bottom:86px}}

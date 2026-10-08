@@ -42,16 +42,12 @@ with sync_playwright() as p:
     before=page.screenshot(clip=clip)
     page.mouse.move(600,400);page.mouse.down();page.mouse.move(850,520,steps=10);page.mouse.up();page.wait_for_timeout(250)
     assert page.screenshot(clip=clip)!=before,'Dragging must rotate the rendered model'
-    page.locator('#object-reset').click();page.wait_for_timeout(250)
-    page.locator('#explode').click();page.wait_for_timeout(350)
-    assert page.locator('#explode').get_attribute('aria-pressed')=='true'
+    assert page.locator('.object-tools a,.object-tools button').count()==1
     page.screenshot(path=str(OUT/'site-hdd.png'))
-    page.locator('.collection-button').click();page.wait_for_selector('#collection-dialog[open]');page.keyboard.press('Escape')
-    page.wait_for_selector('#collection-dialog',state='hidden')
-    assert page.locator('#explode').get_attribute('aria-pressed')=='true','Returning from collection must preserve assembly state'
-    page.locator('#object-next').click();page.wait_for_function('document.querySelector("#object-name").textContent==="MAINBOARD"');ready(page)
-    page.go_back();page.wait_for_function('document.querySelector("#object-name").textContent==="HDD"');ready(page)
-    print('Collection: all 23, category filter, Korean search, selection, state restoration, history PASS',flush=True)
+    page.locator('#object-exit').click();page.wait_for_selector('#wiki-page:not([hidden])')
+    page.locator('#wiki-hardware a[href="#object/mainboard"]').click();ready(page)
+    page.keyboard.press('Escape');page.wait_for_selector('#wiki-page:not([hidden])')
+    print('Collection: all 23, category filter, Korean search, selection, exit, Escape PASS',flush=True)
     for id in ['boot','game','search','storage']:
         page.evaluate('(id)=>location.hash="story/"+id+"/0"',id)
         page.wait_for_function('(id)=>location.hash==="#story/"+id+"/0" && document.body.dataset.mode==="story"',arg=id);ready(page)
@@ -68,23 +64,23 @@ with sync_playwright() as p:
     page.set_viewport_size({'width':390,'height':844});page.wait_for_timeout(500)
     page.screenshot(path=str(OUT/'site-mobile-story.png'))
     assert page.evaluate('document.documentElement.scrollWidth===innerWidth')
-    navigate(page,'object/power','POWER');page.locator('#explode').click();page.wait_for_timeout(400)
+    navigate(page,'object/power','POWER');page.wait_for_timeout(400)
     page.screenshot(path=str(OUT/'site-mobile-power.png'))
-    page.locator('.collection-button').click();page.wait_for_selector('#collection-dialog[open]');page.locator('#search').fill('');page.wait_for_timeout(400)
+    page.locator('#object-exit').click();page.evaluate('location.hash="collection"');page.wait_for_selector('#collection-dialog[open]');page.locator('#search').fill('');page.wait_for_timeout(400)
     assert page.locator('#collection-grid li').count()==23
     assert page.locator('#collection-dialog').evaluate('(e)=>e.scrollWidth<=e.clientWidth')
     page.screenshot(path=str(OUT/'site-mobile-collection.png'))
     page.locator('[data-tab="stories"]').click();assert page.locator('#story-grid li').count()==16
     page.screenshot(path=str(OUT/'site-mobile-stories.png'))
-    print('Mobile: collection, stories, expanded object, no horizontal overflow PASS',flush=True)
+    print('Mobile: collection, stories, model viewer, no horizontal overflow PASS',flush=True)
     assert not errors,errors
     browser.close()
     browser=p.chromium.launch(executable_path=BROWSER,args=['--no-sandbox','--disable-webgl'])
     page=browser.new_page(viewport={'width':390,'height':844},reduced_motion='reduce')
     page.goto(BASE+'#object/hdd');page.wait_for_selector('body.failed');page.wait_for_selector('body:not(.loading)')
-    assert page.locator('#explode').is_disabled()
+    assert page.locator('#object-exit').is_visible()
     assert page.locator('#fallback').evaluate('(e)=>e.complete && e.naturalWidth>0')
-    page.locator('#object-next').click();page.wait_for_function('document.querySelector("#object-name").textContent==="MAINBOARD"')
+    page.locator('#object-exit').click();page.wait_for_selector('#wiki-page:not([hidden])')
     page.evaluate('location.hash="story/storage/0"');page.wait_for_function('document.body.dataset.mode==="story"');page.wait_for_timeout(400)
     page.locator('#story-track button').nth(1).click();page.wait_for_function('document.querySelector("#story-count").textContent.startsWith("02")')
     assert page.locator('#story-why').is_enabled()

@@ -12,6 +12,7 @@ const asset=file=>new URL(`../../assets/models/${file}`,import.meta.url).href;
 if(new URLSearchParams(location.search).has('thumb'))document.body.classList.add('thumbnail');
 const dialog=$('#collection-dialog');
 let mode='home',currentId='',currentStep=0,currentKey='',lastExperience='#journey',homeScroll=0,routeToken=0,filter='all',query='',lastFocus=null;
+let objectReturn='#wiki';
 const experience=new Experience();
 const film=new ScenarioFilm(updateStory);
 const relationshipMap=new RelationshipMap($('#relationship-page'),asset);
@@ -61,10 +62,9 @@ function fallbackImage(id){
   if(document.body.classList.contains('failed')){document.documentElement.style.setProperty('--paper','#ecece9');document.documentElement.style.setProperty('--ink','45,47,48');}
 }
 function updateObject(id){
-  $('#object-relations').href=`#map/node/${id==='coproc'?'mainboard':id}`;
   const p=HARDWARE_BY_ID[id];$('#object-name').textContent=p.title;$('#object-ko').textContent=p.name;
   $('#object-counter').textContent=`${String(p.index+1).padStart(2,'0')} / 23`;
-  $('#explode').textContent='구조 펼치기';$('#explode').setAttribute('aria-pressed','false');$('#object-structure').textContent='조립된 외형';
+  $('#object-exit').href=objectReturn;$('#object-structure').textContent='조립된 외형';
   $('#world').setAttribute('aria-label',`${p.name} 3D 모델`);document.title=`${p.name} — Inside`;fallbackImage(id);
 }
 function updateStory(index,story){
@@ -105,14 +105,15 @@ async function route(){
     document.title='Computer Wiki — 하드웨어와 작동 원리';scrollTo({top:0,behavior:'instant'});$('#wiki-title').focus({preventScroll:true});return;
   }
   if(objectMatch){
+    if(mode!=='object')objectReturn=/^#(?:wiki$|map(?:\/|$)|story\/)/.test(lastExperience)?lastExperience:'#wiki';
     if(mode==='home')homeScroll=scrollY;
     mode='object';currentId=objectMatch[1];lastExperience=`#object/${currentId}`;
     document.body.dataset.mode='object';$('#object-ui').hidden=false;$('#story-ui').hidden=true;document.body.classList.remove('manipulated');
     if(currentKey===`object/${currentId}`&&!document.body.classList.contains('loading')){experience.resume();return;}
     updateObject(currentId);
     currentKey=`object/${currentId}`;document.body.classList.add('loading');
-    try{const ready=await experience.object(currentId);if(token!==routeToken)return;$('#explode').disabled=$('#object-reset').disabled=!ready;if(ready)$('#object-structure').textContent=experience.items[0].model.layers.join(' · ');}
-    catch(error){console.error('Object could not be rendered',currentId,error);document.body.classList.add('failed');$('#status').textContent='모델 이미지를 표시합니다';$('#explode').disabled=$('#object-reset').disabled=true;}
+    try{const ready=await experience.object(currentId);if(token!==routeToken)return;if(ready)$('#object-structure').textContent=experience.items[0].model.layers.join(' · ');}
+    catch(error){console.error('Object could not be rendered',currentId,error);document.body.classList.add('failed');$('#status').textContent='모델 이미지를 표시합니다';}
     document.body.classList.remove('loading');$('#object-name').focus({preventScroll:true});
   }else if(storyMatch){
     if(mode==='home')homeScroll=scrollY;
@@ -132,29 +133,25 @@ async function route(){
     if(lastFocus?.isConnected&&lastFocus!==document.body)lastFocus.focus({preventScroll:true});
   }
 }
-function changeObject(delta){const index=HARDWARE_BY_ID[currentId]?.index??0;location.hash=`object/${HARDWARE[(index+delta+HARDWARE.length)%HARDWARE.length].id}`;}
 $('#collection-close').onclick=()=>location.hash=lastExperience;
 dialog.addEventListener('cancel',event=>{event.preventDefault();location.hash=lastExperience;});
 document.querySelectorAll('[data-tab]').forEach(button=>button.onclick=()=>location.hash=button.dataset.tab);
 $('#search').addEventListener('input',e=>{query=e.target.value.trim();renderCollection();});
 $('#category-filter').addEventListener('click',e=>{const b=e.target.closest('[data-filter]');if(!b)return;filter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(button=>button.setAttribute('aria-pressed',String(button===b)));renderCollection();});
-$('#object-prev').onclick=()=>changeObject(-1);$('#object-next').onclick=()=>changeObject(1);$('#object-reset').onclick=()=>experience.reset();
-$('#explode').onclick=()=>{const value=$('#explode').getAttribute('aria-pressed')!=='true';$('#explode').setAttribute('aria-pressed',String(value));$('#explode').textContent=value?'다시 조립':'구조 펼치기';$('#object-structure').textContent=value?experience.items[0]?.model.layers.join(' · '):'조립된 외형';experience.explode(value);};
 addEventListener('hashchange',route);
 addEventListener('keydown',e=>{
   if(dialog.open||$('#story-detail').open||e.altKey||e.ctrlKey||e.metaKey||e.target.closest('input,textarea,select'))return;
   if(mode==='map'){if(e.key==='Escape'){e.preventDefault();location.hash=location.hash==='#map'?'wiki':'map';}return;}
+  if(e.key==='Escape'&&mode==='object'){e.preventDefault();location.hash=objectReturn;return;}
   if(e.key==='Escape'&&mode!=='home'){location.hash=mode==='story'?'stories':'collection';return;}
   if(e.target.closest('button,a'))return;
   if(mode==='object'){
-    if(e.key==='ArrowRight'){e.preventDefault();changeObject(1);}else if(e.key==='ArrowLeft'){e.preventDefault();changeObject(-1);}
-    else if(e.key.toLowerCase()==='e')$('#explode').click();else if(e.key==='0')experience.reset();
-    else if(e.key.toLowerCase()==='a')experience.turn(.15,0);else if(e.key.toLowerCase()==='d')experience.turn(-.15,0);
+    if(e.key.toLowerCase()==='a')experience.turn(.15,0);else if(e.key.toLowerCase()==='d')experience.turn(-.15,0);
     else if(e.key.toLowerCase()==='w')experience.turn(0,-.12);else if(e.key.toLowerCase()==='s')experience.turn(0,.12);
     else if(e.key==='+'||e.key==='=')experience.zoom(.9);else if(e.key==='-')experience.zoom(1.1);
 
   }
 });
-addEventListener('inside:contextloss',()=>{if(mode==='object')fallbackImage(currentId);else if(mode==='story')fallbackImage(film.config.steps[currentStep]?.fallback||STORIES[currentId].cover);$('#explode').disabled=$('#object-reset').disabled=true;});
+addEventListener('inside:contextloss',()=>{if(mode==='object')fallbackImage(currentId);else if(mode==='story')fallbackImage(film.config.steps[currentStep]?.fallback||STORIES[currentId].cover);});
 addEventListener('inside:contextrestore',()=>{if(mode==='story'){film.resume();return;}currentKey='';if(mode!=='home'&&!dialog.open)route();});
 route();

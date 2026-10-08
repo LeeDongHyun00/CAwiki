@@ -27,10 +27,8 @@ with sync_playwright() as p:
     selected=page.url
     page.locator('.relation-edge-copy a[href="#object/dram"]').click();settled(page,'object')
     assert page.locator('#world').is_visible()
-    assert not page.locator('#explode').is_disabled()
-    page.locator('#explode').click()
-    assert page.locator('#explode').get_attribute('aria-pressed')=='true'
-    page.go_back();settled(page,'map')
+    assert page.locator('.object-tools a,.object-tools button').count()==1
+    page.locator('#object-exit').click();settled(page,'map')
     assert page.url==selected
     assert page.locator('.relation-edge-copy dt').all_text_contents()==['CPU의 관점','RAM의 관점']
     print('Wiki discovery / model rendering / map history / single canvas PASS',flush=True)
@@ -51,7 +49,7 @@ with sync_playwright() as p:
     controls=page.locator('.object-tools a,.object-tools button').evaluate_all('(es)=>es.map(e=>{const r=e.getBoundingClientRect();return{x:r.x,right:r.right,bottom:r.bottom}})')
     assert all(c['x']>=0 and c['right']<=390 and c['bottom']<=844 for c in controls),controls
     page.screenshot(path=str(OUT/'mobile-object-map-link.png'))
-    page.locator('#object-relations').click();settled(page,'map')
+    page.locator('#object-exit').click();settled(page,'map')
     page.locator('.relation-top a[href="#wiki"]').click();settled(page,'wiki')
     page.locator('.wiki-top a').click();settled(page,'home')
     page.wait_for_function('document.body.dataset.filmProgress!==undefined')

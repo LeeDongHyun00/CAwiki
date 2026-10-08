@@ -224,3 +224,12 @@ Chromium 소프트웨어 WebGL과 모바일 에뮬레이션에서 검증했으�
 인증 없는 HTTPS 200, 버전과 배포 HTML의 SHA-256 일치를 확인했다
 시스템 인증서 검증을 유지한 공개 응답으로 GPU 이미지·픽토그램·절전 메뉴·실제 드래그·모바일 압축 장면·상세 팝업을 확인했다
 [공개 검증 기록](../../artifacts/scenario-frame-redesign/public-verification.json) · [공개 GPU 이미지](../../artifacts/scenario-frame-redesign/public-gpu-frame.png) · [공개 통화](../../artifacts/scenario-frame-redesign/public-call.png) · [공개 절전](../../artifacts/scenario-frame-redesign/public-sleep.png)
+
+## 하드웨어 상세 화면의 단일 나가기 · 2026-10-08
+
+공통 하드웨어 상세 화면의 이전·다음·시점 초기화·구조 펼치기·전체 보기·관계 보기 컨트롤을 제거하고 나가기 링크 하나를 남겼다
+드래그 회전과 스크롤 확대는 유지하며 나가기와 Escape는 들어왔던 위키·관계지도·시나리오로 돌아간다
+직접 상세 주소로 들어온 경우 위키로 나간다
+`tests/relationship-integration.py`로 관계지도에서 모델을 열고 같은 관계로 복귀, 시나리오·상세 설명 왕복, 모바일 나가기 배치와 단일 WebGL 캔버스를 확인했다
+
+`tests/redesign-site.py`의 목록·검색·회전·나가기·Escape·기존 시나리오·모바일·WebGL 대체 화면 검증도 통과했다
