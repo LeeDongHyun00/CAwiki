@@ -1,0 +1,587 @@
+{
+  "method": {
+    "version": 2,
+    "gpu": "SwiftShader",
+    "network": "localhost gzip no-store",
+    "cpuThrottle": 1,
+    "desktop": [
+      1440,
+      900,
+      1
+    ],
+    "mobile": [
+      390,
+      844,
+      3
+    ],
+    "frameMeaning": "rAF interval including idle, not GPU time",
+    "heapMeaning": "JS only; not GPU/native RAM"
+  },
+  "runs": [
+    {
+      "profile": "desktop",
+      "run": 1,
+      "phases": {
+        "initial": {
+          "losses": 0,
+          "at": 8017.700000001118,
+          "canvas": [
+            1440,
+            900
+          ],
+          "memory": {
+            "geometries": 18,
+            "textures": 6
+          },
+          "encodedBytes": 416541,
+          "marks": [
+            {
+              "name": "inside:cpu-preview-visible",
+              "at": 37.70000000111759
+            },
+            {
+              "name": "inside:cpu-visible",
+              "at": 1715.5
+            }
+          ],
+          "frameP95Ms": 733.3000000000002,
+          "longTasks": {
+            "n": 12,
+            "maxMs": 2138,
+            "blockingMs": 7020
+          },
+          "renders": {
+            "n": 42,
+            "maxCalls": 13,
+            "maxTriangles": 66761
+          },
+          "elapsedMs": 8731.200000001118,
+          "jsHeapBytes": 7310596
+        },
+        "monitor": {
+          "losses": 0,
+          "at": 30925.200000001118,
+          "canvas": [
+            1440,
+            900
+          ],
+          "memory": {
+            "geometries": 296,
+            "textures": 108
+          },
+          "encodedBytes": 416541,
+          "marks": [
+            {
+              "name": "inside:cpu-preview-visible",
+              "at": 37.70000000111759
+            },
+            {
+              "name": "inside:cpu-visible",
+              "at": 1715.5
+            },
+            {
+              "name": "inside:computer-ready",
+              "at": 16539.700000001118
+            },
+            {
+              "name": "inside:monitor-ready",
+              "at": 27630.900000000373
+            }
+          ],
+          "frameP95Ms": 3366.5,
+          "longTasks": {
+            "n": 10,
+            "maxMs": 3147,
+            "blockingMs": 12454
+          },
+          "renders": {
+            "n": 10,
+            "maxCalls": 248,
+            "maxTriangles": 488673
+          },
+          "elapsedMs": 11015.200000001118,
+          "jsHeapBytes": 10443420
+        },
+        "room-entry": {
+          "losses": 0,
+          "at": 2934.4000000003725,
+          "canvas": [
+            1440,
+            900
+          ],
+          "memory": {
+            "geometries": 51,
+            "textures": 24
+          },
+          "encodedBytes": 727468,
+          "marks": [
+            {
+              "name": "inside:room-ready",
+              "at": 382.80000000074506
+            }
+          ],
+          "frameP95Ms": 50,
+          "longTasks": {
+            "n": 1,
+            "maxMs": 110,
+            "blockingMs": 60
+          },
+          "renders": {
+            "n": 198,
+            "maxCalls": 46,
+            "maxTriangles": 92
+          },
+          "elapsedMs": 3060.699999999255,
+          "jsHeapBytes": 17132380
+        },
+        "room-compute": {
+          "losses": 0,
+          "at": 4966.9000000003725,
+          "canvas": [
+            1440,
+            900
+          ],
+          "memory": {
+            "geometries": 52,
+            "textures": 25
+          },
+          "encodedBytes": 727468,
+          "marks": [
+            {
+              "name": "inside:room-ready",
+              "at": 382.80000000074506
+            }
+          ],
+          "frameP95Ms": 66.69999999999982,
+          "longTasks": {
+            "n": 0,
+            "maxMs": 0,
+            "blockingMs": 0
+          },
+          "renders": {
+            "n": 100,
+            "maxCalls": 46,
+            "maxTriangles": 92
+          },
+          "elapsedMs": 1886.0,
+          "jsHeapBytes": 16709424
+        },
+        "room-network": {
+          "losses": 0,
+          "at": 6549.700000001118,
+          "canvas": [
+            1440,
+            900
+          ],
+          "memory": {
+            "geometries": 52,
+            "textures": 25
+          },
+          "encodedBytes": 727468,
+          "marks": [
+            {
+              "name": "inside:room-ready",
+              "at": 382.80000000074506
+            }
+          ],
+          "frameP95Ms": 66.80000000000018,
+          "longTasks": {
+            "n": 0,
+            "maxMs": 0,
+            "blockingMs": 0
+          },
+          "renders": {
+            "n": 90,
+            "maxCalls": 33,
+            "maxTriangles": 66
+          },
+          "elapsedMs": 1578.2000000011176,
+          "jsHeapBytes": 18743460
+        },
+        "scenario-entry": {
+          "losses": 0,
+          "at": 41578.40000000037,
+          "canvas": [
+            1440,
+            900
+          ],
+          "memory": {
+            "geometries": 353,
+            "textures": 114
+          },
+          "encodedBytes": 1931781,
+          "marks": [
+            {
+              "name": "inside:cpu-preview-visible",
+              "at": 37.70000000111759
+            },
+            {
+              "name": "inside:cpu-visible",
+              "at": 1715.5
+            },
+            {
+              "name": "inside:computer-ready",
+              "at": 16539.700000001118
+            },
+            {
+              "name": "inside:monitor-ready",
+              "at": 27630.900000000373
+            },
+            {
+              "name": "inside:exposure-start",
+              "at": 39644.300000000745
+            }
+          ],
+          "frameP95Ms": 3566.5,
+          "longTasks": {
+            "n": 2,
+            "maxMs": 1905,
+            "blockingMs": 3458
+          },
+          "renders": {
+            "n": 36,
+            "maxCalls": 82,
+            "maxTriangles": 196872
+          },
+          "elapsedMs": 3662.9000000003725,
+          "jsHeapBytes": 14084532
+        },
+        "object-entry": {
+          "losses": 0,
+          "at": 43232.60000000149,
+          "canvas": [
+            1440,
+            900
+          ],
+          "memory": {
+            "geometries": 315,
+            "textures": 112
+          },
+          "encodedBytes": 1931781,
+          "marks": [
+            {
+              "name": "inside:cpu-preview-visible",
+              "at": 37.70000000111759
+            },
+            {
+              "name": "inside:cpu-visible",
+              "at": 1715.5
+            },
+            {
+              "name": "inside:computer-ready",
+              "at": 16539.700000001118
+            },
+            {
+              "name": "inside:monitor-ready",
+              "at": 27630.900000000373
+            },
+            {
+              "name": "inside:exposure-start",
+              "at": 39644.300000000745
+            }
+          ],
+          "frameP95Ms": 16.700000000004366,
+          "longTasks": {
+            "n": 1,
+            "maxMs": 863,
+            "blockingMs": 813
+          },
+          "renders": {
+            "n": 1,
+            "maxCalls": 16,
+            "maxTriangles": 66761
+          },
+          "elapsedMs": 1647.3999999985099,
+          "jsHeapBytes": 15780440
+        }
+      },
+      "errors": [],
+      "firstReadyMs": 5296.200000001118
+    },
+    {
+      "profile": "mobile",
+      "run": 1,
+      "phases": {
+        "initial": {
+          "losses": 0,
+          "at": 4456.5999999996275,
+          "canvas": [
+            390,
+            844
+          ],
+          "memory": {
+            "geometries": 18,
+            "textures": 6
+          },
+          "encodedBytes": 416541,
+          "marks": [
+            {
+              "name": "inside:cpu-preview-visible",
+              "at": 47.90000000037253
+            },
+            {
+              "name": "inside:cpu-visible",
+              "at": 1572.5999999996275
+            },
+            {
+              "name": "inside:computer-ready",
+              "at": 3875.5
+            }
+          ],
+          "frameP95Ms": 166.69999999999982,
+          "longTasks": {
+            "n": 28,
+            "maxMs": 1238,
+            "blockingMs": 2590
+          },
+          "renders": {
+            "n": 59,
+            "maxCalls": 13,
+            "maxTriangles": 61577
+          },
+          "elapsedMs": 4545,
+          "jsHeapBytes": 11710832
+        },
+        "monitor": {
+          "losses": 0,
+          "at": 11463.300000000745,
+          "canvas": [
+            390,
+            844
+          ],
+          "memory": {
+            "geometries": 296,
+            "textures": 108
+          },
+          "encodedBytes": 416541,
+          "marks": [
+            {
+              "name": "inside:cpu-preview-visible",
+              "at": 47.90000000037253
+            },
+            {
+              "name": "inside:cpu-visible",
+              "at": 1572.5999999996275
+            },
+            {
+              "name": "inside:computer-ready",
+              "at": 3875.5
+            },
+            {
+              "name": "inside:monitor-ready",
+              "at": 8157.700000001118
+            }
+          ],
+          "frameP95Ms": 166.70000000000073,
+          "longTasks": {
+            "n": 10,
+            "maxMs": 171,
+            "blockingMs": 430
+          },
+          "renders": {
+            "n": 11,
+            "maxCalls": 248,
+            "maxTriangles": 242593
+          },
+          "elapsedMs": 865.2999999988824,
+          "jsHeapBytes": 22851312
+        },
+        "room-entry": {
+          "losses": 0,
+          "at": 2633.7999999988824,
+          "canvas": [
+            390,
+            844
+          ],
+          "memory": {
+            "geometries": 42,
+            "textures": 19
+          },
+          "encodedBytes": 727468,
+          "marks": [
+            {
+              "name": "inside:room-ready",
+              "at": 365.7999999988824
+            }
+          ],
+          "frameP95Ms": 16.799999999999955,
+          "longTasks": {
+            "n": 1,
+            "maxMs": 87,
+            "blockingMs": 37
+          },
+          "renders": {
+            "n": 264,
+            "maxCalls": 28,
+            "maxTriangles": 56
+          },
+          "elapsedMs": 2708.10000000149,
+          "jsHeapBytes": 25825056
+        },
+        "room-compute": {
+          "losses": 0,
+          "at": 4200.799999998882,
+          "canvas": [
+            390,
+            844
+          ],
+          "memory": {
+            "geometries": 42,
+            "textures": 19
+          },
+          "encodedBytes": 727468,
+          "marks": [
+            {
+              "name": "inside:room-ready",
+              "at": 365.7999999988824
+            }
+          ],
+          "frameP95Ms": 16.799999999999727,
+          "longTasks": {
+            "n": 0,
+            "maxMs": 0,
+            "blockingMs": 0
+          },
+          "renders": {
+            "n": 176,
+            "maxCalls": 25,
+            "maxTriangles": 50
+          },
+          "elapsedMs": 1558.0999999996275,
+          "jsHeapBytes": 26643120
+        },
+        "room-network": {
+          "losses": 0,
+          "at": 5750.4000000003725,
+          "canvas": [
+            390,
+            844
+          ],
+          "memory": {
+            "geometries": 43,
+            "textures": 20
+          },
+          "encodedBytes": 727468,
+          "marks": [
+            {
+              "name": "inside:room-ready",
+              "at": 365.7999999988824
+            }
+          ],
+          "frameP95Ms": 16.700000000000728,
+          "longTasks": {
+            "n": 0,
+            "maxMs": 0,
+            "blockingMs": 0
+          },
+          "renders": {
+            "n": 172,
+            "maxCalls": 25,
+            "maxTriangles": 50
+          },
+          "elapsedMs": 1550.0,
+          "jsHeapBytes": 25183208
+        },
+        "scenario-entry": {
+          "losses": 0,
+          "at": 20180.5,
+          "canvas": [
+            390,
+            844
+          ],
+          "memory": {
+            "geometries": 353,
+            "textures": 114
+          },
+          "encodedBytes": 1587339,
+          "marks": [
+            {
+              "name": "inside:cpu-preview-visible",
+              "at": 47.90000000037253
+            },
+            {
+              "name": "inside:cpu-visible",
+              "at": 1572.5999999996275
+            },
+            {
+              "name": "inside:computer-ready",
+              "at": 3875.5
+            },
+            {
+              "name": "inside:monitor-ready",
+              "at": 8157.700000001118
+            },
+            {
+              "name": "inside:exposure-start",
+              "at": 18765.5
+            }
+          ],
+          "frameP95Ms": 2283.2000000000007,
+          "longTasks": {
+            "n": 2,
+            "maxMs": 1409,
+            "blockingMs": 2194
+          },
+          "renders": {
+            "n": 36,
+            "maxCalls": 57,
+            "maxTriangles": 30896
+          },
+          "elapsedMs": 2367.800000000745,
+          "jsHeapBytes": 32230736
+        },
+        "object-entry": {
+          "losses": 0,
+          "at": 21182.900000000373,
+          "canvas": [
+            390,
+            844
+          ],
+          "memory": {
+            "geometries": 315,
+            "textures": 112
+          },
+          "encodedBytes": 1587339,
+          "marks": [
+            {
+              "name": "inside:cpu-preview-visible",
+              "at": 47.90000000037253
+            },
+            {
+              "name": "inside:cpu-visible",
+              "at": 1572.5999999996275
+            },
+            {
+              "name": "inside:computer-ready",
+              "at": 3875.5
+            },
+            {
+              "name": "inside:monitor-ready",
+              "at": 8157.700000001118
+            },
+            {
+              "name": "inside:exposure-start",
+              "at": 18765.5
+            }
+          ],
+          "frameP95Ms": 150,
+          "longTasks": {
+            "n": 8,
+            "maxMs": 133,
+            "blockingMs": 468
+          },
+          "renders": {
+            "n": 8,
+            "maxCalls": 16,
+            "maxTriangles": 61577
+          },
+          "elapsedMs": 995.4000000003725,
+          "jsHeapBytes": 25132508
+        }
+      },
+      "errors": [],
+      "firstReadyMs": 2629.7000000011176
+    }
+  ],
+  "browserVersion": "151.0.7922.173"
+}
