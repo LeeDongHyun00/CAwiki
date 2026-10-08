@@ -1,0 +1,41 @@
+{
+  "passed": [
+    "Wiki direct entry: zero WebGL contexts",
+    "All six relationship groups, node, parts and relation tabs",
+    "All 16 scenarios: entry and final step",
+    "SSD/HDD/cache branches",
+    "Interrupted relationship preparation does not overwrite Wiki",
+    "Interrupted scenario preparation does not overwrite Wiki",
+    {
+      "fiveRoundTripsRendererMemory": [
+        {
+          "geometries": 190,
+          "textures": 50
+        },
+        {
+          "geometries": 190,
+          "textures": 50
+        },
+        {
+          "geometries": 190,
+          "textures": 50
+        },
+        {
+          "geometries": 190,
+          "textures": 50
+        },
+        {
+          "geometries": 190,
+          "textures": 50
+        }
+      ]
+    },
+    "Forced context loss: recovery notice, scenario text, map images",
+    "Context restoration returns to the active relationship view",
+    "Image-only mode: zero WebGL contexts, scenario remains usable",
+    "Image-only direct object entry displays its portrait",
+    "Desktop monitor and animated Wiki arrival complete and release input",
+    "Object construction failure displays a fallback portrait"
+  ],
+  "pageErrors": []
+}
