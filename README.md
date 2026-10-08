@@ -291,6 +291,8 @@ python3 tests/hardware-3d.py
 python3 tools/build-pages.py --output /tmp/cawiki-pages-output
 ```
 
-공개 주소는 https://leedonghyun00.github.io/CAwiki/ 이며 `gh-pages` 브랜치의 루트를 게시합니다
+공개 주소는 https://leedonghyun00.github.io/CAwiki/ 이며 현재 Pages 설정은 `main` 브랜치의 루트입니다
+구현 소스는 `redesign`에서 관리하고, 빌더가 만든 파일을 `main`의 별도 체크아웃에 복사해 게시합니다
+`version.json`은 배포된 구현 소스의 커밋을 기록합니다
 배포 파일은 외부 CDN 없이 동작하는 전체 사이트와 검토 페이지, 이전 저장 시안 주소의 연결 파일입니다
 설명 검토와 출처는 [시나리오 내용 검토](docs/redesign/scenario-content-review.md), 94개 추가 장면의 구조는 [구현 문서](docs/redesign/scenario-expansion-design.md)를 참조하세요

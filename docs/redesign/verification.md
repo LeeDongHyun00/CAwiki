@@ -168,3 +168,12 @@ Chromium 소프트웨어 WebGL을 사용했으며 실제 모바일 GPU·Safari �
 
 Chromium의 소프트웨어 WebGL과 모바일 에뮬레이션에서 확인했다
 실제 휴대전화의 GPU 성능과 Safari는 측정하지 않았다
+
+GitHub Pages의 기존 `main` 루트 설정을 사용해 독립 HTML을 게시했다
+Pages 설정 변경 API는 GitHub App 권한 부족으로 403을 반환하므로 기존 배포 설정을 유지했다
+배포 파일만 `main`에 반영하고, 그 커밋을 `redesign`에 병합하면서 개발용 `index.html`을 유지해 PR 충돌을 해소했다
+
+공개 주소의 인증 없는 HTTPS 응답 200과 배포 파일의 SHA-256 일치를 확인했다
+공개 사이트에서 16개 목록, 저장 8개 장면, 마우스 드래그, 상세 원리와 근거 링크, 모바일, 저장 시안 주소 호환을 확인했다
+[공개 검증 결과](../../artifacts/scenario-extended/public-verification.json) · [공개 저장 화면](../../artifacts/scenario-extended/public-save.png)
+HTTPS 검증은 시스템 신뢰 저장소를 사용하는 Python으로 수행했으며, Chromium에서는 실행 환경 프록시의 인증서 처리 예외를 사용했다
