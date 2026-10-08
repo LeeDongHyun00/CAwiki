@@ -18,9 +18,8 @@ with sync_playwright() as p:
     page.on('pageerror',lambda e:errors.append(str(e)))
     page.goto(BASE+'#wiki');page.wait_for_selector('body.ready',timeout=90000)
     page.locator('[data-wiki-tab="stories"]').click()
-    assert page.locator('#wiki-learning').is_visible()
-    page.locator('#wiki-learning a').click();settled(page,'map')
-    assert page.locator('.relation-scenario-grid>a').count()==16
+    assert page.locator('#wiki-stories .story-card').count()==16
+    page.locator('#wiki-stories [data-scenario="typing"]').click();settled(page,'map')
     page.locator('.relation-top a[href="#wiki"]').click();settled(page,'wiki')
     page.locator('[data-wiki-tab="map"]').click();settled(page,'map')
     page.locator('.relation-island').first.click()

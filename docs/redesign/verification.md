@@ -97,3 +97,11 @@ CAWIKI_TEST_URL=http://127.0.0.1:4173/artifacts/inside-site.html python3 tests/r
 [전체 지도](../../artifacts/relationship-map/overview.png) · [CPU와 RAM](../../artifacts/relationship-map/cpu-ram.png) · [모바일 관계 설명](../../artifacts/relationship-map/mobile-relationship.png) · [모바일 시나리오](../../artifacts/relationship-map/mobile-save.png)
 
 추가 시나리오는 단계별 관계지도이며 3D 필름은 기존 네 편이다 실제 기기와 Safari 성능은 별도 측정하지 않았다
+
+## 시나리오 카드 통합 — 2026-10-08
+
+`python3 tests/scenario-catalog.py`로 위키·전체 화면 목록의 16개 중복 없는 카드와 01–16 번호, 기존 네 SVG 표지·새 이미지 12장, 호버·키보드 포커스·복귀 상태, 추가 12편의 상세 연결, 이전 목록 주소 리다이렉트를 확인했다
+모바일 배치·모션 감소·터치·독립 HTML의 모든 표지 오프라인 로딩도 통과했다
+`tests/relationship-map.py`와 `tests/relationship-integration.py`를 다시 실행해 관계지도 64단계와 기존 3D 화면 왕복을 확인했다
+
+[통합 목록](../../artifacts/scenario-catalog/wiki-all-scenarios.png) · [음악 카드 호버](../../artifacts/scenario-catalog/music-hover.png) · [모바일 목록](../../artifacts/scenario-catalog/mobile-scenarios.png)

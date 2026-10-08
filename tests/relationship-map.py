@@ -12,7 +12,7 @@ def navigate(page,hash):
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--disable-webgl'])
  page=browser.new_page(viewport={'width':1440,'height':1000},reduced_motion='reduce');errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
- page.goto(BASE+'#map');page.wait_for_selector('.relation-island');assert page.locator('.relation-island').count()==6;assert page.locator('.relation-scenario-grid>a').count()==16
+ page.goto(BASE+'#map');page.wait_for_selector('.relation-island');assert page.locator('.relation-island').count()==6;assert page.locator('.relation-scenario-grid').count()==0
  page.screenshot(path=str(OUT/'overview.png'))
  page.locator('.relation-island').first.click();page.wait_for_selector('.relation-center');assert page.locator('.relation-center').get_attribute('data-node')=='cpu'
  page.locator('.relation-neighbor[data-node="dram"]').click();page.wait_for_selector('.relation-edge-copy');assert page.locator('.relation-edge-copy dt').all_text_contents()==['CPU의 관점','RAM의 관점'];assert page.locator('.relation-edge-copy dd').count()==2

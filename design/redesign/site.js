@@ -3,10 +3,12 @@ import { ScenarioFilm } from './scenario-film.js';
 import { pauseCinema, resumeCinema } from './study.js';
 import { HARDWARE, HARDWARE_BY_ID, GROUPS, STORIES } from './site-data.js';
 import { STORY_ORDER, storyCover } from './story-covers.js';
+import { RELATION_SCENARIOS } from './relation-scenarios.js';
 import { RelationshipMap } from './relationship-map.js';
 
 const $=selector=>document.querySelector(selector);
 const asset=file=>new URL(`../../assets/models/${file}`,import.meta.url).href;
+const scenarioAsset=id=>new URL(`../../assets/scenarios/${id}.webp`,import.meta.url).href;
 if(new URLSearchParams(location.search).has('thumb'))document.body.classList.add('thumbnail');
 const dialog=$('#collection-dialog');
 let mode='home',currentId='',currentStep=0,currentKey='',lastExperience='#journey',homeScroll=0,routeToken=0,filter='all',query='',lastFocus=null;
@@ -16,7 +18,8 @@ const relationshipMap=new RelationshipMap($('#relationship-page'),asset);
 const imageTag=(id,alt='')=>`<img src="${asset(`redesign/${id}.webp`)}" data-fallback="${asset(`${id}.png`)}" alt="${alt}" loading="lazy" decoding="async">`;
 function imageFallbacks(){dialog.querySelectorAll('img[data-fallback]').forEach(img=>img.addEventListener('error',()=>{img.src=img.dataset.fallback;},{once:true}));}
 $('#category-filter').innerHTML=GROUPS.map(([id,name])=>`<button data-filter="${id}" aria-pressed="${id==='all'}">${name}</button>`).join('');
-const storyCards=scope=>STORY_ORDER.map((id,i)=>{const s=STORIES[id];return `<li><a class="story-card" href="#story/${id}/0" aria-labelledby="${scope}-${id}-title">${storyCover(id,scope)}<div class="story-card-heading"><div><p>0${i+1} / ${s.en}</p><h3 id="${scope}-${id}-title">${s.title}</h3></div><span aria-hidden="true">↗</span></div></a></li>`;}).join('');
+const scenarioLabels={typing:'TYPING',launch:'APP LAUNCH',save:'SAVE',music:'MUSIC',streaming:'STREAMING',call:'VIDEO CALL',multitasking:'MULTITASKING',usb:'USB',sleep:'SLEEP & WAKE',ai:'AI',loading:'GAME LOADING',record:'SCREEN RECORDING'};
+const storyCards=scope=>RELATION_SCENARIOS.map((scenario,i)=>{const {id}=scenario,s=STORIES[id]||scenario,href=STORY_ORDER.includes(id)?`#story/${id}/0`:`#map/scenario/${id}/0`;return `<li><a class="story-card" data-scenario="${id}" href="${href}" aria-labelledby="${scope}-${id}-title">${storyCover(id,scope,scenarioAsset)}<div class="story-card-heading"><div><p>${String(i+1).padStart(2,'0')} / ${s.en||scenarioLabels[id]}</p><h3 id="${scope}-${id}-title">${s.title}</h3></div><span aria-hidden="true">↗</span></div></a></li>`;}).join('');
 $('#story-grid').innerHTML=storyCards('stories');
 function renderCollection(){
   const search=query.toLocaleLowerCase();
@@ -37,17 +40,16 @@ document.querySelectorAll('.story-card').forEach(card=>{
 $('#wiki-page').querySelectorAll('img[data-fallback]').forEach(img=>img.addEventListener('error',()=>{img.src=img.dataset.fallback;},{once:true}));
 document.querySelectorAll('[data-wiki-tab]').forEach(b=>b.onclick=()=>{
   if(b.dataset.wikiTab==='map'){location.hash='map';return;}
-  const stories=b.dataset.wikiTab==='stories';$('#wiki-hardware').hidden=stories;$('#wiki-stories').hidden=!stories;$('#wiki-learning').hidden=!stories;
+  const stories=b.dataset.wikiTab==='stories';$('#wiki-hardware').hidden=stories;$('#wiki-stories').hidden=!stories;
   document.querySelectorAll('[data-wiki-tab]').forEach(tab=>tab.setAttribute('aria-pressed',String(tab===b)));
 });
 function showCollection(kind){
   if(!dialog.open){lastFocus=document.activeElement;experience.pause();film.pause();pauseCinema();document.body.classList.add('modal-open');dialog.showModal();}
   const stories=kind==='stories';$('#collection-title').textContent=stories?'시나리오':'하드웨어';
-  $('#all-map-scenarios').hidden=!stories;
   $('#collection-grid').hidden=stories;$('#story-grid').hidden=!stories;$('#category-filter').hidden=stories;$('.search').hidden=stories;
   $('#no-results').hidden=stories||$('#collection-grid').children.length>0;
   document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===kind)));
-  if(stories)$('#collection-total').textContent='04 STORIES';else renderCollection();
+  if(stories)$('#collection-total').textContent=`${RELATION_SCENARIOS.length} STORIES`;else renderCollection();
 }
 function closeCollection(){
   if(dialog.open)dialog.close();document.body.classList.remove('modal-open');
@@ -75,6 +77,7 @@ function updateStory(index,story){
 }
 async function route(){
   const token=++routeToken;let hash;try{hash=decodeURIComponent(location.hash.slice(1));}catch{hash='collection';}
+  if(hash==='map/scenarios'){hash='stories';history.replaceState(null,'','#stories');}
   if(hash==='collection'||hash==='stories'){showCollection(hash);return;}
   const mapRoute=hash==='map'||hash.startsWith('map/');
   const objectMatch=hash.match(/^(?:object\/|part-)([a-z]+)$/),storyMatch=hash.match(/^story\/([a-z]+)(?:\/(\d+))?$/);

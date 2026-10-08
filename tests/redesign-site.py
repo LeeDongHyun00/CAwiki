@@ -74,7 +74,7 @@ with sync_playwright() as p:
     assert page.locator('#collection-grid li').count()==23
     assert page.locator('#collection-dialog').evaluate('(e)=>e.scrollWidth<=e.clientWidth')
     page.screenshot(path=str(OUT/'site-mobile-collection.png'))
-    page.locator('[data-tab="stories"]').click();assert page.locator('#story-grid li').count()==4
+    page.locator('[data-tab="stories"]').click();assert page.locator('#story-grid li').count()==16
     page.screenshot(path=str(OUT/'site-mobile-stories.png'))
     print('Mobile: collection, stories, expanded object, no horizontal overflow PASS',flush=True)
     assert not errors,errors
