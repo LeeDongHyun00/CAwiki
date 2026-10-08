@@ -72,3 +72,11 @@ python3 tools/measure_room_detail.py --out docs/performance/continuity-detail-af
 ```
 
 시작 필름의 모델·재질·조명·카메라를 수정하면 CPU 이미지를 다시 생성해야 한다. 모든 런타임 자산·모듈 변경 후 manifest를 갱신한다. 검증 전후 소스 해시는 `performance/continuity-source-manifest.json`에 기록한다.
+
+## 동일 증상 제보 후 배포 재검증
+
+2026-10-09, 제보 주소 `https://leedonghyun00.github.io/CAwiki/#wiki`를 기준으로 HTML 두 개와 관계지도·필름·시나리오 전환·키보드 관련 모듈 다섯 개의 응답 본문을 비교했다. 모두 `b943422`의 파일과 일치했다. 같은 소스의 데스크톱/모바일 시각 검사를 다시 통과했고, 이번 검사에서는 제보된 외형 교체와 이전 시나리오 모델 노출을 재현하지 못했다. 사용자 브라우저가 실제로 읽은 버전이나 실기기 렌더링을 관측한 것은 아니다.
+
+추가로 목록을 1,000px 내린 뒤 **실제 iframe 제거와 부모 목록 복귀까지** 검사했다. 두 프로필 모두 스크롤이 1,000px로 복구됐고, 마지막 이미지 평면과 부모 목록의 위치 차이는 `2.3e-13px` 이하였다. 건너뛰기 종료 후 1초 기다려도 진행률은 약 0.93에 머물렀고, 사용자 스크롤 입력 후에만 모니터 구간으로 진행했다. [배포 대조·재검증 원본](performance/continuity-deployment-check.json)에 기록했다. 이번 재검증에서는 실행 코드를 추가로 변경하지 않았다.
+
+이미 열려 있던 문서는 `#wiki`처럼 해시 경로만 이동할 때 새 JavaScript를 받지 않는다. [문서를 새로 요청하는 확인 주소](https://leedonghyun00.github.io/CAwiki/?revision=b943422#wiki)로 수정본을 확인할 수 있다. 이것을 사용자 제보의 원인이 캐시였다는 증거로 해석하지 않는다.
