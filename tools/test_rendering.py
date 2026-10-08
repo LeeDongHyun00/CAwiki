@@ -33,14 +33,15 @@ with sync_playwright() as p:
   assert not page.evaluate("document.body.classList.contains('failed')")
  # Each awaited route must correspond to its actual destination, including when
  # all model preparation is cold on the first deep link.
+ def gallery(group):
+  frame=page.frame_locator('#relationship-room-frame')
+  frame.locator('#room[data-group="'+group+'"][data-moving=false]').wait_for(timeout=120000)
+  return frame
  for group in ['compute','network','io','graphics','power','storage']:
-  route('map/group/'+group)
-  page.wait_for_function("document.querySelector('#relationship-page').dataset.view==='group'")
-  page.wait_for_function("document.querySelector('#relationship-page').classList.contains('rr-webgl') && document.querySelector('#render-status').hidden",timeout=120000)
-  page.locator('.rr-exhibit').first.click()
-  page.wait_for_function("document.querySelector('#relationship-page').dataset.view==='node'");ready()
-  page.locator('[data-tab="parts"]').click();ready()
-  page.locator('[data-tab="relations"]').click();ready()
+  route('map/group/'+group);frame=gallery(group)
+  frame.locator('.room-part:not([disabled])').first.click();frame.locator('body.detail-ready').wait_for()
+  frame.locator('[data-tab="parts"]').click();frame.locator('body.detail-ready').wait_for()
+  frame.locator('[data-tab="relations"]').click();frame.locator('body.detail-ready').wait_for()
  results.append('All six relationship groups, node, parts and relation tabs')
  ids=page.evaluate("async()=>Object.keys((await import('inside/data')).STORIES)")
  for id in ids:
@@ -60,7 +61,7 @@ with sync_playwright() as p:
  page.evaluate("location.hash='map/group/network';setTimeout(()=>location.hash='wiki',20)")
  page.wait_for_function("document.body.dataset.mode==='wiki'");page.wait_for_timeout(1200)
  assert page.locator('#render-status').is_hidden()
- assert not page.evaluate("document.querySelector('#relationship-page').classList.contains('rr-webgl')")
+ assert page.locator('#relationship-room-frame').count()==0
  results.append('Interrupted relationship preparation does not overwrite Wiki')
  page.evaluate("location.hash='story/call/0';setTimeout(()=>location.hash='wiki',20)")
  page.wait_for_function("document.body.dataset.mode==='wiki'");page.wait_for_timeout(1000)
@@ -71,7 +72,7 @@ with sync_playwright() as p:
  counts=[]
  for cycle in range(5):
   route('story/call/0');page.wait_for_function("document.body.dataset.story==='call'");ready()
-  route('map/group/network');page.wait_for_function("document.body.dataset.mode==='map' && document.querySelector('#relationship-page').classList.contains('rr-webgl')");ready()
+  route('map/group/network');gallery('network');ready()
   route('wiki');page.wait_for_function("document.body.dataset.mode==='wiki'");page.wait_for_timeout(150)
   counts.append(page.evaluate('({...__testStage.renderer.info.memory})'))
  assert counts[-1]['textures']<=counts[1]['textures'],counts
@@ -83,13 +84,13 @@ with sync_playwright() as p:
  page.wait_for_function("document.body.classList.contains('failed')")
  assert page.locator('#render-status').get_attribute('data-state')=='recovery'
  assert page.locator('#story-title').inner_text()
- route('map/group/compute');page.wait_for_selector('.rr-model img:visible')
- assert not page.evaluate("document.querySelector('#relationship-page').classList.contains('rr-webgl')")
- results.append('Forced context loss: recovery notice, scenario text, map images')
+ route('map/group/compute');frame=gallery('compute')
+ assert frame.locator('.room-part:not([disabled])').count()==5
+ results.append('Parent context loss leaves the independent relationship gallery usable')
  page.evaluate("loseExtension.restoreContext()")
  page.wait_for_function("!document.body.classList.contains('failed')",timeout=120000)
- page.wait_for_function("document.querySelector('#relationship-page').classList.contains('rr-webgl')",timeout=120000)
- results.append('Context restoration returns to the active relationship view')
+ gallery('compute')
+ results.append('Context restoration preserves the active relationship route')
  page.goto(url+'?quality=still#story/save/0');page.wait_for_function("document.body.dataset.story==='save' && document.body.dataset.storyStep==='0'")
  assert page.evaluate('webglContexts')==0
  assert page.locator('#story-title').inner_text()
