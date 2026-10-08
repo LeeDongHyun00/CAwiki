@@ -1,11 +1,36 @@
 {
-  "allModels": 23,
-  "groups": 6,
-  "cyclicDrag": true,
-  "detailReturn": true,
-  "mobile": true,
-  "keyboard": true,
-  "reducedMotion": true,
-  "fallback": true,
-  "errors": []
+  "source": {
+    "wikiEntry": true,
+    "cameraMovesRight": true,
+    "walls": 5,
+    "models": 23,
+    "menuTopics": 7,
+    "stagedFilter": true,
+    "exactReturn": true,
+    "pairWithoutNavigation": true,
+    "partsPagination": true,
+    "mobile": true,
+    "keyboard": true,
+    "reducedMotion": true,
+    "fallback": true,
+    "portable": false,
+    "errors": []
+  },
+  "portable": {
+    "wikiEntry": true,
+    "cameraMovesRight": false,
+    "walls": 5,
+    "models": 23,
+    "menuTopics": 7,
+    "stagedFilter": false,
+    "exactReturn": false,
+    "pairWithoutNavigation": true,
+    "partsPagination": true,
+    "mobile": true,
+    "keyboard": true,
+    "reducedMotion": true,
+    "fallback": true,
+    "portable": true,
+    "errors": []
+  }
 }

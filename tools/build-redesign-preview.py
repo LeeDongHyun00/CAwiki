@@ -127,12 +127,13 @@ room_sources = dict(sources)
 room_code = (STUDY / 'relationship-room-study.js').read_text()
 for original, alias in IMPORTS.items():
     room_code = room_code.replace(f"'{original}'", f"'{alias}'")
-room_sources['inside/room-study'] = room_code
+room_sources['inside/room-study'] = room_code.replace("'../../index.html'", "'./index.html'")
 room_html = (STUDY / 'relationship-room-study.html').read_text()
-room_html = room_html.replace('<link rel="stylesheet" href="./relationship-room-study.css">', '<style>' + (STUDY / 'relationship-room-study.css').read_text() + '</style>')
+for stylesheet in ['site.css', 'story-covers.css', 'relationship-room-study.css']:
+    room_html = room_html.replace(f'<link rel="stylesheet" href="./{stylesheet}">', '<style>' + (STUDY / stylesheet).read_text() + '</style>')
 room_payload = json.dumps({'modules': room_sources, 'images': images}, ensure_ascii=False).replace('<', '\\u003c')
 room_loader = loader.replace(payload, room_payload).replace("import 'inside/site';", "import 'inside/room-study';")
-room_html = room_html.replace('<script type="module" src="./relationship-room-study.js"></script>', room_loader).replace('../../index.html#map', './index.html#map')
+room_html = room_html.replace('<script type="module" src="./relationship-room-study.js"></script>', room_loader).replace('../../index.html#home', './index.html#home')
 room_target = ROOT / 'artifacts/relationship-room-study.html'
 room_target.write_text(room_html + '\n<!-- Three.js license\n' + license_text + '\n-->\n')
 print(f'{room_target} ({room_target.stat().st_size:,} bytes)')
