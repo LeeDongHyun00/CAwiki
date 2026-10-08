@@ -219,3 +219,8 @@ GPU 관련 11개 장면에는 해당 시나리오의 실제 글자·풍경·픽�
 
 [프레임 검증 결과](../../artifacts/scenario-frame-redesign/verification.json) · [영상 프레임](../../artifacts/scenario-frame-redesign/streaming-5.png) · [절전 선택](../../artifacts/scenario-frame-redesign/sleep-select.png)
 Chromium 소프트웨어 WebGL과 모바일 에뮬레이션에서 검증했으며 실제 기기 GPU와 Safari는 별도 측정하지 않았다
+
+소스 `b4c5e2b`를 Pages 커밋 `76733e0`으로 공개했다
+인증 없는 HTTPS 200, 버전과 배포 HTML의 SHA-256 일치를 확인했다
+시스템 인증서 검증을 유지한 공개 응답으로 GPU 이미지·픽토그램·절전 메뉴·실제 드래그·모바일 압축 장면·상세 팝업을 확인했다
+[공개 검증 기록](../../artifacts/scenario-frame-redesign/public-verification.json) · [공개 GPU 이미지](../../artifacts/scenario-frame-redesign/public-gpu-frame.png) · [공개 통화](../../artifacts/scenario-frame-redesign/public-call.png) · [공개 절전](../../artifacts/scenario-frame-redesign/public-sleep.png)
