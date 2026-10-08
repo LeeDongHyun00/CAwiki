@@ -55,7 +55,7 @@ let view='wiki',transitionKind='idle',transitionAt=0,moving=false,frame=0,lastTi
 let rail=0,railTarget=0,railDrag=null,railBlockClick=false,railFrame=0,railTime=0,blockClick=false,roomDrag=null,exitCamera=null;
 let pointer={x:0,y:0},look={x:0,y:0},pan={x:0,y:0},cameraX=0;
 const travelling=()=>view==='entering'||view==='exiting';
-const title=$('#room-title'),room=$('#room'),wiki=$('#wiki-page'),railEl=$('#room-rail');
+const room=$('#room'),wiki=$('#wiki-page'),railEl=$('#room-rail');
 
 $('#wiki-hardware').innerHTML=HARDWARE.map(p=>`<li><a href="${siteURL}#object/${p.id}" aria-label="${esc(p.name)} 3D 살펴보기"><figure><img src="${asset(p.id)}" alt="" data-id="${p.id}" loading="eager" decoding="async"></figure><div class="item-caption"><div><span class="item-number">${String(p.index+1).padStart(2,'0')}</span><strong>${p.title}</strong></div><small>${esc(p.name)}</small></div></a></li>`).join('');
 $('#wiki-stories').innerHTML=RELATION_SCENARIOS.map((s,i)=>`<li><a class="story-card" href="${siteURL}#story/${s.id}/0">${storyCover(s.id,'room-study')}<div class="story-card-heading"><h3>${esc(STORIES[s.id]?.title||s.title)}</h3><span>↗</span></div></a></li>`).join('');
@@ -108,6 +108,32 @@ for(const event of ['pointerup','pointercancel','lostpointercapture'])railEl.add
 railEl.addEventListener('click',e=>{if(railBlockClick&&e.detail!==0){e.preventDefault();e.stopImmediatePropagation();railBlockClick=false;}},true);
 railEl.addEventListener('wheel',e=>{if(Math.abs(e.deltaX)>Math.abs(e.deltaY)){e.preventDefault();railTarget+=e.deltaX/350;wakeRail();}},{passive:false});
 
+// Compact each subject's existing wall arrangement as one loose 3D cluster.
+// No focus slot, ring, rows, or per-index destinations are introduced.
+const clusterCache=new Map();
+function clusterFor(id){
+ const key=id+':'+innerWidth+':'+innerHeight;if(clusterCache.has(key))return clusterCache.get(key);
+ const members=items.filter(item=>RELATION_GROUPS.find(g=>g.id===id).nodes.includes(item.id)),mobile=innerWidth<700;
+ const center=new T.Vector3();members.forEach(item=>center.add(new T.Vector3(item.home.x,item.home.y,item.home.z)));center.divideScalar(members.length);
+ const bounds=new T.Box3(),q=new T.Quaternion(),p=new T.Vector3(),poses=new Map();
+ for(const item of members){
+  const h=item.home,pose={...h,x:(h.x-center.x)*.76,y:(h.y-center.y)*(mobile?.98:.86),z:(h.z-center.z)*.32,size:h.size*.82,opacity:1};
+  poses.set(item.id,pose);q.setFromEuler(new T.Euler(h.rx,h.ry,h.rz)).multiply(item.rotation);
+  for(const corner of item.corners)bounds.expandByPoint(p.copy(corner).multiplyScalar(pose.size/item.extent).applyQuaternion(q).add(new T.Vector3(pose.x,pose.y,pose.z)));
+ }
+ const midpoint=bounds.getCenter(new T.Vector3()),span=bounds.getSize(new T.Vector3()),depth=mobile?22:20;
+ const height=2*depth*Math.tan(T.MathUtils.degToRad(mobile?36:35));
+ const fit=Math.min(1,height*(innerWidth/innerHeight)*(mobile?.82:.66)/(span.x+span.z*.2),height*(mobile?.62:.56)/(span.y+span.z*.2));
+ for(const item of members){
+  const pose=poses.get(item.id),h=item.home,cameraZ=mobile?16:14;
+  pose.x=(pose.x-midpoint.x)*fit;pose.y=(pose.y-midpoint.y)*fit+(mobile?2.4:1.8);pose.z=(pose.z-midpoint.z)*fit-6;pose.size*=fit;
+  // Keep the wall-mounted object's apparent facing as its sightline changes;
+  // otherwise a monitor on the side wall becomes a thin edge in the center.
+  pose.ry+=Math.atan2(h.x,cameraZ-h.z)-Math.atan2(pose.x,cameraZ-pose.z);
+  pose.rx+=Math.atan2(pose.y-.65,Math.hypot(pose.x,cameraZ-pose.z))-Math.atan2(h.y-.65,Math.hypot(h.x,cameraZ-h.z));
+ }
+ clusterCache.set(key,poses);return poses;
+}
 function target(item){
  const mobile=innerWidth<700;
  if(detail){
@@ -117,12 +143,7 @@ function target(item){
   return{...item.pose,opacity:0};
  }
  if(!active)return{...item.home,opacity:1};
- const group=RELATION_GROUPS.find(g=>g.id===active),ids=[group.focus,...group.nodes.filter(id=>id!==group.focus)],i=ids.indexOf(item.id);
- if(i<0)return{...item.home,opacity:0};
- if(mobile){const p=[[0,6.5],[-2.4,3.5],[2.4,3.5],[-2.4,.4],[2.4,.4],[-2.4,-2.7],[2.4,-2.7]][i];return{x:p[0],y:p[1],z:0,rx:0,ry:0,rz:0,size:i===0?2.5:2.1,opacity:1};}
- if(i===0)return{x:0,y:2.8,z:-1.5,rx:0,ry:0,rz:0,size:4.7,opacity:1};
- const angle=-Math.PI/2+(i-1)/(ids.length-1)*TAU;
- return{x:Math.cos(angle)*7.2,y:3+Math.sin(angle)*3,z:-1.8,rx:0,ry:0,rz:0,size:3.5,opacity:1};
+ return clusterFor(active).get(item.id)||{...item.home,opacity:0};
 }
 function transition(kind='focus'){
  transitionKind=kind;transitionAt=performance.now();moving=!!renderer&&!reduced.matches;
@@ -130,12 +151,11 @@ function transition(kind='focus'){
  room.dataset.group=active||'all';room.dataset.detail=detail||'';room.dataset.moving=String(moving);room.dataset.phase=moving?kind:'idle';
  renderFallback();wake();
 }
-function select(id){
+function select(id,kind){
  const was=active;active=id;detail=null;selectedEdge=null;tab='role';look={x:0,y:0};pointer={x:0,y:0};pan={x:0,y:0};
  document.body.classList.remove('has-detail','detail-ready','has-pair');$('#room-detail').hidden=true;railEl.inert=false;
- title.textContent=RELATION_GROUPS.find(g=>g.id===id)?.title||'관계지도';
- $('#room-status').textContent=id?`${title.textContent} 관련 하드웨어 ${RELATION_GROUPS.find(g=>g.id===id).nodes.length}개`:'모든 하드웨어 23개';
- writeRoute(id?'#group/'+id:'#all');drawRail();transition(id?'gather':was?'restore':'focus');
+ $('#room-status').textContent=id?`${RELATION_GROUPS.find(g=>g.id===id).title} 관련 하드웨어 ${RELATION_GROUPS.find(g=>g.id===id).nodes.length}개`:'모든 하드웨어 23개';
+ writeRoute(id?'#group/'+id:'#all');drawRail();transition(kind||(id?'gather':was?'restore':'focus'));
 }
 function openDetail(id){
  if(!detail)detailOrigin=id;detail=id;selectedEdge=null;tab='role';partIndex=0;peerPage=0;
@@ -143,7 +163,7 @@ function openDetail(id){
  pointer={x:0,y:0};look={x:0,y:0};pan={x:0,y:0};renderDetail();transition();writeDetailURL();$('#room-close').focus({preventScroll:true});
 }
 function writeDetailURL(){const p=new URLSearchParams();if(active)p.set('from',active);if(tab!=='role')p.set('tab',tab);if(selectedEdge)p.set('edge',selectedEdge.id);writeRoute('#node/'+detail+(p.size?'?'+p:''));}
-function closeDetail(){restoreFocus=detailOrigin;select(active);}
+function closeDetail(){restoreFocus=detailOrigin;select(active,'focus');}
 $('#room-close').onclick=closeDetail;
 function chooseEdge(edge){
  selectedEdge=edge;document.body.classList.add('has-pair');document.body.classList.remove('detail-ready');document.body.dataset.relationKind=edge.kind;
@@ -189,7 +209,7 @@ async function enterRoom(){
  await stageReady;if(token!==entryToken||view!=='wiki')return;wiki.removeAttribute('aria-busy');
  wikiScroll=scrollY;active=null;detail=null;selectedEdge=null;rail=railTarget=0;pointer={x:0,y:0};look={x:0,y:0};pan={x:0,y:0};
  items.forEach(item=>{const rect=$(`#wiki-hardware img[data-id="${item.id}"]`).closest('figure').getBoundingClientRect();item.pose=mapEntryPose(item,rect);item.from={...item.pose};item.to={...item.home,opacity:1};});
- room.hidden=false;title.textContent='관계지도';room.dataset.group='all';room.dataset.detail='';
+ room.hidden=false;room.dataset.group='all';room.dataset.detail='';
  if(!renderer||reduced.matches){view='room';items.forEach(i=>i.pose={...i.to});completeEntry();renderFallback();wake();return;}
  view='entering';railEl.inert=true;$('.room-exit').disabled=true;document.body.dataset.mode='entering-room';wiki.inert=true;transitionKind='entry';transitionAt=performance.now();moving=true;room.dataset.moving='true';room.dataset.phase='entry';drawRail();wake();
 }
@@ -239,7 +259,7 @@ function tick(now){
   if(moving)items.forEach(item=>{
    let move=ease(t),fade=move;
    if(transitionKind==='gather'){
-    move=range(t,.29,1);fade=item.to.opacity<item.from.opacity?range(t,0,.27):range(t,.25,.53);
+    move=range(t,.30,1);fade=range(t,0,.27);
    }else if(transitionKind==='restore'){
     move=range(t,0,.7);fade=item.from.opacity<.01?range(t,.72,1):1;
    }else if(transitionKind==='entry'){move=range(t,0,.94);fade=1;}
@@ -271,7 +291,7 @@ function tick(now){
  if(moving&&t>=1){moving=false;if(view==='entering')completeEntry();else if(view==='exiting'){completeExit();return;}}
  if(detail&&!moving)document.body.classList.add('detail-ready');
  if(restoreFocus&&!moving){const b=items.find(i=>i.id===restoreFocus)?.button||$('.room-fallback [data-id="'+restoreFocus+'"]');b?.focus({preventScroll:true});restoreFocus=null;}
- room.dataset.moving=String(moving);room.dataset.phase=!moving?'idle':transitionKind==='gather'?(t<.29?'fade-others':'gather'):transitionKind==='restore'?(t<.72?'return-home':'reveal-others'):transitionKind;
+ room.dataset.moving=String(moving);room.dataset.phase=!moving?'idle':transitionKind==='gather'?(t<.30?'fade-others':'gather'):transitionKind==='restore'?(t<.72?'return-home':'reveal-others'):transitionKind;
  if(moving||Math.abs(pointer.x-look.x)+Math.abs(pointer.y-look.y)>.001||items.some(i=>Math.abs(i.lift-i.hover)>.002))wake();
 }
 const quaternion=new T.Quaternion(),euler=new T.Euler(),point=new T.Vector3();
@@ -308,7 +328,7 @@ function drawScene(){
  renderer.autoClear=true;
 }
 function resize(){
- drawRail();if(!renderer)return;renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();const s=renderer.getDrawingBufferSize(new T.Vector2());modelLayer.setSize(s.x,s.y);
+ clusterCache.clear();drawRail();if(!renderer)return;renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();const s=renderer.getDrawingBufferSize(new T.Vector2());modelLayer.setSize(s.x,s.y);
  if(view==='entering'){items.forEach(i=>i.pose={...i.home,opacity:1});completeEntry();}
  if(view==='exiting')completeExit();
  if(view==='room')transition();
@@ -376,7 +396,7 @@ async function initialRoute(){
  const hash=location.hash.slice(1);if(!hash||hash==='wiki'){showTab('hardware');return;}if(hash==='stories'){showTab('stories');return;}
  await stageReady;view='room';wiki.hidden=true;room.hidden=false;document.body.dataset.mode='room';
  const params=new URLSearchParams(hash.split('?')[1]),group=hash.startsWith('group/')?hash.split('/')[1].split('?')[0]:params.get('from');
- active=RELATION_GROUPS.some(g=>g.id===group)?group:null;rail=railTarget=topics.findIndex(g=>g.id===(active||'all'));title.textContent=topics[rail].title==='전체보기'?'관계지도':topics[rail].title;
+ active=RELATION_GROUPS.some(g=>g.id===group)?group:null;rail=railTarget=topics.findIndex(g=>g.id===(active||'all'));
  items.forEach(i=>i.pose=target(i));transition('focus');
  if(hash.startsWith('node/')){const id=hash.split('/')[1].split('?')[0];if(nodes.has(id)){openDetail(id);if(['parts','relations'].includes(params.get('tab'))){tab=params.get('tab');renderDetail();}const e=RELATION_SOURCE.edges.find(e=>e.id===params.get('edge')&&(e.a===id||e.b===id));if(e){tab='relations';chooseEdge(e);}}}
  renderFallback();wake();
