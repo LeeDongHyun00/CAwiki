@@ -1,0 +1,49 @@
+{
+  "checks": [
+    {
+      "profile": "desktop",
+      "cpuMeanAbsolutePixelError255": 0.0
+    },
+    {
+      "profile": "desktop",
+      "roomEntryMaxEndpointErrorPx": 1.1368683772161603e-13,
+      "roomExitMaxEndpointErrorPx": 1.1368683772161603e-13,
+      "entryFrames": 47,
+      "exitFrames": 39,
+      "cameraFixed": true,
+      "detailAndPeerGeometryUnchanged": true
+    },
+    {
+      "profile": "desktop",
+      "staleScenarioCoveredSynchronously": true
+    },
+    {
+      "profile": "desktop",
+      "keyboardKeys": 87,
+      "allKeycapsInsideDeck": true
+    },
+    {
+      "profile": "mobile",
+      "cpuMeanAbsolutePixelError255": 0.0
+    },
+    {
+      "profile": "mobile",
+      "roomEntryMaxEndpointErrorPx": 1.1368683772161603e-13,
+      "roomExitMaxEndpointErrorPx": 5.684341886080802e-14,
+      "entryFrames": 127,
+      "exitFrames": 139,
+      "cameraFixed": true,
+      "detailAndPeerGeometryUnchanged": true
+    },
+    {
+      "profile": "mobile",
+      "staleScenarioCoveredSynchronously": true
+    },
+    {
+      "profile": "mobile",
+      "keyboardKeys": 87,
+      "allKeycapsInsideDeck": true
+    }
+  ],
+  "pageErrors": []
+}

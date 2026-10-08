@@ -8,8 +8,6 @@ root=Path(__file__).resolve().parents[1]
 out=root/'assets/inside/room';out.mkdir(exist_ok=True)
 for path in sorted((root/'assets/inside/redesign').glob('*.webp')):
  image=Image.open(path).convert('RGBA')
- # Tight alpha bounds keep the plane size tied to the visible hardware.
- bounds=image.getchannel('A').getbbox()
- if bounds:image=image.crop(bounds)
+ # Keep the exact framing/alpha padding used by the Wiki and detail image.
  image.thumbnail((512,512),Image.Resampling.LANCZOS)
  image.save(out/path.name,'WEBP',quality=82,method=6)

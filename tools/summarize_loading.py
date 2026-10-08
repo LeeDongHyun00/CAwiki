@@ -2,9 +2,10 @@
 """Summarize the fixed v3 iframe/film measurements without dropping regressions."""
 from pathlib import Path
 from statistics import median
-import json
+import argparse,json
 ROOT=Path(__file__).resolve().parents[1];folder=ROOT/'docs/performance'
-before=json.loads((folder/'loading-before.json').read_text());after=json.loads((folder/'loading-after.json').read_text())
+ap=argparse.ArgumentParser();ap.add_argument('--prefix',default='loading');ap.add_argument('--baseline',default='7428ff7');args=ap.parse_args()
+before=json.loads((folder/(args.prefix+'-before.json')).read_text());after=json.loads((folder/(args.prefix+'-after.json')).read_text())
 assert before['method']==after['method']
 assert before['browserVersion']==after['browserVersion']
 for d in [before,after]:
@@ -17,7 +18,7 @@ def get(d,path):
  return d
 def values(d,profile,phase,path,scale):return [get(r['phases'][phase],path)/scale for r in d['runs'] if r['profile']==profile]
 def show(v):return f'{median(v):,.1f} ({min(v):,.1f}–{max(v):,.1f})'
-lines=['# 로딩·새 관계지도 반복 측정','',f"브라우저: Chromium {after['browserVersion']} / SwiftShader. 기준 `7428ff7`, 각 프로필·버전 3회. 셀은 **중앙값 (최소–최대)**.",'','로컬 gzip 서버, CPU 1배, 캐시 없음. 소프트웨어 GPU 결과이며 실기기/운영망 성능을 뜻하지 않는다. [방법과 제약](../loading-rendering.md)을 함께 읽는다. 시나리오/상세 완료 시간에는 고정 관측 대기 700ms가 포함된다.','']
+lines=['# 로딩·새 관계지도 반복 측정','',f"브라우저: Chromium {after['browserVersion']} / SwiftShader. 기준 `{args.baseline}`, 각 프로필·버전 3회. 셀은 **중앙값 (최소–최대)**.",'','로컬 gzip 서버, CPU 1배, 캐시 없음. 소프트웨어 GPU 결과이며 실기기/운영망 성능을 뜻하지 않는다. [방법과 제약](../loading-rendering.md)을 함께 읽는다. 시나리오/상세 완료 시간에는 고정 관측 대기 700ms가 포함된다.','']
 for profile in ['desktop','mobile']:
  lines += [f'## {profile}','','| 구간 | 지표 | 변경 전 | 변경 후 | 중앙값 변화 |','|---|---|---:|---:|---:|']
  for phase,label in phases:
@@ -35,5 +36,7 @@ for profile in ['desktop','mobile']:
   lines.append(f'| {label} | {show(samples) if samples else "미관측"} |')
  lines+=['']
 lines+=['## 해석','','최초 화면의 CPU 미리보기, CPU 3D, 전체 컴퓨터 준비는 서로 다른 완료 시점이다. `firstReadyMs`는 자동화가 `ready` 클래스를 관측한 시각이므로 CPU 제출 마크나 실제 화면 표시 시간과 일치하지 않을 수 있다. 이전 버전의 `ready`는 전체 컴퓨터 준비 뒤에 설정됐다. 같은 의미의 지표처럼 직접 비교하지 않는다.','','첫 모니터 캡처를 파일로 옮기면서 메인의 초기 전송량이 늘 수 있다. 그 대신 전환 순간의 RTT 생성과 관계지도 내장 payload/정밀 모델 비용을 줄인다. rAF 표본에는 정지 프레임이 포함되므로 개수가 다른 경로의 p95 하나만으로 부드러움을 판정하지 않는다. JS 힙은 GPU 메모리와 별개다. LCP 원시 관측은 JSON에 남기되 캔버스 장면의 완성도 지표로 비교하지 않는다.','']
-(folder/'loading-comparison.md').write_text('\n'.join(lines))
-print(folder/'loading-comparison.md')
+if args.prefix!='loading':
+ lines=lines[:lines.index('## 해석')]+['## 해석','','두 버전 모두 CPU 선표시/모니터 사전 준비가 적용된 상태다. 이번 변경은 외형과 전환의 일관성 보정이 중심이다. 기능·픽셀 비교 결과와 회귀한 수치를 포함해 [후속 기록](../visual-continuity.md)을 함께 읽는다. 이전 단계의 개선 폭을 이번 변경의 효과로 계산하지 않는다.','']
+(folder/(args.prefix+'-comparison.md')).write_text('\n'.join(lines))
+print(folder/(args.prefix+'-comparison.md'))

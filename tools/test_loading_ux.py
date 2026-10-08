@@ -55,11 +55,16 @@ with sync_playwright() as p:
  assert page.locator('.film-montage').count()==0
  page.wait_for_function('previous=>__skipStage.renderer.info.render.frame>previous',arg=previous,timeout=120000)
  results.append('Cancelling fast-forward redraws the live film instead of exposing an old canvas')
- page.locator('#skip-film').click();page.wait_for_function("Number(document.body.dataset.filmProgress)>.995",timeout=120000)
+ page.locator('#skip-film').click();page.wait_for_function("performance.getEntriesByName('inside:skip-board-ready').length && !document.querySelector('.film-montage')",timeout=120000)
+ assert .929 < float(page.locator('body').get_attribute('data-film-progress')) < .931
+ page.wait_for_timeout(500)
+ assert float(page.locator('body').get_attribute('data-film-progress')) < .94
+ page.mouse.wheel(0,1800)
+ page.wait_for_function("Number(document.body.dataset.filmProgress)>.94",timeout=120000)
  trace=page.evaluate('__skipTrace');ready=page.evaluate("performance.getEntriesByName('inside:monitor-ready').at(-1).startTime")
  assert any(.25<e['p']<.9 for e in trace),trace
  assert all(e['p']<.94 for e in trace if e['at']<ready),trace
- results.append({'skipUsesIntermediateFramesUntilMonitorReady':{'frames':len(trace),'monitorReadyMs':ready}})
+ results.append({'skipStopsAtBoardAndMonitorRequiresUserScroll':{'frames':len(trace),'monitorReadyMs':ready}})
  page.unroute('**/lib/inside/study.js*')
  page.goto(url+'#object/cpu',wait_until='domcontentloaded')
  page.wait_for_function("performance.getEntriesByName('inside:object-ready').length && !document.querySelector('.scene-exposure')",timeout=120000)
@@ -80,7 +85,7 @@ with sync_playwright() as p:
  assert len(frame.evaluate('__roomProbe().full'))<=2
  frame.locator('#room-close').click();frame.wait_for_function("document.querySelector('#room').dataset.moving==='false'")
  assert frame.evaluate('__roomProbe().full')==[]
- results.append('Spatial overview has zero detailed models; one selected model or two relation peers are retained, then released')
+ results.append('Spatial overview uses preview textures; one or two original-resolution portraits are retained, then released')
  frame.evaluate('__loseRoom()');frame.wait_for_selector('.room-fallback:visible')
  frame.locator('.room-fallback [data-id=cpu]').click();assert frame.locator('#detail-title').inner_text();results.append('Lost gallery WebGL context retains image navigation and detail text')
  page.evaluate("location.hash='wiki'");page.wait_for_selector('#wiki-title:visible');assert page.locator('.scene-exposure').count()==0
