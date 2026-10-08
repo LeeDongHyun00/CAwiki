@@ -6,6 +6,10 @@
 
 [공개 GitHub Pages](https://leedonghyun00.github.io/CAwiki/) · [완성된 사이트 미리보기](artifacts/inside-site.html) · [구현 안내](docs/redesign/README.md) · [검증 기록](docs/redesign/verification.md)
 
+## 사이트
+
+https://leedonghyun00.github.io/CAwiki
+
 ## 실행
 
 ### 가장 쉬운 방법
