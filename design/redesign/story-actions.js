@@ -1,3 +1,4 @@
+import { usbCoverScene } from './story-usb-preview.js';
 // Functional SVG scenes, sharing the visual language and paint servers of covers 01–04.
 export const ACTION_STORIES={
  typing:'키 위의 가는 막대가 내려와 키를 누르면 문서에 글자가 나타납니다',
@@ -7,7 +8,7 @@ export const ACTION_STORIES={
  streaming:'영상 재생 버튼을 누르면 버퍼가 채워지고 영상이 재생됩니다',
  call:'통화 참가 버튼을 누르면 웹캠 표시등과 상대방 영상, 마이크가 활성화됩니다',
  multitasking:'뒤쪽의 음악 창을 선택하면 문서와 브라우저 앞에 나타납니다',
- usb:'포트 앞의 USB 커넥터가 들어가면 드라이브가 인식됩니다',
+ usb:'실제 형태의 USB-A 플러그가 알루미늄 허브의 포트에 삽입되고 연결 표시등이 켜집니다',
  sleep:'대기 중인 컴퓨터에서 키를 누르면 화면이 켜지고 작업 창이 복원됩니다',
  ai:'작성한 질문을 전송하면 대화에 올라가고 답변이 순서대로 나타납니다',
  loading:'새 게임 버튼을 누르면 로딩 막대가 채워지고 게임 화면이 나타납니다',
@@ -49,12 +50,8 @@ function multitasking(id,{click}){
  const musicWindow=window(60,74,384,199,'음악',`<rect x="78" y="119" width="109" height="131" rx="5" fill="#648b77"/><circle cx="132" cy="181" r="36" fill="#264c53"/>${lines(213,141,[170,133],'#849f90',18)}${waves(216,210,15)}`);
  return monitor(id,`${desktop(id)}<g class="multi-back">${musicWindow}</g><g class="multi-front">${window(173,25,360,211,'브라우저',`<rect x="189" y="74" width="328" height="78" rx="4" fill="#4b7670"/>${lines(189,178,[306,278,229])}`)}${window(231,141,323,143,'문서',lines(250,195,[258,236,248,176]))}</g><g class="multi-selected action-result">${musicWindow}</g>`)+pointer(267,184,233,126)+click(233,126);
 }
-function usb(id){
- return `<ellipse cx="413" cy="413" rx="309" ry="20" fill="#041119" opacity=".6"/><path class="usb-guide action-before" d="M368 256H535" stroke="#8baa9c" stroke-dasharray="4 6"/>
- <g class="usb-plug"><path d="M-50 253H178" stroke="#0d1c25" stroke-width="29"/><path d="M-50 249H178" stroke="#436065" stroke-width="4"/><path d="M177 207h151v89H177q-24-40 0-89Z" fill="url(#${id}-caseTop)" stroke="#78958b"/><path d="M187 217h126v69H187" fill="#223b43"/><path d="M328 222h96v58h-96Z" fill="#acbcb4" stroke="#d0dbd0"/><path d="M338 234h77v32h-77Z" fill="#5e7978"/><path d="M344 239h61v8h-61Z" fill="#cbbf94"/><path d="M220 244h54m-16-10 16 10-16 10" stroke="#8faba0" fill="none" stroke-width="2"/></g>
- <path d="M483 134 555 97h234v269l-73 42H483Z" fill="url(#${id}-caseSide)" stroke="#617d77"/><path d="M483 134h232v274H483Z" fill="url(#${id}-caseFront)" stroke="#5b7875"/><path d="M483 218 519 205v69l-36 13Z" fill="#06151d" stroke="#89a097" stroke-width="2"/><path d="m485 244 25-9v12l-25 9Z" fill="#375862"/><path d="m489 252 18-6" stroke="#beaf85" stroke-width="3"/><circle class="usb-led" cx="634" cy="251" r="5" fill="#3c585a"/>
- <g class="action-result" style="--action-delay:.8s">${window(105,47,294,110,'USB 드라이브',`<rect x="126" y="96" width="25" height="38" rx="4" fill="#94bbaa"/>${lines(170,103,[186,153],'#8ba99b',16)}${tick(346,120,.65)}`)}</g>`;
-}
+function usb(){return usbCoverScene();}
+
 function sleep(id,{rod}){
  return monitor(id,`<rect width="600" height="330" fill="#081921"/><g class="sleep-desktop action-result" style="--action-delay:.4s">${desktop(id)}${window(65,39,470,237,'작업 중이던 문서',`${lines(88,94,[215],'#a7c5af')}${lines(88,125,[382,352,364,251],'#55796f',22)}`)}</g><g class="sleep-moon action-before"><path d="M321 130a40 40 0 1 0 17 65 35 35 0 0 1-17-65Z" fill="#a0bcae"/><text x="300" y="240" text-anchor="middle" font-size="12" fill="#6b8c87">잠시 쉬는 중</text></g>`,{x:100,y:39,w:600,h:270})+keyboard(id,{hot:['A']})+`<g class="action-rod">${rod(id,-40,186,205,355)}</g>`;
 }

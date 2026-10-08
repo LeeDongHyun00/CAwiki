@@ -1,0 +1,7 @@
+<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:#14252c}canvas{display:block}</style>
+<script type="module">
+import * as THREE from '../../lib/vendor/three/three.module.js';
+import {createUSBScene} from './scene.js';
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(800,480);renderer.setPixelRatio(2);document.body.appendChild(renderer.domElement);
+window.usbScene=createUSBScene(renderer);window.usbReady=true;
+</script>

@@ -113,3 +113,12 @@ CAWIKI_TEST_URL=http://127.0.0.1:4173/artifacts/inside-site.html python3 tests/r
 `python3 tests/scenario-catalog.py`로 16편의 상세 링크·모바일·터치·독립 HTML을 검증한다
 
 [05–10 동작 전·후](../../artifacts/scenario-actions/review-0.jpg) · [11–16 동작 전·후](../../artifacts/scenario-actions/review-6.jpg)
+
+
+## USB 모델 썸네일 — 2026-10-08
+
+`python3 tests/scenario-usb-cover.py`로 실제 렌더 자산 표시, 삽입 중 이탈·역방향·재진입, 완료 상태 유지, 키보드 포커스·모션 감소, 모바일 터치와 독립 HTML의 오프라인 렌더 표시를 검사했다
+`python3 tests/scenario-catalog.py`로 전체 목록과 상세 주소 연결을 확인했다
+시작·중간·결합 3D 렌더 및 실제 카드의 모바일 화면을 시각적으로 확인했다
+
+[연결 전](../../artifacts/usb-cover/cover-before.png) · [삽입 중](../../artifacts/usb-cover/cover-inserting.png) · [결합](../../artifacts/usb-cover/cover-connected.png) · [모바일](../../artifacts/usb-cover/mobile.png)

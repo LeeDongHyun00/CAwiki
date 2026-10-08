@@ -3,6 +3,7 @@ import { ScenarioFilm } from './scenario-film.js';
 import { pauseCinema, resumeCinema } from './study.js';
 import { HARDWARE, HARDWARE_BY_ID, GROUPS, STORIES } from './site-data.js';
 import { STORY_ORDER, storyCover } from './story-covers.js';
+import { bindUSBPreview } from './story-usb-preview.js';
 import { RELATION_SCENARIOS } from './relation-scenarios.js';
 import { RelationshipMap } from './relationship-map.js';
 
@@ -35,6 +36,7 @@ document.querySelectorAll('.story-card').forEach(card=>{
   card.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'&&canHover.matches)card.classList.add('preview-active');});
   card.addEventListener('pointerleave',()=>card.classList.remove('preview-active'));
   card.addEventListener('click',()=>card.classList.remove('preview-active'));
+  if(card.dataset.scenario==='usb')bindUSBPreview(card);
 });
 $('#wiki-page').querySelectorAll('img[data-fallback]').forEach(img=>img.addEventListener('error',()=>{img.src=img.dataset.fallback;},{once:true}));
 document.querySelectorAll('[data-wiki-tab]').forEach(b=>b.onclick=()=>{

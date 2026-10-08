@@ -24,6 +24,7 @@ MODULES = {
     'inside/scenario-film': STUDY / 'scenario-film.js',
     'inside/story-covers': STUDY / 'story-covers.js',
     'inside/story-actions': STUDY / 'story-actions.js',
+    'inside/story-usb-preview': STUDY / 'story-usb-preview.js',
     'inside/relationship-map': STUDY / 'relationship-map.js',
     'inside/relation-source': STUDY / 'relation-source.js',
     'inside/relation-scenarios': STUDY / 'relation-scenarios.js',
@@ -49,6 +50,7 @@ IMPORTS = {
     './scenario-film.js': 'inside/scenario-film',
     './story-covers.js': 'inside/story-covers',
     './story-actions.js': 'inside/story-actions',
+    './story-usb-preview.js': 'inside/story-usb-preview',
     './relationship-map.js': 'inside/relationship-map',
     './relation-source.js': 'inside/relation-source',
     './relation-scenarios.js': 'inside/relation-scenarios',
@@ -59,6 +61,7 @@ for path in sorted((ROOT / 'assets/models').glob('*.png')) + sorted((ROOT / 'ass
     mime = 'image/webp' if path.suffix == '.webp' else 'image/png'
     images[name] = f'data:{mime};base64,' + base64.b64encode(path.read_bytes()).decode()
 assert len([name for name in images if name.startswith('redesign/')]) == 23, 'Render all 23 collection thumbnails first'
+images['scenarios/usb-action-atlas.webp'] = 'data:image/webp;base64,' + base64.b64encode((ROOT / 'assets/scenarios/usb-action-atlas.webp').read_bytes()).decode()
 sources = {}
 for name, path in MODULES.items():
     source = path.read_text()
@@ -68,6 +71,10 @@ for name, path in MODULES.items():
         original = 'const asset=file=>new URL(`../../assets/models/${file}`,import.meta.url).href;'
         assert original in source
         source = source.replace(original, 'const asset=file=>window.__insideAssets[file];')
+    if name == 'inside/story-usb-preview':
+        original = "new URL('../../assets/scenarios/usb-action-atlas.webp',import.meta.url).href"
+        assert original in source
+        source = source.replace(original, "window.__insideAssets['scenarios/usb-action-atlas.webp']")
     if name == 'inside/study':
         original = 'new URL(`../../assets/models/${id}.png`,import.meta.url).href'
         assert original in source

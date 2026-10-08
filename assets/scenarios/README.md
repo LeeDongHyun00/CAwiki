@@ -1,4 +1,9 @@
-# 이전 시나리오 표지 이미지
+# 시나리오 표지 자산
+
+`usb-action-atlas.webp`는 `tools/usb-cover/scene.js`에서 직접 모델링한 USB 연결 동작의 30프레임 렌더
+현재 USB 썸네일에서 사용하며 제작·참고 자료는 `docs/redesign/usb-thumbnail.md`에 기록
+
+## 이전 표지 이미지
 
 추가 시나리오 12편을 위해 ImageGen으로 생성했던 상황 이미지
 현재 목록은 `design/redesign/story-actions.js`의 동작하는 SVG 장면으로 교체되었으며 이 사진은 사용하지 않음

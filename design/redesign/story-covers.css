@@ -71,14 +71,14 @@
 @keyframes speaker-pulse{to{transform:scale(1.045)}}
 .stream-landscape,.loading-landscape{transform-origin:50% 50%;transition:transform 1.6s cubic-bezier(.2,.65,.2,1)}
 .story-card:is(:focus-visible,.preview-active) .stream-landscape{transform:scale(1.07) translateX(-7px);transition-delay:.4s}
-.call-led,.usb-led,.cover-sleep .monitor-led{transition:fill .3s,filter .3s}
-.story-card:is(:focus-visible,.preview-active) :is(.call-led,.usb-led,.cover-sleep .monitor-led){fill:#c4edc3;filter:drop-shadow(0 0 5px #bcebc0);transition-delay:.55s}
+.call-led,.cover-sleep .monitor-led{transition:fill .3s,filter .3s}
+.story-card:is(:focus-visible,.preview-active) :is(.call-led,.cover-sleep .monitor-led){fill:#c4edc3;filter:drop-shadow(0 0 5px #bcebc0);transition-delay:.55s}
 .multi-front{transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .4s;transform-origin:420px 140px}
 .multi-selected{transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .3s;transform-origin:220px 160px}
 .story-card:is(:focus-visible,.preview-active) .multi-front{transform:translate(22px,-16px) scale(.91);opacity:.55;transition-delay:.3s}
 .story-card:is(:focus-visible,.preview-active) .multi-selected{transform:translate(65px,8px) scale(1.08);transition-delay:.35s}
-.usb-plug{transition:transform .8s cubic-bezier(.3,.05,.15,1)}
-.story-card:is(:focus-visible,.preview-active) .usb-plug{transform:translateX(171px);transition-delay:.15s}
+.usb-plug{pointer-events:none}
+.usb-connected{pointer-events:none}
 .cover-sleep .monitor-led{fill:#af9470}
 .ai-question{transition:transform .55s cubic-bezier(.2,.8,.2,1)}
 .ai-thinking{opacity:0}
