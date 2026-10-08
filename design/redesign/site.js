@@ -6,6 +6,7 @@ import { STORY_ORDER, storyCover } from './story-covers.js';
 import { bindUSBPreview } from './story-usb-preview.js';
 import { RELATION_SCENARIOS } from './relation-scenarios.js';
 import { RelationshipMap } from './relationship-map.js';
+import { WikiArrival } from './wiki-arrival.js';
 
 const $=selector=>document.querySelector(selector);
 const asset=file=>new URL(`../../assets/models/${file}`,import.meta.url).href;
@@ -16,6 +17,12 @@ let objectReturn='#wiki';
 const experience=new Experience();
 const film=new ScenarioFilm(updateStory);
 const relationshipMap=new RelationshipMap($('#relationship-page'),asset);
+const wikiArrival=new WikiArrival($('#wiki-page'));
+let wikiEntry=null;
+document.addEventListener('click',event=>{
+  const link=event.target.closest('.wiki-enter,.collection-entry');
+  if(mode==='home'&&link&&!event.defaultPrevented&&!event.metaKey&&!event.ctrlKey&&!event.shiftKey&&!event.altKey&&event.button===0)wikiEntry=link;
+});
 const imageTag=(id,alt='')=>`<img src="${asset(`redesign/${id}.webp`)}" data-fallback="${asset(`${id}.png`)}" alt="${alt}" loading="lazy" decoding="async">`;
 function imageFallbacks(){dialog.querySelectorAll('img[data-fallback]').forEach(img=>img.addEventListener('error',()=>{img.src=img.dataset.fallback;},{once:true}));}
 $('#category-filter').innerHTML=GROUPS.map(([id,name])=>`<button data-filter="${id}" aria-pressed="${id==='all'}">${name}</button>`).join('');
@@ -78,6 +85,9 @@ function updateStory(index,story){
 }
 async function route(){
   const token=++routeToken;let hash;try{hash=decodeURIComponent(location.hash.slice(1));}catch{hash='collection';}
+  wikiArrival.cancel();
+  const enteringWiki=hash==='wiki'&&mode==='home'&&!!wikiEntry;
+  const arrival=enteringWiki?wikiArrival.capture(wikiEntry):null;wikiEntry=null;
   if(hash==='map/scenarios'){hash='stories';history.replaceState(null,'','#stories');}
   if(hash==='collection'||hash==='stories'){showCollection(hash);return;}
   const mapRoute=hash==='map'||hash.startsWith('map/');
@@ -102,7 +112,15 @@ async function route(){
     experience.pause();experience.clear();pauseCinema();document.body.dataset.mode='wiki';
     document.body.classList.remove('loading');$('#object-ui').hidden=$('#story-ui').hidden=true;
     document.documentElement.style.setProperty('--paper','#ecece9');document.documentElement.style.setProperty('--ink','45,47,48');
-    document.title='Computer Wiki — 하드웨어와 작동 원리';scrollTo({top:0,behavior:'instant'});$('#wiki-title').focus({preventScroll:true});return;
+    document.title='Computer Wiki — 하드웨어와 작동 원리';scrollTo({top:0,behavior:'instant'});
+    if(enteringWiki){
+      $('#wiki-hardware').hidden=false;$('#wiki-stories').hidden=true;
+      document.querySelectorAll('[data-wiki-tab]').forEach(tab=>tab.setAttribute('aria-pressed',String(tab.dataset.wikiTab==='hardware')));
+    }
+    if(arrival){
+      try{if(wikiArrival.start(arrival))return;}catch(error){console.warn('Wiki entrance interrupted',error);wikiArrival.cancel();}
+    }
+    $('#wiki-title').focus({preventScroll:true});return;
   }
   if(objectMatch){
     if(mode!=='object')objectReturn=/^#(?:wiki$|map(?:\/|$)|story\/)/.test(lastExperience)?lastExperience:'#wiki';

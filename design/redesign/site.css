@@ -40,3 +40,18 @@ body[data-mode="wiki"] #stage,body[data-mode="wiki"] #sequence,body[data-mode="w
 /* The object view is a focused model viewer with one exit. */
 #object-exit{min-width:64px;min-height:44px;padding:0 8px;border-bottom:1px solid rgba(var(--ink),.24)}
 @media(max-width:600px){.object-ui{display:flex;gap:16px}.object-title{margin-bottom:0;flex-wrap:wrap;gap:8px 12px}.object-tools{flex:none}.object-hint{bottom:86px}}
+
+/* The film releases its objects into the existing Wiki layout. */
+body.wiki-arriving{overflow:hidden}
+body.wiki-arriving #stage{display:block;z-index:4;pointer-events:none;background:transparent}
+body.wiki-arriving #world{transition:none;pointer-events:none}
+body.wiki-arriving .finish{display:none}
+.wiki-flight-backdrop{position:fixed;inset:0;width:100%;height:100%;object-fit:fill;z-index:3;pointer-events:none;transform-origin:50% 45%;will-change:opacity,transform}
+.wiki-flight-title{position:fixed;left:0;top:0;z-index:6;white-space:nowrap;pointer-events:none;transform-origin:0 0;will-change:transform,opacity}
+.wiki-arriving #wiki-page{--arrival-chrome:0;--arrival-tabs:0}
+.wiki-arriving #wiki-title{opacity:0}
+.wiki-arriving .wiki-top,.wiki-arriving .wiki-heading>p{opacity:var(--arrival-chrome);transform:translateY(calc((1 - var(--arrival-chrome))*8px))}
+.wiki-arriving .wiki-tabs{opacity:var(--arrival-tabs);transform:translateY(calc((1 - var(--arrival-tabs))*8px))}
+.wiki-arriving #wiki-hardware img{opacity:var(--arrival-image,0);transition:none;transform:none}
+.wiki-arriving #wiki-hardware .item-caption{position:relative;border-color:transparent;opacity:var(--arrival-caption,0);transform:translateY(calc((1 - var(--arrival-caption,0))*8px))}
+.wiki-arriving #wiki-hardware .item-caption:before{content:'';position:absolute;left:0;right:0;top:-1px;height:1px;background:#3d474319;transform:scaleX(var(--arrival-caption,0));transform-origin:left}

@@ -273,3 +273,39 @@ export function resumeCinema(){
   active=-1;dirty=true;updateScroll();readRoute();progress=target;wake();
 }
 export function pauseCinema(){suspended=true;drag=null;cancelAnimationFrame(frame);frame=0;}
+
+// Capture the film before routing hides it. The nested monitor projection is
+// also used for the departing models, so their origins stay on the live screen.
+export function captureCinema(){
+  if(!graphics||failed)return null;
+  pauseCinema();renderFilm();
+  const {T,renderer,computer,camera,reveal}=graphics,inside=progress>=.94;
+  const view=camera.clone();
+  if(inside){
+    view.aspect=16/9;
+    if(camera.aspect>16/9)view.fov=2*Math.atan(Math.tan(camera.fov*Math.PI/360)*camera.aspect/(16/9))*180/Math.PI;
+    view.updateProjectionMatrix();
+  }
+  view.updateMatrixWorld();reveal.scene.updateMatrixWorld(true);computer.root.updateMatrixWorld(true);
+  const project=v=>{
+    v.project(view);
+    if(inside){
+      const scale=reveal.display.material.uniforms.frameScale.value;
+      v.set(v.x*8/scale,v.y*4.5/scale,0).applyMatrix4(reveal.display.matrixWorld).project(reveal.camera);
+    }
+    return v.set((v.x+1)*innerWidth/2,(1-v.y)*innerHeight/2,v.z);
+  };
+  const entries=[['mainboard',computer.board.root],...Object.entries(computer.parts).filter(([id])=>id!=='io').map(([id,p])=>[id,p.model.root])];
+  const models=[];
+  for(const [id,root]of entries){
+    if(!root.visible)continue;
+    const box=new T.Box3().setFromObject(root),points=[];
+    for(const x of [box.min.x,box.max.x])for(const y of [box.min.y,box.max.y])for(const z of [box.min.z,box.max.z])points.push(project(new T.Vector3(x,y,z)));
+    const left=Math.min(...points.map(v=>v.x)),right=Math.max(...points.map(v=>v.x)),top=Math.min(...points.map(v=>v.y)),bottom=Math.max(...points.map(v=>v.y));
+    if(right<0||left>innerWidth||bottom<0||top>innerHeight)continue;
+    const quaternion=view.quaternion.clone().invert().multiply(root.getWorldQuaternion(new T.Quaternion()));
+    if(inside)quaternion.premultiply(reveal.camera.quaternion.clone().invert().multiply(reveal.display.getWorldQuaternion(new T.Quaternion())));
+    models.push({id,root,quaternion,rect:{x:left,y:top,width:right-left,height:bottom-top}});
+  }
+  return{stage:graphics,image:renderer.domElement.toDataURL('image/webp'),opacity:Number(getComputedStyle(renderer.domElement).opacity),models};
+}
