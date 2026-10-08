@@ -37,7 +37,7 @@ document.querySelectorAll('.story-card').forEach(card=>{
 $('#wiki-page').querySelectorAll('img[data-fallback]').forEach(img=>img.addEventListener('error',()=>{img.src=img.dataset.fallback;},{once:true}));
 document.querySelectorAll('[data-wiki-tab]').forEach(b=>b.onclick=()=>{
   if(b.dataset.wikiTab==='map'){location.hash='map';return;}
-  const stories=b.dataset.wikiTab==='stories';$('#wiki-hardware').hidden=stories;$('#wiki-stories').hidden=!stories;
+  const stories=b.dataset.wikiTab==='stories';$('#wiki-hardware').hidden=stories;$('#wiki-stories').hidden=!stories;$('#wiki-learning').hidden=!stories;
   document.querySelectorAll('[data-wiki-tab]').forEach(tab=>tab.setAttribute('aria-pressed',String(tab===b)));
 });
 function showCollection(kind){

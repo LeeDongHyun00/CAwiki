@@ -86,3 +86,14 @@ CAWIKI_TEST_URL=http://127.0.0.1:4173/artifacts/inside-site.html python3 tests/r
 ## 상황별 시나리오 표지
 
 [목록](../../artifacts/scenario-covers/overview-before.png) · [전원 켜기](../../artifacts/scenario-covers/boot-after.png) · [게임 클릭](../../artifacts/scenario-covers/game-after.png) · [검색 결과](../../artifacts/scenario-covers/search-after.png) · [파일 열기](../../artifacts/scenario-covers/storage-after.png)
+
+## 관계지도 검증 — 2026-10-08
+
+- `node tests/relationship-data.mjs`: 원본 115개 관계와 방향 보존, 하드웨어 23종·관계 124개, 여섯 묶음의 전체 부품 포함, 16개 주제·64단계의 참조 무결성 통과
+- `python3 tests/relationship-map.py`: 검색 우선순위·필터·양쪽 관점 설명·중심 이동·뒤로 가기·모든 단계 접근·키보드·모바일 터치·모션 감소·WebGL 미지원·독립 HTML 오프라인 검증 통과
+- `python3 tests/relationship-integration.py`: 실제 소프트웨어 WebGL에서 위키→관계지도→모델→뒤로 가기, 네 편의 필름과 상세 팝업 왕복, 모바일 조작 영역, 메인 필름 복귀, 단일 캔버스와 페이지 오류 없음 확인
+- 모바일 관계 선택 시 설명 포커스·스크롤과 지도로 돌아가기, 단계 설명의 지도 앞 배치 확인
+
+[전체 지도](../../artifacts/relationship-map/overview.png) · [CPU와 RAM](../../artifacts/relationship-map/cpu-ram.png) · [모바일 관계 설명](../../artifacts/relationship-map/mobile-relationship.png) · [모바일 시나리오](../../artifacts/relationship-map/mobile-save.png)
+
+추가 시나리오는 단계별 관계지도이며 3D 필름은 기존 네 편이다 실제 기기와 Safari 성능은 별도 측정하지 않았다

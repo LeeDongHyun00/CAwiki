@@ -14,6 +14,7 @@ export class RelationshipMap{
   root.querySelector('#relation-search').addEventListener('input',e=>this.search(e.target.value));
   root.querySelector('#relation-search').addEventListener('keydown',e=>{if(e.key==='Escape'){e.stopPropagation();this.search('');e.target.value='';}if(e.key==='Enter'){const link=root.querySelector('#relation-results a');if(link){e.preventDefault();link.click();}}});
   root.addEventListener('change',e=>{if(e.target.id==='relation-type')this.change({type:e.target.value,page:0,edge:''});});
+  root.addEventListener('click',e=>{if(e.target.closest('[data-return-map]')){e.preventDefault();const center=root.querySelector('.relation-center');center.focus({preventScroll:true});root.querySelector('.relation-map-tools').scrollIntoView({block:'start',behavior:'instant'});}});
   this.resize=new ResizeObserver(()=>this.schedule());this.resize.observe(root);
  }
  picture(id,cls=''){
@@ -24,7 +25,9 @@ export class RelationshipMap{
  search(value){
   const slot=this.root.querySelector('#relation-results'),q=value.trim().normalize('NFKC').toLocaleLowerCase();slot.hidden=!q;
   if(!q){slot.replaceChildren();return;}
-  const found=[...nodes.values()].filter(n=>[n.id,n.name,n.category,n.summary,n.detail].join(' ').normalize('NFKC').toLocaleLowerCase().includes(q));
+  const normalized=s=>s.normalize('NFKC').toLocaleLowerCase();
+  const rank=n=>[n.id,n.name].some(s=>normalized(s)===q)?0:[n.id,n.name].some(s=>normalized(s).includes(q))?1:2;
+  const found=[...nodes.values()].filter(n=>normalized([n.id,n.name,n.category,n.summary,n.detail].join(' ')).includes(q)).sort((a,b)=>rank(a)-rank(b));
   slot.innerHTML=found.length?found.map(n=>`<a href="${nodeURL(n.id)}">${esc(n.name)}<span>${esc(n.category)}</span></a>`).join(''):'<p role="status">일치하는 부품이 없습니다</p>';
   this.root.querySelector('#relation-live').textContent=`${found.length}개 부품 검색됨`;
  }
@@ -37,9 +40,11 @@ export class RelationshipMap{
   else if(view==='scenario'&&this.scenario){this.step=Math.max(0,Math.min(this.scenario.steps.length-1,Number.isFinite(Number(number))?Math.floor(Number(number)):0));this.focus=this.scenario.steps[this.step].focus;this.renderFocus();}
   else {this.view=view==='scenarios'?'scenarios':'overview';this.renderOverview();}
   this.root.dataset.view=this.view;this.root.dataset.node=this.focus||'';
-  this.root.querySelector('#relation-title').focus({preventScroll:true});this.schedule();
+  this.root.querySelector('#relation-title').focus({preventScroll:true});
+  this.attention=this.view!=='overview'&&this.view!=='scenarios'&&this.selected&&matchMedia('(max-width:1050px)').matches?'detail':null;
+  this.schedule();
  }
- leave(){cancelAnimationFrame(this.frame);this.frame=0;this.root.hidden=true;}
+ leave(){cancelAnimationFrame(this.frame);this.frame=0;this.attention=null;this.root.hidden=true;}
  setHeading(title,copy){this.root.querySelector('#relation-title').textContent=title;this.root.querySelector('#relation-intro').textContent=copy;document.title=`${title} — Computer Wiki`;}
  gallery(){return `<section class="relation-scenarios" aria-labelledby="relation-scenarios-title"><div class="relation-section-title"><h2 id="relation-scenarios-title">일상에서 따라가기</h2><span>16가지 작동 원리</span></div><div class="relation-scenario-grid">${RELATION_SCENARIOS.map((s,i)=>`<a href="#map/scenario/${s.id}/0"><span class="relation-number">${String(i+1).padStart(2,'0')}</span><div><h3>${esc(s.title)}</h3><p>${esc(s.topic)}</p></div><span aria-hidden="true">↗</span></a>`).join('')}</div></section>`;}
  renderOverview(){
@@ -62,7 +67,7 @@ export class RelationshipMap{
   this.setHeading(isScenario?this.scenario.title:this.view==='group'?this.group.title:`${n.name}의 연결`,stage?`${String(this.step+1).padStart(2,'0')} / ${String(this.scenario.steps.length).padStart(2,'0')}`:this.view==='group'?this.group.copy:n.summary);
   this.root.querySelector('#relation-content').innerHTML=`
    ${isScenario?`<div class="relation-steps" role="group" aria-label="시나리오 단계">${this.scenario.steps.map((s,i)=>`<a href="#map/scenario/${this.scenario.id}/${i}" aria-current="${i===this.step?'step':'false'}"><span>${String(i+1).padStart(2,'0')}</span>${esc(s.title)}</a>`).join('')}</div>`:''}
-   <div class="relation-workspace"><div class="relation-map-area"><div class="relation-map-tools"><a href="#map">← 전체 지도</a>${!isScenario?`<label for="relation-type" class="sr-only">관계 유형</label><select id="relation-type"><option value="all">모든 관계 (${all.length})</option>${Object.entries(RELATION_KINDS).map(([k,v])=>`<option value="${k}" ${type===k?'selected':''}>${v} (${all.filter(e=>e.kind===k).length})</option>`).join('')}</select>`:`<a href="#map/scenarios">시나리오 목록 ↗</a>`}</div>
+   <div class="relation-workspace ${isScenario?'has-scenario':''}"><div class="relation-map-area"><div class="relation-map-tools"><a href="#map">← 전체 지도</a>${!isScenario?`<label for="relation-type" class="sr-only">관계 유형</label><select id="relation-type"><option value="all">모든 관계 (${all.length})</option>${Object.entries(RELATION_KINDS).map(([k,v])=>`<option value="${k}" ${type===k?'selected':''}>${v} (${all.filter(e=>e.kind===k).length})</option>`).join('')}</select>`:`<a href="#map/scenarios">시나리오 목록 ↗</a>`}</div>
     <div class="relation-board" aria-label="${esc(n.name)} 중심 관계지도"><svg class="relation-lines" aria-hidden="true"></svg><a class="relation-node relation-center" data-node="${this.focus}" href="${this.url({edge:''})}" aria-label="${esc(n.name)} 설명 보기">${this.picture(this.focus)}<strong>${esc(n.name)}</strong><span>현재 중심</span></a>
     ${this.visible.map((e,i)=>{const id=other(e,this.focus);return `<a class="relation-node relation-neighbor slot-${i} ${this.selected===e?'is-selected':''}" data-node="${id}" data-edge="${e.id}" href="${this.url({edge:e.id,page})}" aria-label="${esc(n.name)}와 ${esc(nodes.get(id).name)}의 ${RELATION_KINDS[e.kind]} 관계" ${this.selected===e?'aria-current="true"':''}>${this.picture(id)}<strong>${esc(nodes.get(id).name)}</strong><span>${RELATION_KINDS[e.kind]}</span></a>`;}).join('')}
     ${!this.visible.length?'<p class="relation-empty">이 유형의 관계가 없습니다<br>다른 유형을 선택해 주세요</p>':''}</div>
@@ -74,8 +79,8 @@ export class RelationshipMap{
   this.root.querySelector('#relation-live').textContent=stage?`${this.step+1}단계 ${stage.title}`:`${n.name} 중심, ${filtered.length}개 관계`;
  }
  nodeDetail(n,compact){return `<div class="relation-node-copy"><span class="relation-panel-label">${compact?'이 단계의 중심':'선택한 부품'}</span><h2>${esc(n.name)}</h2><p>${esc(n.summary)}</p><div class="relation-links">${n.model?`<a href="#object/${n.model}">3D 구조 보기 ↗</a>`:''}${this.view!=='node'?`<a href="${nodeURL(n.id)}">모든 관계 보기 ↗</a>`:''}</div><details><summary>역할과 내부 구성</summary><p>${esc(n.detail)}</p><dl>${n.parts.map(p=>`<dt>${esc(p.name)}</dt><dd>${esc(p.role)}</dd>`).join('')}</dl></details></div>`;}
- edgeDetail(e,n){const second=nodes.get(other(e,n.id)),forward=e.a===n.id;return `<div class="relation-edge-copy"><span class="relation-panel-label">${RELATION_KINDS[e.kind]}</span><h2>${esc(n.name)} <span>↔</span> ${esc(second.name)}</h2><dl><dt>${esc(n.name)}의 관점</dt><dd>${esc(forward?e.ab:e.ba)}</dd><dt>${esc(second.name)}의 관점</dt><dd>${esc(forward?e.ba:e.ab)}</dd></dl><div class="relation-links"><a class="relation-primary" href="${nodeURL(second.id)}">${esc(second.name)} 중심으로 →</a>${second.model?`<a href="#object/${second.model}">3D 구조 보기 ↗</a>`:''}</div><p class="relation-scope">${{data:'명령·데이터의 논리적 관계입니다 실제로는 컨트롤러나 운영체제를 거칠 수 있습니다',power:'전력을 공급하고 사용하는 관계입니다 양방향 데이터 전송을 뜻하지 않습니다',thermal:'열을 발생시키고 밖으로 옮기는 관계입니다',structure:'장착하거나 내부에 포함하는 구조상의 관계입니다',context:'함께 활용되거나 비교되는 관계입니다 직접 연결된 배선을 뜻하지 않습니다'}[e.kind]}</p></div>`;}
- schedule(){cancelAnimationFrame(this.frame);this.frame=requestAnimationFrame(()=>{this.frame=0;this.draw();});}
+ edgeDetail(e,n){const second=nodes.get(other(e,n.id)),forward=e.a===n.id;return `<div class="relation-edge-copy" tabindex="-1"><span class="relation-panel-label">${RELATION_KINDS[e.kind]}</span><h2>${esc(n.name)} <span>↔</span> ${esc(second.name)}</h2><dl><dt>${esc(n.name)}의 관점</dt><dd>${esc(forward?e.ab:e.ba)}</dd><dt>${esc(second.name)}의 관점</dt><dd>${esc(forward?e.ba:e.ab)}</dd></dl><div class="relation-links"><a class="relation-primary" href="${nodeURL(second.id)}">${esc(second.name)} 중심으로 →</a>${second.model?`<a href="#object/${second.model}">3D 구조 보기 ↗</a>`:''}</div><p class="relation-scope">${{data:'명령·데이터의 논리적 관계입니다 실제로는 컨트롤러나 운영체제를 거칠 수 있습니다',power:'전력을 공급하고 사용하는 관계입니다 양방향 데이터 전송을 뜻하지 않습니다',thermal:'열을 발생시키고 밖으로 옮기는 관계입니다',structure:'장착하거나 내부에 포함하는 구조상의 관계입니다',context:'함께 활용되거나 비교되는 관계입니다 직접 연결된 배선을 뜻하지 않습니다'}[e.kind]}</p><a class="relation-return" href="${this.url({edge:''})}" data-return-map>↑ 다른 관계 살펴보기</a></div>`;}
+ schedule(){cancelAnimationFrame(this.frame);this.frame=requestAnimationFrame(()=>{this.frame=0;this.draw();if(this.attention){this.attention=null;const detail=this.root.querySelector('.relation-edge-copy');if(detail){detail.focus({preventScroll:true});detail.scrollIntoView({block:'start',behavior:'instant'});}}});}
  draw(){
   const board=this.root.querySelector('.relation-board'),svg=this.root.querySelector('.relation-lines');if(this.root.hidden||!board||!svg)return;
   const rect=board.getBoundingClientRect();if(!rect.width)return;svg.setAttribute('viewBox',`0 0 ${rect.width} ${rect.height}`);

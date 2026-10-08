@@ -28,7 +28,7 @@ with sync_playwright() as p:
  page.locator('#relation-type').select_option('context');page.wait_for_timeout(100);assert page.locator('.relation-neighbor').count()>0
  navigate(page,'map/node/mouse?type=thermal');assert page.locator('.relation-empty').is_visible();assert page.locator('.relation-neighbor').count()==0
  page.locator('#relation-search').fill('없는부품zz');assert '없습니다' in page.locator('#relation-results').inner_text()
- page.locator('#relation-search').fill('마우스');page.locator('#relation-results a[href="#map/node/mouse"]').click();page.wait_for_function('document.querySelector(".relation-center").dataset.node==="mouse"')
+ page.locator('#relation-search').fill('마우스');assert page.locator('#relation-results a').first.get_attribute('href')=='#map/node/mouse';page.locator('#relation-results a[href="#map/node/mouse"]').click();page.wait_for_function('document.querySelector(".relation-center").dataset.node==="mouse"')
  page.keyboard.press('Tab');page.locator('.relation-neighbor').first.focus();page.keyboard.press('Enter');page.wait_for_selector('.relation-edge-copy')
  print('Overview / both directions / recenter / history / all neighbors / filters / search / keyboard PASS',flush=True)
  for id in SCENARIOS:
@@ -47,7 +47,9 @@ with sync_playwright() as p:
  boxes=page.locator('.relation-node').evaluate_all('(es)=>es.map(e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height}})')
  for a in boxes:
   assert a['w']>=44 and a['h']>=44 and a['x']>=0 and a['x']+a['w']<=390,boxes
- navigate(page,'map/scenario/save/1');page.screenshot(path=str(OUT/'mobile-save.png'));assert page.evaluate('document.documentElement.scrollWidth===innerWidth')
+ page.locator('.relation-neighbor[data-node="dram"]').click();page.wait_for_function('document.activeElement.classList.contains("relation-edge-copy")');assert 0<=page.locator('.relation-edge-copy').bounding_box()['y']<50
+ page.screenshot(path=str(OUT/'mobile-relationship.png'));page.locator('[data-return-map]').click();assert page.locator('.relation-center').evaluate('(e)=>document.activeElement===e')
+ navigate(page,'map/scenario/save/1');assert page.locator('.relation-step-copy').bounding_box()['y']<page.locator('.relation-map-area').bounding_box()['y'];page.screenshot(path=str(OUT/'mobile-save.png'));assert page.evaluate('document.documentElement.scrollWidth===innerWidth')
  assert not errors,errors;browser.close()
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--disable-webgl'])
  context=browser.new_context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True,reduced_motion='reduce');page=context.new_page();requests=[];page.on('request',lambda r:requests.append(r.url));page.on('pageerror',lambda e:errors.append(str(e)))
