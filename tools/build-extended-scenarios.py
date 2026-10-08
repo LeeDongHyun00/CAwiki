@@ -3,20 +3,21 @@ from pathlib import Path
 import json
 ROOT=Path(__file__).resolve().parents[1];D=ROOT/'design/redesign'
 stories=json.loads((D/'expansion/storyboards.json').read_text())
+visuals=json.loads((D/'expansion/visuals.json').read_text())
 # Point = logical connection anchor, focus = camera target; layouts are educational displays
 views={
  'input':([-9,-.35,1],[3,5.2,8],1.8), 'mouse':([-9,-.4,1],[3,4.7,-6.5],1.5),
- 'cpu':([-.72,-.75,-1.56],[3.1,4.2,6.1],1.85), 'dram':([1.8,-.35,-1.3],[3,4.6,6.8],1.85),
- 'ssd':([.24,-.8,-.28],[2.1,3.6,4.9],1.9), 'gpu':([0,-.8,6.75],[4.2,6.5,9],1.95),
+ 'cpu':([-.72,-1.43,-1.56],[1.1,1.65,2.25],1.9), 'dram':([1.9,-1.05,-1.3],[2.6,1.9,3.2],1.8),
+ 'ssd':([.24,-1.5,-.28],[1.15,1.9,2.4],1.85), 'gpu':([-.96,-2.1,6.75],[1.6,2.4,3.4],1.9),
  'io':([-2.6,-.8,-1.4],[-3.2,4.5,6],1.9), 'nic':([-.8,-.1,2.2],[3.8,4.8,7],1.9),
  'display':([10,1.5,5],[.5,1.4,13],2.25), 'audio':([17,1,.3],[3,2.8,10],1.7),
  'camera':([-9,.9,1],[2,2.4,9.5],1.7), 'power':([5.2,-.8,-2],[4,5,7],1.9),
  'infra':([10,.1,-7],[3,4,7],1.9), 'datacenter':([23,3,-8],[7,4,13],1.7),
- 'serverGpu':([22,.3,-2],[4,6,9],1.9), 'remoteGpu':([25,-.3,-3],[4,6,9],1.9),
- 'remote':([29,1.5,4],[.5,1.4,13],2.25), 'usb':([-9,-.5,1],[-4,4,9],1.8)
+ 'serverGpu':([21.04,-2.06,-2],[1.6,2.4,3.4],1.9), 'remoteGpu':([24.04,-2.06,-3],[1.6,2.4,3.4],1.9),
+ 'remoteMemory':([26.5,-1,-3],[2,1.7,6],1.75), 'remote':([29,1.5,4],[.5,1.4,13],2.25), 'usb':([-9,-.5,1],[-4,4,9],1.8)
 }
-points={'input':[-9,-.5,1],'mouse':[-9,-.2,1],'cpu':[-.72,-1.15,-1.56],'dram':[1.9,-.5,-1.3],'ssd':[.24,-1.05,-.28],'gpu':[0,-1.3,6.75],'io':[-2.6,-.6,-1.4],'nic':[-.8,-.1,2.2],'display':[10,1.4,5.2],'audio':[17,1.2,.4],'camera':[-9,1,1.5],'power':[5.2,-.3,-2],'infra':[10,.5,-7],'datacenter':[23,2,-6],'serverGpu':[22,0,-2],'remoteGpu':[25,0,-3],'remote':[29,1.4,4.2],'usb':[-8,-.6,1]}
-extras={'typing':['input'],'launch':['mouse'],'save':['input'],'music':['audio'],'streaming':['infra','audio'],'call':['camera','audio','remote','remoteGpu'],'multitasking':[],'usb':['usb'],'sleep':['input'],'ai':['datacenter','serverGpu'],'loading':[],'record':[]}
+points={'input':[-9,-.5,1],'mouse':[-9,-.2,1],'cpu':[-.72,-1.15,-1.56],'dram':[1.9,-.5,-1.3],'ssd':[.24,-1.05,-.28],'gpu':[0,-1.3,6.75],'io':[-2.6,-.6,-1.4],'nic':[-.8,-.1,2.2],'display':[10,1.4,5.2],'audio':[17,1.2,.4],'camera':[-9,1,1.5],'power':[5.2,-.3,-2],'infra':[10,.5,-7],'datacenter':[23,2,-6],'serverGpu':[22,0,-2],'remoteGpu':[25,0,-3],'remoteMemory':[26.5,-1,-3],'remote':[29,1.4,4.2],'usb':[-8,-.6,1]}
+extras={'typing':['input'],'launch':['mouse'],'save':['input'],'music':['audio'],'streaming':['infra','audio'],'call':['camera','audio','remote','remoteGpu','remoteMemory'],'multitasking':[],'usb':['usb'],'sleep':['input'],'ai':['datacenter','serverGpu'],'loading':[],'record':[]}
 sources={
  'typing':'https://learn.microsoft.com/en-us/windows/win32/inputdev/about-keyboard-input',
  'launch':'https://learn.microsoft.com/en-us/windows/win32/memory/working-set',
@@ -36,8 +37,8 @@ for s in stories:
  steps=[];paths=[];n=len(s['stages']);assert n>=6
  for i,b in enumerate(s['stages']):
   focus,offset,fit=views[b['target']]
-  fallback={'io':'mainboard','usb':'mainboard','remote':'display','serverGpu':'gpu','remoteGpu':'gpu'}.get(b['target'],b['target'])
-  steps.append({**{k:b[k] for k in ['at','title','copy','detail','target','effect']},'focus':focus,'offset':offset,'fit':fit,'fallback':fallback,'tag':''})
+  fallback={'io':'mainboard','usb':'mainboard','remote':'display','serverGpu':'gpu','remoteGpu':'gpu','remoteMemory':'dram'}.get(b['target'],b['target'])
+  steps.append({**{k:b[k] for k in ['at','title','copy','detail','target','effect','flow','kind']},'visual':visuals[b['effect']],'focus':focus,'offset':offset,'fit':fit,'fallback':fallback,'tag':''})
   if b['flow']:
    a,z=b['flow'].split('>')
    if s['id']=='call' and b['effect']=='send':z='remoteGpu'

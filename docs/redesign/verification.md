@@ -177,3 +177,22 @@ Pages 설정 변경 API는 GitHub App 권한 부족으로 403을 반환하므로
 공개 사이트에서 16개 목록, 저장 8개 장면, 마우스 드래그, 상세 원리와 근거 링크, 모바일, 저장 시안 주소 호환을 확인했다
 [공개 검증 결과](../../artifacts/scenario-extended/public-verification.json) · [공개 저장 화면](../../artifacts/scenario-extended/public-save.png)
 HTTPS 검증은 시스템 신뢰 저장소를 사용하는 Python으로 수행했으며, Chromium에서는 실행 환경 프록시의 인증서 처리 예외를 사용했다
+
+## 부품 동작과 연속적인 모니터 결과 · 2026-10-08
+
+[94개 장면 감사 및 연출 설계](scenario-spatial-motion.md)를 기준으로 설명판만 바뀌던 30개, 설명판과 전송선에 의존하던 44개 장면을 포함해 추가 12편 전체를 개선했다
+부품의 실제 변환 좌표에 연결된 포인트, CPU 작업 교대, RAM 버퍼, SSD NAND 기록, GPU 프레임과 코덱, 스피커 내부 예시 회로가 드래그에 반응한다
+작은 보조 도식은 네 장면에만 남기고 깊이 검사를 분리했다
+모니터의 입력·창·저장·음악·영상·통화·멀티태스킹·USB·절전·AI·게임·녹화 결과는 각 장면 진행값과 함께 변한다
+마지막 장면도 독립된 진행 구간을 사용하며 화면 텍스처 갱신에 마지막 구간에서 평평해지는 전체 이징 값을 사용하지 않는다
+
+- `tests/scenario-spatial.py`: 94개 장면의 렌더와 단계 이동, 설명판을 숨긴 여덟 대표 장면의 실제 부품 변화·역방향 복원, 실제 필름의 12개 마지막 모니터 텍스처 변화·역방향 복원 확인
+- 같은 검사에서 설명판 앞에 불투명 모델을 놓아도 설명판이 읽히는지, 모니터·스피커 앞의 상세 팝업, 대표 아홉 장면의 모바일 포인트·본문 배치, 메인 필름으로 돌아올 때 재질·덮개 복원 확인
+- USB 연결 표시등과 절전 구간 경계의 연속적인 조명 변화 확인
+- `tests/scenario-screen-motion.py`: 12개 결과 화면의 캔버스 변화와 같은 진행값의 정확한 재현, AI 응답·멀티태스킹의 마지막 장면 경계에서 화면 차이 0 확인
+- `tests/scenario-spatial-package.py`: 최종 독립 HTML에서 실제 터치 스크롤, 오프라인 모델·단계 이동, 추가 12편의 WebGL 대체 화면과 상세 설명 확인
+- `tests/scenario-film.py`: 기존 네 편의 24개 기본 장면, 저장장치 분기, 되감기·팝업·공용 무대 복원·모바일·오프라인·WebGL 대체 화면 재검증 통과
+- JavaScript/Python 구문 검사와 Git 공백 검사 통과
+
+[시각적 변화·복원 결과](../../artifacts/scenario-spatial/verification.json) · [모니터 결과 비교](../../artifacts/scenario-spatial/screens-contact.jpg) · [배포 파일 검증](../../artifacts/scenario-spatial/packaged-verification.json)
+검증 환경은 Chromium 소프트웨어 WebGL과 모바일 에뮬레이션이며 실제 휴대전화 GPU 및 Safari 성능은 미측정이다

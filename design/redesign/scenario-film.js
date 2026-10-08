@@ -65,11 +65,11 @@ export class ScenarioFilm{
   this.monitor.root.traverse(o=>{if(o.geometry?.type==='PlaneGeometry'&&o.geometry.parameters.width===508){o.material.map.dispose();o.material.dispose();o.material=new T.MeshBasicMaterial({map:this.screenMap,toneMapped:false});}});
  }
  prepareExtras(){
-  const specs={mouse:[.034,[-9,-1,1],-.2],input:[.017,[-9,-1,1],-.12],infra:[.024,[10,-1,-7],.1],datacenter:[.0072,[23,-1,-8],-.1],audio:[.026,[17,-1.2,.3],-.15],camera:[.075,[-9,-1,1],.1],remote:[.013,[29,-1.2,4],0],serverGpu:[.024,[22,-1.8,-2],0],remoteGpu:[.024,[25,-1.8,-3],0],usb:[.32,[-9,-.8,1],0]};
+  const specs={mouse:[.034,[-9,-1,1],-.2],input:[.017,[-9,-1,1],-.12],infra:[.024,[10,-1,-7],.1],datacenter:[.0072,[23,-1,-8],-.1],audio:[.026,[17,-1.2,.3],-.15],camera:[.075,[-9,-1,1],.1],remote:[.013,[29,-1.2,4],0],serverGpu:[.024,[22,-1.8,-2],0],remoteGpu:[.024,[25,-1.8,-3],0],remoteMemory:[.024,[26.5,-1,-3],0],usb:[.32,[-9,-.8,1],0]};
   for(const id of this.config.extras){if(!this.extras[id]){
-   const alias={remote:'display',serverGpu:'gpu',remoteGpu:'gpu'}[id]||id;
+   const alias={remote:'display',serverGpu:'gpu',remoteGpu:'gpu',remoteMemory:'dram'}[id]||id;
    const model=id==='usb'?createUSBAssembly():createCollectionModel(alias),[scale,pos,rot]=specs[id];
-   model.root.scale.setScalar(scale);model.root.position.set(...pos);model.root.rotation.y=rot;this.scene.add(model.root);this.extras[id]=model;
+   model.root.scale.setScalar(scale);model.root.position.set(...pos);model.root.rotation.y=rot;this.scene.add(model.root);this.extras[id]=model;if(id==='remoteMemory')model.root.rotation.x=Math.PI/2;
    if(id==='remote'){
     const canvas=document.createElement('canvas');canvas.width=960;canvas.height=540;this.remoteScreenMap=new T.CanvasTexture(canvas);this.remoteScreenMap.colorSpace=T.SRGBColorSpace;
     model.root.traverse(o=>{if(o.geometry?.type==='PlaneGeometry'&&o.geometry.parameters.width===508){o.material.map.dispose();o.material.dispose();o.material=new T.MeshBasicMaterial({map:this.remoteScreenMap,toneMapped:false});}});
@@ -79,6 +79,7 @@ export class ScenarioFilm{
  }
  buildPaths(){
   for(const path of this.paths){for(const mesh of [path.line,...path.markers]){mesh.removeFromParent();mesh.geometry.dispose();mesh.material.dispose();}}this.paths=[];
+  if(this.config.extended)return;
   for(const route of this.config.paths){
    const curve=new T.CatmullRomCurve3(route.points.map(v)),command=route.kind==='command',data=route.kind&&!command;
    const line=new T.Mesh(new T.TubeGeometry(curve,96,.009,6,false),new T.MeshBasicMaterial({color:this.id==='boot'||command?0xc8b891:0x9ec7bd,transparent:true,opacity:.18,depthWrite:false}));
@@ -141,9 +142,9 @@ export class ScenarioFilm{
  }
  paintScreen(t){
   if(this.config.extended){
-   const e=this.currentBeat.effect,local=this.localProgress,key=e+':'+Math.round(t*1200);if(key===this.lastScreen)return;this.lastScreen=key;
-   this.motion.paintOutput(this.screenMap.image.getContext('2d'),this.id,e,local,t);this.screenMap.needsUpdate=true;
-   if(this.id==='call'&&this.remoteScreenMap){this.motion.paintOutput(this.remoteScreenMap.image.getContext('2d'),this.id,e,local,t,{remote:true});this.remoteScreenMap.needsUpdate=true;}return;
+   const e=this.currentBeat.effect,local=this.localProgress,raw=this.progress,key=e+':'+Math.round(local*1600)+':'+Math.round(raw*1600);if(key===this.lastScreen)return;this.lastScreen=key;
+   this.motion.paintOutput(this.screenMap.image.getContext('2d'),this.id,e,local,raw);this.screenMap.needsUpdate=true;
+   if(this.id==='call'&&this.remoteScreenMap){this.motion.paintOutput(this.remoteScreenMap.image.getContext('2d'),this.id,e,local,raw,{remote:true});this.remoteScreenMap.needsUpdate=true;}return;
   }
   if(Math.abs(t-this.lastScreen)<.00005)return;this.lastScreen=t;
   const c=this.screenMap.image.getContext('2d');c.fillStyle='#0c171e';c.fillRect(0,0,960,540);
@@ -163,7 +164,7 @@ export class ScenarioFilm{
   this.screenMap.needsUpdate=true;
  }
  compose(p){
-  const steps=this.config.steps;let i=Math.max(0,steps.findLastIndex(b=>b.at<=p));const next=Math.min(i+1,steps.length-1),a=steps[i],b=steps[next],local=next===i?1:clamp((p-a.at)/(b.at-a.at)),travel=reduced.matches?0:range(local,this.config.extended?.55:.4,1);
+  const steps=this.config.steps;let i=Math.max(0,steps.findLastIndex(b=>b.at<=p));const next=Math.min(i+1,steps.length-1),a=steps[i],b=steps[next],local=next===i?(this.config.extended?clamp((p-a.at)/(1-a.at)):1):clamp((p-a.at)/(b.at-a.at)),travel=reduced.matches?0:range(local,this.config.extended?.55:.4,1);
   this.currentBeat=a;this.localProgress=local;
   if(this.stage&&!this.lost){
    const focus=v(a.focus).lerp(v(b.focus),travel),offset=v(a.offset).lerp(v(b.offset),travel);if(mobile())offset.multiplyScalar(mix(a.fit,b.fit,travel));

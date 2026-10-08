@@ -12,3 +12,15 @@ body[data-extended-story="true"] #story-sequence{height:calc((var(--scene-count,
 body[data-extended-story="true"] #story-tag,body[data-extended-story="true"] .scenario-top{display:none}
 
 #story-source{display:inline-flex;margin:18px 24px 0 0;min-height:44px;align-items:center;font-size:13px;color:#b0c4ba}
+
+/* Screen-space callouts stay above the WebGL stage; native dialogs stay above them. */
+#story-cues{position:fixed;inset:0;z-index:4;pointer-events:none;overflow:hidden}
+.scenario-cue{position:absolute;left:0;top:0;width:1px;height:1px;color:var(--cue-color,#9bcab7);will-change:transform;pointer-events:none}
+.scenario-cue .cue-dot{position:absolute;left:-5px;top:-5px;width:10px;height:10px;border:1px solid currentColor;border-radius:50%;background:#111416b3;box-shadow:0 0 15px #9bcab718}
+.scenario-cue .cue-dot:after{content:"";position:absolute;inset:3px;background:currentColor;border-radius:50%}
+.scenario-cue .cue-pulse{position:absolute;left:-15px;top:-15px;width:30px;height:30px;border:1px solid currentColor;border-radius:50%;opacity:calc(.42 - var(--cue-pulse,0)*.3);transform:scale(calc(1 + var(--cue-pulse,0)*.48))}
+.scenario-cue span{position:absolute;left:31px;top:-28px;white-space:nowrap;font-size:11px;letter-spacing:.02em;line-height:1.5;text-shadow:0 1px 9px #07100d,0 0 4px #07100d;padding:4px 0;border-bottom:1px solid #7d9c914d}
+.scenario-cue span:before{content:"";position:absolute;left:-22px;bottom:-1px;width:21px;height:1px;background:currentColor;opacity:.45;transform:rotate(-34deg);transform-origin:right}
+.scenario-cue.cue-left span{left:auto;right:31px}.scenario-cue.cue-left span:before{left:auto;right:-22px;transform:rotate(34deg);transform-origin:left}
+body.story-modal #story-cues{visibility:hidden}#story-detail{z-index:100;isolation:isolate;background:#172022fa}
+@media(max-width:760px){.scenario-cue span{font-size:10px;left:24px;top:-27px}.scenario-cue.cue-left span{left:auto;right:24px}}

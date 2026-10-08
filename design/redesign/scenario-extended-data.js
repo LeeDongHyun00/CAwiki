@@ -31,6 +31,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "문서에 ㄱ이 조합 중인 상태에서, 한글 ㅏ에 해당하는 K 키를 누르는 예시입니다 키보드 컨트롤러는 스위치의 변화를 읽어 키 정보를 보냅니다 글자 자체를 키보드가 그리지는 않습니다",
     "target": "input",
     "effect": "key",
+    "flow": "input>io",
+    "kind": "command",
+    "visual": {
+     "mode": "input",
+     "label": "K · ㅏ",
+     "intent": "실제 키캡 눌림과 접점 포인트에서 입력 신호 출발",
+     "panel": false
+    },
     "focus": [
      -9,
      -0.35,
@@ -52,6 +60,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "USB HID의 키 정보가 호스트 컨트롤러와 드라이버를 통해 전달됩니다 빛은 논리적인 전달 관계이며 실제 신호 파형은 아닙니다",
     "target": "io",
     "effect": "report",
+    "flow": "io>cpu",
+    "kind": "command",
+    "visual": {
+     "mode": "port",
+     "label": "USB 입력",
+     "intent": "입력 포트를 짚고 컨트롤러 방향으로 작은 명령 고리 이동",
+     "panel": false
+    },
     "focus": [
      -2.6,
      -0.8,
@@ -73,17 +89,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "키보드가 직접 문서를 수정하지는 않습니다 운영체제와 드라이버가 입력을 전달하고, 포커스를 가진 앱과 입력기가 이를 해석합니다",
     "target": "cpu",
     "effect": "focus",
+    "flow": "io>cpu",
+    "kind": "command",
+    "visual": {
+     "mode": "compute",
+     "label": "입력할 앱",
+     "intent": "CPU 다이를 보여주고 여러 작업 중 입력 대상만 밝힘",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -94,17 +118,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "운영체제의 입력기와 앱이 키 입력을 해석합니다 한 번의 키 누름이 항상 한 글자와 대응하지 않으며 조합 중인 글자가 바뀔 수 있습니다",
     "target": "cpu",
     "effect": "ime",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "compute",
+     "label": "입력기 연산",
+     "intent": "CPU 위 두 입력 조각이 합쳐져 하나의 결과로 나옴",
+     "panel": true
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -115,17 +147,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "문자 코드와 글꼴의 글리프는 다릅니다 레이아웃과 글꼴 처리로 화면에 필요한 모양과 위치를 정합니다",
     "target": "dram",
     "effect": "glyph",
+    "flow": "cpu>dram",
+    "kind": "data",
+    "visual": {
+     "mode": "memory",
+     "label": "글자 배치 정보",
+     "intent": "RAM의 사용 영역을 밝히고 글자 배치 데이터가 GPU로 향함",
+     "panel": false
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -136,17 +176,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "글자 래스터화와 합성의 CPU·GPU 분담은 플랫폼에 따라 다릅니다 GPU가 모든 글꼴 처리를 단독으로 맡는다고 표현하지 않습니다",
     "target": "gpu",
     "effect": "pixels",
+    "flow": "dram>gpu",
+    "kind": "data",
+    "visual": {
+     "mode": "graphics",
+     "label": "픽셀 생성",
+     "intent": "GPU 덮개를 옆으로 열고 다이에서 결과 픽셀 타일을 조합",
+     "panel": false
+    },
     "focus": [
-     0,
-     -0.8,
+     -0.96,
+     -2.1,
      6.75
     ],
     "offset": [
-     4.2,
-     6.5,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
-    "fit": 1.95,
+    "fit": 1.9,
     "fallback": "gpu",
     "tag": ""
    },
@@ -157,6 +205,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "화면 갱신을 통해 결과를 봅니다 키보드 입력부터 모니터까지의 인과관계를 느리게 펼친 장면입니다",
     "target": "display",
     "effect": "typed",
+    "flow": "gpu>display",
+    "kind": "frame",
+    "visual": {
+     "mode": "screen",
+     "label": "입력 결과",
+     "intent": "입력 위치 포인트에서 글자의 획과 커서가 자연스럽게 이어짐",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -386,6 +442,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "더블클릭을 받은 데스크톱이 실행 파일과 실행 옵션을 운영체제에 전달합니다",
     "target": "mouse",
     "effect": "double-click",
+    "flow": "mouse>cpu",
+    "kind": "command",
+    "visual": {
+     "mode": "input",
+     "label": "왼쪽 버튼",
+     "intent": "실제 클릭부를 두 번 누르고 두 번의 원형 파동을 발생",
+     "panel": false
+    },
     "focus": [
      -9,
      -0.4,
@@ -407,17 +471,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "파일 시스템과 로더가 실행 파일의 형식과 의존성을 확인합니다 캐시된 내용은 디스크를 다시 읽지 않을 수 있습니다",
     "target": "ssd",
     "effect": "files",
+    "flow": "cpu>ssd",
+    "kind": "command",
+    "visual": {
+     "mode": "storage",
+     "label": "파일 읽기",
+     "intent": "SSD 라벨을 옆으로 열고 컨트롤러와 NAND를 짚어 읽기 순서를 표시",
+     "panel": false
+    },
     "focus": [
      0.24,
-     -0.8,
+     -1.5,
      -0.28
     ],
     "offset": [
-     2.1,
-     3.6,
-     4.9
+     1.15,
+     1.9,
+     2.4
     ],
-    "fit": 1.9,
+    "fit": 1.85,
     "fallback": "ssd",
     "tag": ""
    },
@@ -428,17 +500,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "가상 주소 공간은 프로그램이 메모리를 사용할 때 보는 주소의 범위입니다 운영체제가 이 주소를 실제 RAM 등의 저장 위치에 연결합니다 공간을 준비했다고 RAM 전체가 한꺼번에 채워지는 것은 아닙니다",
     "target": "cpu",
     "effect": "address",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "compute",
+     "label": "주소 공간",
+     "intent": "CPU가 분리된 주소 영역을 준비하는 개념 레이어와 실제 처리 위치를 연결",
+     "panel": true
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -449,17 +529,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "프로세스는 자원과 주소 공간의 단위이고 스레드는 실행의 단위입니다 한 프로그램에 여러 스레드가 있을 수 있습니다",
     "target": "cpu",
     "effect": "thread",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "compute",
+     "label": "실행 준비",
+     "intent": "실행 대기 조각이 CPU의 한 연산 영역으로 들어감",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -470,17 +558,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "페이지는 운영체제가 메모리를 관리하는 작은 단위입니다 필요한 페이지가 RAM에 없을 때 저장장치 등에서 가져옵니다 앱 파일 전체를 한 번에 옮기는 대신 필요한 내용부터 준비할 수 있습니다",
     "target": "dram",
     "effect": "pages",
+    "flow": "ssd>dram",
+    "kind": "data",
+    "visual": {
+     "mode": "memory",
+     "label": "필요한 페이지",
+     "intent": "DIMM 위 영역이 순서대로 채워지고 SSD에서 들어오는 조각을 연결",
+     "panel": false
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -491,17 +587,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "주소를 참조했는데 필요한 페이지가 준비되지 않은 상황을 페이지 폴트라고 합니다 저장장치 읽기가 필요한 경우도 있고 이미 RAM에 있어 읽기를 생략하는 경우도 있습니다",
     "target": "dram",
     "effect": "page-fault",
+    "flow": "cpu>ssd",
+    "kind": "command",
+    "visual": {
+     "mode": "memory",
+     "label": "없는 페이지",
+     "intent": "빈 영역은 따뜻한 색으로 남고 SSD 요청 후 데이터로 채워짐",
+     "panel": false
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -512,17 +616,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "MMU와 TLB가 주소 변환을 돕고 CPU는 캐시 계층을 통해 명령과 데이터를 읽습니다",
     "target": "cpu",
     "effect": "execute",
+    "flow": "dram>cpu",
+    "kind": "data",
+    "visual": {
+     "mode": "compute",
+     "label": "명령 실행",
+     "intent": "RAM에서 도착한 명령이 CPU 다이의 연산 영역을 차례로 통과",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -533,6 +645,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "앱 초기화와 그래픽 출력이 완료되면 첫 창이 보입니다 이후에도 추가 코드와 데이터를 읽을 수 있습니다",
     "target": "display",
     "effect": "window",
+    "flow": "gpu>display",
+    "kind": "frame",
+    "visual": {
+     "mode": "screen",
+     "label": "첫 창",
+     "intent": "화면 안 창이 작은 시작 상태에서 확대되며 내용이 차례로 나타남",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -762,6 +882,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "키 입력을 받은 앱이 파일 시스템에 쓰기를 요청합니다 단축키를 누른 순간에 데이터가 모두 NAND에 기록되는 것은 아닙니다",
     "target": "input",
     "effect": "save-keys",
+    "flow": "input>cpu",
+    "kind": "command",
+    "visual": {
+     "mode": "input",
+     "label": "Ctrl + S",
+     "intent": "두 키에 원형 포인트와 선택 색을 적용하고 신호를 CPU로 전달",
+     "panel": false
+    },
     "focus": [
      -9,
      -0.35,
@@ -783,17 +911,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "문서 편집 앱은 현재 내용을 파일 형식에 맞는 데이터로 만듭니다 운영체제의 파일 시스템에 쓰기를 요청하며, 앱에 따라 임시 파일을 쓴 뒤 교체하는 등 추가 절차를 사용하기도 합니다",
     "target": "cpu",
     "effect": "write-request",
+    "flow": "cpu>dram",
+    "kind": "command",
+    "visual": {
+     "mode": "compute",
+     "label": "쓰기 요청",
+     "intent": "CPU의 명령 포인트에서 RAM 쓰기 대기 영역으로 전달",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -804,17 +940,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "쓰기 버퍼는 저장을 기다리는 데이터를 RAM에 잠시 모아 두는 공간입니다 운영체제는 여러 쓰기를 모아 효율적으로 처리할 수 있습니다 그래서 앱에 저장 표시가 보이더라도 아직 장치에 쓰는 중일 수 있습니다",
     "target": "dram",
     "effect": "write-buffer",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "memory",
+     "label": "쓰기 대기",
+     "intent": "DIMM 위 데이터 조각이 쌓이며 아직 전송 전인 상태를 보여줌",
+     "panel": false
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -825,17 +969,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "드라이버는 운영체제와 장치 사이에서 요청을 전달하는 소프트웨어입니다 CPU는 쓰기 작업을 준비하지만 데이터 전체를 CPU 안으로 통과시킬 필요는 없습니다",
     "target": "cpu",
     "effect": "io-command",
+    "flow": "cpu>ssd",
+    "kind": "command",
+    "visual": {
+     "mode": "compute",
+     "label": "쓰기 명령",
+     "intent": "CPU 다이에서 SSD 컨트롤러로 금색 명령 고리 이동",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -846,17 +998,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "DMA는 장치가 지정된 메모리와 직접 데이터를 주고받는 방식입니다 CPU와 드라이버가 먼저 작업을 준비하고, SSD 컨트롤러가 필요한 데이터를 RAM에서 가져옵니다 데이터가 모두 CPU 코어 안을 통과하는 것은 아닙니다",
     "target": "ssd",
     "effect": "write-transfer",
+    "flow": "dram>ssd",
+    "kind": "data",
+    "visual": {
+     "mode": "storage",
+     "label": "쓰기 전송",
+     "intent": "RAM의 조각이 SSD 컨트롤러를 거쳐 NAND로 들어감",
+     "panel": false
+    },
     "focus": [
      0.24,
-     -0.8,
+     -1.5,
      -0.28
     ],
     "offset": [
-     2.1,
-     3.6,
-     4.9
+     1.15,
+     1.9,
+     2.4
     ],
-    "fit": 1.9,
+    "fit": 1.85,
     "fallback": "ssd",
     "tag": ""
    },
@@ -867,17 +1027,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "SSD 컨트롤러는 파일의 논리 주소를 실제 저장 위치에 연결하고 NAND 플래시 메모리에 데이터를 기록합니다 화면의 작은 문서들은 데이터의 이동과 기록 상태를 나타내며 실제 메모리 셀이나 떼어 낸 부품은 아닙니다",
     "target": "ssd",
     "effect": "nand",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "storage",
+     "label": "NAND 기록",
+     "intent": "라벨 아래 플래시 영역이 순차적으로 채워져 기록 과정을 보임",
+     "panel": false
+    },
     "focus": [
      0.24,
-     -0.8,
+     -1.5,
      -0.28
     ],
     "offset": [
-     2.1,
-     3.6,
-     4.9
+     1.15,
+     1.9,
+     2.4
     ],
-    "fit": 1.9,
+    "fit": 1.85,
     "fallback": "ssd",
     "tag": ""
    },
@@ -888,17 +1056,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "이 예시는 동기화 요청을 하는 앱의 흐름입니다 운영체제와 장치의 쓰기 캐시에 남은 기록을 끝내도록 요청합니다 실제 보존 수준은 장치와 파일 시스템, 전원 손실 보호 기능에도 영향을 받습니다",
     "target": "ssd",
     "effect": "flush",
+    "flow": "cpu>ssd",
+    "kind": "command",
+    "visual": {
+     "mode": "storage",
+     "label": "기록 마무리",
+     "intent": "남은 대기 조각이 비워지고 NAND에 기록된 상태가 남음",
+     "panel": false
+    },
     "focus": [
      0.24,
-     -0.8,
+     -1.5,
      -0.28
     ],
     "offset": [
-     2.1,
-     3.6,
-     4.9
+     1.15,
+     1.9,
+     2.4
     ],
-    "fit": 1.9,
+    "fit": 1.85,
     "fallback": "ssd",
     "tag": ""
    },
@@ -909,6 +1085,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "이 예시의 앱은 동기화 완료를 확인한 뒤 저장됨을 표시합니다 실제 앱의 저장 표시 시점과 보존 보장은 서로 다를 수 있습니다 오류가 나거나 전원 보호가 충분하지 않으면 기록이 보존되지 않을 수 있어, 저장 표시만으로 어떤 고장에도 안전하다고 단정할 수는 없습니다",
     "target": "display",
     "effect": "saved",
+    "flow": "ssd>cpu",
+    "kind": "command",
+    "visual": {
+     "mode": "screen",
+     "label": "저장 완료",
+     "intent": "저장 중 표시와 진행선이 완료 확인 표시로 변함",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -1087,19 +1271,19 @@ export const EXTENDED_SCENARIOS={
       -0.28
      ],
      [
-      3.656,
-      2.5999999999999996,
+      -0.096,
+      -0.4,
       -0.28
      ],
      [
-      7.072,
-      2.5999999999999996,
-      5.2
+      -0.432,
+      -0.4,
+      -1.56
      ],
      [
-      10,
-      1.4,
-      5.2
+      -0.72,
+      -1.15,
+      -1.56
      ]
     ],
     "kind": "command",
@@ -1138,6 +1322,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "로컬에 저장된 압축 음악 파일을 재생하는 예시입니다 스트리밍 음악은 네트워크 수신 과정이 앞에 추가됩니다",
     "target": "display",
     "effect": "play",
+    "flow": "display>cpu",
+    "kind": "command",
+    "visual": {
+     "mode": "screen",
+     "label": "재생 버튼",
+     "intent": "화면의 버튼이 눌리고 재생 헤드가 출발",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -1159,17 +1351,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "OS 파일 캐시가 있으면 SSD 읽기를 생략할 수 있습니다 전체 곡을 한 번에 읽는 것으로 고정하지 않습니다",
     "target": "ssd",
     "effect": "music-file",
+    "flow": "ssd>dram",
+    "kind": "data",
+    "visual": {
+     "mode": "storage",
+     "label": "음악 파일",
+     "intent": "NAND에서 읽은 조각이 컨트롤러를 거쳐 RAM으로 이동",
+     "panel": false
+    },
     "focus": [
      0.24,
-     -0.8,
+     -1.5,
      -0.28
     ],
     "offset": [
-     2.1,
-     3.6,
-     4.9
+     1.15,
+     1.9,
+     2.4
     ],
-    "fit": 1.9,
+    "fit": 1.85,
     "fallback": "ssd",
     "tag": ""
    },
@@ -1180,17 +1380,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "PCM은 일정한 시간 간격으로 소리의 크기를 숫자로 나타내는 방식입니다 MP3 같은 압축 파일은 먼저 이 샘플들을 재생 가능한 형태로 복원해야 합니다 보통 CPU의 디코더가 처리하고 지원되는 전용 하드웨어를 사용할 수도 있습니다",
     "target": "cpu",
     "effect": "pcm",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "compute",
+     "label": "오디오 복원",
+     "intent": "CPU에서 작은 압축 조각이 시간 순서의 샘플로 펼쳐짐",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -1201,17 +1409,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "오디오 시스템과 DMA가 일정한 속도로 샘플을 출력 장치에 공급합니다 버퍼가 비면 끊김이 생길 수 있습니다",
     "target": "dram",
     "effect": "audio-buffer",
+    "flow": "dram>audio",
+    "kind": "audio",
+    "visual": {
+     "mode": "memory",
+     "label": "오디오 버퍼",
+     "intent": "RAM의 샘플 대기열이 차례로 소비되고 채워짐",
+     "panel": false
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -1222,6 +1438,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "DAC가 디지털 값을 아날로그 신호로 바꾸고 증폭기가 드라이버를 구동합니다 USB 스피커에서는 이 과정이 스피커 내부에 있을 수 있습니다",
     "target": "audio",
     "effect": "dac",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "audio",
+     "label": "DAC",
+     "intent": "스피커 내부의 예시 회로를 드러내고 숫자 샘플을 연속 파형으로 연결",
+     "panel": false
+    },
     "focus": [
      17,
      1,
@@ -1243,6 +1467,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "DAC는 숫자를 아날로그 전기 신호로 바꾸고 증폭기는 스피커 구동에 필요한 신호를 제공합니다 두 역할은 한 기기 안에 함께 있을 수 있습니다",
     "target": "audio",
     "effect": "amplify",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "audio",
+     "label": "증폭 회로",
+     "intent": "내부 증폭 회로를 짚고 입력보다 커지는 출력 파형을 표시",
+     "panel": false
+    },
     "focus": [
      17,
      1,
@@ -1264,6 +1496,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "진폭과 시간을 이해하기 위해 움직임을 확대했습니다 실제 진동 속도와 스크롤 속도는 대응하지 않습니다",
     "target": "audio",
     "effect": "speaker",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "audio",
+     "label": "진동판",
+     "intent": "진동판 움직임과 전방으로 나가는 공기 파동을 연결",
+     "panel": false
+    },
     "focus": [
      17,
      1,
@@ -1405,6 +1645,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "적응형 스트리밍은 여러 화질의 짧은 조각을 요청할 수 있습니다",
     "target": "display",
     "effect": "video-request",
+    "flow": "display>nic",
+    "kind": "command",
+    "visual": {
+     "mode": "screen",
+     "label": "영상 요청",
+     "intent": "재생 버튼의 입력과 영상 준비 상태가 이어짐",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -1426,6 +1674,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "전송 시간은 일정하지 않으며 네트워크 상태에 따라 선택하는 화질이 달라질 수 있습니다",
     "target": "nic",
     "effect": "segments",
+    "flow": "infra>nic",
+    "kind": "data",
+    "visual": {
+     "mode": "network",
+     "label": "수신 포트",
+     "intent": "실제 네트워크 컨트롤러와 포트 사이에 수신 조각 이동",
+     "panel": false
+    },
     "focus": [
      -0.8,
      -0.1,
@@ -1447,17 +1703,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "버퍼가 재생에 필요한 데이터를 충분히 확보하면 시작하거나 재개할 수 있습니다 모든 서비스가 같은 시작 기준을 쓰지는 않습니다",
     "target": "dram",
     "effect": "video-buffer",
+    "flow": "nic>dram",
+    "kind": "data",
+    "visual": {
+     "mode": "memory",
+     "label": "영상 버퍼",
+     "intent": "RAM 위 대기 영역에 네트워크 조각이 쌓임",
+     "panel": false
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -1468,17 +1732,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "재생은 일정한 속도로 데이터를 소비하지만 네트워크 도착 간격은 변할 수 있습니다 재생할 데이터가 없으면 잠시 멈추며, 디코딩이 느려서 멈추는 상황과는 구별됩니다",
     "target": "dram",
     "effect": "buffer-low",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "memory",
+     "label": "버퍼 부족",
+     "intent": "채워진 RAM 영역이 실제로 줄고 마지막 조각에서 기다림 표시",
+     "panel": false
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -1489,17 +1761,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "서비스는 통신 상태에 맞춰 다음 조각의 화질을 낮추는 등 적응할 수 있습니다 화질을 낮추는 것만으로 모든 버퍼링이 해결되지는 않습니다",
     "target": "dram",
     "effect": "buffer-refill",
+    "flow": "nic>dram",
+    "kind": "data",
+    "visual": {
+     "mode": "memory",
+     "label": "버퍼 회복",
+     "intent": "빈 메모리 영역으로 새 조각이 다시 도착해 채워짐",
+     "panel": false
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -1510,17 +1790,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "지원되는 코덱은 GPU 등의 전용 비디오 디코더가 처리할 수 있고 지원되지 않으면 CPU가 처리할 수 있습니다",
     "target": "gpu",
     "effect": "decode",
+    "flow": "dram>gpu",
+    "kind": "data",
+    "visual": {
+     "mode": "graphics",
+     "label": "프레임 복원",
+     "intent": "GPU의 전용 처리 영역 옆에서 압축 조각이 프레임 타일로 펼쳐짐",
+     "panel": false
+    },
     "focus": [
-     0,
-     -0.8,
+     -0.96,
+     -2.1,
      6.75
     ],
     "offset": [
-     4.2,
-     6.5,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
-    "fit": 1.95,
+    "fit": 1.9,
     "fallback": "gpu",
     "tag": ""
    },
@@ -1531,17 +1819,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "디코딩 순서와 표시 순서는 다를 수 있습니다 재생 시스템이 타임스탬프로 동기화를 유지합니다",
     "target": "gpu",
     "effect": "av-sync",
+    "flow": "gpu>display",
+    "kind": "frame",
+    "visual": {
+     "mode": "graphics",
+     "label": "출력 시각",
+     "intent": "프레임과 소리 표식을 같은 시각으로 맞춘 뒤 출력",
+     "panel": false
+    },
     "focus": [
-     0,
-     -0.8,
+     -0.96,
+     -2.1,
      6.75
     ],
     "offset": [
-     4.2,
-     6.5,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
-    "fit": 1.95,
+    "fit": 1.9,
     "fallback": "gpu",
     "tag": ""
    },
@@ -1552,6 +1848,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "네트워크 공급이 오래 부족하면 버퍼링이 생깁니다 네트워크 수신 속도와 디코딩 속도는 별개의 요인입니다",
     "target": "display",
     "effect": "video",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "screen",
+     "label": "영상 재생",
+     "intent": "모니터 안 영상과 진행 막대가 함께 움직임",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -1771,7 +2075,8 @@ export const EXTENDED_SCENARIOS={
    "camera",
    "audio",
    "remote",
-   "remoteGpu"
+   "remoteGpu",
+   "remoteMemory"
   ],
   "screen": [
    0,
@@ -1785,6 +2090,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "카메라 센서와 ISP가 영상을 만들고 마이크 입력은 ADC를 거쳐 디지털 샘플이 됩니다",
     "target": "camera",
     "effect": "capture",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "capture",
+     "label": "영상 센서",
+     "intent": "렌즈 포인트에서 프레임이 차례로 생성",
+     "panel": false
+    },
     "focus": [
      -9,
      0.9,
@@ -1806,6 +2119,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "마이크가 소리를 전기 신호로 바꾸고 아날로그-디지털 변환기인 ADC가 이를 샘플로 만듭니다 카메라 영상과는 별도로 준비한 뒤 시간 정보를 이용해 맞춥니다",
     "target": "camera",
     "effect": "mic",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "capture",
+     "label": "마이크 입력",
+     "intent": "마이크 위치를 짚고 파형이 샘플 막대로 전환",
+     "panel": false
+    },
     "focus": [
      -9,
      0.9,
@@ -1827,17 +2148,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "타임스탬프는 이후 동기화에 사용합니다 영상과 소리가 같은 물리 전선을 지나는 것은 아닙니다",
     "target": "dram",
     "effect": "capture-clock",
+    "flow": "camera>dram",
+    "kind": "frame",
+    "visual": {
+     "mode": "memory",
+     "label": "같은 시각",
+     "intent": "영상과 소리의 두 색 흐름이 RAM 위 같은 시각 위치에 모임",
+     "panel": false
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -1848,17 +2177,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "CPU 또는 전용 인코더가 압축합니다 원본 화면 전체를 매번 그대로 보내는 것으로 표현하지 않습니다",
     "target": "gpu",
     "effect": "encode",
+    "flow": "dram>gpu",
+    "kind": "data",
+    "visual": {
+     "mode": "graphics",
+     "label": "프레임 압축",
+     "intent": "프레임 타일이 전용 처리 영역을 지나 작은 묶음으로 모임",
+     "panel": false
+    },
     "focus": [
-     0,
-     -0.8,
+     -0.96,
+     -2.1,
      6.75
     ],
     "offset": [
-     4.2,
-     6.5,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
-    "fit": 1.95,
+    "fit": 1.9,
     "fallback": "gpu",
     "tag": ""
    },
@@ -1869,6 +2206,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "연결 방식에 따라 릴레이 서버를 거칠 수 있습니다 언제나 두 기기가 직접 연결되는 것은 아닙니다",
     "target": "nic",
     "effect": "send",
+    "flow": "nic>remote",
+    "kind": "data",
+    "visual": {
+     "mode": "network",
+     "label": "송신 포트",
+     "intent": "컨트롤러에서 원격 컴퓨터 방향으로 압축된 조각 출발",
+     "panel": false
+    },
     "focus": [
      -0.8,
      -0.1,
@@ -1888,20 +2233,28 @@ export const EXTENDED_SCENARIOS={
     "title": "도착 간격을 고르다",
     "copy": "상대방이 짧은 버퍼로 도착 시간의 흔들림을 줄입니다",
     "detail": "지터 버퍼는 패킷이 불규칙하게 도착해도 재생 간격을 고르게 만드는 대기 공간입니다 기다리는 시간을 늘리면 안정성에 도움이 될 수 있지만 통화 지연도 늘어납니다",
-    "target": "remoteGpu",
+    "target": "remoteMemory",
     "effect": "jitter",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "memory",
+     "label": "지터 버퍼",
+     "intent": "상대방 쪽 데이터 조각의 불규칙한 간격이 일정하게 정렬",
+     "panel": false
+    },
     "focus": [
-     25,
-     -0.3,
+     26.5,
+     -1,
      -3
     ],
     "offset": [
-     4,
-     6,
-     9
+     2,
+     1.7,
+     6
     ],
-    "fit": 1.9,
-    "fallback": "gpu",
+    "fit": 1.75,
+    "fallback": "dram",
     "tag": ""
    },
    {
@@ -1911,15 +2264,23 @@ export const EXTENDED_SCENARIOS={
     "detail": "지연 변화와 패킷 손실에 대응하는 과정이 있으며 내 GPU가 상대방 화면을 직접 구동하지 않습니다",
     "target": "remoteGpu",
     "effect": "decode",
+    "flow": "remoteMemory>remoteGpu",
+    "kind": "data",
+    "visual": {
+     "mode": "graphics",
+     "label": "프레임 복원",
+     "intent": "GPU의 전용 처리 영역 옆에서 압축 조각이 프레임 타일로 펼쳐짐",
+     "panel": false
+    },
     "focus": [
-     25,
-     -0.3,
+     24.04,
+     -2.06,
      -3
     ],
     "offset": [
-     4,
-     6,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
     "fit": 1.9,
     "fallback": "gpu",
@@ -1932,15 +2293,23 @@ export const EXTENDED_SCENARIOS={
     "detail": "영상과 오디오는 다른 속도로 처리될 수 있습니다 상대방의 재생 시스템이 시간 정보에 맞춰 화면과 소리를 내보내도록 조정합니다",
     "target": "remoteGpu",
     "effect": "av-sync",
+    "flow": "remoteGpu>remote",
+    "kind": "frame",
+    "visual": {
+     "mode": "graphics",
+     "label": "출력 시각",
+     "intent": "프레임과 소리 표식을 같은 시각으로 맞춘 뒤 출력",
+     "panel": false
+    },
     "focus": [
-     25,
-     -0.3,
+     24.04,
+     -2.06,
      -3
     ],
     "offset": [
-     4,
-     6,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
     "fit": 1.9,
     "fallback": "gpu",
@@ -1953,6 +2322,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "반대 방향에서도 같은 처리가 병행됩니다 한 방향을 먼저 보여줘 인과관계를 분명하게 합니다",
     "target": "remote",
     "effect": "call-result",
+    "flow": "remoteGpu>remote",
+    "kind": "frame",
+    "visual": {
+     "mode": "screen",
+     "label": "통화 연결",
+     "intent": "상대 화면이 나타나고 표정·입 모양·음성 표시가 함께 움직임",
+     "panel": false
+    },
     "focus": [
      29,
      1.5,
@@ -2066,18 +2443,18 @@ export const EXTENDED_SCENARIOS={
     ],
     "points": [
      [
-      29,
-      1.4,
-      4.2
+      26.5,
+      -1,
+      -3
      ],
      [
-      27.6,
-      2.5999999999999996,
-      4.2
+      25.975,
+      0.65,
+      -3
      ],
      [
-      26.2,
-      2.5999999999999996,
+      25.45,
+      0.65,
       -3
      ],
      [
@@ -2180,6 +2557,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "한 프로그램에도 여러 스레드가 있을 수 있으며 입력이나 I/O를 기다리는 스레드는 항상 실행 가능한 상태가 아닙니다",
     "target": "display",
     "effect": "windows",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "screen",
+     "label": "창 열기",
+     "intent": "세 앱의 창이 순서대로 열리며 서로 다른 동작을 시작",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -2201,17 +2586,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "프로그램들은 각자의 주소 공간을 사용합니다 운영체제와 CPU의 메모리 보호 기능이 다른 프로그램의 데이터를 함부로 읽거나 바꾸지 못하게 돕습니다 실제 RAM 모듈을 앱별 상자로 물리적으로 나누는 것은 아닙니다",
     "target": "dram",
     "effect": "spaces",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "memory",
+     "label": "프로그램별 주소",
+     "intent": "RAM의 동작 위치와 분리된 논리 주소 공간을 연결",
+     "panel": true
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -2222,17 +2615,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "스케줄러는 운영체제 소프트웨어입니다 전용 스케줄러 칩을 새로 그리지 않습니다",
     "target": "cpu",
     "effect": "scheduler",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "tasks",
+     "label": "실행 순서",
+     "intent": "CPU를 가까이 보여주고 서로 다른 작업이 코어 앞에서 차례를 기다림",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -2243,17 +2644,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "스레드가 I/O 완료나 이벤트를 기다리면 실행 가능한 다른 스레드에 CPU 시간을 줄 수 있습니다 모든 프로그램이 항상 CPU를 사용하려고 경쟁하는 것은 아닙니다",
     "target": "cpu",
     "effect": "waiting",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "tasks",
+     "label": "I/O 대기",
+     "intent": "대기 중인 작업은 옆으로 빠지고 다른 작업은 코어에서 계속 처리",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -2264,17 +2673,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "멀티코어의 병렬 실행을 표현합니다 실제 코어 수와 동시 실행 가능한 스레드 수는 하드웨어에 따라 다릅니다",
     "target": "cpu",
     "effect": "parallel",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "tasks",
+     "label": "동시 실행",
+     "intent": "두 코어에 서로 다른 색의 작업이 같은 시각에 들어감",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -2285,17 +2702,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "문맥 전환에서 레지스터 등 실행 상태를 저장하고 복원합니다 프로그램 전체가 매번 SSD로 이동하는 것은 아닙니다",
     "target": "cpu",
     "effect": "context",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "tasks",
+     "label": "문맥 보관",
+     "intent": "작업의 실행 상태를 보관한 뒤 다른 색 작업이 같은 코어로 진입",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -2306,17 +2731,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "문맥 전환은 레지스터와 실행 위치 등의 상태를 보관하고 복원하는 과정입니다 프로그램 전체를 매번 SSD에 쓰는 과정은 아닙니다",
     "target": "cpu",
     "effect": "resume-thread",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "tasks",
+     "label": "멈춘 곳에서",
+     "intent": "보관했던 실행 위치 표식이 돌아와 남은 부분부터 진행",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -2327,6 +2760,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "사용자가 느끼는 동시성은 병렬 실행과 빠른 교대가 함께 만든 결과입니다",
     "target": "display",
     "effect": "multitask-result",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "screen",
+     "label": "각 앱의 반응",
+     "intent": "문서 입력·브라우저 스크롤·음악 파형이 함께 진행",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -2375,6 +2816,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "포트와 호스트가 연결 상태를 감지합니다 이 시나리오는 USB 저장장치를 허브에 연결하는 예시입니다",
     "target": "usb",
     "effect": "insert",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "port",
+     "label": "USB 접점",
+     "intent": "삽입과 접점의 연결 순간을 포인트로 표시",
+     "panel": false
+    },
     "focus": [
      -9,
      -0.5,
@@ -2396,6 +2845,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "호스트가 연결 초기화와 열거 절차를 진행합니다 실제 세부 순서와 링크 설정은 USB 규격과 속도에 따라 다릅니다",
     "target": "usb",
     "effect": "usb-reset",
+    "flow": "usb>io",
+    "kind": "command",
+    "visual": {
+     "mode": "port",
+     "label": "기본 통신",
+     "intent": "허브 포트와 플러그 사이에 요청·응답을 차례로 왕복",
+     "panel": false
+    },
     "focus": [
      -9,
      -0.5,
@@ -2417,6 +2874,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "USB 버스에서는 호스트가 통신을 관리합니다 장치에 주소를 배정하고 설명 정보를 읽는 세부 순서는 USB 규격과 컨트롤러에 따라 다를 수 있습니다",
     "target": "io",
     "effect": "usb-address",
+    "flow": "io>usb",
+    "kind": "command",
+    "visual": {
+     "mode": "port",
+     "label": "장치 주소",
+     "intent": "한 장치에 선택 고리가 정착하고 주소 부여를 시각화",
+     "panel": false
+    },
     "focus": [
      -2.6,
      -0.8,
@@ -2438,6 +2903,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "호스트가 디스크립터를 읽어 제조사·제품 식별 정보와 클래스·인터페이스를 확인합니다",
     "target": "io",
     "effect": "descriptor",
+    "flow": "io>usb",
+    "kind": "command",
+    "visual": {
+     "mode": "port",
+     "label": "장치 정보",
+     "intent": "요청 고리 뒤로 장치 정보 조각이 호스트 쪽으로 돌아옴",
+     "panel": false
+    },
     "focus": [
      -2.6,
      -0.8,
@@ -2459,17 +2932,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "드라이버가 이미 준비되어 있으면 설치나 다운로드가 필요하지 않습니다 구체적인 요청 순서를 전부 재현하는 장면은 아닙니다",
     "target": "cpu",
     "effect": "driver",
+    "flow": "io>cpu",
+    "kind": "command",
+    "visual": {
+     "mode": "compute",
+     "label": "드라이버 처리",
+     "intent": "포트 정보가 CPU에 도착하고 준비 신호가 돌아감",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -2480,6 +2961,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "호스트는 장치의 구성과 인터페이스에 맞춰 전송을 준비합니다 드라이버가 이미 있으면 새 파일을 내려받거나 설치 화면을 띄우지 않을 수 있습니다",
     "target": "io",
     "effect": "usb-config",
+    "flow": "cpu>usb",
+    "kind": "command",
+    "visual": {
+     "mode": "port",
+     "label": "사용할 기능",
+     "intent": "선택한 전송 경로와 포트 접점을 순차적으로 밝힘",
+     "panel": false
+    },
     "focus": [
      -2.6,
      -0.8,
@@ -2501,17 +2990,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "호스트가 전송을 관리합니다 마우스·오디오 등은 같은 연결 과정을 거쳐도 서로 다른 종류의 데이터를 전달합니다",
     "target": "dram",
     "effect": "usb-files",
+    "flow": "usb>dram",
+    "kind": "data",
+    "visual": {
+     "mode": "memory",
+     "label": "파일 정보",
+     "intent": "USB에서 들어오는 데이터가 DIMM의 대기 영역을 채움",
+     "panel": false
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -2522,6 +3019,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "이 결과는 저장장치 예시입니다 모든 USB 장치가 드라이브로 나타나는 것은 아닙니다",
     "target": "display",
     "effect": "drive",
+    "flow": "gpu>display",
+    "kind": "frame",
+    "visual": {
+     "mode": "screen",
+     "label": "새 드라이브",
+     "intent": "USB 드라이브와 폴더가 순서대로 나타나며 탐색이 이어짐",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -2725,17 +3230,17 @@ export const EXTENDED_SCENARIOS={
     ],
     "points": [
      [
-      1.9,
-      -0.5,
-      -1.3
+      0,
+      -1.3,
+      6.75
      ],
      [
-      4.734999999999999,
+      3.5,
       2.5999999999999996,
-      -1.3
+      6.75
      ],
      [
-      7.57,
+      7.0,
       2.5999999999999996,
       5.2
      ],
@@ -2745,7 +3250,7 @@ export const EXTENDED_SCENARIOS={
       5.2
      ]
     ],
-    "kind": "data",
+    "kind": "frame",
     "stage": 7
    }
   ]
@@ -2782,6 +3287,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "운영체제가 작업과 장치를 절전 상태로 전환할 준비를 합니다",
     "target": "display",
     "effect": "sleep-request",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "screen",
+     "label": "절전 요청",
+     "intent": "화면이 서서히 어두워져 내부 전력 장면으로 연결",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -2803,17 +3316,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "절전 요청을 받으면 장치의 작업과 전력 상태를 조정합니다 여기서는 RAM을 유지하는 S3 절전의 대표 흐름을 보여줍니다 모든 최신 PC가 S3를 지원하는 것은 아닙니다",
     "target": "cpu",
     "effect": "quiesce",
+    "flow": "cpu>power",
+    "kind": "command",
+    "visual": {
+     "mode": "compute",
+     "label": "작업 정리",
+     "intent": "CPU에 남은 실행 조각이 줄고 전원 제어로 이어짐",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -2824,17 +3345,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "대표적인 S3 절전에서는 DRAM 자체 새로고침 등을 통해 상태를 유지합니다 RAM에 전원이 전혀 없어도 보존되는 것은 아닙니다",
     "target": "dram",
     "effect": "retain",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "memory",
+     "label": "RAM 유지 전원",
+     "intent": "주변 장치가 어두워져도 DIMM과 유지 전원 경로는 남음",
+     "panel": false
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -2845,6 +3374,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "장치와 플랫폼에 따라 전력 상태가 달라집니다 Modern Standby는 S3와 같은 동작으로 간주하지 않습니다",
     "target": "power",
     "effect": "power-low",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "power",
+     "label": "RAM 유지",
+     "intent": "CPU·GPU 표시가 꺼져도 RAM과 유지 전원 경로는 남음",
+     "panel": false
+    },
     "focus": [
      5.2,
      -0.8,
@@ -2866,6 +3403,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "키보드·네트워크 등 어떤 장치가 깨울 수 있는지는 설정과 하드웨어 지원에 따라 다릅니다",
     "target": "input",
     "effect": "wake",
+    "flow": "input>power",
+    "kind": "command",
+    "visual": {
+     "mode": "input",
+     "label": "깨우기 입력",
+     "intent": "키 입력에서 절전 유지 회로로 깨우기 신호 이동",
+     "panel": false
+    },
     "focus": [
      -9,
      -0.35,
@@ -2887,17 +3432,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "일반 부팅처럼 항상 운영체제 전체를 SSD에서 다시 읽는 것은 아닙니다",
     "target": "cpu",
     "effect": "restore",
+    "flow": "power>cpu",
+    "kind": "command",
+    "visual": {
+     "mode": "compute",
+     "label": "실행 재개",
+     "intent": "CPU와 장치의 선택 조명이 차례로 복귀",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -2908,6 +3461,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "최대 절전은 상태를 저장장치에 기록하는 다른 방식입니다 이 장면은 RAM 유지형 절전의 결과입니다",
     "target": "display",
     "effect": "resumed",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "screen",
+     "label": "화면 복귀",
+     "intent": "어두웠던 화면에 기존 창과 입력 위치가 부드럽게 돌아옴",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -3049,6 +3610,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "클라우드 AI를 사용하는 예시입니다 로컬에서 모델을 실행하는 경우에는 이 네트워크 경로가 필요하지 않을 수 있습니다",
     "target": "display",
     "effect": "prompt",
+    "flow": "display>nic",
+    "kind": "command",
+    "visual": {
+     "mode": "screen",
+     "label": "질문 전송",
+     "intent": "입력한 문장이 제출되고 서버 처리 장면으로 연결",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -3070,6 +3639,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "이미 모델이 메모리에 올라와 있으면 매 요청마다 전체 가중치를 저장장치에서 다시 읽지 않습니다",
     "target": "datacenter",
     "effect": "server-ready",
+    "flow": "nic>datacenter",
+    "kind": "data",
+    "visual": {
+     "mode": "server",
+     "label": "서버 노드",
+     "intent": "요청이 도착한 랙의 한 서버를 선택하고 가속기 쪽으로 이동",
+     "panel": false
+    },
     "focus": [
      23,
      3,
@@ -3091,15 +3668,23 @@ export const EXTENDED_SCENARIOS={
     "detail": "토큰은 모델이 글을 다루는 작은 단위입니다 하나의 단어가 여러 토큰이 되거나 여러 글자가 하나로 묶일 수 있습니다 화면의 나눔은 설명용 예시이며 특정 모델의 실제 토큰 분할을 재현하지 않습니다",
     "target": "serverGpu",
     "effect": "tokens",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "server",
+     "label": "토큰 입력",
+     "intent": "서버에서 준비된 토큰 조각이 가속기로 들어가는 모습을 표시",
+     "panel": true
+    },
     "focus": [
-     22,
-     0.3,
+     21.04,
+     -2.06,
      -2
     ],
     "offset": [
-     4,
-     6,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
     "fit": 1.9,
     "fallback": "gpu",
@@ -3112,15 +3697,23 @@ export const EXTENDED_SCENARIOS={
     "detail": "가중치는 학습으로 정해진 수치이고 추론 때 사용하는 메모리에 준비됩니다 중간 계산을 캐시해 앞부분을 매번 모두 다시 계산하지 않을 수 있습니다 새 요청마다 전체 모델을 SSD에서 읽는 것은 아닙니다",
     "target": "serverGpu",
     "effect": "weights",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "server",
+     "label": "모델 가중치",
+     "intent": "서버 가속기 주변 메모리와 연산부의 사용 영역을 함께 강조",
+     "panel": false
+    },
     "focus": [
-     22,
-     0.3,
+     21.04,
+     -2.06,
      -2
     ],
     "offset": [
-     4,
-     6,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
     "fit": 1.9,
     "fallback": "gpu",
@@ -3133,15 +3726,23 @@ export const EXTENDED_SCENARIOS={
     "detail": "모델 가중치와 중간 상태를 사용해 다음 토큰 분포를 계산합니다 GPU·NPU 등 구체적인 실행 장치는 서비스와 모델에 따라 다릅니다",
     "target": "serverGpu",
     "effect": "matrix",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "server",
+     "label": "모델 연산",
+     "intent": "서버 다이 위 연산 영역이 행과 열을 따라 차례로 활성화",
+     "panel": false
+    },
     "focus": [
-     22,
-     0.3,
+     21.04,
+     -2.06,
      -2
     ],
     "offset": [
-     4,
-     6,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
     "fit": 1.9,
     "fallback": "gpu",
@@ -3154,15 +3755,23 @@ export const EXTENDED_SCENARIOS={
     "detail": "대표적인 자기회귀 언어 모델은 이전 토큰을 바탕으로 다음 토큰을 만듭니다 토큰은 한 글자나 한 단어와 항상 일치하지 않습니다 계산 순서를 이해하기 위한 단순화이며 서비스는 여러 요청과 작업을 겹쳐 처리할 수 있습니다",
     "target": "serverGpu",
     "effect": "next-token",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "server",
+     "label": "다음 토큰",
+     "intent": "모델 연산 결과 하나가 응답 대기열 끝에 추가",
+     "panel": false
+    },
     "focus": [
-     22,
-     0.3,
+     21.04,
+     -2.06,
      -2
     ],
     "offset": [
-     4,
-     6,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
     "fit": 1.9,
     "fallback": "gpu",
@@ -3175,6 +3784,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "생성과 전송이 겹칠 수 있습니다 모든 답이 완성된 뒤에만 한 번에 전송되는 것은 아닙니다",
     "target": "nic",
     "effect": "tokens-return",
+    "flow": "datacenter>nic",
+    "kind": "data",
+    "visual": {
+     "mode": "network",
+     "label": "응답 수신",
+     "intent": "서버에서 도착한 응답 조각이 컨트롤러를 거쳐 화면으로 이어짐",
+     "panel": false
+    },
     "focus": [
      -0.8,
      -0.1,
@@ -3196,6 +3813,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "사용자가 보는 문자는 토큰 스트림을 해석한 결과입니다 로컬 GPU가 서버의 추론을 대신했다고 표현하지 않습니다",
     "target": "display",
     "effect": "answer",
+    "flow": "nic>display",
+    "kind": "data",
+    "visual": {
+     "mode": "screen",
+     "label": "응답 표시",
+     "intent": "한 번에 완성되지 않고 응답 조각이 차례로 문장이 됨",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -3363,6 +3988,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "게임에 따라 엔진 초기화·네트워크·셰이더 준비도 로딩에 포함될 수 있습니다",
     "target": "display",
     "effect": "load-request",
+    "flow": "display>cpu",
+    "kind": "command",
+    "visual": {
+     "mode": "screen",
+     "label": "게임 시작 요청",
+     "intent": "시작 버튼과 진행 막대가 작동한 뒤 내부 로딩으로 연결",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -3384,17 +4017,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "저장장치 속도만으로 로딩 시간이 결정되지는 않습니다 캐시된 자산은 저장장치를 다시 읽지 않을 수 있습니다",
     "target": "ssd",
     "effect": "assets",
+    "flow": "ssd>dram",
+    "kind": "data",
+    "visual": {
+     "mode": "storage",
+     "label": "게임 자산",
+     "intent": "SSD의 여러 영역에서 자원 조각이 나와 RAM으로 향함",
+     "panel": false
+    },
     "focus": [
      0.24,
-     -0.8,
+     -1.5,
      -0.28
     ],
     "offset": [
-     2.1,
-     3.6,
-     4.9
+     1.15,
+     1.9,
+     2.4
     ],
-    "fit": 1.9,
+    "fit": 1.85,
     "fallback": "ssd",
     "tag": ""
    },
@@ -3405,17 +4046,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "기본 예시는 CPU 처리입니다 지원되는 게임과 API에서는 GPU 압축 해제 등을 사용할 수 있습니다",
     "target": "cpu",
     "effect": "unpack",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "compute",
+     "label": "압축 해제",
+     "intent": "CPU에서 압축된 묶음이 여러 자원 조각으로 확장",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -3426,17 +4075,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "셰이더는 GPU에서 그래픽 처리를 수행하는 프로그램입니다 일부 준비는 미리 되어 있고, 게임과 플랫폼에 따라 실행 중 컴파일이나 파이프라인 준비가 추가될 수 있습니다",
     "target": "cpu",
     "effect": "shader",
+    "flow": "cpu>gpu",
+    "kind": "command",
+    "visual": {
+     "mode": "compute",
+     "label": "그래픽 준비",
+     "intent": "CPU가 준비한 처리 명령을 GPU 방향으로 정렬",
+     "panel": false
+    },
     "focus": [
      -0.72,
-     -0.75,
+     -1.43,
      -1.56
     ],
     "offset": [
-     3.1,
-     4.2,
-     6.1
+     1.1,
+     1.65,
+     2.25
     ],
-    "fit": 1.85,
+    "fit": 1.9,
     "fallback": "cpu",
     "tag": ""
    },
@@ -3447,17 +4104,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "모든 자산이 GPU에 올라가는 것은 아닙니다 그래픽 리소스 업로드 방식은 엔진과 하드웨어에 따라 다릅니다",
     "target": "gpu",
     "effect": "upload",
+    "flow": "dram>gpu",
+    "kind": "data",
+    "visual": {
+     "mode": "graphics",
+     "label": "VRAM 준비",
+     "intent": "GPU 주위 메모리 칩을 차례로 밝히며 자원을 채움",
+     "panel": false
+    },
     "focus": [
-     0,
-     -0.8,
+     -0.96,
+     -2.1,
      6.75
     ],
     "offset": [
-     4.2,
-     6.5,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
-    "fit": 1.95,
+    "fit": 1.9,
     "fallback": "gpu",
     "tag": ""
    },
@@ -3468,17 +4133,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "GPU가 명령과 리소스를 사용해 렌더링합니다 준비 작업과 다음 자산 로딩이 겹칠 수 있습니다",
     "target": "gpu",
     "effect": "first-frame",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "graphics",
+     "label": "첫 프레임",
+     "intent": "GPU 다이에서 작은 타일이 채워져 하나의 화면이 됨",
+     "panel": false
+    },
     "focus": [
-     0,
-     -0.8,
+     -0.96,
+     -2.1,
      6.75
     ],
     "offset": [
-     4.2,
-     6.5,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
-    "fit": 1.95,
+    "fit": 1.9,
     "fallback": "gpu",
     "tag": ""
    },
@@ -3489,17 +4162,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "많은 게임은 주변 장면이나 고해상도 텍스처를 플레이 중에도 읽어옵니다 모든 파일을 다 읽어야만 첫 장면을 표시할 수 있는 것은 아닙니다",
     "target": "dram",
     "effect": "asset-stream",
+    "flow": "ssd>dram",
+    "kind": "data",
+    "visual": {
+     "mode": "memory",
+     "label": "추가 읽기",
+     "intent": "플레이 중에도 SSD 조각이 RAM의 필요한 영역으로 들어옴",
+     "panel": false
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -3510,6 +4191,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "로딩 완료 후에도 필요할 때 자산을 추가로 읽는 스트리밍이 계속될 수 있습니다",
     "target": "display",
     "effect": "play-game",
+    "flow": "gpu>display",
+    "kind": "frame",
+    "visual": {
+     "mode": "screen",
+     "label": "플레이",
+     "intent": "준비된 게임 화면이 나타나고 화면 속 대상과 시점이 이동",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -3737,6 +4426,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "OS와 그래픽 API를 통해 화면 또는 창의 프레임을 얻습니다 물리 카메라로 모니터를 찍는 과정이 아닙니다",
     "target": "display",
     "effect": "record-start",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "screen",
+     "label": "녹화 시작",
+     "intent": "녹화 버튼이 눌리고 상태 표시와 프레임 시간이 움직임",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -3758,17 +4455,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "캡처 방식에 따라 GPU 메모리에 유지하거나 시스템 메모리로 복사할 수 있습니다",
     "target": "gpu",
     "effect": "capture-frame",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "graphics",
+     "label": "프레임 복사",
+     "intent": "GPU 위 기존 프레임에서 복사본이 분리되어 인코더로 전달",
+     "panel": false
+    },
     "focus": [
-     0,
-     -0.8,
+     -0.96,
+     -2.1,
      6.75
     ],
     "offset": [
-     4.2,
-     6.5,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
-    "fit": 1.95,
+    "fit": 1.9,
     "fallback": "gpu",
     "tag": ""
    },
@@ -3779,17 +4484,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "지원되는 전용 미디어 인코더 또는 CPU 인코더가 사용됩니다 GPU 3D 코어만의 작업으로 표현하지 않습니다",
     "target": "gpu",
     "effect": "encode",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "graphics",
+     "label": "프레임 압축",
+     "intent": "프레임 타일이 전용 처리 영역을 지나 작은 묶음으로 모임",
+     "panel": false
+    },
     "focus": [
-     0,
-     -0.8,
+     -0.96,
+     -2.1,
      6.75
     ],
     "offset": [
-     4.2,
-     6.5,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
-    "fit": 1.95,
+    "fit": 1.9,
     "fallback": "gpu",
     "tag": ""
    },
@@ -3800,17 +4513,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "영상과 오디오는 별개의 데이터입니다 기록 시각과 재생 시각을 나타내는 정보로 두 트랙의 관계를 유지하며 소리를 녹음하지 않는 녹화도 가능합니다",
     "target": "dram",
     "effect": "record-audio",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "memory",
+     "label": "소리의 시간",
+     "intent": "샘플과 시간 표식이 RAM 위에서 함께 이동",
+     "panel": false
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -3821,17 +4542,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "인코더는 영상을 압축하고, 컨테이너는 압축된 영상과 소리 및 시간 정보를 하나의 파일에 담는 형식입니다 예를 들어 H.264는 영상 코덱이고 MP4는 컨테이너입니다 녹화 앱이 두 트랙을 같은 시간축으로 묶습니다",
     "target": "dram",
     "effect": "mux",
+    "flow": "gpu>dram",
+    "kind": "data",
+    "visual": {
+     "mode": "memory",
+     "label": "영상 · 소리",
+     "intent": "두 색 흐름이 같은 시각에 합쳐져 기록할 묶음으로 나옴",
+     "panel": false
+    },
     "focus": [
-     1.8,
-     -0.35,
+     1.9,
+     -1.05,
      -1.3
     ],
     "offset": [
-     3,
-     4.6,
-     6.8
+     2.6,
+     1.9,
+     3.2
     ],
-    "fit": 1.85,
+    "fit": 1.8,
     "fallback": "dram",
     "tag": ""
    },
@@ -3842,17 +4571,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "인코딩 또는 기록 속도가 부족하면 프레임이 누락될 수 있습니다 버퍼는 처리 속도의 차이를 일시적으로 흡수합니다",
     "target": "ssd",
     "effect": "record-write",
+    "flow": "dram>ssd",
+    "kind": "data",
+    "visual": {
+     "mode": "storage",
+     "label": "녹화 기록",
+     "intent": "연속 프레임 묶음이 SSD에 누적되는 상태를 표시",
+     "panel": false
+    },
     "focus": [
      0.24,
-     -0.8,
+     -1.5,
      -0.28
     ],
     "offset": [
-     2.1,
-     3.6,
-     4.9
+     1.15,
+     1.9,
+     2.4
     ],
-    "fit": 1.9,
+    "fit": 1.85,
     "fallback": "ssd",
     "tag": ""
    },
@@ -3863,17 +4600,25 @@ export const EXTENDED_SCENARIOS={
     "detail": "정지 버튼을 누른 뒤에도 인코더와 버퍼에 남은 데이터가 있을 수 있습니다 앱은 남은 데이터를 내보내고 파일 형식에 필요한 마무리 정보를 기록합니다",
     "target": "gpu",
     "effect": "drain",
+    "flow": "",
+    "kind": "",
+    "visual": {
+     "mode": "graphics",
+     "label": "남은 프레임",
+     "intent": "새 입력은 멈추고 남은 프레임 묶음만 차례로 빠져나감",
+     "panel": false
+    },
     "focus": [
-     0,
-     -0.8,
+     -0.96,
+     -2.1,
      6.75
     ],
     "offset": [
-     4.2,
-     6.5,
-     9
+     1.6,
+     2.4,
+     3.4
     ],
-    "fit": 1.95,
+    "fit": 1.9,
     "fallback": "gpu",
     "tag": ""
    },
@@ -3884,6 +4629,14 @@ export const EXTENDED_SCENARIOS={
     "detail": "컨테이너에 필요한 최종 정보와 남은 데이터를 기록합니다 녹화 표시가 꺼지는 순간과 파일 기록 완료가 항상 같지는 않습니다",
     "target": "display",
     "effect": "record-end",
+    "flow": "gpu>display",
+    "kind": "frame",
+    "visual": {
+     "mode": "screen",
+     "label": "녹화 결과",
+     "intent": "파일이 만들어지고 미리보기 재생과 진행 막대로 연결",
+     "panel": false
+    },
     "focus": [
      10,
      1.5,
@@ -3967,17 +4720,17 @@ export const EXTENDED_SCENARIOS={
     ],
     "points": [
      [
-      0.24,
-      -1.05,
-      -0.28
+      0,
+      -1.3,
+      6.75
      ],
      [
-      3.656,
+      3.5,
       2.5999999999999996,
-      -0.28
+      6.75
      ],
      [
-      7.072,
+      7.0,
       2.5999999999999996,
       5.2
      ],
@@ -3987,7 +4740,7 @@ export const EXTENDED_SCENARIOS={
       5.2
      ]
     ],
-    "kind": "command",
+    "kind": "frame",
     "stage": 7
    }
   ]

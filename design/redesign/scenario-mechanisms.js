@@ -1,5 +1,7 @@
-// Logical state is illustrated beside intact hardware, driven only by scroll progress.
+// Hardware activity, focused diagrams and output screens share the scroll clock.
 import * as T from '../../lib/vendor/three/three.module.js';
+import { ScenarioSignals } from './scenario-signals.js';
+import { paintScenarioScreen } from './scenario-screen.js';
 const clamp=T.MathUtils.clamp,mix=T.MathUtils.lerp;
 const ease=x=>{const t=clamp(x,0,1);return t*t*(3-2*t);};
 const mint='#b5d8c8',muted='#597a72',gold='#cfbd91',blue='#779caa';
@@ -33,7 +35,7 @@ export class ScenarioMechanisms{
   this.panel=new T.Mesh(new T.PlaneGeometry(3.2,1.733),new T.MeshBasicMaterial({map:this.texture,transparent:true,depthWrite:false,toneMapped:false}));this.root.add(this.panel);
   this.waveGeometry=new T.BufferGeometry();this.waveGeometry.setAttribute('position',new T.BufferAttribute(new Float32Array(128*3),3));
   this.wave=new T.Line(this.waveGeometry,new T.LineBasicMaterial({color:0xadcdbd,transparent:true,opacity:.7}));this.root.add(this.wave);
-  this.keys=[];this.cones=[];this.lastPanel='';this.lastScreen='';
+  this.signals=new ScenarioSignals(scene);this.keys=[];this.cones=[];this.lastPanel='';this.lastScreen='';
  }
  prepare(film){
   this.film=film;this.root.visible=!!film.config.extended;this.lastPanel=this.lastScreen='';this.keys=[];this.cones=[];
@@ -43,8 +45,9 @@ export class ScenarioMechanisms{
    if(!model.fadeMaterials){model.fadeMaterials=[];model.root.traverse(o=>{if(!o.isMesh)return;const original=Array.isArray(o.material)?o.material:[o.material];const copies=original.map(m=>{const clone=model.plug?m:m.clone();model.fadeMaterials.push({material:clone,opacity:m.opacity,transparent:m.transparent,depthWrite:m.depthWrite});return clone;});o.material=Array.isArray(o.material)?copies:copies[0];});}
   }
   film.extras.audio?.root.traverse(m=>{if(m.geometry?.type==='ConeGeometry')this.cones.push({mesh:m,y:m.position.y});});
+  this.signals.prepare(film);
  }
- reset(){for(const model of Object.values(this.film?.extras||{})){for(const m of model.fadeMaterials||[]){m.material.opacity=m.opacity;m.material.transparent=m.transparent;m.material.depthWrite=m.depthWrite;}}this.keys.forEach(({mesh,y})=>mesh.position.y=y);this.cones.forEach(({mesh,y})=>mesh.position.y=y);if(this.film?.key)this.film.key.intensity=3.4;if(this.film?.rim)this.film.rim.intensity=2;this.root.visible=false;}
+ reset(){for(const model of Object.values(this.film?.extras||{})){for(const m of model.fadeMaterials||[]){m.material.opacity=m.opacity;m.material.transparent=m.transparent;m.material.depthWrite=m.depthWrite;}}this.keys.forEach(({mesh,y})=>mesh.position.y=y);this.cones.forEach(({mesh,y})=>mesh.position.y=y);if(this.film?.key)this.film.key.intensity=3.4;if(this.film?.rim)this.film.rim.intensity=2;this.root.visible=false;this.signals.reset();}
  update(p,step,local){
   const f=this.film,e=step.effect,t=ease(local/.8);this.root.visible=true;
   const index=f.config.steps.indexOf(step),prev=f.config.steps[index-1],next=f.config.steps[index+1];
@@ -56,18 +59,19 @@ export class ScenarioMechanisms{
   this.keys.forEach(({mesh,y,key})=>{const pressed=e==='save-keys'?(key==='Ctrl'||key==='S'):e==='key'||e==='wake'?key==='K':false;mesh.position.y=y-(pressed?Math.sin(Math.PI*clamp(local/.6,0,1))*1.1:0);});
   this.cones.forEach(({mesh,y})=>mesh.position.y=y+(e==='speaker'?Math.sin(local*35)*1.1:0));
   if(f.extras.usb){const at=f.config.steps.findIndex(s=>s.effect==='insert');f.extras.usb.pose(f.config.steps.indexOf(step)>at?1:e==='insert'?ease(local/.65):0);}
-  const sleeping=f.id==='sleep'&&['power-low','wake'].includes(e);if(f.key)f.key.intensity=sleeping?.55:3.4;if(f.rim)f.rim.intensity=sleeping?.35:2;
-  const output=['typed','window','saved','video','call-result','multitask-result','drive','resumed','answer','play-game','record-end'].includes(e);
-  this.panel.visible=!output&&e!=='speaker';
-  this.panel.material.depthTest=step.target!=='audio';this.panel.renderOrder=step.target==='audio'?10:0;
+  const blend=matchMedia('(prefers-reduced-motion: reduce)').matches?0:ease((local-.55)/.45),dark=effect=>f.id==='sleep'&&['power-low','wake'].includes(effect)?1:0;
+  const dim=mix(dark(e),dark(next?.effect),next?blend:0);if(f.key)f.key.intensity=mix(3.4,.55,dim);if(f.rim)f.rim.intensity=mix(2,.35,dim);
+  this.panel.visible=!!step.visual.panel;
+  this.panel.material.depthTest=false;this.panel.material.depthWrite=false;this.panel.renderOrder=10000;
   if(this.panel.visible){
    const focus=new T.Vector3(...step.focus);this.panel.position.copy(focus).add(new T.Vector3(-1.35,1.55,.1));this.panel.quaternion.copy(f.camera.quaternion);
    this.panel.scale.setScalar(['input','mouse','camera','usb','audio','datacenter'].includes(step.target)?1.12:.78);
    // Keep the conceptual illustration inside the reading area across all camera angles.
    this.fitPanel();this.drawPanel(e,t,p);this.texture.needsUpdate=true;
   }
-  this.wave.visible=['dac','amplify','speaker'].includes(e);
+  this.wave.visible=false;
   if(this.wave.visible){const a=this.waveGeometry.attributes.position;for(let i=0;i<128;i++)a.setXYZ(i,14.5+i*.037,1+Math.sin(i*.18+local*18)*.3*(e==='amplify'?.45+.55*t:1),1.9);a.needsUpdate=true;this.waveGeometry.computeBoundingSphere();}
+  this.signals.update(p,step,local);
   const state=$state(f,step,local);document.body.dataset.mechanism=e;document.body.dataset.mechanismState=JSON.stringify(state);
  }
  fitPanel(){
@@ -78,7 +82,7 @@ export class ScenarioMechanisms{
    const b=new T.Vector3(1.6,.8665,0).multiplyScalar(scale).applyQuaternion(q).add(center).project(camera);
    return {width:Math.abs(b.x-a.x)*w/2,height:Math.abs(b.y-a.y)*h/2};
   };
-  let size=projectedSize();this.panel.scale.multiplyScalar(Math.min(1,(mobile?w*.86:420)/size.width,(mobile?150:210)/size.height));size=projectedSize();
+  let size=projectedSize();this.panel.scale.multiplyScalar(Math.min(1,(mobile?w*.76:310)/size.width,(mobile?120:168)/size.height));size=projectedSize();
   const p=this.panel.position.clone().project(camera),px=(p.x+1)*w/2,py=(1-p.y)*h/2;
   const audio=this.film.currentBeat.target==='audio';
   const x=clamp(px,(mobile?.05:audio?.06:.30)*w+size.width/2,(mobile?.95:audio?.43:.95)*w-size.width/2),y=clamp(py,.045*h+size.height/2,(mobile?.34:.40)*h-size.height/2);
@@ -131,39 +135,7 @@ export class ScenarioMechanisms{
    card(c,60,146,220,94,e==='focus'?'입력할 앱':'요청');text(c,'→',327,204,40,muted);card(c,430,146,230,94,e==='send'?'상대방':'처리');bars(c,t,{y:306});
   }
  }
- paintOutput(c,id,e,t,p,{remote=false}={}){
-  c.clearRect(0,0,960,540);rounded(c,0,0,960,540,'#0c1b1e',0);
-  if(['typing','save','sleep'].includes(id)){
-   const asleep=id==='sleep'&&['power-low','wake'].includes(e);if(asleep){rounded(c,0,0,960,540,'#070d0e',0);return;}
-   rounded(c,75,46,810,450,'#1a3030',14);text(c,'나의 기록',112,92,22);line(c,110,117,847,117);text(c,'오늘의 생각',116,180,30,'#d6e4d8');
-   if(id==='typing'){const reveal=['ime','glyph','pixels','typed'].includes(e);text(c,reveal?'가':'ㄱ',116,242,35);line(c,158,215,158,247,mint,2);}
-   else{for(let j=0;j<5;j++)rounded(c,117,215+j*33,[550,460,590,390,480][j],5,'#78988c',2);}
-   if(id==='save')text(c,e==='saved'?'저장됨':e==='save-keys'&&t<.3?'수정됨':'저장 중',752,92,19,e==='saved'?mint:muted);
-  }else if(id==='launch'){
-   for(let j=0;j<3;j++)rounded(c,72,88+j*90,45,45,['#809b8b','#4b7171','#8b9985'][j],10);
-   if(e==='window'){const q=ease(t/.7);c.save();c.translate(480,275);c.scale(.4+.6*q,.4+.6*q);rounded(c,-350,-200,700,400,'#24413d',14);text(c,'작업 공간',-310,-146,29);for(let j=0;j<4;j++)rounded(c,-310+j*155,-103,132,112,['#75958a','#476d66','#9ba997','#618f82'][j],7);c.restore();}
-  }else if(['music','streaming','loading'].includes(id)){
-   mountain(c,70,55,820,385,p*8);rounded(c,70,460,820,4,muted,2);rounded(c,70,460,820*clamp(p,0,1),4,mint,2);
-   if(id==='music'){rounded(c,605,205,245,175,'#17312eea',12);text(c,'지금 재생 중',635,250,25);wave(c,t,{y:360,amplitude:18});}
-   if(id==='streaming'&&['video-request','buffer-low','buffer-refill'].includes(e)){rounded(c,330,210,300,94,'#132b28ef',12);text(c,e==='video-request'?'재생 준비':'다음 장면을 기다리는 중',354,263,21);}
-   if(id==='loading'&&e!=='play-game'){rounded(c,235,205,490,105,'#132b28ed',12);text(c,'장면을 준비하고 있습니다',287,250,24);rounded(c,280,276,400,4,muted,2);rounded(c,280,276,400*p,4,mint,2);}if(e==='play-game'){line(c,465,230,495,230,mint);line(c,480,215,480,245,mint);}
-  }else if(id==='call'){
-   portrait(c,65,58,830,425,remote?'#94b6a3':'#78988b');portrait(c,710,352,145,105,'#577e74');text(c,remote?'상대방의 컴퓨터':'내 컴퓨터',95,101,21);
-  }else if(id==='multitasking'){
-   [[70,65,450,320],[340,110,520,310],[185,275,330,205]].forEach(([x,y,w,h],j)=>{rounded(c,x,y,w,h,['#29473d','#233d43','#3d4d40'][j],14);text(c,['문서','브라우저','음악'][j],x+25,y+45,23);for(let k=0;k<3;k++)rounded(c,x+25,y+80+k*28,w*.6,4,'#8fad9e',2);});
-  }else if(id==='usb'){
-   rounded(c,75,50,810,440,'#1a3030',14);text(c,'파일',110,100,27);line(c,110,125,850,125);
-   if(e==='drive'){card(c,115,162,170,220,'USB 저장장치');for(let j=0;j<3;j++){rounded(c,355+j*155,188,114,80,'#719989',9);text(c,['문서','사진','작업'][j],375+j*155,310,21);}}else text(c,'연결한 장치를 준비합니다',292,286,26,muted);
-  }else if(id==='ai'){
-   rounded(c,80,50,800,444,'#192d2b',14);text(c,'컴퓨터는 어떻게 답을 만들까?',128,122,26);
-   const lines=['모델이 질문을 작은 단위로 읽고','지금까지의 내용을 바탕으로','다음 응답 조각을 차례로 계산합니다'];const amount=e==='answer'?1:e==='tokens-return'?t*.75:0;
-   lines.forEach((s,j)=>{text(c,s.slice(0,Math.floor(s.length*clamp(amount*3-j,0,1))),128,230+j*55,25);});
-   rounded(c,110,413,740,48,'#28433c',10);text(c,'질문하기',135,445,19,muted);
-  }else if(id==='record'){
-   mountain(c,65,45,830,390,p*7);const recording=!['record-start','drain','record-end'].includes(e);if(recording){c.fillStyle=gold;c.beginPath();c.arc(100,80,7,0,Math.PI*2);c.fill();text(c,'녹화 중',120,88,22,gold);}
-   if(e==='drain')text(c,'남은 데이터를 기록하고 있습니다',245,477,22);
-   if(e==='record-end'){rounded(c,320,160,320,195,'#1b332eed',12);text(c,'녹화한 영상',390,218,27);c.fillStyle=mint;c.beginPath();c.moveTo(465,250);c.lineTo(465,300);c.lineTo(508,275);c.fill();}
-  }
- }
+ paintOutput(c,id,e,t,p,{remote=false}={}){paintScenarioScreen(c,id,e,t,p,{remote});}
+
 }
-function $state(f,step,local){return{story:f.id,effect:step.effect,stage:f.config.steps.indexOf(step),local:+local.toFixed(4),assembled:true};}
+function $state(f,step,local){return{story:f.id,effect:step.effect,stage:f.config.steps.indexOf(step),local:+local.toFixed(4),visual:step.visual.mode};}

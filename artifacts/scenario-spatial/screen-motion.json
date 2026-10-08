@@ -1,0 +1,52 @@
+{
+  "typing": {
+    "visual_change": 0.06243055555555556,
+    "reverse_difference": 0
+  },
+  "launch": {
+    "visual_change": 23.98934799382716,
+    "reverse_difference": 0
+  },
+  "save": {
+    "visual_change": 0.17014081790123456,
+    "reverse_difference": 0
+  },
+  "music": {
+    "visual_change": 2.722156635802469,
+    "reverse_difference": 0
+  },
+  "streaming": {
+    "visual_change": 44.93190586419753,
+    "reverse_difference": 0
+  },
+  "call": {
+    "visual_change": 47.101147762345676,
+    "reverse_difference": 0
+  },
+  "multitasking": {
+    "visual_change": 5.495904706790124,
+    "reverse_difference": 0,
+    "final_scene_boundary_difference": 0.0
+  },
+  "usb": {
+    "visual_change": 9.090895061728395,
+    "reverse_difference": 0
+  },
+  "sleep": {
+    "visual_change": 18.998180941358026,
+    "reverse_difference": 0
+  },
+  "ai": {
+    "visual_change": 1.3012075617283951,
+    "reverse_difference": 0,
+    "final_scene_boundary_difference": 0.0
+  },
+  "loading": {
+    "visual_change": 12.73275462962963,
+    "reverse_difference": 0
+  },
+  "record": {
+    "visual_change": 17.007386188271607,
+    "reverse_difference": 0
+  }
+}
