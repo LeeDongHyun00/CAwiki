@@ -45,6 +45,19 @@
 
 <sub>도감 소스 기반 로컬 렌더링 캡처 · 다크/라이트 화면 순환 · 2026-10-08</sub>
 
+## 현재 메인 화면과 성능 검증
+
+현재 `index.html`의 필름·모니터·관계지도·스크롤 시나리오는 Three.js 앱이며,
+실행 코드는 `lib/inside/`, 개별 이미지 자산은 `assets/inside/`에 있습니다.
+기존 `wiki.html`, `hardware.html`, `scenarios/*.html`은 아래에 설명한 SVG/WASM 구조를 사용합니다.
+
+메인 코드나 자산을 수정한 뒤 `python3 tools/build_inside_manifest.py`로 캐시 버전 URL을 갱신합니다.
+생성된 파일을 포함해 정적 서버에 그대로 올리면 되며 런타임 빌드는 필요 없습니다.
+
+[렌더링 리팩토링 설계·실험 기록](docs/rendering-performance.md)에 병목 근거, 품질 예산,
+로딩·복구 UX, 반복 측정 방법, 원본 수치와 실기기 검증 과제를 정리했습니다.
+`tools/measure_rendering.py`로 성능을 측정하고 `tools/test_rendering.py`로 화면 전환을 검증합니다.
+
 ## 주요 파일 경로
 
 ```text

@@ -1,0 +1,1981 @@
+{
+  "method": {
+    "browser": "Chromium / SwiftShader",
+    "network": "localhost gzip; no network RTT claim",
+    "cpuThrottle": 1,
+    "frames": "rAF intervals including idle; not GPU execution time",
+    "renderMs": "CPU submission time; GPU work may be asynchronous",
+    "heap": "CDP JS heap only, excludes GPU/native/decoded image memory",
+    "profiles": {
+      "desktop": [
+        1440,
+        900,
+        1
+      ],
+      "mobile": [
+        390,
+        844,
+        3
+      ]
+    }
+  },
+  "runs": [
+    {
+      "profile": "desktop",
+      "run": 1,
+      "phases": {
+        "initial": {
+          "durationMs": 7036,
+          "losses": 0,
+          "lcpMs": 180,
+          "resourceBytes": 394618,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 18,
+            "textures": 6
+          },
+          "retainedSceneTexturePixels": 19596288,
+          "frames": {
+            "n": 145,
+            "p50Ms": 16.7,
+            "p95Ms": 50,
+            "maxMs": 2616.6,
+            "over50ms": 7
+          },
+          "renders": {
+            "n": 3,
+            "p50Ms": 2.3,
+            "p95Ms": 536.7,
+            "maxMs": 536.7,
+            "maxCalls": 13,
+            "maxTriangles": 66761
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 8,
+            "totalMs": 4556,
+            "maxMs": 2622,
+            "blockingMs": 4156
+          },
+          "jsHeapBytes": 9490376,
+          "dom": {
+            "documents": 1,
+            "nodes": 5726,
+            "jsEventListeners": 252
+          }
+        },
+        "monitor": {
+          "durationMs": 6991.800000000047,
+          "losses": 0,
+          "lcpMs": 180,
+          "resourceBytes": 394618,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 296,
+            "textures": 108
+          },
+          "retainedSceneTexturePixels": 19596288,
+          "frames": {
+            "n": 3,
+            "p50Ms": 16.7,
+            "p95Ms": 1349.9,
+            "maxMs": 1349.9,
+            "over50ms": 1
+          },
+          "renders": {
+            "n": 3,
+            "p50Ms": 725.5,
+            "p95Ms": 1261.8,
+            "maxMs": 1261.8,
+            "maxCalls": 248,
+            "maxTriangles": 488673
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 1,
+            "totalMs": 1352,
+            "maxMs": 1352,
+            "blockingMs": 1302
+          },
+          "jsHeapBytes": 12047464,
+          "dom": {
+            "documents": 1,
+            "nodes": 5733,
+            "jsEventListeners": 252
+          }
+        },
+        "relationship": {
+          "durationMs": 3022.4000000001397,
+          "losses": 0,
+          "lcpMs": 17852,
+          "resourceBytes": 1899704,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 352,
+            "textures": 128
+          },
+          "retainedSceneTexturePixels": 19596288,
+          "frames": {
+            "n": 9,
+            "p50Ms": 16.7,
+            "p95Ms": 99.9,
+            "maxMs": 99.9,
+            "over50ms": 1
+          },
+          "renders": {
+            "n": 5,
+            "p50Ms": 0.2,
+            "p95Ms": 1019,
+            "maxMs": 1019,
+            "maxCalls": 67,
+            "maxTriangles": 265879
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 1,
+            "totalMs": 94,
+            "maxMs": 94,
+            "blockingMs": 44
+          },
+          "jsHeapBytes": 15386568,
+          "dom": {
+            "documents": 1,
+            "nodes": 5782,
+            "jsEventListeners": 252
+          }
+        },
+        "relationship-network": {
+          "durationMs": 3536.8000000000466,
+          "losses": 0,
+          "lcpMs": 17852,
+          "resourceBytes": 2140292,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 352,
+            "textures": 128
+          },
+          "retainedSceneTexturePixels": 19596288,
+          "frames": {
+            "n": 8,
+            "p50Ms": 58.35,
+            "p95Ms": 1216.7,
+            "maxMs": 1216.7,
+            "over50ms": 4
+          },
+          "renders": {
+            "n": 6,
+            "p50Ms": 2.45,
+            "p95Ms": 61.4,
+            "maxMs": 61.4,
+            "maxCalls": 67,
+            "maxTriangles": 265879
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 4,
+            "totalMs": 2195,
+            "maxMs": 1217,
+            "blockingMs": 1995
+          },
+          "jsHeapBytes": 15593620,
+          "dom": {
+            "documents": 1,
+            "nodes": 5839,
+            "jsEventListeners": 252
+          }
+        },
+        "scenario-game": {
+          "durationMs": 12722.100000000093,
+          "losses": 0,
+          "lcpMs": 17852,
+          "resourceBytes": 2140292,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 358,
+            "textures": 114
+          },
+          "retainedSceneTexturePixels": 5745408,
+          "frames": {
+            "n": 11,
+            "p50Ms": 983.3,
+            "p95Ms": 3416.5,
+            "maxMs": 3416.5,
+            "over50ms": 8
+          },
+          "renders": {
+            "n": 49,
+            "p50Ms": 0.1,
+            "p95Ms": 15.3,
+            "maxMs": 1515.4,
+            "maxCalls": 204,
+            "maxTriangles": 377727
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 9,
+            "totalMs": 11156,
+            "maxMs": 1898,
+            "blockingMs": 10706
+          },
+          "jsHeapBytes": 16284596,
+          "dom": {
+            "documents": 1,
+            "nodes": 5849,
+            "jsEventListeners": 258
+          }
+        },
+        "scenario-save": {
+          "durationMs": 4990.90000000014,
+          "losses": 0,
+          "lcpMs": 17852,
+          "resourceBytes": 2140292,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 405,
+            "textures": 156
+          },
+          "retainedSceneTexturePixels": 5745408,
+          "frames": {
+            "n": 8,
+            "p50Ms": 225.0,
+            "p95Ms": 1466.6,
+            "maxMs": 1466.6,
+            "over50ms": 4
+          },
+          "renders": {
+            "n": 5,
+            "p50Ms": 6.8,
+            "p95Ms": 44.3,
+            "maxMs": 44.3,
+            "maxCalls": 204,
+            "maxTriangles": 377727
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 5,
+            "totalMs": 2924,
+            "maxMs": 1410,
+            "blockingMs": 2674
+          },
+          "jsHeapBytes": 15762224,
+          "dom": {
+            "documents": 1,
+            "nodes": 5919,
+            "jsEventListeners": 266
+          }
+        }
+      },
+      "errors": [],
+      "readyMs": 5075.199999999953
+    },
+    {
+      "profile": "desktop",
+      "run": 2,
+      "phases": {
+        "initial": {
+          "durationMs": 7073.300000000047,
+          "losses": 0,
+          "lcpMs": 116,
+          "resourceBytes": 394618,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 18,
+            "textures": 6
+          },
+          "retainedSceneTexturePixels": 19596288,
+          "frames": {
+            "n": 143,
+            "p50Ms": 16.7,
+            "p95Ms": 33.3,
+            "maxMs": 2483.3,
+            "over50ms": 6
+          },
+          "renders": {
+            "n": 3,
+            "p50Ms": 2.1,
+            "p95Ms": 865.2,
+            "maxMs": 865.2,
+            "maxCalls": 13,
+            "maxTriangles": 66761
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 7,
+            "totalMs": 4575,
+            "maxMs": 2486,
+            "blockingMs": 4225
+          },
+          "jsHeapBytes": 9498776,
+          "dom": {
+            "documents": 1,
+            "nodes": 5726,
+            "jsEventListeners": 252
+          }
+        },
+        "monitor": {
+          "durationMs": 6387.800000000047,
+          "losses": 0,
+          "lcpMs": 116,
+          "resourceBytes": 394618,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 296,
+            "textures": 108
+          },
+          "retainedSceneTexturePixels": 19596288,
+          "frames": {
+            "n": 3,
+            "p50Ms": 16.7,
+            "p95Ms": 1333.4,
+            "maxMs": 1333.4,
+            "over50ms": 1
+          },
+          "renders": {
+            "n": 3,
+            "p50Ms": 613.7,
+            "p95Ms": 1094,
+            "maxMs": 1094,
+            "maxCalls": 248,
+            "maxTriangles": 488673
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 1,
+            "totalMs": 1320,
+            "maxMs": 1320,
+            "blockingMs": 1270
+          },
+          "jsHeapBytes": 12529784,
+          "dom": {
+            "documents": 1,
+            "nodes": 5733,
+            "jsEventListeners": 252
+          }
+        },
+        "relationship": {
+          "durationMs": 2649.899999999907,
+          "losses": 0,
+          "lcpMs": 17696,
+          "resourceBytes": 1899704,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 352,
+            "textures": 128
+          },
+          "retainedSceneTexturePixels": 19596288,
+          "frames": {
+            "n": 8,
+            "p50Ms": 16.7,
+            "p95Ms": 16.7,
+            "maxMs": 16.7,
+            "over50ms": 0
+          },
+          "renders": {
+            "n": 5,
+            "p50Ms": 0.1,
+            "p95Ms": 780.8,
+            "maxMs": 780.8,
+            "maxCalls": 67,
+            "maxTriangles": 265879
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "blockingMs": 0
+          },
+          "jsHeapBytes": 15365500,
+          "dom": {
+            "documents": 1,
+            "nodes": 5782,
+            "jsEventListeners": 252
+          }
+        },
+        "relationship-network": {
+          "durationMs": 4768.40000000014,
+          "losses": 0,
+          "lcpMs": 17696,
+          "resourceBytes": 2140292,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 439,
+            "textures": 144
+          },
+          "retainedSceneTexturePixels": 19596288,
+          "frames": {
+            "n": 10,
+            "p50Ms": 33.25,
+            "p95Ms": 1633.4,
+            "maxMs": 1633.4,
+            "over50ms": 3
+          },
+          "renders": {
+            "n": 10,
+            "p50Ms": 1.25,
+            "p95Ms": 709.6,
+            "maxMs": 709.6,
+            "maxCalls": 99,
+            "maxTriangles": 265879
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 3,
+            "totalMs": 2540,
+            "maxMs": 1633,
+            "blockingMs": 2390
+          },
+          "jsHeapBytes": 21115968,
+          "dom": {
+            "documents": 1,
+            "nodes": 5844,
+            "jsEventListeners": 252
+          }
+        },
+        "scenario-game": {
+          "durationMs": 10851.299999999814,
+          "losses": 0,
+          "lcpMs": 17696,
+          "resourceBytes": 2140292,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 358,
+            "textures": 114
+          },
+          "retainedSceneTexturePixels": 5745408,
+          "frames": {
+            "n": 10,
+            "p50Ms": 816.65,
+            "p95Ms": 3049.8,
+            "maxMs": 3049.8,
+            "over50ms": 8
+          },
+          "renders": {
+            "n": 45,
+            "p50Ms": 0.1,
+            "p95Ms": 62,
+            "maxMs": 927.2,
+            "maxCalls": 204,
+            "maxTriangles": 377727
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 9,
+            "totalMs": 9283,
+            "maxMs": 2087,
+            "blockingMs": 8833
+          },
+          "jsHeapBytes": 16811864,
+          "dom": {
+            "documents": 1,
+            "nodes": 5862,
+            "jsEventListeners": 258
+          }
+        },
+        "scenario-save": {
+          "durationMs": 4432.5,
+          "losses": 0,
+          "lcpMs": 17696,
+          "resourceBytes": 2140292,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 405,
+            "textures": 156
+          },
+          "retainedSceneTexturePixels": 5745408,
+          "frames": {
+            "n": 7,
+            "p50Ms": 50,
+            "p95Ms": 1233.2,
+            "maxMs": 1233.2,
+            "over50ms": 3
+          },
+          "renders": {
+            "n": 5,
+            "p50Ms": 6,
+            "p95Ms": 46.5,
+            "maxMs": 46.5,
+            "maxCalls": 204,
+            "maxTriangles": 377727
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 5,
+            "totalMs": 2589,
+            "maxMs": 1221,
+            "blockingMs": 2339
+          },
+          "jsHeapBytes": 20764792,
+          "dom": {
+            "documents": 1,
+            "nodes": 5966,
+            "jsEventListeners": 266
+          }
+        }
+      },
+      "errors": [],
+      "readyMs": 5112
+    },
+    {
+      "profile": "desktop",
+      "run": 3,
+      "phases": {
+        "initial": {
+          "durationMs": 6709.899999999907,
+          "losses": 0,
+          "lcpMs": 80,
+          "resourceBytes": 394618,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 18,
+            "textures": 6
+          },
+          "retainedSceneTexturePixels": 19596288,
+          "frames": {
+            "n": 145,
+            "p50Ms": 16.7,
+            "p95Ms": 49.9,
+            "maxMs": 2266.6,
+            "over50ms": 7
+          },
+          "renders": {
+            "n": 3,
+            "p50Ms": 2.9,
+            "p95Ms": 638.7,
+            "maxMs": 638.7,
+            "maxCalls": 13,
+            "maxTriangles": 66761
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 10,
+            "totalMs": 4335,
+            "maxMs": 2268,
+            "blockingMs": 3835
+          },
+          "jsHeapBytes": 9501388,
+          "dom": {
+            "documents": 1,
+            "nodes": 5726,
+            "jsEventListeners": 252
+          }
+        },
+        "monitor": {
+          "durationMs": 6060.199999999953,
+          "losses": 0,
+          "lcpMs": 80,
+          "resourceBytes": 394618,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 296,
+            "textures": 108
+          },
+          "retainedSceneTexturePixels": 19596288,
+          "frames": {
+            "n": 3,
+            "p50Ms": 16.7,
+            "p95Ms": 1450,
+            "maxMs": 1450,
+            "over50ms": 1
+          },
+          "renders": {
+            "n": 3,
+            "p50Ms": 555.4,
+            "p95Ms": 974.3,
+            "maxMs": 974.3,
+            "maxCalls": 248,
+            "maxTriangles": 488673
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 1,
+            "totalMs": 1456,
+            "maxMs": 1456,
+            "blockingMs": 1406
+          },
+          "jsHeapBytes": 12149604,
+          "dom": {
+            "documents": 1,
+            "nodes": 5733,
+            "jsEventListeners": 252
+          }
+        },
+        "relationship": {
+          "durationMs": 2579,
+          "losses": 0,
+          "lcpMs": 16904,
+          "resourceBytes": 1899704,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 352,
+            "textures": 128
+          },
+          "retainedSceneTexturePixels": 19596288,
+          "frames": {
+            "n": 9,
+            "p50Ms": 16.7,
+            "p95Ms": 16.7,
+            "maxMs": 16.7,
+            "over50ms": 0
+          },
+          "renders": {
+            "n": 5,
+            "p50Ms": 0.3,
+            "p95Ms": 742.9,
+            "maxMs": 742.9,
+            "maxCalls": 67,
+            "maxTriangles": 265879
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "blockingMs": 0
+          },
+          "jsHeapBytes": 15389788,
+          "dom": {
+            "documents": 1,
+            "nodes": 5782,
+            "jsEventListeners": 252
+          }
+        },
+        "relationship-network": {
+          "durationMs": 3828.5999999998603,
+          "losses": 0,
+          "lcpMs": 16904,
+          "resourceBytes": 2140292,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 352,
+            "textures": 128
+          },
+          "retainedSceneTexturePixels": 19596288,
+          "frames": {
+            "n": 10,
+            "p50Ms": 25.05,
+            "p95Ms": 1816.6,
+            "maxMs": 1816.6,
+            "over50ms": 3
+          },
+          "renders": {
+            "n": 6,
+            "p50Ms": 1.9,
+            "p95Ms": 787.7,
+            "maxMs": 787.7,
+            "maxCalls": 67,
+            "maxTriangles": 265879
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 3,
+            "totalMs": 2675,
+            "maxMs": 1819,
+            "blockingMs": 2525
+          },
+          "jsHeapBytes": 15659348,
+          "dom": {
+            "documents": 1,
+            "nodes": 5803,
+            "jsEventListeners": 252
+          }
+        },
+        "scenario-game": {
+          "durationMs": 11700.699999999953,
+          "losses": 0,
+          "lcpMs": 16904,
+          "resourceBytes": 2140292,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 358,
+            "textures": 114
+          },
+          "retainedSceneTexturePixels": 5745408,
+          "frames": {
+            "n": 11,
+            "p50Ms": 1016.7,
+            "p95Ms": 3099.9,
+            "maxMs": 3099.9,
+            "over50ms": 9
+          },
+          "renders": {
+            "n": 49,
+            "p50Ms": 0.1,
+            "p95Ms": 43.9,
+            "maxMs": 1206.3,
+            "maxCalls": 204,
+            "maxTriangles": 377727
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 10,
+            "totalMs": 10114,
+            "maxMs": 1879,
+            "blockingMs": 9614
+          },
+          "jsHeapBytes": 12903404,
+          "dom": {
+            "documents": 1,
+            "nodes": 5849,
+            "jsEventListeners": 258
+          }
+        },
+        "scenario-save": {
+          "durationMs": 3047.3000000000466,
+          "losses": 0,
+          "lcpMs": 16904,
+          "resourceBytes": 2140292,
+          "canvas": [
+            1440,
+            900
+          ],
+          "target": [
+            1536,
+            864,
+            2
+          ],
+          "rendererMemory": {
+            "geometries": 405,
+            "textures": 156
+          },
+          "retainedSceneTexturePixels": 5745408,
+          "frames": {
+            "n": 42,
+            "p50Ms": 16.7,
+            "p95Ms": 966.6,
+            "maxMs": 1449.9,
+            "over50ms": 3
+          },
+          "renders": {
+            "n": 3,
+            "p50Ms": 4.8,
+            "p95Ms": 43.4,
+            "maxMs": 43.4,
+            "maxCalls": 204,
+            "maxTriangles": 377727
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 4,
+            "totalMs": 2418,
+            "maxMs": 1375,
+            "blockingMs": 2218
+          },
+          "jsHeapBytes": 17618340,
+          "dom": {
+            "documents": 1,
+            "nodes": 5929,
+            "jsEventListeners": 266
+          }
+        }
+      },
+      "errors": [],
+      "readyMs": 4752.299999999814
+    },
+    {
+      "profile": "mobile",
+      "run": 1,
+      "phases": {
+        "initial": {
+          "durationMs": 4536.399999999907,
+          "losses": 0,
+          "lcpMs": 256,
+          "resourceBytes": 394618,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 18,
+            "textures": 6
+          },
+          "retainedSceneTexturePixels": 5389824,
+          "frames": {
+            "n": 88,
+            "p50Ms": 16.7,
+            "p95Ms": 83.4,
+            "maxMs": 1366.5,
+            "over50ms": 18
+          },
+          "renders": {
+            "n": 20,
+            "p50Ms": 1.0,
+            "p95Ms": 942.6,
+            "maxMs": 942.6,
+            "maxCalls": 13,
+            "maxTriangles": 61577
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 21,
+            "totalMs": 3295,
+            "maxMs": 961,
+            "blockingMs": 2245
+          },
+          "jsHeapBytes": 9643256,
+          "dom": {
+            "documents": 1,
+            "nodes": 5726,
+            "jsEventListeners": 252
+          }
+        },
+        "monitor": {
+          "durationMs": 3107.100000000093,
+          "losses": 0,
+          "lcpMs": 256,
+          "resourceBytes": 394618,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 296,
+            "textures": 108
+          },
+          "retainedSceneTexturePixels": 5389824,
+          "frames": {
+            "n": 5,
+            "p50Ms": 16.8,
+            "p95Ms": 2416.5,
+            "maxMs": 2416.5,
+            "over50ms": 2
+          },
+          "renders": {
+            "n": 4,
+            "p50Ms": 255.65,
+            "p95Ms": 913.5,
+            "maxMs": 913.5,
+            "maxCalls": 248,
+            "maxTriangles": 242593
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 3,
+            "totalMs": 3077,
+            "maxMs": 2430,
+            "blockingMs": 2927
+          },
+          "jsHeapBytes": 26554376,
+          "dom": {
+            "documents": 1,
+            "nodes": 5736,
+            "jsEventListeners": 252
+          }
+        },
+        "relationship": {
+          "durationMs": 2361.1999999999534,
+          "losses": 0,
+          "lcpMs": 10092,
+          "resourceBytes": 1555262,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 351,
+            "textures": 127
+          },
+          "retainedSceneTexturePixels": 5389824,
+          "frames": {
+            "n": 50,
+            "p50Ms": 16.7,
+            "p95Ms": 16.8,
+            "maxMs": 1533.2,
+            "over50ms": 1
+          },
+          "renders": {
+            "n": 2,
+            "p50Ms": 354.9,
+            "p95Ms": 708.3,
+            "maxMs": 708.3,
+            "maxCalls": 67,
+            "maxTriangles": 247399
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 2,
+            "totalMs": 1544,
+            "maxMs": 835,
+            "blockingMs": 1444
+          },
+          "jsHeapBytes": 25075548,
+          "dom": {
+            "documents": 1,
+            "nodes": 5786,
+            "jsEventListeners": 252
+          }
+        },
+        "relationship-network": {
+          "durationMs": 2363.0999999998603,
+          "losses": 0,
+          "lcpMs": 10092,
+          "resourceBytes": 1795850,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 414,
+            "textures": 137
+          },
+          "retainedSceneTexturePixels": 5389824,
+          "frames": {
+            "n": 131,
+            "p50Ms": 16.7,
+            "p95Ms": 16.8,
+            "maxMs": 200,
+            "over50ms": 1
+          },
+          "renders": {
+            "n": 2,
+            "p50Ms": 7.85,
+            "p95Ms": 13.1,
+            "maxMs": 13.1,
+            "maxCalls": 139,
+            "maxTriangles": 113551
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 1,
+            "totalMs": 196,
+            "maxMs": 196,
+            "blockingMs": 146
+          },
+          "jsHeapBytes": 14530572,
+          "dom": {
+            "documents": 1,
+            "nodes": 5803,
+            "jsEventListeners": 252
+          }
+        },
+        "scenario-game": {
+          "durationMs": 5537.100000000093,
+          "losses": 0,
+          "lcpMs": 10092,
+          "resourceBytes": 1795850,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 359,
+            "textures": 114
+          },
+          "retainedSceneTexturePixels": 1927808,
+          "frames": {
+            "n": 37,
+            "p50Ms": 16.8,
+            "p95Ms": 533.3,
+            "maxMs": 1916.6,
+            "over50ms": 15
+          },
+          "renders": {
+            "n": 50,
+            "p50Ms": 0.1,
+            "p95Ms": 87.8,
+            "maxMs": 1292.3,
+            "maxCalls": 202,
+            "maxTriangles": 205979
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 16,
+            "totalMs": 4932,
+            "maxMs": 1304,
+            "blockingMs": 4132
+          },
+          "jsHeapBytes": 25957236,
+          "dom": {
+            "documents": 1,
+            "nodes": 5881,
+            "jsEventListeners": 258
+          }
+        },
+        "scenario-save": {
+          "durationMs": 2670.5,
+          "losses": 0,
+          "lcpMs": 10092,
+          "resourceBytes": 1795850,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 405,
+            "textures": 156
+          },
+          "retainedSceneTexturePixels": 1927808,
+          "frames": {
+            "n": 52,
+            "p50Ms": 16.7,
+            "p95Ms": 300,
+            "maxMs": 366.6,
+            "over50ms": 6
+          },
+          "renders": {
+            "n": 8,
+            "p50Ms": 4.1,
+            "p95Ms": 30.1,
+            "maxMs": 30.1,
+            "maxCalls": 151,
+            "maxTriangles": 114579
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 7,
+            "totalMs": 1849,
+            "maxMs": 371,
+            "blockingMs": 1499
+          },
+          "jsHeapBytes": 27765672,
+          "dom": {
+            "documents": 1,
+            "nodes": 5992,
+            "jsEventListeners": 266
+          }
+        }
+      },
+      "errors": [],
+      "readyMs": 2579.2999999998137
+    },
+    {
+      "profile": "mobile",
+      "run": 2,
+      "phases": {
+        "initial": {
+          "durationMs": 4630.200000000186,
+          "losses": 0,
+          "lcpMs": 256,
+          "resourceBytes": 394618,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 18,
+            "textures": 6
+          },
+          "retainedSceneTexturePixels": 5389824,
+          "frames": {
+            "n": 85,
+            "p50Ms": 16.7,
+            "p95Ms": 100,
+            "maxMs": 1366.7,
+            "over50ms": 18
+          },
+          "renders": {
+            "n": 17,
+            "p50Ms": 1,
+            "p95Ms": 913.4,
+            "maxMs": 913.4,
+            "maxCalls": 13,
+            "maxTriangles": 61577
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 19,
+            "totalMs": 3350,
+            "maxMs": 922,
+            "blockingMs": 2400
+          },
+          "jsHeapBytes": 9607716,
+          "dom": {
+            "documents": 1,
+            "nodes": 5726,
+            "jsEventListeners": 252
+          }
+        },
+        "monitor": {
+          "durationMs": 2813.7000000001863,
+          "losses": 0,
+          "lcpMs": 256,
+          "resourceBytes": 394618,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 262,
+            "textures": 91
+          },
+          "retainedSceneTexturePixels": 5389824,
+          "frames": {
+            "n": 4,
+            "p50Ms": 33.3,
+            "p95Ms": 116.6,
+            "maxMs": 116.6,
+            "over50ms": 1
+          },
+          "renders": {
+            "n": 3,
+            "p50Ms": 311.3,
+            "p95Ms": 1023.8,
+            "maxMs": 1023.8,
+            "maxCalls": 248,
+            "maxTriangles": 242593
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 1,
+            "totalMs": 132,
+            "maxMs": 132,
+            "blockingMs": 82
+          },
+          "jsHeapBytes": 19008084,
+          "dom": {
+            "documents": 1,
+            "nodes": 5736,
+            "jsEventListeners": 252
+          }
+        },
+        "relationship": {
+          "durationMs": 2363.600000000093,
+          "losses": 0,
+          "lcpMs": 10444,
+          "resourceBytes": 1555262,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 351,
+            "textures": 127
+          },
+          "retainedSceneTexturePixels": 5389824,
+          "frames": {
+            "n": 46,
+            "p50Ms": 16.7,
+            "p95Ms": 16.8,
+            "maxMs": 1600,
+            "over50ms": 1
+          },
+          "renders": {
+            "n": 2,
+            "p50Ms": 369.8,
+            "p95Ms": 738.3,
+            "maxMs": 738.3,
+            "maxCalls": 67,
+            "maxTriangles": 247399
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 2,
+            "totalMs": 1613,
+            "maxMs": 874,
+            "blockingMs": 1513
+          },
+          "jsHeapBytes": 25301056,
+          "dom": {
+            "documents": 1,
+            "nodes": 5786,
+            "jsEventListeners": 252
+          }
+        },
+        "relationship-network": {
+          "durationMs": 2362.8000000000466,
+          "losses": 0,
+          "lcpMs": 10444,
+          "resourceBytes": 1795850,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 414,
+            "textures": 137
+          },
+          "retainedSceneTexturePixels": 5389824,
+          "frames": {
+            "n": 133,
+            "p50Ms": 16.7,
+            "p95Ms": 16.8,
+            "maxMs": 166.6,
+            "over50ms": 1
+          },
+          "renders": {
+            "n": 2,
+            "p50Ms": 8.3,
+            "p95Ms": 14.4,
+            "maxMs": 14.4,
+            "maxCalls": 139,
+            "maxTriangles": 113551
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 1,
+            "totalMs": 177,
+            "maxMs": 177,
+            "blockingMs": 127
+          },
+          "jsHeapBytes": 14483496,
+          "dom": {
+            "documents": 1,
+            "nodes": 5803,
+            "jsEventListeners": 252
+          }
+        },
+        "scenario-game": {
+          "durationMs": 6022,
+          "losses": 0,
+          "lcpMs": 10444,
+          "resourceBytes": 1795850,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 359,
+            "textures": 114
+          },
+          "retainedSceneTexturePixels": 1927808,
+          "frames": {
+            "n": 37,
+            "p50Ms": 16.7,
+            "p95Ms": 566.7,
+            "maxMs": 2116.6,
+            "over50ms": 16
+          },
+          "renders": {
+            "n": 51,
+            "p50Ms": 0.1,
+            "p95Ms": 106.8,
+            "maxMs": 1096.4,
+            "maxCalls": 202,
+            "maxTriangles": 205979
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 17,
+            "totalMs": 5426,
+            "maxMs": 1123,
+            "blockingMs": 4576
+          },
+          "jsHeapBytes": 26817688,
+          "dom": {
+            "documents": 1,
+            "nodes": 5881,
+            "jsEventListeners": 258
+          }
+        },
+        "scenario-save": {
+          "durationMs": 2668.100000000093,
+          "losses": 0,
+          "lcpMs": 10444,
+          "resourceBytes": 1795850,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 405,
+            "textures": 156
+          },
+          "retainedSceneTexturePixels": 1927808,
+          "frames": {
+            "n": 54,
+            "p50Ms": 16.7,
+            "p95Ms": 316.6,
+            "maxMs": 333.3,
+            "over50ms": 6
+          },
+          "renders": {
+            "n": 8,
+            "p50Ms": 4.8,
+            "p95Ms": 40.6,
+            "maxMs": 40.6,
+            "maxCalls": 151,
+            "maxTriangles": 114555
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 8,
+            "totalMs": 1888,
+            "maxMs": 327,
+            "blockingMs": 1488
+          },
+          "jsHeapBytes": 28054136,
+          "dom": {
+            "documents": 1,
+            "nodes": 5992,
+            "jsEventListeners": 266
+          }
+        }
+      },
+      "errors": [],
+      "readyMs": 2670.3000000000466
+    },
+    {
+      "profile": "mobile",
+      "run": 3,
+      "phases": {
+        "initial": {
+          "durationMs": 4501.899999999907,
+          "losses": 0,
+          "lcpMs": 236,
+          "resourceBytes": 394618,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 18,
+            "textures": 6
+          },
+          "retainedSceneTexturePixels": 5389824,
+          "frames": {
+            "n": 96,
+            "p50Ms": 16.7,
+            "p95Ms": 100,
+            "maxMs": 1116.7,
+            "over50ms": 15
+          },
+          "renders": {
+            "n": 16,
+            "p50Ms": 1.2,
+            "p95Ms": 772.6,
+            "maxMs": 772.6,
+            "maxCalls": 13,
+            "maxTriangles": 61577
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 16,
+            "totalMs": 3083,
+            "maxMs": 870,
+            "blockingMs": 2283
+          },
+          "jsHeapBytes": 9617988,
+          "dom": {
+            "documents": 1,
+            "nodes": 5726,
+            "jsEventListeners": 252
+          }
+        },
+        "monitor": {
+          "durationMs": 2979.6999999999534,
+          "losses": 0,
+          "lcpMs": 236,
+          "resourceBytes": 394618,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 269,
+            "textures": 96
+          },
+          "retainedSceneTexturePixels": 5389824,
+          "frames": {
+            "n": 4,
+            "p50Ms": 16.7,
+            "p95Ms": 133.4,
+            "maxMs": 133.4,
+            "over50ms": 1
+          },
+          "renders": {
+            "n": 3,
+            "p50Ms": 470.1,
+            "p95Ms": 936.4,
+            "maxMs": 936.4,
+            "maxCalls": 248,
+            "maxTriangles": 242593
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 1,
+            "totalMs": 134,
+            "maxMs": 134,
+            "blockingMs": 84
+          },
+          "jsHeapBytes": 22471248,
+          "dom": {
+            "documents": 1,
+            "nodes": 5736,
+            "jsEventListeners": 252
+          }
+        },
+        "relationship": {
+          "durationMs": 2361.899999999907,
+          "losses": 0,
+          "lcpMs": 10308,
+          "resourceBytes": 1555262,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 351,
+            "textures": 127
+          },
+          "retainedSceneTexturePixels": 5389824,
+          "frames": {
+            "n": 46,
+            "p50Ms": 16.7,
+            "p95Ms": 16.8,
+            "maxMs": 1616.7,
+            "over50ms": 1
+          },
+          "renders": {
+            "n": 2,
+            "p50Ms": 364.95,
+            "p95Ms": 727.9,
+            "maxMs": 727.9,
+            "maxCalls": 67,
+            "maxTriangles": 247399
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 2,
+            "totalMs": 1639,
+            "maxMs": 910,
+            "blockingMs": 1539
+          },
+          "jsHeapBytes": 25387600,
+          "dom": {
+            "documents": 1,
+            "nodes": 5786,
+            "jsEventListeners": 252
+          }
+        },
+        "relationship-network": {
+          "durationMs": 2364.7000000001863,
+          "losses": 0,
+          "lcpMs": 10308,
+          "resourceBytes": 1795850,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 414,
+            "textures": 137
+          },
+          "retainedSceneTexturePixels": 5389824,
+          "frames": {
+            "n": 128,
+            "p50Ms": 16.7,
+            "p95Ms": 16.7,
+            "maxMs": 233.3,
+            "over50ms": 1
+          },
+          "renders": {
+            "n": 2,
+            "p50Ms": 16.2,
+            "p95Ms": 29,
+            "maxMs": 29,
+            "maxCalls": 139,
+            "maxTriangles": 113551
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 1,
+            "totalMs": 221,
+            "maxMs": 221,
+            "blockingMs": 171
+          },
+          "jsHeapBytes": 13924560,
+          "dom": {
+            "documents": 1,
+            "nodes": 5803,
+            "jsEventListeners": 252
+          }
+        },
+        "scenario-game": {
+          "durationMs": 5317.899999999907,
+          "losses": 0,
+          "lcpMs": 10308,
+          "resourceBytes": 1795850,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 359,
+            "textures": 114
+          },
+          "retainedSceneTexturePixels": 1927808,
+          "frames": {
+            "n": 32,
+            "p50Ms": 16.75,
+            "p95Ms": 549.9,
+            "maxMs": 1883.3,
+            "over50ms": 15
+          },
+          "renders": {
+            "n": 50,
+            "p50Ms": 0.1,
+            "p95Ms": 68.4,
+            "maxMs": 1229.4,
+            "maxCalls": 202,
+            "maxTriangles": 205979
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 16,
+            "totalMs": 4790,
+            "maxMs": 1239,
+            "blockingMs": 3990
+          },
+          "jsHeapBytes": 25058840,
+          "dom": {
+            "documents": 1,
+            "nodes": 5881,
+            "jsEventListeners": 258
+          }
+        },
+        "scenario-save": {
+          "durationMs": 2679.5999999998603,
+          "losses": 0,
+          "lcpMs": 10308,
+          "resourceBytes": 1795850,
+          "canvas": [
+            390,
+            844
+          ],
+          "target": [
+            1024,
+            576,
+            0
+          ],
+          "rendererMemory": {
+            "geometries": 405,
+            "textures": 156
+          },
+          "retainedSceneTexturePixels": 1927808,
+          "frames": {
+            "n": 48,
+            "p50Ms": 16.7,
+            "p95Ms": 316.6,
+            "maxMs": 383.4,
+            "over50ms": 6
+          },
+          "renders": {
+            "n": 8,
+            "p50Ms": 5.5,
+            "p95Ms": 30.9,
+            "maxMs": 30.9,
+            "maxCalls": 151,
+            "maxTriangles": 114579
+          },
+          "events": {
+            "n": 0,
+            "p50Ms": null,
+            "p95Ms": null,
+            "maxMs": null
+          },
+          "longTasks": {
+            "n": 6,
+            "totalMs": 1613,
+            "maxMs": 385,
+            "blockingMs": 1313
+          },
+          "jsHeapBytes": 20830168,
+          "dom": {
+            "documents": 1,
+            "nodes": 5927,
+            "jsEventListeners": 260
+          }
+        }
+      },
+      "errors": [],
+      "readyMs": 2544.5
+    }
+  ],
+  "browserVersion": "151.0.7922.173"
+}
