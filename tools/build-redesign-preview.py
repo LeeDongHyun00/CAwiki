@@ -32,6 +32,7 @@ MODULES = {
     'inside/story-actions': STUDY / 'story-actions.js',
     'inside/story-usb-preview': STUDY / 'story-usb-preview.js',
     'inside/relationship-map': STUDY / 'relationship-map.js',
+    'inside/relationship-stage': STUDY / 'relationship-stage.js',
     'inside/relation-source': STUDY / 'relation-source.js',
     'inside/relation-scenarios': STUDY / 'relation-scenarios.js',
 }
@@ -64,6 +65,7 @@ IMPORTS = {
     './story-actions.js': 'inside/story-actions',
     './story-usb-preview.js': 'inside/story-usb-preview',
     './relationship-map.js': 'inside/relationship-map',
+    './relationship-stage.js': 'inside/relationship-stage',
     './relation-source.js': 'inside/relation-source',
     './relation-scenarios.js': 'inside/relation-scenarios',
 }

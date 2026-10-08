@@ -63,7 +63,7 @@ async function createStage() {
   const [T, models] = await Promise.all([
     import('../../lib/vendor/three/three.module.js'), import('./cinema-models.js'),
   ]);
-  const renderer = new T.WebGLRenderer({canvas:$('#world'),antialias:true,alpha:false,powerPreference:'high-performance'});
+  const renderer = new T.WebGLRenderer({canvas:$('#world'),antialias:true,alpha:true,powerPreference:'high-performance'});
   renderer.setPixelRatio(Math.min(devicePixelRatio, mobile() ? 1.5 : 1.75));
   renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.12;
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;

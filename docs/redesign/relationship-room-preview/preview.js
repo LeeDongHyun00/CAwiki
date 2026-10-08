@@ -1,0 +1,19 @@
+
+const $=s=>document.querySelector(s),scene=$('#scene');let current='cpu',tab='role',lastTrigger=null;
+const data={cpu:['CPU','중앙처리장치','범용 연산','명령을 실행하고<br>작업의 흐름을 조율합니다','CPU는 프로그램의 명령을 해석하고 계산합니다 필요한 데이터는 캐시와 RAM에서 가져오고, 장치의 작업은 운영체제와 드라이버를 통해 준비합니다'],sram:['SRAM','정적 랜덤 액세스 메모리','고속 기억','자주 쓰는 정보를<br>가까이 보관합니다','CPU의 캐시에 널리 쓰이는 메모리입니다 전원이 유지되는 동안 데이터를 보관하며, DRAM처럼 주기적으로 새로 고칠 필요가 없습니다'],dram:['DRAM','주메모리','작업 공간','실행 중인 프로그램의<br>코드와 데이터를 담습니다','CPU가 처리할 정보를 보관하는 작업 공간입니다 데이터는 메모리 컨트롤러를 통해 오가며, 전원이 꺼지면 보관한 내용이 사라집니다'],npu:['NPU','신경망 처리 장치','특화 연산','신경망에 필요한 계산을<br>효율적으로 처리합니다','행렬 곱처럼 반복되는 신경망 연산에 특화되어 있습니다 지원되는 작업을 넘겨받아 처리하며, 모든 프로그램이나 AI 연산을 대신하는 것은 아닙니다'],coproc:['보조 프로세서','특정 작업을 맡는 처리 장치','작업 분담','맡은 일을 처리해<br>CPU의 부담을 줄입니다','입출력 제어나 특정 연산처럼 정해진 작업을 처리합니다 어떤 일을 맡는지와 CPU와 통신하는 방식은 시스템 구성에 따라 달라집니다']};
+const internals={core:['코어','명령을 읽고 해석해 실행하는 처리 단위입니다 여러 코어는 서로 다른 작업을 동시에 진행할 수 있습니다'],cache:['공유 캐시','여러 코어가 활용하는 빠른 저장 공간입니다 필요한 데이터가 캐시에 있으면 DRAM 접근을 줄일 수 있습니다 공유 범위는 제품마다 다릅니다'],imc:['메모리 컨트롤러','CPU의 메모리 요청을 DRAM이 처리할 수 있는 명령으로 바꾸고 전송 시점을 조정합니다']};
+function panel(){let d=data[current];$('#name').textContent=d[0];$('#heroimg').src='models/'+current+'.png';$('#heroimg').alt=d[0];document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===tab));scene.classList.toggle('internal',tab==='internal'&&current==='cpu');scene.classList.toggle('relationships',tab==='relationships'&&current==='cpu');if(tab==='role')$('#panel').innerHTML=`<h3>${d[3]}</h3><p>${d[4]}</p>`;else if(tab==='internal'){if(current==='cpu')showInternal('core');else $('#panel').innerHTML='<h3>내부 구성은 부품에 맞춰</h3><p>이 시안의 내부 구성 전환은 CPU를 기준으로 검토합니다 실제 구현에서는 각 부품의 검증된 구성 요소에 맞는 개념도를 사용합니다</p>';}else if(current==='cpu')$('#panel').innerHTML='<div class="relationpair"><span>CPU ↔ DRAM</span><span>정보의 이동</span></div><h3>필요한 데이터가<br>캐시에 없으면</h3><p>CPU는 메모리 컨트롤러를 통해 DRAM에 읽기를 요청합니다 응답 데이터는 캐시를 거쳐 명령 실행에 사용됩니다</p><div class="smallrow"><b>CPU 관점</b> 필요한 정보를 요청합니다</div><div class="smallrow"><b>DRAM 관점</b> 저장한 데이터를 제공합니다</div><p class="note">선은 기능적 관계를 표현합니다 실제 배선이나 전송 속도를 나타내지 않습니다</p>';else $('#panel').innerHTML='<h3>관계는 한 쌍씩 읽습니다</h3><p>선택한 부품과 상대 부품의 역할을 나란히 설명합니다 이 시안에서는 CPU–DRAM 관계를 대표로 확인할 수 있습니다</p>';
+}
+function showInternal(id){$('#panel').innerHTML=`<h3>${internals[id][0]}</h3><p>${internals[id][1]}</p><p class="note">제품 사진을 해부한 그림이 아닌 기능 설명용 개념도입니다</p>`;document.querySelectorAll('[data-info]').forEach(b=>b.classList.toggle('active',b.dataset.info===id))}
+function open(id='cpu',t='role',trigger=null){current=id;tab=t;lastTrigger=trigger||lastTrigger;scene.classList.add('details-open');$('.room').inert=true;$('#hero').tabIndex=-1;$('#back').hidden=false;panel();$('#live').textContent=data[id][0]+' '+({role:'역할',internal:'내부 구성',relationships:'연결 관계'}[t]);}
+function back(){scene.classList.remove('details-open','internal','relationships');$('.room').inert=false;$('#hero').tabIndex=0;$('#back').hidden=true;$('#heroimg').src='models/cpu.png';$('#heroimg').alt='CPU';lastTrigger?.focus()}
+
+$('#hero').onclick=e=>open('cpu','role',e.currentTarget);document.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>open(b.dataset.part,'role',b));$('#back').onclick=back;document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;panel();});document.querySelectorAll('[data-info]').forEach(b=>b.onclick=()=>showInternal(b.dataset.info));document.addEventListener('keydown',e=>{if(e.key==='Escape')back()});
+
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+scene.addEventListener('pointermove',e=>{
+ if(reduced.matches||e.pointerType!=='mouse'||scene.classList.contains('details-open'))return;
+ scene.style.setProperty('--px',((e.clientX/innerWidth-.5)*9)+'px');
+ scene.style.setProperty('--py',((e.clientY/innerHeight-.5)*6)+'px');
+});
+scene.addEventListener('pointerleave',()=>{scene.style.setProperty('--px','0px');scene.style.setProperty('--py','0px')});

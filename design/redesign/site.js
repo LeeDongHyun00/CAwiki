@@ -94,7 +94,7 @@ async function route(){
     experience.pause();experience.clear();pauseCinema();document.body.dataset.mode='map';
     document.body.classList.remove('loading');$('#object-ui').hidden=$('#story-ui').hidden=true;
     document.documentElement.style.setProperty('--paper','#ecece9');document.documentElement.style.setProperty('--ink','45,47,48');
-    relationshipMap.enter(hash);if(!wasCollection)scrollTo({top:0,behavior:'instant'});return;
+    const preserveMapScroll=relationshipMap.enter(hash);if(!wasCollection&&!preserveMapScroll)scrollTo({top:0,behavior:'instant'});return;
   }
   if(hash==='wiki'){
     if(mode==='home')homeScroll=scrollY;
@@ -141,7 +141,7 @@ $('#category-filter').addEventListener('click',e=>{const b=e.target.closest('[da
 addEventListener('hashchange',route);
 addEventListener('keydown',e=>{
   if(dialog.open||$('#story-detail').open||e.altKey||e.ctrlKey||e.metaKey||e.target.closest('input,textarea,select'))return;
-  if(mode==='map'){if(e.key==='Escape'){e.preventDefault();location.hash=location.hash==='#map'?'wiki':'map';}return;}
+  if(mode==='map'){if(e.key==='Escape'){e.preventDefault();relationshipMap.escape();}return;}
   if(e.key==='Escape'&&mode==='object'){e.preventDefault();location.hash=objectReturn;return;}
   if(e.key==='Escape'&&mode!=='home'){location.hash=mode==='story'?'stories':'collection';return;}
   if(e.target.closest('button,a'))return;

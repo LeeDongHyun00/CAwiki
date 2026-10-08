@@ -1,90 +1,121 @@
 import { RELATION_SOURCE } from './relation-source.js';
 import { RELATION_GROUPS, RELATION_SCENARIOS, RELATION_KINDS } from './relation-scenarios.js';
+import { RelationshipStage } from './relationship-stage.js';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const nodes=new Map(RELATION_SOURCE.nodes.map(n=>[n.id,n]));
 const edges=RELATION_SOURCE.edges;
 const byId=new Map(edges.map(e=>[e.id,e]));
 const related=id=>edges.filter(e=>e.a===id||e.b===id);
 const other=(e,id)=>e.a===id?e.b:e.a;
-const nodeURL=id=>`#map/node/${id}`;
-export class RelationshipMap{
+const closeIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>';
+const scope={data:'명령·데이터의 기능적 관계입니다 컨트롤러나 운영체제를 거칠 수 있으며 선은 실제 배선이나 속도를 뜻하지 않습니다',power:'전력을 공급하고 사용하는 관계입니다 양방향 데이터 전송을 뜻하지 않습니다',thermal:'열을 발생시키고 밖으로 옮기는 관계입니다',structure:'장착하거나 내부에 포함하는 구성 관계입니다',context:'함께 활용되거나 비교되는 관계입니다 직접 연결된 배선을 뜻하지 않습니다'};
+const short=s=>s.split(/\s*[(（]/)[0].trim();
+const architecture='<div class="rr-architecture" aria-hidden="true"><div class="rr-left-wall"></div><div class="rr-back-wall"></div><div class="rr-right-wall"></div><div class="rr-floor"></div></div>';
+
+export class RelationshipMap {
  constructor(root,asset){
-  this.root=root;this.asset=asset;this.frame=0;
-  root.innerHTML=`<div class="relation-top"><a href="#wiki">← Computer Wiki</a><a href="#map">전체 관계지도</a></div><div class="relation-heading"><div><h1 id="relation-title" tabindex="-1">부품은 함께 작동합니다</h1><p id="relation-intro"></p></div><div class="relation-search"><label for="relation-search">부품 찾기</label><input id="relation-search" type="search" placeholder="CPU, 메모리, 마우스" autocomplete="off" aria-controls="relation-results"><div id="relation-results" hidden></div></div></div><div id="relation-content"></div><p class="sr-only" id="relation-live" aria-live="polite"></p>`;
-  root.querySelector('#relation-search').addEventListener('input',e=>this.search(e.target.value));
-  root.querySelector('#relation-search').addEventListener('keydown',e=>{if(e.key==='Escape'){e.stopPropagation();this.search('');e.target.value='';}if(e.key==='Enter'){const link=root.querySelector('#relation-results a');if(link){e.preventDefault();link.click();}}});
-  root.addEventListener('change',e=>{if(e.target.id==='relation-type')this.change({type:e.target.value,page:0,edge:''});});
-  root.addEventListener('click',e=>{if(e.target.closest('[data-return-map]')){e.preventDefault();const center=root.querySelector('.relation-center');center.focus({preventScroll:true});root.querySelector('.relation-map-tools').scrollIntoView({block:'start',behavior:'instant'});}});
-  this.resize=new ResizeObserver(()=>this.schedule());this.resize.observe(root);
+  this.root=root;this.asset=asset;this.stage=new RelationshipStage(root);this.selection=new Map();
+  root.addEventListener('input',e=>{if(e.target.id==='relation-search')this.search(e.target.value);if(e.target.id==='rr-peer-search')this.filterPeers(e.target.value);});
+  root.addEventListener('change',e=>{if(e.target.id==='relation-type')this.change({type:e.target.value,edge:'',page:0});});
+  root.addEventListener('click',e=>{
+   const model=e.target.closest('.rr-exhibit[data-node]');if(model&&this.view==='group')this.selection.set(this.group.id,model.dataset.node);
+   const replay=e.target.closest('[data-replay]');if(replay){const path=root.querySelector('.rr-path');path?.classList.remove('playing');requestAnimationFrame(()=>requestAnimationFrame(()=>path?.classList.add('playing')));}
+  });
  }
- picture(id,cls=''){
-  const n=nodes.get(id);
-  if(!n.model)return `<span class="relation-chip ${cls}" aria-hidden="true"><span>MCU</span></span>`;
-  return `<img class="${cls}" src="${this.asset(`redesign/${n.model}.webp`)}" alt="" width="180" height="140" decoding="async">`;
+ model(id,cls=''){
+  const n=nodes.get(id);return `<span class="rr-model ${cls}" data-model="${n.model||id}" aria-hidden="true"><img src="${this.asset(`redesign/${n.model||id}.webp`)}" alt="" decoding="async"></span>`;
  }
- search(value){
-  const slot=this.root.querySelector('#relation-results'),q=value.trim().normalize('NFKC').toLocaleLowerCase();slot.hidden=!q;
-  if(!q){slot.replaceChildren();return;}
-  const normalized=s=>s.normalize('NFKC').toLocaleLowerCase();
-  const rank=n=>[n.id,n.name].some(s=>normalized(s)===q)?0:[n.id,n.name].some(s=>normalized(s).includes(q))?1:2;
-  const found=[...nodes.values()].filter(n=>normalized([n.id,n.name,n.category,n.summary,n.detail].join(' ')).includes(q)).sort((a,b)=>rank(a)-rank(b));
-  slot.innerHTML=found.length?found.map(n=>`<a href="${nodeURL(n.id)}">${esc(n.name)}<span>${esc(n.category)}</span></a>`).join(''):'<p role="status">일치하는 부품이 없습니다</p>';
-  this.root.querySelector('#relation-live').textContent=`${found.length}개 부품 검색됨`;
+ picture(id){const n=nodes.get(id);return `<img src="${this.asset(`redesign/${n.model||id}.webp`)}" alt="" loading="lazy">`;}
+ nodeURL(id,values={}){
+  const p=new URLSearchParams(values);const from=this.view==='group'?this.group.id:this.view==='scenario'?`scenario/${this.scenario.id}/${this.step}`:this.params?.get('from');
+  if(from&&!p.has('from'))p.set('from',from);return `#map/node/${id}${p.size?'?'+p:''}`;
  }
+ backURL(){
+  const from=this.params?.get('from');if(RELATION_GROUPS.some(g=>g.id===from))return '#map/group/'+from;
+  if(/^scenario\/[a-z]+\/\d+$/.test(from||'')&&RELATION_SCENARIOS.some(s=>s.id===from.split('/')[1]))return '#map/'+from;
+  return '#map';
+ }
+ escape(){location.hash=this.view==='node'?this.backURL():this.view==='overview'?'#wiki':'#map';}
+ url(values){const p=new URLSearchParams(this.params);for(const [k,v]of Object.entries(values)){if(v===''||v===0||v==='all')p.delete(k);else p.set(k,String(v));}return '#'+this.path+(p.size?'?'+p:'');}
+ change(values){location.hash=this.url(values);}
  enter(hash){
+  const previous={view:this.view,focus:this.focus,tab:this.tab};
   this.path=hash.split('?')[0];this.params=new URLSearchParams(hash.split('?')[1]||'');
-  this.root.hidden=false;this.root.querySelector('#relation-search').value='';this.search('');
-  const [_,view,id,number]=this.path.split('/');this.view=view||'overview';this.group=RELATION_GROUPS.find(g=>g.id===id);this.scenario=RELATION_SCENARIOS.find(s=>s.id===id);
-  if(view==='node'&&nodes.has(id)){this.focus=id;this.renderFocus();}
-  else if(view==='group'&&this.group){this.focus=this.group.focus;this.renderFocus();}
-  else if(view==='scenario'&&this.scenario){this.step=Math.max(0,Math.min(this.scenario.steps.length-1,Number.isFinite(Number(number))?Math.floor(Number(number)):0));this.focus=this.scenario.steps[this.step].focus;this.renderFocus();}
-  else {this.view='overview';this.renderOverview();}
-  this.root.dataset.view=this.view;this.root.dataset.node=this.focus||'';
-  this.root.querySelector('#relation-title').focus({preventScroll:true});
-  this.attention=this.view!=='overview'&&this.view!=='scenarios'&&this.selected&&matchMedia('(max-width:1050px)').matches?'detail':null;
-  this.schedule();
+  const [,view,id,number]=this.path.split('/');this.view=view||'overview';this.group=RELATION_GROUPS.find(g=>g.id===id);this.scenario=RELATION_SCENARIOS.find(s=>s.id===id);
+  // Preserve links to a selected edge from the previous group map.
+  if(view==='group'&&this.group&&this.params.has('edge')){
+   this.params.set('from',id);this.path='map/node/'+this.group.focus;this.view='node';history.replaceState(null,'','#'+this.path+'?'+this.params);this.focus=this.group.focus;
+  }else this.focus=view==='node'&&nodes.has(id)?id:null;
+  this.root.hidden=false;this.root.dataset.view=this.view;this.root.dataset.node=this.focus||'';
+  if(this.view==='node'&&this.focus)this.renderNode();
+  else if(this.view==='group'&&this.group)this.renderRoom();
+  else if(this.view==='scenario'&&this.scenario){this.step=Math.max(0,Math.min(this.scenario.steps.length-1,parseInt(number)||0));this.renderScenario();}
+  else {this.view='overview';this.root.dataset.view=this.view;this.renderOverview();}
+  this.root.dataset.entering=String(previous.view!==this.view||previous.focus!==this.focus);
+  const spatial=this.view!=='overview';document.body.classList.toggle('map-spatial',spatial);
+  if(spatial)this.stage.enter();else this.stage.leave();
+  document.title=`${this.title} — Computer Wiki`;
+  requestAnimationFrame(()=>{
+   if(this.root.hidden)return;
+   if(this.view==='group'&&this.selection.has(this.group.id)){this.root.querySelector(`[data-node="${this.selection.get(this.group.id)}"]`)?.focus({preventScroll:true});}
+   else if(previous.focus===this.focus&&previous.view===this.view&&this.tab){this.root.querySelector(`[data-tab="${this.tab}"]`)?.focus({preventScroll:true});}
+   else this.root.querySelector('#relation-title')?.focus({preventScroll:true});
+   this.stage.layout(false);
+  });
+  return previous.view==='node'&&this.view==='node'&&previous.focus===this.focus;
  }
- leave(){cancelAnimationFrame(this.frame);this.frame=0;this.attention=null;this.root.hidden=true;}
- setHeading(title,copy){this.root.querySelector('#relation-title').textContent=title;this.root.querySelector('#relation-intro').textContent=copy;document.title=`${title} — Computer Wiki`;}
+ leave(){this.root.hidden=true;this.stage.leave();document.body.classList.remove('map-spatial');}
+ search(value){
+  const slot=this.root.querySelector('#relation-results'),q=value.trim().normalize('NFKC').toLocaleLowerCase();if(!slot)return;slot.hidden=!q;
+  const found=[...nodes.values()].filter(n=>[n.id,n.name,n.category,n.summary].join(' ').normalize('NFKC').toLocaleLowerCase().includes(q));
+  slot.innerHTML=q?(found.length?found.map(n=>`<a href="${this.nodeURL(n.id)}">${esc(n.name)}</a>`).join(''):'<p>일치하는 부품이 없습니다</p>'):'';
+ }
  renderOverview(){
-  this.focus=null;this.setHeading('부품은 함께 작동합니다','함께 작동하는 부품을 고르고 서로에게 필요한 이유를 살펴보세요');
-  this.root.querySelector('#relation-content').innerHTML=`<div class="relation-overview">${RELATION_GROUPS.map((g,i)=>`<a class="relation-island" href="#map/group/${g.id}"><div class="relation-island-models">${[g.nodes[1],g.focus,g.nodes[2]].map((id,j)=>this.picture(id,`island-model island-model-${j}`)).join('')}<svg viewBox="0 0 300 130" aria-hidden="true"><path d="M50 70Q150 120 250 70M50 70 150 32 250 70"/></svg></div><div class="relation-island-title"><span>${String(i+1).padStart(2,'0')}</span><h2>${g.title}</h2><span aria-hidden="true">↗</span></div><p>${g.copy}</p><small>${g.nodes.map(id=>nodes.get(id).name).join(' · ')}</small></a>`).join('')}</div>`;
+  this.title='관계지도';this.focus=null;this.tab=null;
+  this.root.innerHTML=`<div class="relation-top"><a href="#wiki">← Computer Wiki</a></div><div class="relation-heading"><h1 id="relation-title" tabindex="-1">관계지도</h1><div class="relation-search"><label class="sr-only" for="relation-search">부품 찾기</label><input id="relation-search" type="search" placeholder="부품 찾기" autocomplete="off" aria-controls="relation-results"><div id="relation-results" hidden></div></div></div><div class="relation-overview">${RELATION_GROUPS.map(g=>`<a class="relation-island" href="#map/group/${g.id}"><div class="relation-island-models">${[g.nodes[1],g.focus,g.nodes[2]].map((id,i)=>`<span class="island-model island-model-${i}">${this.picture(id)}</span>`).join('')}</div><h2>${g.title}</h2></a>`).join('')}</div>`;
  }
- change(values){const params=new URLSearchParams(this.params);for(const [k,v] of Object.entries(values)){if(v===''||v===0||v==='all')params.delete(k);else params.set(k,String(v));}location.hash=this.path+(params.size?'?'+params.toString():'');}
- url(values){const params=new URLSearchParams(this.params);for(const [k,v] of Object.entries(values)){if(v===''||v===0||v==='all')params.delete(k);else params.set(k,String(v));}return '#'+this.path+(params.size?'?'+params.toString():'');}
- renderFocus(){
-  const n=nodes.get(this.focus),isScenario=this.view==='scenario',stage=isScenario?this.scenario.steps[this.step]:null;
-  const allowed=stage?.nodes||(this.view==='group'?this.group.nodes:null);
-  const all=related(this.focus).filter(e=>!allowed||allowed.includes(other(e,this.focus)));
-  const type=isScenario?'all':(Object.hasOwn(RELATION_KINDS,this.params.get('type'))?this.params.get('type'):'all');
-  const filtered=all.filter(e=>type==='all'||e.kind===type);
-  let page=Math.min(Math.max(0,Number.parseInt(this.params.get('page'))||0),Math.max(0,Math.ceil(filtered.length/6)-1));
-  const chosen=byId.get(this.params.get('edge'));
-  this.selected=chosen&&filtered.includes(chosen)?chosen:null;
-  if(this.selected)page=Math.floor(filtered.indexOf(this.selected)/6);
-  this.visible=filtered.slice(page*6,page*6+6);
-  this.setHeading(isScenario?this.scenario.title:this.view==='group'?this.group.title:`${n.name}의 연결`,stage?`${String(this.step+1).padStart(2,'0')} / ${String(this.scenario.steps.length).padStart(2,'0')}`:this.view==='group'?this.group.copy:n.summary);
-  this.root.querySelector('#relation-content').innerHTML=`
-   ${isScenario?`<div class="relation-steps" role="group" aria-label="시나리오 단계">${this.scenario.steps.map((s,i)=>`<a href="#map/scenario/${this.scenario.id}/${i}" aria-current="${i===this.step?'step':'false'}"><span>${String(i+1).padStart(2,'0')}</span>${esc(s.title)}</a>`).join('')}</div>`:''}
-   <div class="relation-workspace ${isScenario?'has-scenario':''}"><div class="relation-map-area"><div class="relation-map-tools"><a href="#map">← 전체 지도</a>${!isScenario?`<label for="relation-type" class="sr-only">관계 유형</label><select id="relation-type"><option value="all">모든 관계 (${all.length})</option>${Object.entries(RELATION_KINDS).map(([k,v])=>`<option value="${k}" ${type===k?'selected':''}>${v} (${all.filter(e=>e.kind===k).length})</option>`).join('')}</select>`:`<a href="#stories">시나리오 목록 ↗</a>`}</div>
-    <div class="relation-board" aria-label="${esc(n.name)} 중심 관계지도"><svg class="relation-lines" aria-hidden="true"></svg><a class="relation-node relation-center" data-node="${this.focus}" href="${this.url({edge:''})}" aria-label="${esc(n.name)} 설명 보기">${this.picture(this.focus)}<strong>${esc(n.name)}</strong><span>현재 중심</span></a>
-    ${this.visible.map((e,i)=>{const id=other(e,this.focus);return `<a class="relation-node relation-neighbor slot-${i} ${this.selected===e?'is-selected':''}" data-node="${id}" data-edge="${e.id}" href="${this.url({edge:e.id,page})}" aria-label="${esc(n.name)}와 ${esc(nodes.get(id).name)}의 ${RELATION_KINDS[e.kind]} 관계" ${this.selected===e?'aria-current="true"':''}>${this.picture(id)}<strong>${esc(nodes.get(id).name)}</strong><span>${RELATION_KINDS[e.kind]}</span></a>`;}).join('')}
-    ${!this.visible.length?'<p class="relation-empty">이 유형의 관계가 없습니다<br>다른 유형을 선택해 주세요</p>':''}</div>
-    <div class="relation-map-bottom"><span>${filtered.length?`${page*6+1}–${Math.min((page+1)*6,filtered.length)} / ${filtered.length}개 관계`:'0개 관계'}</span><div>${page>0?`<a href="${this.url({page:page-1,edge:''})}" aria-label="이전 관계">← 이전</a>`:''}${(page+1)*6<filtered.length?`<a href="${this.url({page:page+1,edge:''})}" aria-label="다음 관계">다음 →</a>`:''}</div></div>
-    <p class="relation-map-note">부품을 선택하면 관계를 설명합니다 선은 실제 배선이나 시간 비율을 뜻하지 않습니다</p>
-   </div><aside class="relation-explanation" aria-label="관계 설명">${stage?`<div class="relation-step-copy"><h2>${esc(stage.title)}</h2><p>${esc(stage.copy)}</p></div>`:''}${this.selected?this.edgeDetail(this.selected,n):this.nodeDetail(n,isScenario)}
-   ${isScenario?`<div class="relation-step-actions">${this.step>0?`<a href="#map/scenario/${this.scenario.id}/${this.step-1}">← 이전 단계</a>`:''}${this.step<this.scenario.steps.length-1?`<a class="relation-primary" href="#map/scenario/${this.scenario.id}/${this.step+1}">다음 단계 →</a>`:`<a class="relation-primary" href="#map/scenario/${this.scenario.id}/0">처음부터 ↺</a>`}</div>${this.scenario.film?`<a class="relation-film-link" href="#story/${this.scenario.film}/0">3D 시나리오로 보기 ↗</a>`:''}`:''}</aside></div>
-   ${!isScenario?`<section class="relation-related"><h2>이 부품이 하는 일</h2><div>${RELATION_SCENARIOS.filter(s=>s.steps.some(t=>t.nodes.includes(this.focus))).map(s=>`<a href="#map/scenario/${s.id}/${s.steps.findIndex(t=>t.nodes.includes(this.focus))}">${esc(s.title)} <span aria-hidden="true">↗</span></a>`).join('')}</div></section>`:''}`;
-  this.root.querySelector('#relation-live').textContent=stage?`${this.step+1}단계 ${stage.title}`:`${n.name} 중심, ${filtered.length}개 관계`;
+ renderRoom(){
+  this.title=this.group.title;this.tab=null;const ids=[this.group.focus,...this.group.nodes.filter(id=>id!==this.group.focus)];
+  this.root.innerHTML=`<section class="rr-room rr-count-${ids.length}" aria-labelledby="relation-title">${architecture}<a class="rr-close" href="#map" aria-label="전체 관계지도로 나가기">${closeIcon}</a>${ids.map((id,i)=>`<a class="rr-exhibit rr-slot-${i}" data-node="${id}" href="${this.nodeURL(id)}">${this.model(id)}<span>${esc(nodes.get(id).name)}</span></a>`).join('')}<h1 id="relation-title" tabindex="-1">${this.title}</h1></section>`;
  }
- nodeDetail(n,compact){return `<div class="relation-node-copy"><span class="relation-panel-label">${compact?'이 단계의 중심':'선택한 부품'}</span><h2>${esc(n.name)}</h2><p>${esc(n.summary)}</p><div class="relation-links">${n.model?`<a href="#object/${n.model}">3D 구조 보기 ↗</a>`:''}${this.view!=='node'?`<a href="${nodeURL(n.id)}">모든 관계 보기 ↗</a>`:''}</div><details><summary>역할과 내부 구성</summary><p>${esc(n.detail)}</p><dl>${n.parts.map(p=>`<dt>${esc(p.name)}</dt><dd>${esc(p.role)}</dd>`).join('')}</dl></details></div>`;}
- edgeDetail(e,n){const second=nodes.get(other(e,n.id)),forward=e.a===n.id;return `<div class="relation-edge-copy" tabindex="-1"><span class="relation-panel-label">${RELATION_KINDS[e.kind]}</span><h2>${esc(n.name)} <span>↔</span> ${esc(second.name)}</h2><dl><dt>${esc(n.name)}의 관점</dt><dd>${esc(forward?e.ab:e.ba)}</dd><dt>${esc(second.name)}의 관점</dt><dd>${esc(forward?e.ba:e.ab)}</dd></dl><div class="relation-links"><a class="relation-primary" href="${nodeURL(second.id)}">${esc(second.name)} 중심으로 →</a>${second.model?`<a href="#object/${second.model}">3D 구조 보기 ↗</a>`:''}</div><p class="relation-scope">${{data:'명령·데이터의 논리적 관계입니다 실제로는 컨트롤러나 운영체제를 거칠 수 있습니다',power:'전력을 공급하고 사용하는 관계입니다 양방향 데이터 전송을 뜻하지 않습니다',thermal:'열을 발생시키고 밖으로 옮기는 관계입니다',structure:'장착하거나 내부에 포함하는 구조상의 관계입니다',context:'함께 활용되거나 비교되는 관계입니다 직접 연결된 배선을 뜻하지 않습니다'}[e.kind]}</p><a class="relation-return" href="${this.url({edge:''})}" data-return-map>↑ 다른 관계 살펴보기</a></div>`;}
- schedule(){cancelAnimationFrame(this.frame);this.frame=requestAnimationFrame(()=>{this.frame=0;this.draw();if(this.attention){this.attention=null;const detail=this.root.querySelector('.relation-edge-copy');if(detail){detail.focus({preventScroll:true});detail.scrollIntoView({block:'start',behavior:'instant'});}}});}
- draw(){
-  const board=this.root.querySelector('.relation-board'),svg=this.root.querySelector('.relation-lines');if(this.root.hidden||!board||!svg)return;
-  const rect=board.getBoundingClientRect();if(!rect.width)return;svg.setAttribute('viewBox',`0 0 ${rect.width} ${rect.height}`);
-  const position=el=>{const r=el.getBoundingClientRect();return{x:r.x-rect.x+r.width/2,y:r.y-rect.y+r.height/2};};
-  const center=position(board.querySelector('.relation-center'));
-  svg.innerHTML=[...board.querySelectorAll('.relation-neighbor')].map(el=>{const p=position(el),active=el.dataset.edge===this.selected?.id,mid=(center.x+p.x)/2;return `<path class="${active?'is-selected':''}" d="M${center.x},${center.y} C${mid},${center.y} ${mid},${p.y} ${p.x},${p.y}"/>`;}).join('');
+ renderNode(){
+  const n=nodes.get(this.focus),edge=byId.get(this.params.get('edge'));this.selected=edge&&(edge.a===n.id||edge.b===n.id)?edge:null;
+  this.tab=this.selected?'relations':['role','parts','relations'].includes(this.params.get('tab'))?this.params.get('tab'):this.params.has('type')||this.params.has('page')?'relations':'role';
+  this.title=n.name;
+  this.root.dataset.tab=this.tab;
+  let left=this.model(n.id,'rr-hero-model'),content='';
+  if(this.tab==='role')content=`<h2>${esc(n.summary)}</h2><details class="rr-role-more"><summary>역할 자세히</summary><p>${esc(n.detail)}</p></details><a class="rr-object-link" href="#object/${n.model||n.id}">3D로 자세히 보기 ↗</a>`;
+  else if(this.tab==='parts'){
+   const index=Math.max(0,Math.min(n.parts.length-1,parseInt(this.params.get('part'))||0)),part=n.parts[index],page=Math.floor(index/6),visible=n.parts.slice(page*6,page*6+6);
+   left=`<div class="rr-parts-visual" role="group" aria-label="${esc(n.name)} 구성 요소 개념도">${visible.map((p,i)=>`<a class="rr-part-tile ${index===page*6+i?'selected':''}" href="${this.url({part:page*6+i})}" ${index===page*6+i?'aria-current="true"':''}><span>${String(page*6+i+1).padStart(2,'0')}</span>${esc(short(p.name))}</a>`).join('')}</div>`;
+   content=`<h2>${esc(part.name)}</h2><p>${esc(part.role)}</p><p class="rr-scope">기능을 설명하는 구성 요소 개념도입니다 실제 배치와 포함 범위는 제품마다 다릅니다</p><div class="rr-part-controls">${page>0?`<a href="${this.url({part:(page-1)*6})}">← 이전 구성</a>`:''}<span>${index+1} / ${n.parts.length}</span>${(page+1)*6<n.parts.length?`<a href="${this.url({part:(page+1)*6})}">다음 구성 →</a>`:''}</div><label class="sr-only" for="rr-part-select">모든 내부 구성</label><select id="rr-part-select">${n.parts.map((p,i)=>`<option value="${i}" ${i===index?'selected':''}>${esc(p.name)}</option>`).join('')}</select>`;
+  }else{
+   const peer=this.selected&&nodes.get(other(this.selected,n.id));
+   if(peer)left=`<div class="rr-pair rr-kind-${this.selected.kind}"><a class="rr-pair-first" href="${this.nodeURL(n.id)}">${this.model(n.id)}<span>${esc(n.name)}</span></a><a class="rr-pair-second" href="${this.nodeURL(peer.id)}">${this.model(peer.id)}<span>${esc(peer.name)}</span></a>${this.pathVisual(this.selected.kind)}</div>`;
+   content=this.relations(n);
+  }
+  this.root.innerHTML=`<div class="rr-detail"><a class="rr-close" href="${this.backURL()}" aria-label="관계 공간으로 돌아가기">${closeIcon}</a><div class="rr-visual">${left}</div><article class="rr-copy"><h1 id="relation-title" tabindex="-1">${esc(n.name)}</h1><nav class="rr-tabs" aria-label="부품 설명">${[['role','역할'],['parts','내부 구성'],['relations','연결 관계']].map(([tab,label])=>`<a href="${this.url({tab,edge:'',part:'',page:0})}" data-tab="${tab}" ${tab===this.tab?'aria-current="page"':''}>${label}</a>`).join('')}</nav><section class="rr-content">${content}</section></article></div>`;
+  this.root.querySelector('#rr-part-select')?.addEventListener('change',e=>this.change({part:e.target.value}));
+  if(this.tab==='relations'){
+   const page=Math.max(0,parseInt(this.params.get('page'))||0);if(page)this.root.querySelectorAll('.rr-peer-list a')[page*6]?.scrollIntoView({block:'nearest'});
+  }
+ }
+ pathVisual(kind){
+  // Deliberately no directional arrows: supplied edges describe functions, not
+  // a verified protocol trace. Only data relationships have a brief signal.
+  return `<svg class="rr-path playing" viewBox="0 0 600 430" preserveAspectRatio="none" aria-hidden="true"><path class="rr-route" d="M155 285V398Q155 410 167 410H443Q455 410 455 398V380"/>${kind==='data'?'<path class="rr-signal" d="M155 285V398Q155 410 167 410H443Q455 410 455 398V380"/>':''}${kind==='thermal'?'<ellipse class="rr-heat" cx="300" cy="395" rx="145" ry="25"/>':''}</svg>`;
+ }
+ relations(n){
+  const all=related(n.id),type=Object.hasOwn(RELATION_KINDS,this.params.get('type'))?this.params.get('type'):'all',list=all.filter(e=>type==='all'||e.kind===type),e=this.selected;
+  let description='';
+  if(e){const peer=nodes.get(other(e,n.id)),forward=e.a===n.id;
+   description=`<div class="relation-edge-copy"><h2>${esc(n.name)} ↔ ${esc(peer.name)}</h2><span class="rr-kind-label">${RELATION_KINDS[e.kind]}</span><dl><dt>${esc(n.name)}의 관점</dt><dd>${esc(forward?e.ab:e.ba)}</dd><dt>${esc(peer.name)}의 관점</dt><dd>${esc(forward?e.ba:e.ab)}</dd></dl><p class="rr-scope">${scope[e.kind]}</p>${e.kind==='data'?'<button class="rr-replay" data-replay>흐름 다시 보기 ↺</button>':''}<a class="rr-object-link" href="${this.nodeURL(peer.id)}">${esc(peer.name)} 살펴보기 ↗</a></div>`;
+  }
+  return `${description}<div class="rr-relation-picker"><div class="rr-picker-head"><label for="relation-type" class="sr-only">관계 유형</label><select id="relation-type"><option value="all">모든 관계 (${all.length})</option>${Object.entries(RELATION_KINDS).map(([k,v])=>`<option value="${k}" ${k===type?'selected':''}>${v} (${all.filter(e=>e.kind===k).length})</option>`).join('')}</select><label for="rr-peer-search" class="sr-only">연결된 부품 찾기</label><input id="rr-peer-search" type="search" placeholder="연결된 부품 찾기" autocomplete="off"></div><div class="rr-peer-list">${list.map(edge=>{const peer=nodes.get(other(edge,n.id));return `<a href="${this.url({edge:edge.id,page:0})}" data-peer="${peer.id} ${esc(peer.name)}" ${edge===e?'aria-current="true"':''}><span>${esc(peer.name)}</span><span>${RELATION_KINDS[edge.kind]}</span></a>`;}).join('')}</div><p id="rr-no-peers" ${list.length?'hidden':''}>이 유형의 관계가 없습니다</p></div>`;
+ }
+ filterPeers(value){let count=0;const q=value.trim().toLocaleLowerCase();for(const el of this.root.querySelectorAll('[data-peer]')){el.hidden=!el.dataset.peer.toLocaleLowerCase().includes(q);if(!el.hidden)count++;}const empty=this.root.querySelector('#rr-no-peers');if(empty){empty.hidden=!!count;empty.textContent='일치하는 부품이 없습니다';}}
+ renderScenario(){
+  const stage=this.scenario.steps[this.step];this.focus=stage.focus;this.tab='scenario';this.title=this.scenario.title;this.root.dataset.node=this.focus;this.root.dataset.tab='scenario';
+  this.root.innerHTML=`<div class="rr-detail rr-scenario"><a class="rr-close" href="#stories" aria-label="시나리오 목록으로 나가기">${closeIcon}</a><div class="rr-visual">${this.model(stage.focus,'rr-hero-model')}</div><article class="rr-copy"><h1 id="relation-title" tabindex="-1">${esc(this.scenario.title)}</h1><nav class="relation-steps" aria-label="시나리오 단계">${this.scenario.steps.map((s,i)=>`<a href="#map/scenario/${this.scenario.id}/${i}" ${i===this.step?'aria-current="step"':''} aria-label="${esc(s.title)}">${String(i+1).padStart(2,'0')}</a>`).join('')}</nav><section class="rr-content"><h2>${esc(stage.title)}</h2><p>${esc(stage.copy)}</p><div class="rr-scenario-parts">${stage.nodes.map(id=>`<a href="${this.nodeURL(id)}">${esc(nodes.get(id).name)}</a>`).join('')}</div><div class="relation-step-actions">${this.step>0?`<a href="#map/scenario/${this.scenario.id}/${this.step-1}">← 이전 단계</a>`:''}${this.step<this.scenario.steps.length-1?`<a href="#map/scenario/${this.scenario.id}/${this.step+1}">다음 단계 →</a>`:`<a href="#map/scenario/${this.scenario.id}/0">처음부터 ↺</a>`}</div><a class="relation-film-link" href="#story/${this.scenario.film||this.scenario.id}/0">3D 시나리오로 보기 ↗</a></section></article></div>`;
  }
 }

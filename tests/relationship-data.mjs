@@ -26,7 +26,7 @@ assert.deepEqual(new Set(groups.flatMap(g=>g.nodes)),nodes);
 for(const g of groups)assert.ok(g.nodes.includes(g.focus));
 assert.equal(scenarios.length,16);
 assert.equal(new Set(scenarios.map(s=>s.id)).size,16);
-assert.deepEqual(scenarios.filter(s=>s.film).map(s=>s.film),['boot','game','search','storage']);
+assert.deepEqual(scenarios.map(s=>s.film),scenarios.map(s=>s.id));
 for(const s of scenarios){
  assert.equal(s.steps.length,4);
  for(const step of s.steps){

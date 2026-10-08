@@ -233,3 +233,16 @@ Chromium 소프트웨어 WebGL과 모바일 에뮬레이션에서 검증했으�
 `tests/relationship-integration.py`로 관계지도에서 모델을 열고 같은 관계로 복귀, 시나리오·상세 설명 왕복, 모바일 나가기 배치와 단일 WebGL 캔버스를 확인했다
 
 `tests/redesign-site.py`의 목록·검색·회전·나가기·Escape·기존 시나리오·모바일·WebGL 대체 화면 검증도 통과했다
+
+
+## 관계지도 공간 구현 — 2026-10-08
+
+6개 관계 공간에 23개 실제 하드웨어 모델을 배치하고 부품명과 제목만 표시했다 배경 격자와 거미줄 연결망은 제거했다 공용 WebGL 렌더러를 재사용하며 부품의 방 위치에서 상세 위치까지 연속 전환한다 내부 구성 전체와 검색·유형 필터가 있는 124개 관계를 제공하고 원래 관계 시나리오 64단계를 보존했다
+
+- `node tests/relationship-data.mjs`: 원본 관계 115개 포함 전체 124개·23개 노드·6개 방·64단계 보존
+- `python3 tests/relationship-map.py`: 23개 역할과 모든 내부 구성·124개 양쪽 설명·6개 방의 이름/제목만 표시·1440/390/320px·검색/필터/빈 결과·예전 주소·키보드 복귀·16편의 64단계 통과
+- `python3 tests/relationship-integration.py`: 실제 3D 방 6개, 캔버스 하나, 하드웨어 단일 나가기, 시나리오 팝업 왕복, 모바일과 메인 필름 재진입 통과
+- `tests/relationship-portable.py`: 배포용 독립 HTML에서 실제 전환·빠른 경로 변경·WebGL 손실/복원·오프라인 내부 구성/관계 이동 통과
+- JavaScript 구문 검사와 Git 공백 검사 통과
+
+Chromium 소프트웨어 WebGL과 모바일 에뮬레이션으로 검사했다 실기기 GPU와 Safari의 프레임 성능은 측정하지 않았다
