@@ -107,3 +107,6 @@ export const RELATION_SCENARIOS=[
  ]},
 ];
 export const RELATION_KINDS={data:'데이터·제어',power:'전원',thermal:'냉각',structure:'장착·구성',context:'활용·비교'};
+
+// Every listed principle also has a cinematic scroll narrative
+RELATION_SCENARIOS.forEach(s=>{s.film=s.id;});

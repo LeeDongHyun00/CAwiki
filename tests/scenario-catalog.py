@@ -22,7 +22,7 @@ with sync_playwright() as p:
     page.wait_for_timeout(150)
     page.screenshot(path=str(OUT/'wiki-all-scenarios.png'),full_page=True)
     for i,id in enumerate(IDS):
-        expected=('#story/' if i<4 else '#map/scenario/')+id+'/0'
+        expected='#story/'+id+'/0'
         assert cards.nth(i).get_attribute('href')==expected
         assert cards.nth(i).locator('.story-card-heading p').inner_text().startswith(str(i+1).zfill(2)+' /')
     card=cards.filter(has=page.locator('.cover-music'));feedback=card.locator('.action-result').first
@@ -35,15 +35,15 @@ with sync_playwright() as p:
     assert feedback.evaluate('(e)=>getComputedStyle(e).opacity')=='0'
     page.keyboard.press('Tab');card.focus();page.wait_for_timeout(1800)
     assert feedback.evaluate('(e)=>getComputedStyle(e).opacity')=='1'
-    page.keyboard.press('Enter');page.wait_for_selector('.relation-step-copy')
-    assert page.url.endswith('#map/scenario/music/0')
-    page.get_by_role('link',name='시나리오 목록 ↗',exact=True).click();page.wait_for_selector('#collection-dialog[open]')
+    page.keyboard.press('Enter');page.wait_for_selector('body[data-mode="story"]:not(.loading)')
+    assert page.url.endswith('#story/music/0')
+    page.keyboard.press('Escape');page.wait_for_selector('#collection-dialog[open]')
     assert page.locator('#story-grid .story-card').count()==16
     assert page.locator('#collection-total').inner_text()=='16 STORIES'
     for id in IDS[4:]:
-        page.locator('#story-grid [data-scenario="'+id+'"]').click();page.wait_for_selector('.relation-step-copy')
-        assert page.url.endswith('#map/scenario/'+id+'/0')
-        page.get_by_role('link',name='시나리오 목록 ↗',exact=True).click();page.wait_for_selector('#collection-dialog[open]')
+        page.locator('#story-grid [data-scenario="'+id+'"]').click();page.wait_for_selector('body[data-mode="story"]:not(.loading)')
+        assert page.url.endswith('#story/'+id+'/0')
+        page.keyboard.press('Escape');page.wait_for_selector('#collection-dialog[open]')
     page.evaluate('location.hash="map"');page.wait_for_selector('.relation-island')
     assert page.locator('.relation-island').count()==6
     assert not page.locator('.relation-scenarios,.relation-scenario-grid').count()
@@ -65,8 +65,8 @@ with sync_playwright() as p:
     page.on('pageerror',lambda e:errors.append(str(e)))
     url=BASE+'artifacts/inside-site.html';page.goto(url+'#stories');page.wait_for_selector('#collection-dialog[open]');ctx.set_offline(True)
     assert page.locator('#story-grid .story-cover > svg').count()==16
-    page.locator('#story-grid [data-scenario="record"]').tap();page.wait_for_selector('.relation-step-copy')
-    assert page.url.endswith('#map/scenario/record/0')
+    page.locator('#story-grid [data-scenario="record"]').tap();page.wait_for_selector('body[data-mode="story"]:not(.loading)')
+    assert page.url.endswith('#story/record/0')
     assert all(r.split('#')[0]==url or r.startswith(('blob:','data:')) for r in requests)
     assert not errors,errors
     browser.close();print('Mobile / reduced motion / touch / all covers offline / no page errors PASS',flush=True)

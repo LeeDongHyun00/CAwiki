@@ -1,10 +1,10 @@
 # CAwiki — 작동 순서로 배우는 컴퓨터 아키텍처
 
 현재 기본 화면은 **Inside**입니다. 메인보드와 연결된 부품을 14개 스크롤 장면으로 탐색한 뒤, 모니터 밖으로 빠져나와 **Computer Wiki**로 진입합니다. 23종 하드웨어를 실제 3D로 회전·확대·분해하고,
-부팅·게임·검색·파일 읽기의 4개 시나리오를 카메라 이동과 데이터 흐름으로 보여줍니다.
+부팅·게임·검색·파일 읽기부터 저장·통화·AI·녹화까지 16개 시나리오를 카메라 이동과 데이터 흐름으로 보여줍니다. 기본 경로는 총 118개 장면이며 추가 12편은 각 7–9개 장면으로 구현했습니다.
 관계지도에서는 하드웨어 23종의 관계 124개와 16개 작동 원리를 총 64단계로 탐색합니다.
 
-[완성된 사이트 미리보기](artifacts/inside-site.html) · [구현 안내](docs/redesign/README.md) · [검증 기록](docs/redesign/verification.md)
+[공개 GitHub Pages](https://leedonghyun00.github.io/CAwiki/) · [완성된 사이트 미리보기](artifacts/inside-site.html) · [구현 안내](docs/redesign/README.md) · [검증 기록](docs/redesign/verification.md)
 
 ## 실행
 
@@ -98,7 +98,7 @@ SSD→파일 열기, NIC→검색, PSU→부팅 …), 마지막 단계의 **`아
 ```
 start.command         더블클릭 실행 — 서버 기동 + 브라우저 열기
 serve.py              개발 서버 (no-cache 정적 제공)
-index.html            Inside — 3D 메인·23개 부품·4개 시나리오
+index.html            Inside — 3D 메인·23개 부품·16개 시나리오
 design/redesign/      3D 무대, 모델, 컬렉션, 시나리오 런타임
 assets/models/redesign/  실제 모델로 렌더링한 23개 썸네일
 artifacts/inside-site.html  독립 HTML 미리보기
@@ -284,3 +284,13 @@ python3 tests/hardware-3d.py
 
 레이아웃과 모션 설계는 [지도 디자인 문서](docs/hardware/map-design.md)를 참고하세요.
 브라우저 검증: `python3 tests/map-design.py`.
+
+## GitHub Pages 배포 파일
+
+```bash
+python3 tools/build-pages.py --output /tmp/cawiki-pages-output
+```
+
+공개 주소는 https://leedonghyun00.github.io/CAwiki/ 이며 `gh-pages` 브랜치의 루트를 게시합니다
+배포 파일은 외부 CDN 없이 동작하는 전체 사이트와 검토 페이지, 이전 저장 시안 주소의 연결 파일입니다
+설명 검토와 출처는 [시나리오 내용 검토](docs/redesign/scenario-content-review.md), 94개 추가 장면의 구조는 [구현 문서](docs/redesign/scenario-expansion-design.md)를 참조하세요

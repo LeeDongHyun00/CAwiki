@@ -37,9 +37,9 @@ with sync_playwright() as p:
    page.locator('.relation-steps a').nth(i).click();page.wait_for_function('(i)=>document.querySelectorAll(".relation-steps a")[i].getAttribute("aria-current")==="step"',arg=i)
    assert page.locator('.relation-step-copy h2').inner_text();assert page.locator('.relation-step-copy p').inner_text();assert page.locator('.relation-neighbor').count()>0
   assert page.locator('.relation-step-actions').inner_text().find('처음부터')>=0
-  assert page.locator('.relation-film-link').count()==(1 if id in ['boot','game','search','storage'] else 0)
+  assert page.locator('.relation-film-link').count()==1
   if id in ['save','music','ai']:page.screenshot(path=str(OUT/f'scenario-{id}.png'))
- print('16 scenarios / all 64 stages / four cinematic links PASS',flush=True)
+ print('16 scenarios / all 64 stages / 16 cinematic links PASS',flush=True)
  navigate(page,'map/node/coproc');assert page.locator('.relation-node-copy a[href^="#object/"]').count()==0
  navigate(page,'map/node/cpu');page.locator('.relation-explanation details').evaluate('(e)=>e.open=true');assert page.locator('.relation-explanation dd').count()>3
  page.set_viewport_size({'width':390,'height':844});navigate(page,'map');page.screenshot(path=str(OUT/'mobile-overview.png'));assert page.evaluate('document.documentElement.scrollWidth===innerWidth')

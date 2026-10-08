@@ -1,3 +1,4 @@
+import { EXTENDED_SCENARIOS } from './scenario-extended-data.js';
 // Scroll positions describe explanatory order, not physical elapsed time.
 const gameSteps=[
  {at:0,tag:'MOUSE / SWITCH',en:'INPUT',title:'손끝에서 시작된 변화',copy:'클릭 한 번이 어떻게 화면을 바꿀까요?',detail:'스위치의 상태가 바뀌면 마우스 컨트롤러가 버튼 상태를 입력 보고서로 만듭니다 USB 연결을 사용하는 경우의 입력 흐름입니다',focus:[-9,-.4,1],offset:[3,4.7,-6.5]},
@@ -65,6 +66,7 @@ export const SCENARIOS={
   {window:[.87,.99],points:[[-.72,-1.2,-1.56],[3,.5,1],[7,1,4],[10,1.4,5.2]]},
  ]},
 };
+Object.assign(SCENARIOS,EXTENDED_SCENARIOS);
 export function scenarioFor(id,variant='ssd'){
  const base=SCENARIOS[id];if(id!=='storage'||variant==='ssd')return base;
  const result={...base,steps:base.steps.map(s=>({...s})),paths:base.paths.map(p=>({...p,points:p.points.map(v=>[...v])}))};

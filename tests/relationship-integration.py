@@ -19,8 +19,8 @@ with sync_playwright() as p:
     page.goto(BASE+'#wiki');page.wait_for_selector('body.ready',timeout=90000)
     page.locator('[data-wiki-tab="stories"]').click()
     assert page.locator('#wiki-stories .story-card').count()==16
-    page.locator('#wiki-stories [data-scenario="typing"]').click();settled(page,'map')
-    page.locator('.relation-top a[href="#wiki"]').click();settled(page,'wiki')
+    page.locator('#wiki-stories [data-scenario="typing"]').click();settled(page,'story')
+    page.locator('.scenario-bottom a[href="#wiki"]').click();settled(page,'wiki')
     page.locator('[data-wiki-tab="map"]').click();settled(page,'map')
     page.locator('.relation-island').first.click()
     page.locator('.relation-neighbor[data-node="dram"]').click()
@@ -34,7 +34,7 @@ with sync_playwright() as p:
     assert page.url==selected
     assert page.locator('.relation-edge-copy dt').all_text_contents()==['CPU의 관점','RAM의 관점']
     print('Wiki discovery / model rendering / map history / single canvas PASS',flush=True)
-    for id in ['boot','game','search','storage']:
+    for id in ['boot','game','search','storage','save','usb','call','ai']:
         page.evaluate('(id)=>location.hash="map/scenario/"+id+"/0"',id)
         page.wait_for_selector('.relation-film-link')
         page.locator('.relation-film-link').click();settled(page,'story')
@@ -43,7 +43,7 @@ with sync_playwright() as p:
         assert not page.locator('#story-detail').evaluate('(e)=>e.open')
         assert not page.locator('body.story-modal').count()
         assert page.url.endswith('#map/scenario/'+id+'/0')
-    print('All four films / detail modal / map round trips PASS',flush=True)
+    print('Original and extended films / detail modal / map round trips PASS',flush=True)
     page.set_viewport_size({'width':390,'height':844})
     page.evaluate('location.hash="map/node/cpu"');page.wait_for_selector('.relation-center[data-node="cpu"]')
     page.locator('.relation-node-copy a[href="#object/cpu"]').click();settled(page,'object')
