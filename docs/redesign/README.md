@@ -2,7 +2,7 @@
 
 `redesign` 브랜치 · 2026-10-08
 
-[사이트 미리보기](../../artifacts/inside-site.html) · [기본 진입점](../../index.html) · [검증](verification.md) · [레퍼런스 관찰](reference-audit.md) · [시나리오 리디자인 설계](scenario-design.md) · [썸네일 동작 설계](scenario-thumbnail-actions.md) · [USB 모델·사진 참조](usb-thumbnail.md) · [관계지도 설계](relationship-map.md)
+[사이트 미리보기](../../artifacts/inside-site.html) · [기본 진입점](../../index.html) · [검증](verification.md) · [레퍼런스 관찰](reference-audit.md) · [시나리오 리디자인 설계](scenario-design.md) · [05–16 확장 설계·저장 모션 시안](scenario-expansion-design.md) · [썸네일 동작 설계](scenario-thumbnail-actions.md) · [USB 모델·사진 참조](usb-thumbnail.md) · [관계지도 설계](relationship-map.md)
 
 기본 `index.html`에 전체 사이트를 연결했다. 화면 전체를 모델에 할애하고 로고·상단 내비게이션·우측 예고 목록을 두지 않는다. 컬렉션은 필요할 때 전체 화면으로 연다.
 

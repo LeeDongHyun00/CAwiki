@@ -127,3 +127,13 @@ CAWIKI_TEST_URL=http://127.0.0.1:4173/artifacts/inside-site.html python3 tests/r
 USB 스타일 통일 후 같은 두 검사를 다시 통과했다
 공통 청록 배경·모니터, 연결 후 화면 내부의 USB 드라이브 표시, 모바일 구도와 인접 시나리오와의 색감을 확인했다
 [인접 썸네일 비교](../../artifacts/scenario-actions/review-6.jpg)
+
+## 05–16 시나리오 확장 설계와 저장 대표 시안 · 2026-10-08
+
+`python3 tools/build-expansion-design.py`와 `python3 tests/scenario-expansion-design.py`로 설계용 독립 HTML을 확인했다
+12편·72개 장면 탐색, 저장의 6단계, 실제 마우스 드래그, 키보드 끝 이동·재시작, 모달 정지·복귀, 모바일 구도, 모션 감소, 오프라인 초기화를 통과했다
+동일 진행 위치의 정방향·역방향 캔버스 픽셀 차이는 0이며 페이지 JavaScript 오류는 없다
+
+[결과 데이터](../../artifacts/scenario-expansion-design/verification.json)와 [설계·구현 범위](scenario-expansion-design.md)를 참조한다
+기존 서비스 경로는 유지하며 추가 12편 전체의 프로덕션 필름 구현을 완료한 검증은 아니다
+Chromium 소프트웨어 WebGL을 사용했으며 실제 모바일 GPU·Safari 성능은 미측정이다
