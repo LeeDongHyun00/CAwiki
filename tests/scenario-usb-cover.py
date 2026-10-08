@@ -9,6 +9,9 @@ with sync_playwright() as p:
  page=b.new_page(viewport={'width':1440,'height':1000});errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
  page.goto(BASE+'#stories');page.wait_for_selector('#collection-dialog[open]')
  card=page.locator('#story-grid [data-scenario="usb"]');card.scroll_into_view_if_needed()
+ assert card.locator('.usb-connected').text_content()=='USB 드라이브'
+ assert '내 PC' in card.locator('figure').text_content()
+ assert 'USB 연결됨' not in card.locator('figure').text_content()
  sprite=card.locator('.usb-plug');frame=lambda:int(sprite.get_attribute('data-usb-frame'))
  page.mouse.move(0,0);page.locator('#collection-title').click()
  expect(sprite).to_have_attribute('data-usb-frame','0')
@@ -16,6 +19,7 @@ with sync_playwright() as p:
  card.locator('figure').screenshot(path=str(OUT/'cover-before.png'))
  card.hover();page.wait_for_timeout(420);mid=frame();assert 0<mid<29,mid
  card.locator('figure').screenshot(path=str(OUT/'cover-inserting.png'))
+ mid=frame() # Capture may advance playback before the pointer leaves
  page.mouse.move(0,0);page.wait_for_timeout(60);reverse=frame();assert reverse<mid,(mid,reverse)
  card.hover();page.wait_for_timeout(120)
  assert frame()>=reverse,(reverse,frame())

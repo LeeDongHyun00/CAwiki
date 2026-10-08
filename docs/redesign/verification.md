@@ -122,3 +122,8 @@ CAWIKI_TEST_URL=http://127.0.0.1:4173/artifacts/inside-site.html python3 tests/r
 시작·중간·결합 3D 렌더 및 실제 카드의 모바일 화면을 시각적으로 확인했다
 
 [연결 전](../../artifacts/usb-cover/cover-before.png) · [삽입 중](../../artifacts/usb-cover/cover-inserting.png) · [결합](../../artifacts/usb-cover/cover-connected.png) · [모바일](../../artifacts/usb-cover/mobile.png)
+
+
+USB 스타일 통일 후 같은 두 검사를 다시 통과했다
+공통 청록 배경·모니터, 연결 후 화면 내부의 USB 드라이브 표시, 모바일 구도와 인접 시나리오와의 색감을 확인했다
+[인접 썸네일 비교](../../artifacts/scenario-actions/review-6.jpg)

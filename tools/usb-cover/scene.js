@@ -5,21 +5,21 @@ import { RoundedBoxGeometry } from '../../lib/vendor/three/RoundedBoxGeometry.js
 import { RoomEnvironment } from '../../lib/vendor/three/RoomEnvironment.js';
 
 export function createUSBScene(renderer){
- const scene=new THREE.Scene();scene.background=new THREE.Color('#14252c');
- const camera=new THREE.PerspectiveCamera(32,5/3,.1,100);
- camera.position.set(-9,9.5,15);camera.lookAt(-.5,.0,0);camera.zoom=1.12;camera.updateProjectionMatrix();
- renderer.setClearColor('#14252c');renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.88;
+ const scene=new THREE.Scene();scene.background=null;
+ const camera=new THREE.OrthographicCamera(-8.3,8.3,4.98,-4.98,.1,100);
+ camera.position.set(-7,5.6,14);camera.lookAt(-.6,.1,0);camera.setViewOffset(800,480,0,-114,800,480);camera.updateProjectionMatrix();
+ renderer.setClearColor('#14252c',0);renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.88;
  renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
  const env=new RoomEnvironment(),pmrem=new THREE.PMREMGenerator(renderer);
  const environment=pmrem.fromScene(env,.08);scene.environment=environment.texture;env.dispose();pmrem.dispose();
  const material=(color,metalness=0,roughness=.4)=>new THREE.MeshStandardMaterial({color,metalness,roughness});
- const aluminum=material('#a0adb4',.95,.29),steel=material('#c4ced2',1,.2),edgeSteel=material('#667379',.85,.36);
- const black=material('#171c20',.06,.47),rib=material('#111619',.03,.57),blue=material('#12569d',.05,.32),gold=material('#d6ae61',.88,.25),dark=material('#080d12',.1,.45);
+ const aluminum=material('#29444c',.32,.56),steel=material('#819b96',.58,.4),edgeSteel=material('#44676a',.35,.5);
+ const black=material('#152b35',.04,.58),rib=material('#12252d',.03,.6),blue=material('#325f68',.05,.45),gold=material('#b0b58b',.55,.4),dark=material('#08181f',.05,.55);
  // Subtle machined grain, deterministically generated from numeric data.
  const grain=new Uint8Array(128*128*4);let seed=17;
  for(let i=0;i<128*128;i++){seed=(seed*1664525+1013904223)>>>0;const n=155+(seed%80);grain.set([n,n,n,255],i*4);}
  const grainMap=new THREE.DataTexture(grain,128,128);grainMap.wrapS=grainMap.wrapT=THREE.RepeatWrapping;grainMap.repeat.set(10,1);grainMap.needsUpdate=true;
- aluminum.envMapIntensity=.65;steel.envMapIntensity=.7;edgeSteel.envMapIntensity=.12;black.bumpMap=grainMap;black.bumpScale=.0015;
+ aluminum.envMapIntensity=.32;steel.envMapIntensity=.45;edgeSteel.envMapIntensity=.12;black.bumpMap=grainMap;black.bumpScale=.0015;
  const add=(geo,mat,parent=scene,x=0,y=0,z=0)=>{const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m;};
  const box=(w,h,d,mat,parent,x,y,z,r=.04)=>add(new RoundedBoxGeometry(w,h,d,4,r),mat,parent,x,y,z);
  const rect=(x,y,w,h,r=.04)=>{const s=new THREE.Shape();s.moveTo(x+r,y);s.lineTo(x+w-r,y);s.quadraticCurveTo(x+w,y,x+w,y+r);s.lineTo(x+w,y+h-r);s.quadraticCurveTo(x+w,y+h,x+w-r,y+h);s.lineTo(x+r,y+h);s.quadraticCurveTo(x,y+h,x,y+h-r);s.lineTo(x,y+r);s.quadraticCurveTo(x,y,x+r,y);return s;};
@@ -58,7 +58,7 @@ export function createUSBScene(renderer){
  for(const x of [1.25,3.8])for(const z of [-2.7,2.7])box(.45,.13,.42,rib,hub,x,-.49,z,.08);
  const ledMat=new THREE.MeshStandardMaterial({color:'#315148',roughness:.22,emissive:'#80e6bc',emissiveIntensity:0});
  add(new THREE.SphereGeometry(.055,24,12),ledMat,hub,.729,.73,2.61);
- tube([[3.3,.21,-3.15],[3.6,.14,-3.7],[4.8,-.28,-4.2],[7,-.43,-4.6]],.16,black);
+ tube([[3.3,.21,-3.15],[3.6,.14,-3.7],[4.8,-.28,-4.2],[7,-.43,-4.6],[14,-.45,-5.2]],.16,black);
  // USB-A male: molded grip, seam, ribbed strain relief and hollow stamped shell.
  const plug=new THREE.Group();plug.position.set(-1.6,targetY,targetZ);scene.add(plug);
  box(2.55,.94,1.86,black,plug,-2.72,0,0,.22);
@@ -86,9 +86,9 @@ export function createUSBScene(renderer){
  const arrow=add(new THREE.ConeGeometry(.057,.13,3),edgeSteel,symbol,.5,0,0);arrow.rotation.z=-Math.PI/2;
  add(new THREE.SphereGeometry(.046,16,8),edgeSteel,symbol,-.44,0,0);box(.074,.02,.074,edgeSteel,symbol,.28,0,-.28,.004);add(new THREE.SphereGeometry(.041,16,8),edgeSteel,symbol,.1,0,.25);
  // Soft studio illumination and contact shadows, in the site's dark teal palette.
- const ground=add(new THREE.PlaneGeometry(200,200),material('#061319',0,.85),scene,0,-.58,0);ground.rotation.x=-Math.PI/2;ground.castShadow=false;ground.material.envMapIntensity=.1;
- const key=new THREE.DirectionalLight('#f4f7f4',2.2);key.position.set(-3,9,5);key.castShadow=true;key.shadow.mapSize.set(2048,2048);key.shadow.camera.left=-12;key.shadow.camera.right=12;key.shadow.camera.top=10;key.shadow.camera.bottom=-10;key.shadow.normalBias=.025;key.shadow.bias=-.0002;key.shadow.radius=4;scene.add(key);
- const rim=new THREE.DirectionalLight('#b8d3d4',1.3);rim.position.set(5,5,-5);scene.add(rim);
+ const ground=add(new THREE.PlaneGeometry(200,200),new THREE.ShadowMaterial({color:'#030e14',opacity:.27}),scene,0,-.58,0);ground.rotation.x=-Math.PI/2;ground.castShadow=false;
+ const key=new THREE.DirectionalLight('#d6e5d8',1.7);key.position.set(-3,9,5);key.castShadow=true;key.shadow.mapSize.set(2048,2048);key.shadow.camera.left=-12;key.shadow.camera.right=12;key.shadow.camera.top=10;key.shadow.camera.bottom=-10;key.shadow.normalBias=.025;key.shadow.bias=-.0002;key.shadow.radius=4;scene.add(key);
+ const rim=new THREE.DirectionalLight('#a8c9be',1.1);rim.position.set(5,5,-5);scene.add(rim);
  const fill=new THREE.DirectionalLight('#d1e9e0',.5);fill.position.set(-6,2,-2);scene.add(fill);
  const clamp=x=>Math.max(0,Math.min(1,x));
  function setProgress(t){

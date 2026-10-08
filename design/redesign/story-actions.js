@@ -8,7 +8,7 @@ export const ACTION_STORIES={
  streaming:'영상 재생 버튼을 누르면 버퍼가 채워지고 영상이 재생됩니다',
  call:'통화 참가 버튼을 누르면 웹캠 표시등과 상대방 영상, 마이크가 활성화됩니다',
  multitasking:'뒤쪽의 음악 창을 선택하면 문서와 브라우저 앞에 나타납니다',
- usb:'실제 형태의 USB-A 플러그가 알루미늄 허브의 포트에 삽입되고 연결 표시등이 켜집니다',
+ usb:'USB-A 플러그가 허브에 연결되면 뒤쪽 컴퓨터 화면에 USB 드라이브가 나타납니다',
  sleep:'대기 중인 컴퓨터에서 키를 누르면 화면이 켜지고 작업 창이 복원됩니다',
  ai:'작성한 질문을 전송하면 대화에 올라가고 답변이 순서대로 나타납니다',
  loading:'새 게임 버튼을 누르면 로딩 막대가 채워지고 게임 화면이 나타납니다',
@@ -50,7 +50,7 @@ function multitasking(id,{click}){
  const musicWindow=window(60,74,384,199,'음악',`<rect x="78" y="119" width="109" height="131" rx="5" fill="#648b77"/><circle cx="132" cy="181" r="36" fill="#264c53"/>${lines(213,141,[170,133],'#849f90',18)}${waves(216,210,15)}`);
  return monitor(id,`${desktop(id)}<g class="multi-back">${musicWindow}</g><g class="multi-front">${window(173,25,360,211,'브라우저',`<rect x="189" y="74" width="328" height="78" rx="4" fill="#4b7670"/>${lines(189,178,[306,278,229])}`)}${window(231,141,323,143,'문서',lines(250,195,[258,236,248,176]))}</g><g class="multi-selected action-result">${musicWindow}</g>`)+pointer(267,184,233,126)+click(233,126);
 }
-function usb(){return usbCoverScene();}
+function usb(id){return usbCoverScene(id,{monitor,desktop,window,lines,tick});}
 
 function sleep(id,{rod}){
  return monitor(id,`<rect width="600" height="330" fill="#081921"/><g class="sleep-desktop action-result" style="--action-delay:.4s">${desktop(id)}${window(65,39,470,237,'작업 중이던 문서',`${lines(88,94,[215],'#a7c5af')}${lines(88,125,[382,352,364,251],'#55796f',22)}`)}</g><g class="sleep-moon action-before"><path d="M321 130a40 40 0 1 0 17 65 35 35 0 0 1-17-65Z" fill="#a0bcae"/><text x="300" y="240" text-anchor="middle" font-size="12" fill="#6b8c87">잠시 쉬는 중</text></g>`,{x:100,y:39,w:600,h:270})+keyboard(id,{hot:['A']})+`<g class="action-rod">${rod(id,-40,186,205,355)}</g>`;

@@ -1,9 +1,15 @@
 // Thirty baked frames from tools/usb-cover/scene.js share a single decoded image.
 // A finite, reversible timeline avoids adding WebGL contexts to the scenario list.
 const usbAtlas=new URL('../../assets/scenarios/usb-action-atlas.webp',import.meta.url).href;
-export function usbCoverScene(){
- return `<svg width="800" height="480" viewBox="0 0 800 480" overflow="hidden"><g class="usb-plug" data-usb-frame="0"><image href="${usbAtlas}" width="4800" height="2400"/></g></svg>
- <g class="action-result usb-connected" style="--action-delay:1.1s"><rect x="572" y="410" width="184" height="36" rx="18" fill="#10282d" fill-opacity=".9" stroke="#58786e" stroke-width=".7"/><circle cx="593" cy="428" r="3" fill="#b6e7ca"/><text x="610" y="433" fill="#c6dfd0" font-size="13">USB 연결됨</text></g>`;
+export function usbCoverScene(id,{monitor,desktop,window,lines,tick}){
+ const drive=(x,y,color)=>`<rect x="${x}" y="${y}" width="34" height="27" rx="4" fill="${color}"/><path d="M${x+5} ${y+19}h24" stroke="#213d43" stroke-width="3"/><circle cx="${x+27}" cy="${y+23}" r="1.5" fill="#c4e6cd"/>`;
+ const screen=desktop(id)+window(44,29,512,263,'내 PC',`
+ <rect x="60" y="76" width="102" height="199" rx="5" fill="#263f46"/>${lines(76,94,[60,49,56,43],'#627f77',25)}
+ ${drive(186,95,'#7d9f91')}<text x="238" y="108" font-size="13" fill="#c1d8c7">로컬 디스크</text>${lines(239,122,[241],'#3e5c5d')}
+ <path d="M183 149H533" stroke="#3b585b"/>
+ <g class="action-result usb-connected" style="--action-delay:1.1s"><rect x="177" y="164" width="358" height="68" rx="7" fill="#315950" stroke="#7fa792" stroke-width=".8"/>${drive(191,184,'#a9cbb3')}<text x="240" y="193" font-size="15" fill="#cde2ce">USB 드라이브</text>${lines(240,207,[192],'#70958a')}${tick(492,193,.65)}</g>`);
+ return monitor(id,screen,{x:128,y:30,w:544,h:278})+
+ `<svg width="800" height="480" viewBox="0 0 800 480" overflow="hidden"><g class="usb-plug" data-usb-frame="0"><image href="${usbAtlas}" width="4800" height="2400"/></g></svg>`;
 }
 export function bindUSBPreview(card){
  const sprite=card.querySelector('.usb-plug');if(!sprite)return;

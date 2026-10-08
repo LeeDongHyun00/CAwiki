@@ -1,7 +1,7 @@
 # 시나리오 표지 자산
 
-`usb-action-atlas.webp`는 `tools/usb-cover/scene.js`에서 직접 모델링한 USB 연결 동작의 30프레임 렌더
-현재 USB 썸네일에서 사용하며 제작·참고 자료는 `docs/redesign/usb-thumbnail.md`에 기록
+`usb-action-atlas.webp`는 `tools/usb-cover/scene.js`에서 직접 모델링한 USB 연결 동작의 30프레임 투명 렌더
+공통 SVG 모니터·청록 배경과 합성해 현재 USB 썸네일에서 사용하며 제작·참고 자료는 `docs/redesign/usb-thumbnail.md`에 기록
 
 ## 이전 표지 이미지
 
