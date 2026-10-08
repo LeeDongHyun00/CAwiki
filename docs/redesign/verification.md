@@ -196,3 +196,9 @@ HTTPS 검증은 시스템 신뢰 저장소를 사용하는 Python으로 수행�
 
 [시각적 변화·복원 결과](../../artifacts/scenario-spatial/verification.json) · [모니터 결과 비교](../../artifacts/scenario-spatial/screens-contact.jpg) · [배포 파일 검증](../../artifacts/scenario-spatial/packaged-verification.json)
 검증 환경은 Chromium 소프트웨어 WebGL과 모바일 에뮬레이션이며 실제 휴대전화 GPU 및 Safari 성능은 미측정이다
+
+소스 `95dde2b`의 독립 HTML을 공개 Pages 커밋 `160a7eb`으로 게시하고 기존 PR에 반영했다
+인증 없는 HTTPS 200, 버전 정보와 배포 HTML의 SHA-256 일치를 확인했다
+공개 응답으로 부품 포인트·드래그·모니터 결과·모바일 스피커·상세 팝업·16개 목록을 검증했다
+시스템 신뢰 저장소로 인증서를 검증하는 Python HTTPS 클라이언트가 받은 공개 응답을 Chromium 요청에 전달했으며 TLS 검증을 끄지 않았다
+[공개 검증 결과](../../artifacts/scenario-spatial/public-verification.json) · [공개 멀티태스킹](../../artifacts/scenario-spatial/public-multitasking.png) · [공개 결과 화면](../../artifacts/scenario-spatial/public-streaming.png)
