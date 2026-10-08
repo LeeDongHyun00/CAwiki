@@ -14,7 +14,7 @@ const architecture='<div class="rr-architecture" aria-hidden="true"><div class="
 
 export class RelationshipMap {
  constructor(root,asset){
-  this.root=root;this.asset=asset;this.stage=new RelationshipStage(root);this.selection=new Map();
+  this.root=root;this.asset=asset;this.stage=new RelationshipStage(root);this.selection=new Map();this.navigation=0;
   root.addEventListener('input',e=>{if(e.target.id==='relation-search')this.search(e.target.value);if(e.target.id==='rr-peer-search')this.filterPeers(e.target.value);});
   root.addEventListener('change',e=>{if(e.target.id==='relation-type')this.change({type:e.target.value,edge:'',page:0});});
   root.addEventListener('click',e=>{
@@ -40,6 +40,8 @@ export class RelationshipMap {
  change(values){location.hash=this.url(values);}
  enter(hash){
   const previous={view:this.view,focus:this.focus,tab:this.tab};
+  const navigation=++this.navigation;
+  this.stage.beginNavigation();
   this.path=hash.split('?')[0];this.params=new URLSearchParams(hash.split('?')[1]||'');
   const [,view,id,number]=this.path.split('/');this.view=view||'overview';this.group=RELATION_GROUPS.find(g=>g.id===id);this.scenario=RELATION_SCENARIOS.find(s=>s.id===id);
   // Preserve links to a selected edge from the previous group map.
@@ -56,11 +58,11 @@ export class RelationshipMap {
   if(spatial)this.stage.enter();else this.stage.leave();
   document.title=`${this.title} — Computer Wiki`;
   requestAnimationFrame(()=>{
-   if(this.root.hidden)return;
+   if(this.root.hidden||navigation!==this.navigation)return;
    if(this.view==='group'&&this.selection.has(this.group.id)){this.root.querySelector(`[data-node="${this.selection.get(this.group.id)}"]`)?.focus({preventScroll:true});}
    else if(previous.focus===this.focus&&previous.view===this.view&&this.tab){this.root.querySelector(`[data-tab="${this.tab}"]`)?.focus({preventScroll:true});}
    else this.root.querySelector('#relation-title')?.focus({preventScroll:true});
-   this.stage.layout(false);
+   this.stage.requestLayout();
   });
   return previous.view==='node'&&this.view==='node'&&previous.focus===this.focus;
  }
