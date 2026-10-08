@@ -1,0 +1,11 @@
+{
+  "allModels": 23,
+  "groups": 6,
+  "cyclicDrag": true,
+  "detailReturn": true,
+  "mobile": true,
+  "keyboard": true,
+  "reducedMotion": true,
+  "fallback": true,
+  "errors": []
+}

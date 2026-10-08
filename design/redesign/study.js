@@ -305,7 +305,7 @@ export function captureCinema(){
     if(right<0||left>innerWidth||bottom<0||top>innerHeight)continue;
     const quaternion=view.quaternion.clone().invert().multiply(root.getWorldQuaternion(new T.Quaternion()));
     if(inside)quaternion.premultiply(reveal.camera.quaternion.clone().invert().multiply(reveal.display.getWorldQuaternion(new T.Quaternion())));
-    models.push({id,root,quaternion,rect:{x:left,y:top,width:right-left,height:bottom-top}});
+    models.push({id,root,rest:computer.rest[id],quaternion,rect:{x:left,y:top,width:right-left,height:bottom-top}});
   }
   return{stage:graphics,image:renderer.domElement.toDataURL('image/webp'),opacity:Number(getComputedStyle(renderer.domElement).opacity),models};
 }

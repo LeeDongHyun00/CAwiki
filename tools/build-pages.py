@@ -7,6 +7,7 @@ out=Path(args.output);out.mkdir(parents=True,exist_ok=True)
 for command in ['build-extended-scenarios.py','build-redesign-preview.py','build-expansion-design.py']:
  subprocess.run(['python3',str(ROOT/'tools'/command)],check=True)
 shutil.copyfile(ROOT/'artifacts/inside-site.html',out/'index.html')
+shutil.copyfile(ROOT/'artifacts/relationship-room-study.html',out/'relationship-room-study.html')
 shutil.copyfile(ROOT/'artifacts/scenario-expansion-design.html',out/'scenario-expansion-design.html')
 alias=(ROOT/'artifacts/scenario-save-study.html').read_text().replace('./inside-site.html','./index.html')
 (out/'scenario-save-study.html').write_text(alias)

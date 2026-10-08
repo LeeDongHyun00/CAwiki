@@ -6,7 +6,7 @@ export const UNIT=.024;
 const finish=k=>({root:k.root,explode:k.explode,layers:k.layers.map(({g})=>g.name)});
 // Combine static surfaces inside each moving layer. Layer / fan transforms stay
 // independent; hundreds of tiny fittings no longer require separate draw calls.
-function batchStaticMeshes(parent){
+export function batchStaticMeshes(parent){
   for(const child of [...parent.children])if(child.isGroup)batchStaticMeshes(child);
   const batches=new Map();
   for(const mesh of parent.children){
@@ -157,7 +157,11 @@ export function createComputer(){
   ];
   wires.forEach((points,j)=>{for(let i=0;i<(j===3?1:4);i++)k.wire(cables,points.map(([x,y,z])=>[x+i*2.2,y,z]),j===3?1.3:.8);});
   batchStaticMeshes(root);
-  return{root,board,parts,ram2,cables};
+  const rest={};
+  for(const [id,modelRoot]of [['mainboard',board.root],...Object.entries(parts).map(([id,p])=>[id,p.model.root])]){
+    rest[id]=[];modelRoot.traverse(node=>{if(node!==modelRoot&&node.isGroup)rest[id].push({position:node.position.clone(),quaternion:node.quaternion.clone(),scale:node.scale.clone()});});
+  }
+  return{root,board,parts,ram2,cables,rest};
 }
 
 export function createScreenReveal(environment){

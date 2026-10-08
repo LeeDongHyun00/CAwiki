@@ -1,5 +1,6 @@
 import * as T from '../../lib/vendor/three/three.module.js';
 import { captureCinema } from './study.js';
+import { portraitScene, portraitCamera, portraitRotation, portraitModel, portraitPose } from './hardware-portraits.js';
 
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const clamp=x=>Math.max(0,Math.min(1,x));
@@ -7,16 +8,6 @@ const smooth=x=>{const t=clamp(x);return t*t*t*(t*(t*6-15)+10);};
 const range=(t,a,b)=>smooth((t-a)/(b-a));
 const mix=(a,b,t)=>a+(b-a)*t;
 const rect=el=>{const r=el.getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height};};
-// Hardware bounds within the existing 576 × 432 studio thumbnails. Preserve
-// their optical centers and margins when the live models hand off to the list.
-const studioFrames={
-  cpu:[.1059,.2870,.8194,.8981],gpu:[.0938,.2477,.9219,.8542],
-  dram:[.1198,.3380,.9201,.7199],ssd:[.1128,.3356,.9201,.7431],
-  hdd:[.1632,.2269,.7760,.8796],mainboard:[.1146,.2616,.8090,.9028],
-  power:[.1719,.1852,.7934,.9051],cooling:[.1128,.2407,.7326,.8958],
-  vrm:[.1163,.2593,.9045,.8472],coproc:[.0955,.2801,.8351,.8843],
-  spirom:[.1441,.2593,.8490,.8287],nic:[.2049,.2870,.8021,.8588],
-};
 
 // One temporary scene borrows film geometry; no duplicated renderer, changed
 // materials, or persistent transforms on the film's original models.
@@ -54,30 +45,19 @@ export class WikiArrival {
     this.label.setAttribute('aria-hidden','true');document.body.append(this.label);
     this.startColor=new T.Color(snapshot.labelColor);this.endColor=new T.Color(style.color);this.labelColor=new T.Color();
     this.titleTarget={x:titleRect.x,y:titleRect.y,width:this.label.getBoundingClientRect().width,height:titleRect.height};
-    this.scene=new T.Scene();this.scene.environment=snapshot.stage.environment.texture;this.scene.environmentIntensity=.58;
-    const key=new T.DirectionalLight(0xfff5e9,1.7);key.position.set(-4,8,6);
-    const rim=new T.DirectionalLight(0xdbe6ff,1.1);rim.position.set(5,3,-6);
-    const fill=new T.HemisphereLight(0xe8ecf1,0x4b4b43,.8);this.scene.add(key,rim,fill);
-    const aspect=innerWidth/innerHeight;this.camera=new T.OrthographicCamera(-5*aspect,5*aspect,5,-5,.1,200);this.camera.position.z=80;
+    this.scene=portraitScene(snapshot.stage.environment.texture);this.camera=portraitCamera(innerWidth,innerHeight);
     const unit=10/innerHeight;
-    const destinationRotation=new T.Quaternion().setFromRotationMatrix(new T.Matrix4().lookAt(new T.Vector3(.75,1.2,1.65),new T.Vector3(),new T.Vector3(0,1,0))).invert();
-    for(const light of [key,rim,fill])light.position.applyQuaternion(destinationRotation);
-    this.scene.environmentRotation.setFromQuaternion(destinationRotation);
+    const destinationRotation=portraitRotation('cpu');
     const sources=new Map(snapshot.models.map(m=>[m.id,m]));
     for(const card of this.cards){
       const source=sources.get(card.id);if(!source)continue;
-      const clone=source.root.clone(true);clone.position.set(0,0,0);clone.quaternion.identity();clone.scale.setScalar(1);
-      clone.position.sub(new T.Box3().setFromObject(clone).getCenter(new T.Vector3()));
-      const group=new T.Group();group.add(clone);this.scene.add(group);
+      const portrait=portraitModel(source.root,card.id,source.rest),{group,size:toSize}=portrait;portrait.assemble(0);this.scene.add(group);
       group.quaternion.copy(source.quaternion);const fromSize=new T.Box3().setFromObject(group).getSize(new T.Vector3());
-      group.quaternion.copy(destinationRotation);const toSize=new T.Box3().setFromObject(group).getSize(new T.Vector3());
       const target=rect(card.el.querySelector('figure')),r=source.rect;
-      const width=Math.min(target.width,target.height*4/3),height=Math.min(target.height,target.width*3/4);
-      const [left,top,right,bottom]=studioFrames[card.id],cx=target.x+(target.width-width)/2+(left+right)*width/2,cy=target.y+(target.height-height)/2+(top+bottom)*height/2;
       const from={x:(r.x+r.width/2-innerWidth/2)*unit,y:(innerHeight/2-r.y-r.height/2)*unit,scale:Math.min(r.width*unit/fromSize.x,r.height*unit/fromSize.y)};
-      const to={x:(cx-innerWidth/2)*unit,y:(innerHeight/2-cy)*unit,scale:Math.min(width*(right-left)*unit/toSize.x,height*(bottom-top)*unit/toSize.y)};
+      const to=portraitPose(toSize,target,innerWidth,innerHeight);
       const delay=150+this.items.length*65,duration=1050;
-      this.items.push({id:card.id,card,group,from,to,rotation:source.quaternion,endRotation:destinationRotation,delay,duration});card.travels=true;
+      this.items.push({id:card.id,card,group,portrait,from,to,rotation:source.quaternion,endRotation:destinationRotation,delay,duration});card.travels=true;
     }
     this.landAt=Math.max(1120+(this.cards.length-1)*28,...this.items.map(i=>i.delay+i.duration));this.chromeAt=this.landAt+240;this.endAt=this.chromeAt+540;
     this.canvas=snapshot.stage.renderer.domElement;this.canvas.style.opacity='0';
@@ -94,12 +74,15 @@ export class WikiArrival {
     this.label.style.opacity=String(1-range(t,950,1100));this.title.style.opacity=String(range(t,950,1100));
     for(const item of this.items){
       const p=range(t,item.delay,item.delay+item.duration),{group,from,to}=item;
+      item.portrait.assemble(range(t,item.delay+120,item.delay+750));
       group.position.set(mix(from.x,to.x,p),mix(from.y,to.y,p)+Math.sin(p*Math.PI)*.32,0);
       group.scale.setScalar(mix(from.scale,to.scale,p));group.quaternion.copy(item.rotation).slerp(item.endRotation,p);
       item.card.el.style.setProperty('--arrival-caption',range(t,item.delay+800,item.delay+1150));
     }
     for(const card of this.cards){
-      if(card.travels)card.el.style.setProperty('--arrival-image',fade);
+      // Put the identical still underneath the settled opaque model before
+      // fading the canvas. Two half-opacity layers would cause a brightness dip.
+      if(card.travels)card.el.style.setProperty('--arrival-image',t>=this.landAt?1:0);
       else{
         const p=range(t,720+card.index*28,1120+card.index*28);
         card.el.style.setProperty('--arrival-image',p);card.el.style.setProperty('--arrival-caption',p);

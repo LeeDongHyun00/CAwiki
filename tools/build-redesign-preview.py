@@ -21,6 +21,7 @@ MODULES = {
     'inside/experience': STUDY / 'experience.js',
     'inside/site': STUDY / 'site.js',
     'inside/wiki-arrival': STUDY / 'wiki-arrival.js',
+    'inside/hardware-portraits': STUDY / 'hardware-portraits.js',
     'inside/scenario-data': STUDY / 'scenario-data.js',
     'inside/scenario-film': STUDY / 'scenario-film.js',
     'inside/scenario-extended-data': STUDY / 'scenario-extended-data.js',
@@ -53,6 +54,7 @@ IMPORTS = {
     './cinema-timeline.js': 'inside/cinema-timeline',
     './study.js': 'inside/study',
     './wiki-arrival.js': 'inside/wiki-arrival',
+    './hardware-portraits.js': 'inside/hardware-portraits',
     './site-data.js': 'inside/data',
     './experience.js': 'inside/experience',
     './scenario-data.js': 'inside/scenario-data',
@@ -118,3 +120,19 @@ html += '\n<!-- Three.js license\n' + license_text + '\n-->\n'
 target = ROOT / 'artifacts/inside-site.html'
 target.write_text(html)
 print(f'{target} ({target.stat().st_size:,} bytes)')
+
+# The relationship room is a separate, reviewable design study. It shares
+# actual models/data but does not replace any production relationship route.
+room_sources = dict(sources)
+room_code = (STUDY / 'relationship-room-study.js').read_text()
+for original, alias in IMPORTS.items():
+    room_code = room_code.replace(f"'{original}'", f"'{alias}'")
+room_sources['inside/room-study'] = room_code
+room_html = (STUDY / 'relationship-room-study.html').read_text()
+room_html = room_html.replace('<link rel="stylesheet" href="./relationship-room-study.css">', '<style>' + (STUDY / 'relationship-room-study.css').read_text() + '</style>')
+room_payload = json.dumps({'modules': room_sources, 'images': images}, ensure_ascii=False).replace('<', '\\u003c')
+room_loader = loader.replace(payload, room_payload).replace("import 'inside/site';", "import 'inside/room-study';")
+room_html = room_html.replace('<script type="module" src="./relationship-room-study.js"></script>', room_loader).replace('../../index.html#map', './index.html#map')
+room_target = ROOT / 'artifacts/relationship-room-study.html'
+room_target.write_text(room_html + '\n<!-- Three.js license\n' + license_text + '\n-->\n')
+print(f'{room_target} ({room_target.stat().st_size:,} bytes)')

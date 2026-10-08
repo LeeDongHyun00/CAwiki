@@ -3,7 +3,7 @@ Requires serve.py 4173, Playwright, Chromium, and Pillow.
 """
 from playwright.sync_api import sync_playwright
 from pathlib import Path
-from PIL import Image
+import subprocess
 import argparse
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('models',nargs='*',help='Optional hardware IDs; renders all models when omitted.')
@@ -27,10 +27,6 @@ with sync_playwright() as p:
   page.wait_for_selector('body:not(.loading)');page.wait_for_timeout(500)
   assert not page.locator('body.failed').count(),(id,'failed')
   path=ROOT/f'artifacts/redesign-site/{id}.png';page.locator('#world').screenshot(path=str(path))
-  target=ROOT/f'assets/models/redesign/{id}.webp'
-  temp=target.with_suffix('.tmp')
-  Image.open(path).resize((576,432)).save(temp,format='WEBP',quality=90)
-  temp.replace(target)
   page.evaluate('document.querySelector("#explode").click()');page.wait_for_timeout(500)
   assert page.locator('#explode').get_attribute('aria-pressed')=='true'
   assert page.locator('#object-structure').text_content()
@@ -39,3 +35,6 @@ with sync_playwright() as p:
  assert not errors,errors
  print(f'{len(data)} models rendered. Page errors: none',flush=True)
  b.close()
+
+# Catalog portraits share the film geometry and landing camera, not the detail viewer.
+subprocess.run(['python3',str(ROOT/'tools/render-hardware-portraits.py'),*args.models],check=True)
