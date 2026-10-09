@@ -1,0 +1,62 @@
+[
+  {
+    "style": "inherited",
+    "run": 0,
+    "entryMs": 2929.7999999970198,
+    "RecalcStyleDuration": 0.08274200000000001,
+    "RecalcStyleCount": 126,
+    "LayoutDuration": 0.017823999999999993,
+    "ScriptDuration": 0.164495,
+    "TaskDuration": 2.567975
+  },
+  {
+    "style": "inherited",
+    "run": 1,
+    "entryMs": 3000.89999999851,
+    "RecalcStyleDuration": 0.095986,
+    "RecalcStyleCount": 115,
+    "LayoutDuration": 0.020102999999999996,
+    "ScriptDuration": 0.193579,
+    "TaskDuration": 2.62878
+  },
+  {
+    "style": "inherited",
+    "run": 2,
+    "entryMs": 2905.7000000029802,
+    "RecalcStyleDuration": 0.082897,
+    "RecalcStyleCount": 126,
+    "LayoutDuration": 0.017458,
+    "ScriptDuration": 0.171974,
+    "TaskDuration": 2.564709
+  },
+  {
+    "style": "direct",
+    "run": 0,
+    "entryMs": 2959.10000000149,
+    "RecalcStyleDuration": 0.060276,
+    "RecalcStyleCount": 132,
+    "LayoutDuration": 0.018631999999999996,
+    "ScriptDuration": 0.179449,
+    "TaskDuration": 2.601369
+  },
+  {
+    "style": "direct",
+    "run": 1,
+    "entryMs": 2936.2999999970198,
+    "RecalcStyleDuration": 0.060777000000000005,
+    "RecalcStyleCount": 128,
+    "LayoutDuration": 0.018457,
+    "ScriptDuration": 0.183856,
+    "TaskDuration": 2.584186
+  },
+  {
+    "style": "direct",
+    "run": 2,
+    "entryMs": 2891.2000000029802,
+    "RecalcStyleDuration": 0.059255999999999996,
+    "RecalcStyleCount": 127,
+    "LayoutDuration": 0.017367000000000007,
+    "ScriptDuration": 0.16064099999999998,
+    "TaskDuration": 2.537789
+  }
+]

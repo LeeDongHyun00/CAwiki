@@ -25,7 +25,7 @@ threading.Thread(target=server.serve_forever,daemon=True).start()
 source=(root/'lib/inside/room-study.js').read_text().replace('function wake(){','function wake(){if(window.__freeze)return;')+'''
 window.__freeze=true;
 window.__sample=t=>{tick(transitionAt+t*(view==='exiting'?2300:2200));};
-window.__exit=panned=>{if(panned){pan={x:.18,y:.08};tick(performance.now());}exitRoom();};
+window.__exit=panned=>{if(panned){pan={x:.18,y:.08};tick(performance.now());}return exitRoom();};
 window.__pixels=()=>{
  const walls=roomScene.children.filter(m=>m.userData.wall);
  walls.forEach(w=>w.material.colorWrite=false);drawScene();const actual=renderer.domElement.toDataURL();
@@ -55,7 +55,7 @@ with sync_playwright() as p:
    page.wait_for_selector('#relationship-room-frame');frame=page.frames[-1]
    frame.wait_for_function("document.body.dataset.mode==='entering-room'",timeout=30000)
    for phase in ['entry','exit']:
-    if phase=='exit':frame.evaluate('__sample(1);__exit('+str(scroll>0).lower()+')')
+    if phase=='exit':frame.evaluate('async()=>{__sample(1);await __exit('+str(scroll>0).lower()+')}')
     for t in [0,.2,.4,.6,.8,.95]:
      frame.evaluate('__sample',t)
      if scroll==0 and ((phase=='entry' and t==.6) or (phase=='exit' and t==.4)):
