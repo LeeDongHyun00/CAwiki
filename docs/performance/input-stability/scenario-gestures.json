@@ -1,0 +1,297 @@
+{
+  "runs": [
+    {
+      "name": "boot/native/1",
+      "frames": 37,
+      "maxTravelScenes": 0.534132710507329,
+      "maxTargetScenes": 0.5343656146915468,
+      "reversals": 0,
+      "scrollWrites": 0
+    },
+    {
+      "name": "boot/native/-1",
+      "frames": 40,
+      "maxTravelScenes": 0.540809167446211,
+      "maxTargetScenes": 0.540809167446211,
+      "reversals": 0,
+      "scrollWrites": 0
+    },
+    {
+      "name": "typing/native/1",
+      "frames": 37,
+      "maxTravelScenes": 0.5495552195320594,
+      "maxTargetScenes": 0.5498364098478574,
+      "reversals": 0,
+      "scrollWrites": 0
+    },
+    {
+      "name": "typing/native/-1",
+      "frames": 37,
+      "maxTravelScenes": 0.5495552195320599,
+      "maxTargetScenes": 0.5498364098478579,
+      "reversals": 0,
+      "scrollWrites": 0
+    },
+    {
+      "name": "game/burst/1",
+      "frames": 48,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "game/burst/-1",
+      "frames": 46,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "boot/burst/1",
+      "frames": 31,
+      "maxTravelScenes": 0.9997878310527533,
+      "maxTargetScenes": 0.9999999999999996,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "boot/burst/-1",
+      "frames": 29,
+      "maxTravelScenes": 0.9997860294275815,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "search/burst/1",
+      "frames": 32,
+      "maxTravelScenes": 0.9997760242574869,
+      "maxTargetScenes": 1.0000000000000004,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "search/burst/-1",
+      "frames": 48,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "storage/burst/1",
+      "frames": 31,
+      "maxTravelScenes": 0.9997669138802108,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "storage/burst/-1",
+      "frames": 45,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "typing/burst/1",
+      "frames": 31,
+      "maxTravelScenes": 0.9997857291082299,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "typing/burst/-1",
+      "frames": 46,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "launch/burst/1",
+      "frames": 46,
+      "maxTravelScenes": 0.9999999999999996,
+      "maxTargetScenes": 0.9999999999999996,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "launch/burst/-1",
+      "frames": 45,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "save/burst/1",
+      "frames": 46,
+      "maxTravelScenes": 0.9999999999999996,
+      "maxTargetScenes": 0.9999999999999996,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "save/burst/-1",
+      "frames": 45,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "music/burst/1",
+      "frames": 48,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "music/burst/-1",
+      "frames": 29,
+      "maxTravelScenes": 0.9997897327197212,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "streaming/burst/1",
+      "frames": 46,
+      "maxTravelScenes": 0.9999999999999996,
+      "maxTargetScenes": 0.9999999999999996,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "streaming/burst/-1",
+      "frames": 45,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "call/burst/1",
+      "frames": 46,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "call/burst/-1",
+      "frames": 44,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "multitasking/burst/1",
+      "frames": 47,
+      "maxTravelScenes": 0.9999999999999996,
+      "maxTargetScenes": 0.9999999999999996,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "multitasking/burst/-1",
+      "frames": 46,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "usb/burst/1",
+      "frames": 48,
+      "maxTravelScenes": 0.9999999999999996,
+      "maxTargetScenes": 0.9999999999999996,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "usb/burst/-1",
+      "frames": 46,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "sleep/burst/1",
+      "frames": 47,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "sleep/burst/-1",
+      "frames": 45,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "ai/burst/1",
+      "frames": 46,
+      "maxTravelScenes": 0.9999999999999996,
+      "maxTargetScenes": 0.9999999999999996,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "ai/burst/-1",
+      "frames": 45,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "loading/burst/1",
+      "frames": 47,
+      "maxTravelScenes": 0.9999999999999996,
+      "maxTargetScenes": 0.9999999999999996,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "loading/burst/-1",
+      "frames": 44,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "record/burst/1",
+      "frames": 47,
+      "maxTravelScenes": 0.9999999999999996,
+      "maxTargetScenes": 0.9999999999999996,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "record/burst/-1",
+      "frames": 44,
+      "maxTravelScenes": 1.0,
+      "maxTargetScenes": 1.0,
+      "reversals": 0,
+      "scrollWrites": 1
+    }
+  ],
+  "stories": 16,
+  "quickReverse": true,
+  "negativeFrameDelta": true,
+  "popupAndNavigation": true,
+  "errors": []
+}

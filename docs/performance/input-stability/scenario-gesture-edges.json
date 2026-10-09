@@ -1,0 +1,17 @@
+{
+  "runs": [
+    {
+      "name": "landscape/multitouch/resize",
+      "frames": 35,
+      "maxTravelScenes": 0.9999999999999996,
+      "maxTargetScenes": 0.9999999999999996,
+      "reversals": 0,
+      "scrollWrites": 1
+    }
+  ],
+  "stories": 0,
+  "quickReverse": true,
+  "negativeFrameDelta": true,
+  "popupAndNavigation": true,
+  "errors": []
+}

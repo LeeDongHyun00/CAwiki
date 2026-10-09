@@ -1,0 +1,19 @@
+{
+  "setup": "Touch start and large native-scroll burst while held, then release",
+  "before": [
+    {
+      "source": "at MobileScrollPacer.start (http://127.0.0.1:4173/lib/inside/scroll-pacing.js?v=b93f2231e58c:21:18)",
+      "top": 2310
+    },
+    {
+      "source": "at MobileScrollPacer.target (http://127.0.0.1:4173/lib/inside/scroll-pacing.js?v=b93f2231e58c:29:45)",
+      "top": 3561.1571200563267
+    }
+  ],
+  "after": [
+    {
+      "source": "at ScenarioFilm.syncScroll (http://127.0.0.1:4173/lib/inside/scenario-film.js?v=e8aa1a629753:225:75)",
+      "top": 3384
+    }
+  ]
+}

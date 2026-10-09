@@ -1,0 +1,33 @@
+{
+  "setup": "Inject parent-origin RAF timestamps into same-origin iframe; no production code changes",
+  "runs": [
+    {
+      "events": [
+        {
+          "t": 156,
+          "channel": "inside-room-host",
+          "type": "open",
+          "scroll": 0,
+          "animate": true
+        }
+      ],
+      "entryFrames": 48,
+      "mobile": false,
+      "cycle": 0
+    },
+    {
+      "events": [
+        {
+          "t": 133.09999999403954,
+          "channel": "inside-room-host",
+          "type": "open",
+          "scroll": 0,
+          "animate": true
+        }
+      ],
+      "entryFrames": 1,
+      "mobile": false,
+      "cycle": 1
+    }
+  ]
+}
