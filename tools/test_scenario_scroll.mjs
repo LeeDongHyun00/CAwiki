@@ -44,3 +44,19 @@ innerWidth=844;coarse=true;reduced=false;pacer.start(.3,10000,3000);
 assert.ok(pacer.active,'Landscape touch devices still have a gesture cap');
 assert.ok(pacer.position(pacer.target(.95,.3,10000))-pacer.position(.3)<=1);
 console.log(JSON.stringify({cases,maxScenesPerGesture:MAX_SCENES_PER_GESTURE,scrollWrites:0,smallDrag:true,resizeBudget:true,reverse:true,bypasses:true}));
+// Release completes in 500ms even if the browser keeps sending inertia.
+for(const direction of [-1,1])for(const fps of [15,30,60,120]){
+ const p=new ScenarioScrollPacer([0,.12,.28,.49,.68,.84,1]);
+ p.start(.49,10000,4900);const goal=p.target((4900+direction*2000)/10000,.49,10000);
+ p.release(.49,1000);let previous=.49;
+ for(let ms=0;ms<500;ms+=1000/fps){
+  assert.equal(p.target(direction>0?1:0,previous,10000),goal,'Inertia cannot extend the release target');
+  const next=p.advance(previous,goal,1/fps,8,1000+ms);
+  assert.ok((next-previous)*direction>=-1e-12);previous=next;
+ }
+ assert.equal(p.advance(previous,goal,1/fps,8,1500),goal);
+ assert.equal(p.advance(goal,goal,1/fps,8,4000),goal);
+ p.start(.49,10000,4900);assert.equal(p.released,null,'New touch interrupts settling immediately');
+ p.release(.49,1000);p.reset();assert.equal(p.released,null);
+}
+console.log('500ms release / late inertia ignored / immediate interruption PASS');

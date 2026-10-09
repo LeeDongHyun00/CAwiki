@@ -82,14 +82,15 @@ with sync_playwright() as pw:
    velocities=[abs(position(b['p'])-position(a['p']))/((b['t']-a['t'])/1000) for a,b in zip(samples,samples[1:]) if b['t']>a['t']]
    run={'scene':scene,'gesture':name,'touches':data['touches'],'paced':any(s['paced'] for s in samples),'maxScenesPerSecond':max(velocities),'maxFrameSceneDelta':max(abs(position(b['p'])-position(a['p'])) for a,b in zip(samples,samples[1:])),'maxQueuedScenes':max(abs(position(s['target'])-position(s['p'])) for s in samples),'travelScenes':position(samples[-1]['p'])-position(samples[0]['p']),'endGapScenes':abs(position(samples[-1]['target'])-position(samples[-1]['p'])),'frameP95Ms':sorted(frames)[int(len(frames)*.95)],'longTasks':len(data['tasks']),'maxLongTaskMs':max(data['tasks'],default=0)}
    if name=='reverse':run['reversed']=samples[-1]['p']<data['reverseProgress']
-   limit_rate=(args.rate or 1) if scene=='film' else 2
-   if args.strict and (run['maxScenesPerSecond']>limit_rate+.02 or run['maxFrameSceneDelta']>limit_rate*.05+.0001):args.out.with_suffix('.trace.json').write_text(json.dumps(samples))
+   # Cubic ease-out covers at most one scene in .5s: peak speed 6 scenes/s.
+   limit_rate=(args.rate or 1) if scene=='film' else 6
+   if args.strict and (run['maxScenesPerSecond']>limit_rate+.02 or (scene=='film' and run['maxFrameSceneDelta']>limit_rate*.05+.0001)):args.out.with_suffix('.trace.json').write_text(json.dumps(samples))
    result['runs'].append(run);args.out.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n');print(json.dumps(run),flush=True)
    assert abs(run['travelScenes'])>.005 or name=='reverse', 'Input did not scroll'
    if args.strict:
     assert run['touches']>0 and run['paced'],run
     assert run['maxScenesPerSecond']<=limit_rate+.02,run
-    assert run['maxFrameSceneDelta']<=limit_rate*.05+.0001,run
+    assert run['maxFrameSceneDelta']<=(limit_rate*.05+.0001 if scene=='film' else 1.001),run
     assert run['maxQueuedScenes']<=(.751 if scene=='film' else 1.001),run
     assert run['endGapScenes']<.003,run
     if name=='reverse':assert run['reversed'],run

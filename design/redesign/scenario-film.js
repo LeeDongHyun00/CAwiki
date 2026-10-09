@@ -20,6 +20,7 @@ export class ScenarioFilm{
    if(!this.active||this.preparing||this.paused||$('#story-detail').open)return;
    if(this.scrollSync!==null&&this.scrollSync!==undefined&&Math.abs(scrollY-this.scrollSync)<=1)return;
    this.scrollSync=null;
+   if(this.scrollPacer.active&&this.scrollPacer.released){this.queueScrollEnd();return;}
    this.target=this.scrollPacer.target(clamp(scrollY/this.distance()),this.progress,this.distance());
    if(this.scrollPacer.active)this.queueScrollEnd();this.wake();
   },{passive:true});
@@ -39,7 +40,12 @@ export class ScenarioFilm{
    this.scrollPacer.start(this.progress,this.distance());this.target=this.progress;this.wake();
   },{passive:true});
   for(const name of ['touchend','touchcancel'])addEventListener(name,e=>{
-   if(!this.touching||e.touches.length)return;this.touching=false;this.queueScrollEnd();
+   if(!this.touching||e.touches.length)return;this.touching=false;
+   if(this.scrollPacer.active){
+    this.scrollPacer.target(clamp(scrollY/this.distance()),this.progress,this.distance());
+    this.target=this.scrollPacer.release(this.progress);this.wake();
+   }
+   this.queueScrollEnd();
   },{passive:true});
   $('#world').addEventListener('pointerdown',e=>{if(!this.active||this.paused||e.pointerType!=='mouse'||e.button!==0)return;this.drag={y:e.clientY,scroll:scrollY};e.target.setPointerCapture(e.pointerId);});
   addEventListener('pointermove',e=>{if(this.drag)scrollTo({top:this.drag.scroll+(this.drag.y-e.clientY)*2.5,behavior:'instant'});},{passive:true});
