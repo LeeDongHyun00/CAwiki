@@ -1,0 +1,97 @@
+/* The image is a finite preview; activating the link always opens the story. */
+.story-grid .story-card{display:block;outline-offset:8px}
+.story-grid .story-cover{height:auto;aspect-ratio:5/3;margin-bottom:20px;background:#182a30;isolation:isolate;overflow:hidden}
+.story-cover>svg{display:block;width:100%;height:100%;font-family:Arial,"Noto Sans KR",sans-serif}
+.cover-scene{transform-origin:50% 50%;transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.cover-before,.cover-after{transition:opacity .35s ease}.cover-after{opacity:0}
+.cover-status{font-size:10px;letter-spacing:2.3px;fill:#a7bbaf}
+.cover-cursor{transition:transform .55s cubic-bezier(.22,.8,.25,1),opacity .25s;pointer-events:none}
+.cover-click{opacity:0;transform-box:fill-box;transform-origin:center}.second-click{display:none}
+.power-rod,.power-cap,.game-rod,.game-button{transition:transform .45s cubic-bezier(.3,.1,.2,1)}
+.case-fan{transition:transform 1.3s cubic-bezier(.25,.1,.15,1)}
+.power-glow{filter:drop-shadow(0 0 7px #c6f4d7)}.case-light{filter:drop-shadow(0 0 9px #9cd3ba)}
+.game-button{transform-origin:633px 307px}
+.game-target,.game-reticle{transition:transform .65s ease,opacity .4s}.game-beam{opacity:0;filter:drop-shadow(0 0 6px #b8ebc7)}
+.search-bar{transition:transform .65s cubic-bezier(.22,.7,.2,1)}.search-result{opacity:0;transform:translateY(10px);transition:opacity .3s,transform .45s}
+.file-window{transform-origin:356px 206px;transform:scale(.15);transition:transform .6s cubic-bezier(.16,1,.3,1),opacity .2s}
+.desktop-file{transition:opacity .3s}.cover-storage .second-click{display:block}
+@keyframes cover-click{0%{opacity:0;transform:scale(.5)}20%{opacity:.9}100%{opacity:0;transform:scale(2.3)}}
+@keyframes cover-shot{0%,100%{opacity:0}20%,55%{opacity:1}}
+
+/* Keyboard focus gets exactly the same settled image and timing as hover. */
+.story-card:is(:focus-visible,.preview-active) .cover-scene{transform:scale(1.025)}
+.story-card:is(:focus-visible,.preview-active) .cover-before{opacity:0;transition-delay:.28s}
+.story-card:is(:focus-visible,.preview-active) .cover-after{opacity:1;transition-delay:.4s}
+.story-card:is(:focus-visible,.preview-active) .power-rod{transform:translateY(20px)}
+.story-card:is(:focus-visible,.preview-active) .power-cap{transform:translateY(3px);transition-delay:.18s}
+.story-card:is(:focus-visible,.preview-active) .case-fan{transform:rotate(125deg);transition-delay:.3s}
+.story-card:is(:focus-visible,.preview-active) .game-rod{transform:translate(-9px,10px)}
+.story-card:is(:focus-visible,.preview-active) .game-button{transform:translateY(3px) rotate(-1deg);transition-delay:.12s}
+.story-card:is(:focus-visible,.preview-active) .game-reticle{transform:translate(15px,-8px)}
+.story-card:is(:focus-visible,.preview-active) .game-target{opacity:.25;transform:translateY(6px);transition-delay:.38s}
+.story-card:is(:focus-visible,.preview-active) .game-beam{animation:cover-shot .32s .38s both}
+.story-card:is(:focus-visible,.preview-active) .cover-click{animation:cover-click .6s .32s both}
+.story-card:is(:focus-visible,.preview-active) .second-click{animation-delay:.5s}
+.story-card:is(:focus-visible,.preview-active) .search-pointer{transform:translate(617px,239px);opacity:0;transition:transform .35s,opacity .2s .5s}
+.story-card:is(:focus-visible,.preview-active) .search-bar{transform:translateY(-93px);transition-delay:.4s}
+.story-card:is(:focus-visible,.preview-active) .search-result{opacity:1;transform:translateY(0);transition-delay:var(--result-delay)}
+.story-card:is(:focus-visible,.preview-active) .search-caret{opacity:0}
+.story-card:is(:focus-visible,.preview-active) .file-pointer{transform:translate(361px,206px);opacity:0;transition:transform .35s,opacity .2s .65s}
+.story-card:is(:focus-visible,.preview-active) .file-window{transform:scale(1);transition-delay:.64s}
+.story-card:is(:focus-visible,.preview-active) .desktop-file{opacity:.15;transition-delay:.64s}
+
+@media(prefers-reduced-motion:reduce){
+ .story-cover *{transition:none!important;animation:none!important}
+ .story-card:is(:focus-visible,.preview-active) .cover-scene{transform:none}
+}
+
+/* Covers 05–16: the action happens inside each scene, on the same hover/focus trigger. */
+.action-pointer{transform:translate(var(--from-x),var(--from-y));transition:transform .36s cubic-bezier(.22,.8,.25,1),opacity .2s}
+.action-result{opacity:0;transition:opacity .32s;transition-delay:0s}
+.action-before{transition:opacity .3s}
+.action-key,.action-rod{transition:transform .45s cubic-bezier(.3,.1,.2,1)}
+.action-wipe{transform:scaleX(0);transform-box:fill-box;transform-origin:left;transition:transform .9s cubic-bezier(.25,.6,.3,1)}
+.action-line{stroke-dasharray:560;stroke-dashoffset:560;transition:stroke-dashoffset 1.3s ease}
+.action-waves{opacity:.2;transition:opacity .3s}.wave-bar{transform-box:fill-box;transform-origin:center}
+.story-card:is(:focus-visible,.preview-active) .action-pointer{transform:translate(var(--to-x),var(--to-y));opacity:0;transition:transform .36s cubic-bezier(.22,.8,.25,1),opacity .2s .58s}
+.story-card:is(:focus-visible,.preview-active) .action-result{opacity:1;transition-delay:var(--action-delay,.55s)}
+.story-card:is(:focus-visible,.preview-active) .action-before{opacity:0;transition-delay:.35s}
+.story-card:is(:focus-visible,.preview-active) .action-key{transform:translateY(4px);transition-delay:.15s}
+.story-card:is(:focus-visible,.preview-active) .action-rod{transform:translateY(22px)}
+.story-card:is(:focus-visible,.preview-active) .action-wipe{transform:scaleX(1);transition-delay:.38s}
+.story-card:is(:focus-visible,.preview-active) .action-line{stroke-dashoffset:0;transition-delay:.4s}
+.story-card:is(:focus-visible,.preview-active) .action-waves{opacity:1;transition-delay:.4s}
+.story-card:is(:focus-visible,.preview-active) .wave-bar{animation:action-wave .42s calc(.4s + var(--wave-delay)) 4 alternate ease-in-out}
+@keyframes action-wave{to{transform:scaleY(.25)}}
+.cover-launch .second-click{display:block}
+.launch-window{transform:scale(.12);transform-origin:300px 128px;transition:transform .6s cubic-bezier(.16,1,.3,1),opacity .25s}
+.story-card:is(:focus-visible,.preview-active) .launch-window{transform:scale(1);transition-delay:.62s}
+.speaker-cone{transition:transform .25s}
+.story-card:is(:focus-visible,.preview-active) .speaker-cone{animation:speaker-pulse .4s .4s 4 alternate ease-in-out}
+@keyframes speaker-pulse{to{transform:scale(1.045)}}
+.stream-landscape,.loading-landscape{transform-origin:50% 50%;transition:transform 1.6s cubic-bezier(.2,.65,.2,1)}
+.story-card:is(:focus-visible,.preview-active) .stream-landscape{transform:scale(1.07) translateX(-7px);transition-delay:.4s}
+.call-led,.cover-sleep .monitor-led{transition:fill .3s,filter .3s}
+.story-card:is(:focus-visible,.preview-active) :is(.call-led,.cover-sleep .monitor-led){fill:#c4edc3;filter:drop-shadow(0 0 5px #bcebc0);transition-delay:.55s}
+.multi-front{transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .4s;transform-origin:420px 140px}
+.multi-selected{transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .3s;transform-origin:220px 160px}
+.story-card:is(:focus-visible,.preview-active) .multi-front{transform:translate(22px,-16px) scale(.91);opacity:.55;transition-delay:.3s}
+.story-card:is(:focus-visible,.preview-active) .multi-selected{transform:translate(65px,8px) scale(1.08);transition-delay:.35s}
+.usb-plug{pointer-events:none}
+.usb-connected{pointer-events:none}
+.cover-sleep .monitor-led{fill:#af9470}
+.ai-question{transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.ai-thinking{opacity:0}
+.story-card:is(:focus-visible,.preview-active) .ai-question{transform:translateY(-185px);transition-delay:.3s}
+.story-card:is(:focus-visible,.preview-active) .ai-thinking{animation:ai-thinking .7s .3s both}
+@keyframes ai-thinking{0%{opacity:0}25%,65%{opacity:1}100%{opacity:0}}
+.loading-bar{opacity:0}
+.story-card:is(:focus-visible,.preview-active) .loading-bar{animation:loading-bar 1.25s .3s both}
+.story-card:is(:focus-visible,.preview-active) .loading-landscape{transform:scale(1.07);transition-delay:1s}
+@keyframes loading-bar{0%{opacity:0}15%,80%{opacity:1}100%{opacity:0}}
+.record-playhead{transition:transform 1.4s ease}
+.story-card:is(:focus-visible,.preview-active) .record-playhead{transform:translateX(459px);transition-delay:.35s}
+@media(prefers-reduced-motion:reduce){
+ .story-cover *{transition:none!important;animation:none!important}
+ .story-card:is(:focus-visible,.preview-active) :is(.stream-landscape,.loading-landscape){transform:none}
+}

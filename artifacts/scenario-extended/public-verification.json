@@ -1,0 +1,17 @@
+{
+  "url": "https://leedonghyun00.github.io/CAwiki/",
+  "version": {
+    "source": "ccf53a7c19be0c688bedaff3636efab9a9736fb4",
+    "stories": 16,
+    "extendedScenes": 94
+  },
+  "http": 200,
+  "matches_package": true,
+  "errors": [],
+  "cards": 16,
+  "save_scenes": 8,
+  "drag": "pass",
+  "legacy_save_alias": "pass",
+  "mobile": "pass",
+  "webgl": "pass"
+}

@@ -1,0 +1,22 @@
+{
+  "wikiEntry": true,
+  "wikiReturn": true,
+  "returnScroll": true,
+  "returnInterruption": true,
+  "nativeTouchOrbit": true,
+  "touchCancel": true,
+  "cameraMovesRight": true,
+  "walls": 5,
+  "models": 23,
+  "menuTopics": 7,
+  "stagedFilter": true,
+  "exactReturn": true,
+  "pairWithoutNavigation": true,
+  "partsPagination": true,
+  "mobile": true,
+  "keyboard": true,
+  "reducedMotion": true,
+  "fallback": true,
+  "portable": false,
+  "errors": []
+}

@@ -1,0 +1,27 @@
+{
+  "errors": [],
+  "touch_scroll": {
+    "scrollY": 345,
+    "progress": "0.04593"
+  },
+  "offline_scenes": {
+    "ai": "pass",
+    "save": "pass",
+    "record": "pass"
+  },
+  "legacy_save_alias": "pass",
+  "no_webgl": {
+    "typing": "pass",
+    "launch": "pass",
+    "save": "pass",
+    "music": "pass",
+    "streaming": "pass",
+    "call": "pass",
+    "multitasking": "pass",
+    "usb": "pass",
+    "sleep": "pass",
+    "ai": "pass",
+    "loading": "pass",
+    "record": "pass"
+  }
+}

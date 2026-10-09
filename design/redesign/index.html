@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101113">
+  <link rel="icon" href="data:,">
+  <title>Inside — 하나의 메인보드, 하나의 컴퓨터</title>
+  <meta name="description" content="23종 하드웨어와 16가지 작동 원리 입력부터 결과까지 드래그로 따라가는 컴퓨터 이야기">
+  <link rel="stylesheet" href="./study.css">
+  <link rel="stylesheet" href="./site.css">
+  <link rel="stylesheet" href="./story-covers.css">
+  <link rel="stylesheet" href="./relationship-map.css">
+  <link rel="stylesheet" href="./scenario-film.css">
+<link rel="stylesheet" href="../../assets/inside/scenario-detail.css"></head>
+<body data-mode="home">
+  <main aria-label="컴퓨터 부품 3D 전시">
+    <div id="stage">
+      <img id="fallback" src="../../assets/models/cpu.png" alt="CPU 3D 모델">
+      <canvas id="world" tabindex="-1" role="img" aria-label="CPU부터 메인보드에 연결된 부품까지 스크롤하면 구조 분해와 결합, 모니터 밖으로 이어집니다"></canvas>
+      <div class="finish" aria-hidden="true"></div>
+    </div>
+    <div id="sequence" aria-label="스크롤로 메인보드와 연결된 모든 부품의 구조를 살펴보세요">
+      <section data-scene="cpu" aria-label="CPU"><h1 class="sr-only">CPU</h1></section>
+      <section data-scene="gpu" aria-label="GPU"><h2 class="sr-only">GPU</h2></section>
+      <section data-scene="dram" aria-label="DDR5 메모리"><h2 class="sr-only">DDR5 메모리</h2></section>
+      <section data-scene="ssd" aria-label="M.2 SSD"><h2 class="sr-only">M.2 SSD</h2></section>
+      <section data-scene="hdd" aria-label="SATA 하드 디스크"><h2 class="sr-only">SATA 하드 디스크</h2></section>
+      <section data-scene="cooling" aria-label="CPU 쿨러"><h2 class="sr-only">CPU 쿨러</h2></section>
+      <section data-scene="power" aria-label="전원 공급 장치"><h2 class="sr-only">전원 공급 장치</h2></section>
+      <section data-scene="vrm" aria-label="메인보드 전원부"><h2 class="sr-only">메인보드 전원부</h2></section>
+      <section data-scene="coproc" aria-label="칩셋"><h2 class="sr-only">칩셋</h2></section>
+      <section data-scene="spirom" aria-label="펌웨어 플래시"><h2 class="sr-only">펌웨어 플래시</h2></section>
+      <section data-scene="nic" aria-label="PCIe 확장 카드"><h2 class="sr-only">PCIe 확장 카드</h2></section>
+      <section data-scene="io" aria-label="후면 입출력"><h2 class="sr-only">후면 입출력</h2></section>
+      <section data-scene="system" aria-label="하나의 메인보드"><h2 class="sr-only">하나의 메인보드</h2></section>
+      <section data-scene="screen" aria-label="모니터 밖으로"><h2 class="sr-only">모니터 밖으로</h2></section>
+    </div>
+    <div class="caption" aria-hidden="true"><span id="scene-number">01</span><span class="caption-rule"></span><span id="scene-name">PROCESSOR</span></div>
+    <p id="gesture" aria-hidden="true">SCROLL TO EXPLORE <span>↓</span></p>
+    <button id="skip-film" class="film-skip" aria-label="모니터 직전의 메인보드 전체 장면으로 건너뛰기" hidden>건너뛰기 <span aria-hidden="true">→</span></button>
+    <div id="progress" aria-hidden="true"></div>
+    <p id="status" class="sr-only" aria-live="polite"></p>
+    <a class="keyboard-reset" href="#home">처음부터 보기</a>
+
+    <a class="collection-entry" href="#wiki" aria-label="Computer Wiki 메인 페이지로 이동">Computer Wiki <span>→</span></a>
+    <section id="ending" class="ending" aria-label="Computer Wiki로 이어가기" hidden>
+      <p>EVERY PART / ONE COMPUTER</p>
+      <a href="#wiki" class="wiki-enter">Computer Wiki <span aria-hidden="true">→</span></a>
+    </section>
+    <section id="wiki-page" hidden aria-labelledby="wiki-title">
+      <div class="wiki-top"><span class="micro">HARDWARE &amp; HOW IT WORKS</span><a href="#home">필름 다시 보기 <span>↗</span></a></div>
+      <div class="wiki-heading"><h1 id="wiki-title" tabindex="-1">Computer Wiki</h1><p>부품에서 시작해, 작동 원리까지</p></div>
+      <div class="wiki-tabs" role="group" aria-label="탐색할 콘텐츠"><button data-wiki-tab="hardware" aria-pressed="true">하드웨어 <sup>23</sup></button><button data-wiki-tab="stories" aria-pressed="false">시나리오 <sup>16</sup></button><button data-wiki-tab="map" aria-pressed="false">관계지도</button></div>
+      <ul id="wiki-hardware" class="collection-grid"></ul>
+      <ul id="wiki-stories" class="story-grid" hidden></ul>
+    </section>
+    <section id="relationship-page" class="relation-page" hidden aria-labelledby="relation-title"></section>
+    <section id="object-ui" class="object-ui" hidden aria-labelledby="object-name">
+      <div class="object-title"><span id="object-counter" class="micro"></span><h1 id="object-name" tabindex="-1">CPU</h1><span id="object-ko"></span></div>
+      <div class="object-tools">
+        <a id="object-exit" href="#wiki">나가기</a>
+      </div>
+      <p class="object-hint">드래그로 회전 · 스크롤로 확대</p>
+      <p class="sr-only" id="object-structure" aria-live="polite"></p>
+    </section>
+    <div id="story-sequence" hidden aria-label="드래그로 따라가는 컴퓨터의 작동 원리"></div>
+    <section id="story-ui" class="scenario-ui" hidden aria-labelledby="story-title">
+      <div class="scenario-veil" aria-hidden="true"></div>
+      <div class="scenario-top"><span id="story-kicker"></span></div>
+      <div class="scenario-caption"><p class="scenario-eyebrow" id="story-phase"></p><h1 id="story-title" tabindex="-1"></h1><p id="story-copy"></p>
+        <div id="story-options" role="group" aria-label="파일을 읽는 경로" hidden><button data-storage="ssd" aria-pressed="true">SSD</button><button data-storage="hdd" aria-pressed="false">HDD</button><button data-storage="cached" aria-pressed="false">메모리 캐시</button></div>
+        <button id="story-why" aria-haspopup="dialog">원리 자세히 <span>↗</span></button><a id="story-more" href="#stories" hidden>다른 시나리오 ↗</a>
+      </div>
+      <div id="story-tag" aria-hidden="true"></div>
+      <div class="scenario-bottom"><span id="story-gesture">위로 드래그하여 따라가기 ↑</span><button id="story-restart" hidden>처음으로 ↺</button><a href="#wiki">Computer Wiki →</a></div>
+      <div id="story-track" role="group" aria-label="시나리오 단계"></div><div id="story-progress" aria-hidden="true"></div><span id="story-count" class="sr-only"></span>
+    </section>
+    <dialog id="story-detail" aria-labelledby="story-detail-title">
+      <button id="story-detail-close" aria-label="설명 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+      <div class="principle-layout">
+        <figure class="principle-visual"><img id="story-detail-image" alt=""><figcaption><span id="story-detail-part"></span><span id="story-detail-part-name"></span></figcaption></figure>
+        <article class="principle-copy"><p id="story-detail-count"></p><h2 id="story-detail-title" tabindex="-1" autofocus></h2><p id="story-detail-lead"></p><p id="story-detail-copy"></p>
+          <h3 class="principle-flow-label">앞뒤 장면의 흐름</h3><div id="story-detail-flow" role="group" aria-label="앞뒤 장면의 흐름"></div>
+          <p class="principle-note">이 장면은 작동 원리를 느리게 펼친 개념 표현입니다<br>실제 배선과 시간·크기의 비율은 다릅니다</p>
+          <a id="story-source" href="https://learn.microsoft.com/" target="_blank" rel="noopener noreferrer" hidden>참고 자료 <span aria-hidden="true">↗</span></a>
+        </article>
+      </div>
+    </dialog>
+    <div id="model-labels" aria-label="장면에 있는 부품"></div>
+    <dialog id="collection-dialog" aria-labelledby="collection-title">
+      <div class="collection-top"><div class="collection-tabs" role="group" aria-label="전시 선택"><button data-tab="collection" aria-pressed="true">OBJECTS <sup>23</sup></button><button data-tab="stories" aria-pressed="false">STORIES <sup>16</sup></button></div><button id="collection-close" class="close-button" aria-label="컬렉션 닫기">닫기 <span>×</span></button></div>
+      <div class="collection-intro"><h2 id="collection-title">하드웨어</h2><label class="search"><span class="sr-only">하드웨어 검색</span><input id="search" type="search" placeholder="부품 찾기" autocomplete="off"><span aria-hidden="true">⌕</span></label></div>
+      <div id="category-filter" class="category-filter" role="group" aria-label="하드웨어 분류"></div>
+      <ul id="collection-grid" class="collection-grid"></ul>
+      <p id="no-results" hidden>찾는 부품이 없습니다</p>
+      <ul id="story-grid" class="story-grid" hidden></ul>
+      <div class="collection-bottom"><span id="collection-total">23 OBJECTS</span><a href="#home">처음으로 ↗</a></div>
+    </dialog>
+  </main>
+  <noscript><style>#fallback{opacity:1}</style><p class="no-script">3D 모션을 보려면 JavaScript를 활성화해 주세요</p></noscript>
+  <script type="module" src="./site.js"></script>
+</body>
+</html>

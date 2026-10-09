@@ -1,0 +1,10 @@
+<!doctype html><meta charset="utf-8"><title>Hardware model asset renderer</title>
+<script type="module">
+import {createHardware,disposeModel} from '../lib/hardware-models.js';
+import {CATALOG} from '../lib/hardware-catalog.js';
+import {studioScene,fitCamera} from '../lib/hardware-scene.js';
+const canvas=document.createElement('canvas');document.body.append(canvas);
+const {renderer,scene,camera}=studioScene(canvas,{transparent:true});renderer.setPixelRatio(1);renderer.setSize(1000,850);
+window.renderModel=id=>{const model=createHardware(id);scene.add(model);fitCamera(camera,model,1000/850);renderer.render(scene,camera);const data=canvas.toDataURL('image/png');scene.remove(model);disposeModel(model);return data;};
+window.modelIds=Object.keys(CATALOG);
+</script>
