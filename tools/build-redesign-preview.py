@@ -7,6 +7,9 @@ import hashlib
 ROOT = Path(__file__).resolve().parents[1]
 STUDY = ROOT / 'design/redesign'
 MODULES = {
+    'inside/cpu-framing': STUDY / 'cpu-framing.js',
+    'inside/scenario-detail': STUDY / 'scenario-detail.js',
+    'inside/quality': ROOT / 'lib/inside/quality.js',
     'inside/three': ROOT / 'lib/vendor/three/three.module.js',
     'inside/rounded': ROOT / 'lib/vendor/three/RoundedBoxGeometry.js',
     'inside/orbit': ROOT / 'lib/vendor/three/OrbitControls.js',
@@ -41,6 +44,9 @@ MODULES = {
     'inside/relation-scenarios': STUDY / 'relation-scenarios.js',
 }
 IMPORTS = {
+    './cpu-framing.js': 'inside/cpu-framing',
+    './scenario-detail.js': 'inside/scenario-detail',
+    '../../lib/inside/quality.js': 'inside/quality',
     './three.module.js': 'inside/three',
     './vendor/three/three.module.js': 'inside/three',
     '../../lib/vendor/three/three.module.js': 'inside/three',
@@ -82,6 +88,7 @@ for path in sorted((ROOT / 'assets/models').glob('*.png')) + sorted((ROOT / 'ass
     mime = 'image/webp' if path.suffix == '.webp' else 'image/png'
     images[name] = f'data:{mime};base64,' + base64.b64encode(path.read_bytes()).decode()
 assert len([name for name in images if name.startswith('redesign/')]) == 23, 'Render all 23 collection thumbnails first'
+images['redesign/usb.webp'] = 'data:image/webp;base64,' + base64.b64encode((ROOT / 'assets/inside/redesign/usb.webp').read_bytes()).decode()
 images['scenarios/usb-action-atlas.webp'] = 'data:image/webp;base64,' + base64.b64encode((ROOT / 'assets/scenarios/usb-action-atlas.webp').read_bytes()).decode()
 room_version=hashlib.sha256(b''.join((STUDY / ('relationship-room-study.'+ext)).read_bytes() for ext in ['js','css','html'])).hexdigest()[:12]
 sources = {}
@@ -105,6 +112,7 @@ for name, path in MODULES.items():
         source = source.replace(original, "window.__insideAssets[id+'.png']")
     sources[name] = source
 html = (STUDY / 'index.html').read_text()
+html = html.replace('<link rel="stylesheet" href="../../assets/inside/scenario-detail.css">', '<style>' + (ROOT / 'assets/inside/scenario-detail.css').read_text() + '</style>')
 for stylesheet in ['study.css', 'site.css', 'scenario-film.css', 'story-covers.css', 'relationship-map.css']:
     html = html.replace(f'<link rel="stylesheet" href="./{stylesheet}">', '<style>' + (STUDY / stylesheet).read_text() + '</style>')
 html = html.replace('../../assets/models/cpu.png', images['cpu.png'])

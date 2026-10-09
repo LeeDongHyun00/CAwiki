@@ -1,0 +1,15 @@
+{
+  "scenes": 118,
+  "liveScenarios": [
+    "boot",
+    "save",
+    "call",
+    "usb"
+  ],
+  "sizes": [
+    1440,
+    390,
+    320
+  ],
+  "errors": []
+}

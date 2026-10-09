@@ -1,5 +1,6 @@
 // Continuous motherboard film with a real render-to-texture monitor reveal.
 import { CHAPTERS, CHAPTER_STOPS, chapterAt } from './cinema-timeline.js';
+import { CPU_FRAME, cpuFrame } from './cpu-framing.js';
 const $ = selector => document.querySelector(selector);
 const motion = matchMedia('(prefers-reduced-motion: reduce)');
 const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
@@ -125,6 +126,7 @@ function size() {
 }
 function compose(p,intro=1) {
   const {T,camera,scene,key,rim,fill,floor,colorDark,colorLight,focus,position,computer}=graphics;
+  camera.fov=CPU_FRAME.fov;
   const chapter=chapterAt(Math.min(p,.939999)),local=clamp((p-chapter.start)/(chapter.end-chapter.start));
   const idx=CHAPTERS.indexOf(chapter),system=chapter.id==='system';
   const arrival=idx===0?1:range(local,0,.20),departure=1-range(local,.80,1);
@@ -171,8 +173,15 @@ function compose(p,intro=1) {
     heroFocus.copy(box.getCenter(new T.Vector3()).applyMatrix4(matrix));
     const direction=heroCamera.clone().normalize(),right=new T.Vector3().crossVectors(new T.Vector3(0,1,0),direction).normalize(),up=new T.Vector3().crossVectors(direction,right);
     const tanY=Math.tan(camera.fov*Math.PI/360)*.77,tanX=tanY*camera.aspect;
-    let distance=0;for(const corner of corners){const v=corner.sub(heroFocus);distance=Math.max(distance,Math.max(Math.abs(v.dot(right))/tanX,Math.abs(v.dot(up))/tanY)+v.dot(direction));}
+    let distance=0,referenceDistance=0;
+    for(const corner of corners){const v=corner.sub(heroFocus),x=Math.abs(v.dot(right)),y=Math.abs(v.dot(up)),z=v.dot(direction);distance=Math.max(distance,Math.max(x/tanX,y/tanY)+z);referenceDistance=Math.max(referenceDistance,Math.max(x/(tanY*CPU_FRAME.width/CPU_FRAME.height),y/tanY)+z);}
+    const referenceCamera=direction.clone().multiplyScalar(Math.max(11,referenceDistance)).add(heroFocus);
     heroCamera.copy(direction.multiplyScalar(Math.max(11,distance))).add(heroFocus);
+    if(chapter.id==='cpu'){
+      const opening=1-range(local,0,.20),framing=cpuFrame(innerWidth,innerHeight);
+      heroCamera.lerp(referenceCamera,opening);
+      camera.fov=2*Math.atan(mix(Math.tan(CPU_FRAME.fov*Math.PI/360),Math.tan(framing.fov*Math.PI/360),opening))*180/Math.PI;
+    }
     if(macro){
       const macroFocus=new T.Vector3(0,.47,0),macroPosition=new T.Vector3(.55,4.5,5.9);
       if(mobile())macroPosition.sub(macroFocus).multiplyScalar(1.65).add(macroFocus);
@@ -196,6 +205,7 @@ function compose(p,intro=1) {
   position.z+=(1-intro)*1.1;
   if(!motion.matches&&p<.94){const parallax=1-range(p,.91,.94);position.x+=pointer.x*.20*parallax;position.y-=pointer.y*.13*parallax;}
   camera.position.copy(position);camera.lookAt(focus);
+  camera.updateProjectionMatrix();
   graphics.renderer.shadowMap.needsUpdate=true;
   updateCaption(p);document.body.dataset.scene=String(active);
 }
