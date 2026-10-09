@@ -7,6 +7,7 @@ import { ScenarioMechanisms } from './scenario-mechanisms.js';
 import { createUSBAssembly } from './usb-model.js';
 import { scenarioFor } from './scenario-data.js';
 import { renderScenarioDetail } from './scenario-detail.js';
+import { ScenarioScrollPacer } from './scenario-scroll.js';
 const $=s=>document.querySelector(s),mix=T.MathUtils.lerp,clamp=n=>T.MathUtils.clamp(n,0,1),v=a=>new T.Vector3(...a);
 const ease=t=>t*t*t*(t*(t*6-15)+10),range=(p,a,b)=>ease(clamp((p-a)/(b-a))),pulse=(p,a,b,c,d)=>range(p,a,b)*(1-range(p,c,d));
 const reduced=matchMedia('(prefers-reduced-motion: reduce)'),mobile=()=>innerWidth<=760;
@@ -14,8 +15,32 @@ export class ScenarioFilm{
  constructor(onStep){
   this.onStep=onStep;this.active=false;this.paused=false;this.frame=0;this.token=0;this.progress=0;this.target=0;this.storageVariant='ssd';this.bookmarks={};this.extras={};this.paths=[];this.lastScreen=-1;this.lost=false;
   this.tick=this.tick.bind(this);
-  addEventListener('scroll',()=>{if(!this.active||this.paused||$('#story-detail').open)return;this.target=clamp(scrollY/this.distance());this.wake();},{passive:true});
-  addEventListener('inside:resize',()=>{if(this.active){this.resize();this.seek(this.target,true);}});
+  this.scrollPacer=new ScenarioScrollPacer([0,1]);this.viewportWidth=innerWidth;
+  addEventListener('scroll',()=>{
+   if(!this.active||this.preparing||this.paused||$('#story-detail').open)return;
+   if(this.scrollSync!==null&&this.scrollSync!==undefined&&Math.abs(scrollY-this.scrollSync)<=1)return;
+   this.scrollSync=null;
+   this.target=this.scrollPacer.target(clamp(scrollY/this.distance()),this.progress,this.distance());
+   if(this.scrollPacer.active)this.queueScrollEnd();this.wake();
+  },{passive:true});
+  addEventListener('scrollend',()=>this.settleScroll());
+  addEventListener('inside:resize',()=>{
+   if(!this.active)return;
+   const widthChanged=this.viewportWidth!==innerWidth;this.viewportWidth=innerWidth;this.resize();
+   if(widthChanged){this.seek(this.progress,true);return;}
+   // Mobile browser chrome can resize on every native pan. Rebase input
+   // without seeking the animation or writing back into that same scroll.
+   if(this.scrollPacer.active)this.scrollPacer.rebase(this.distance());this.wake();
+  });
+  addEventListener('touchstart',e=>{
+   if(!this.active||this.preparing||this.paused||!this.scrollPacer.enabled||$('#story-detail').open||e.target.closest('dialog,#story-track'))return;
+   if(e.touches.length!==1){this.touching=true;clearTimeout(this.scrollEndTimer);return;}
+   clearTimeout(this.scrollEndTimer);this.touching=true;this.scrollSync=null;
+   this.scrollPacer.start(this.progress,this.distance());this.target=this.progress;this.wake();
+  },{passive:true});
+  for(const name of ['touchend','touchcancel'])addEventListener(name,e=>{
+   if(!this.touching||e.touches.length)return;this.touching=false;this.queueScrollEnd();
+  },{passive:true});
   $('#world').addEventListener('pointerdown',e=>{if(!this.active||this.paused||e.pointerType!=='mouse'||e.button!==0)return;this.drag={y:e.clientY,scroll:scrollY};e.target.setPointerCapture(e.pointerId);});
   addEventListener('pointermove',e=>{if(this.drag)scrollTo({top:this.drag.scroll+(this.drag.y-e.clientY)*2.5,behavior:'instant'});},{passive:true});
   for(const event of ['pointerup','pointercancel','lostpointercapture'])addEventListener(event,()=>this.drag=null);
@@ -26,21 +51,21 @@ export class ScenarioFilm{
    if(e.key==='Home')goal=0;if(e.key==='End')goal=1;if(goal!==undefined){e.preventDefault();this.seek(goal);}
   });
   $('#story-restart').onclick=()=>this.seek(0,true);
-  $('#story-why').onclick=()=>{clearTimeout(this.modalCloseTimer);$('#story-detail').classList.remove('closing');renderScenarioDetail(this.config,this.step);this.modalProgress=this.progress;this.modalToken=this.token;document.body.classList.add('story-modal');this.drag=null;$('#story-detail').showModal();};
+  $('#story-why').onclick=()=>{this.cancelScrollInput();clearTimeout(this.modalCloseTimer);$('#story-detail').classList.remove('closing');renderScenarioDetail(this.config,this.step);this.modalProgress=this.progress;this.modalToken=this.token;document.body.classList.add('story-modal');this.drag=null;$('#story-detail').showModal();};
   const closeDetail=()=>{if(reduced.matches){$('#story-detail').close();return;}if($('#story-detail').classList.contains('closing'))return;$('#story-detail').classList.add('closing');this.modalCloseTimer=setTimeout(()=>$('#story-detail').close(),240);};
   $('#story-detail-close').onclick=closeDetail;
   $('#story-detail').addEventListener('cancel',e=>{e.preventDefault();closeDetail();});
   $('#story-detail').addEventListener('close',()=>{clearTimeout(this.modalCloseTimer);$('#story-detail').classList.remove('closing');document.body.classList.remove('story-modal');if(this.active&&this.token===this.modalToken)this.seek(this.modalProgress,true);});
   document.querySelectorAll('[data-storage]').forEach(button=>button.onclick=()=>this.changeStorage(button.dataset.storage));
   document.addEventListener('visibilitychange',()=>{cancelAnimationFrame(this.frame);this.frame=0;if(!document.hidden)this.wake();});
-  reduced.addEventListener('change',()=>this.wake());
+  reduced.addEventListener('change',()=>{if(this.active)this.seek(this.progress,true);});
   addEventListener('inside:contextloss',()=>{this.lost=true;cancelAnimationFrame(this.frame);this.frame=0;if(this.active)this.wake();});
   addEventListener('inside:contextrestore',()=>{this.lost=false;if(this.active&&this.scene){const generator=new T.PMREMGenerator(this.stage.renderer);this.environment.dispose();this.environment=generator.fromScene(this.studio,.04);this.scene.environment=this.environment.texture;generator.dispose();this.lastScreen=-1;this.wake();}});
  }
  stop(i){const steps=this.config.steps;if(i<=0)return 0;if(i>=steps.length-1)return 1;return steps[i].at+(steps[i+1].at-steps[i].at)*(this.config.extended?.48:.25);}
  distance(){return Math.max(1,$('#story-sequence').offsetHeight-innerHeight);}
  async enter(id,index=0){
-  const token=++this.token;this.active=true;this.paused=false;this.id=id;this.step=-1;this.config=scenarioFor(id,this.storageVariant);this.lastScreen=-1;
+  const token=++this.token;this.active=true;this.paused=false;this.id=id;this.step=-1;this.config=scenarioFor(id,this.storageVariant);this.lastScreen=-1;this.cancelScrollInput();this.scrollPacer.stops=[...this.config.steps.map(s=>s.at),1];
   document.body.dataset.story=id;this.buildUI();
   const saved=this.bookmarks[id],point=saved?.step===index?saved.progress:this.stop(index);
   this.target=this.progress=point;
@@ -108,7 +133,7 @@ export class ScenarioFilm{
   $('#story-options').hidden=this.id!=='storage';document.querySelectorAll('[data-storage]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.storage===this.storageVariant)));
  }
  changeStorage(variant){
-  if(!this.active||this.id!=='storage')return;this.storageVariant=variant;this.config=scenarioFor('storage',variant);this.step=-1;this.lastScreen=-1;this.buildUI();if(this.stage)this.buildPaths();this.seek(this.stop(variant==='cached'?1:2),true);
+  if(!this.active||this.id!=='storage')return;this.storageVariant=variant;this.config=scenarioFor('storage',variant);this.scrollPacer.stops=[...this.config.steps.map(s=>s.at),1];this.step=-1;this.lastScreen=-1;this.buildUI();if(this.stage)this.buildPaths();this.seek(this.stop(variant==='cached'?1:2),true);
  }
  resize(){if(!this.camera)return;this.camera.aspect=innerWidth/innerHeight;this.camera.clearViewOffset();this.camera.updateProjectionMatrix();this.dirty=true;}
  resetBoard(){
@@ -179,17 +204,29 @@ export class ScenarioFilm{
   $('#story-progress').style.transform=`scaleX(${p})`;$('#story-gesture').hidden=p>.98;$('#story-restart').hidden=p<=.98;$('#story-more').hidden=p<.98;$('#story-options').hidden=this.id!=='storage'||p>.7;
   document.body.dataset.storyProgress=p.toFixed(5);document.body.dataset.storyStep=String(i);document.body.dataset.storage=this.storageVariant;
  }
- seek(p,instant=false){this.target=clamp(p);if(instant||reduced.matches)this.progress=this.target;scrollTo({top:Math.ceil(this.target*this.distance()-1e-7),behavior:'instant'});this.wake();}
+ cancelScrollInput(){clearTimeout(this.scrollEndTimer);this.touching=false;this.scrollPacer.reset();this.scrollSync=null;}
+ syncScroll(){this.scrollSync=Math.ceil(this.target*this.distance()-1e-7);scrollTo({top:this.scrollSync,behavior:'instant'});}
+ queueScrollEnd(){clearTimeout(this.scrollEndTimer);this.scrollEndTimer=setTimeout(()=>this.settleScroll(),180);}
+ settleScroll(){
+  if(!this.active||this.paused||this.touching||!this.scrollPacer.active||$('#story-detail').open)return;
+  clearTimeout(this.scrollEndTimer);
+  // One alignment after native momentum ends; ignore its synthetic scroll
+  // event so pixel rounding cannot reverse a frame at a chapter boundary.
+  const top=Math.ceil(this.target*this.distance()-1e-7);
+  this.scrollPacer.rebase(this.distance(),top);
+  if(Math.abs(scrollY-top)>1)this.syncScroll();
+ }
+ seek(p,instant=false){this.cancelScrollInput();this.target=clamp(p);if(instant||reduced.matches)this.progress=this.target;this.syncScroll();this.wake();}
  wake(){this.dirty=true;if(!this.frame&&this.active&&!this.paused&&!document.hidden&&!$('#story-detail').open){this.last=performance.now();this.frame=requestAnimationFrame(this.tick);}}
  tick(now){
   this.frame=0;if(!this.active||this.paused||document.hidden||$('#story-detail').open)return;
-  const dt=Math.min(.5,(now-this.last)/1000||.016);this.last=now;
+  const dt=Math.max(0,Math.min(.05,(now-this.last)/1000));this.last=now;
   const stops=this.config.steps.map((_,i)=>this.stop(i)),goal=reduced.matches?stops.reduce((best,n)=>Math.abs(n-this.target)<Math.abs(best-this.target)?n:best,0):this.target;
-  const previous=this.progress;this.progress=reduced.matches?goal:mix(this.progress,goal,1-Math.exp(-8*dt));const moving=Math.abs(goal-this.progress)>.00003;
+  const previous=this.progress;this.progress=reduced.matches?goal:this.scrollPacer.advance(this.progress,goal,dt,8);const moving=Math.abs(goal-this.progress)>.00003;
   if(!moving)this.progress=goal;
   if(moving||this.dirty||this.progress!==previous){this.compose(this.progress);this.dirty=false;}if(moving)this.frame=requestAnimationFrame(this.tick);
  }
- pause(){if(!this.active)return;this.paused=true;this.drag=null;cancelAnimationFrame(this.frame);this.frame=0;this.bookmarks[this.id]={progress:this.progress,step:this.step};}
+ pause(){if(!this.active)return;this.paused=true;this.cancelScrollInput();this.drag=null;cancelAnimationFrame(this.frame);this.frame=0;this.bookmarks[this.id]={progress:this.progress,step:this.step};}
  resume(){if(!this.active)return;this.paused=false;this.seek(this.progress,true);}
  leave(){
   ++this.token;if(!this.active)return;this.pause();this.active=false;this.motion?.reset();

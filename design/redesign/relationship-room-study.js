@@ -83,10 +83,10 @@ function drawRail(){
  });
 }
 // The DOM orbit must not redraw 23 WebGL models just to rotate its labels.
-function wakeRail(){if(!railFrame&&!document.hidden&&view==='room')railFrame=requestAnimationFrame(animateRail);}
+function wakeRail(){if(!railFrame&&!document.hidden&&view==='room')railFrame=requestAnimationFrame(()=>animateRail(performance.now()));}
 function animateRail(now){
  railFrame=0;if(view!=='room')return;
- const dt=Math.min(now-railTime||16,50);railTime=now;
+ const dt=Math.max(0,Math.min(now-railTime||16,50));railTime=now;
  if(!railDrag)rail=reduced.matches?railTarget:mix(rail,railTarget,1-Math.exp(-dt/110));
  drawRail();if(!railDrag&&Math.abs(railTarget-rail)>.001)wakeRail();
 }
@@ -249,9 +249,11 @@ addEventListener('keydown',e=>{
  if(e.key==='Escape'){if(detail)closeDetail();else if(view==='entering'||view==='room'&&!active)exitRoom();else if(active){railTarget=rail+wrap(-rail,topics.length);select(null);}}
 });
 
-function wake(){wakeRail();if(!frame&&!document.hidden&&view!=='wiki')frame=requestAnimationFrame(tick);}
+// Use the same local clock as transitionAt. Same-origin iframe RAF timestamps
+// may follow the parent timeline after a cached/repeated navigation.
+function wake(){wakeRail();if(!frame&&!document.hidden&&view!=='wiki')frame=requestAnimationFrame(()=>tick(performance.now()));}
 function tick(now){
- frame=0;const dt=Math.min(now-lastTime||16,50);lastTime=now;
+ frame=0;const dt=Math.max(0,Math.min(now-lastTime||16,50));lastTime=now;
  if(reduced.matches){look={x:pointer.x,y:pointer.y};}else{look.x+=(pointer.x-look.x)*(1-Math.exp(-dt/220));look.y+=(pointer.y-look.y)*(1-Math.exp(-dt/220));}
  const duration=transitionKind==='exit'?2300:transitionKind==='entry'?2200:transitionKind==='gather'?1450:transitionKind==='restore'?1550:850;
  const t=reduced.matches?1:clamp((now-transitionAt)/duration);
@@ -327,10 +329,16 @@ function drawScene(){
  for(const batch of fades.values()){const visible=new Set(batch);items.forEach(i=>i.group.visible=visible.has(i));renderer.setRenderTarget(modelLayer);renderer.setClearColor(0,0);renderer.clear();renderer.render(scene,camera);renderer.setRenderTarget(null);quad.material.opacity=batch[0].pose.opacity;renderer.render(compositeScene,compositeCamera);}
  renderer.autoClear=true;
 }
+let roomViewport=null;
 function resize(){
+ const next={width:innerWidth,height:innerHeight,dpr:devicePixelRatio};
+ if(renderer&&roomViewport&&Object.keys(next).every(k=>next[k]===roomViewport[k]))return;
+ if(renderer)roomViewport=next;
  clusterCache.clear();drawRail();if(!renderer)return;renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();const s=renderer.getDrawingBufferSize(new T.Vector2());modelLayer.setSize(s.x,s.y);
- if(view==='entering'){items.forEach(i=>i.pose={...i.home,opacity:1});completeEntry();}
- if(view==='exiting')completeExit();
+ if(travelling()){
+  items.forEach(item=>{item[view==='entering'?'from':'to']=mapEntryPose(item,$('#wiki-hardware img[data-id="'+item.id+'"]').getBoundingClientRect());});
+  wake();return;
+ }
  if(view==='room')transition();
 }
 function renderFallback(){

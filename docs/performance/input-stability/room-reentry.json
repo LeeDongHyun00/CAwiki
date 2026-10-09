@@ -1,0 +1,101 @@
+{
+  "runs": [
+    {
+      "mobile": false,
+      "sharedRAFClock": false,
+      "cycle": 1,
+      "entryFrames": 36,
+      "entryDurationMs": 2232,
+      "restoredList": true
+    },
+    {
+      "mobile": false,
+      "sharedRAFClock": false,
+      "cycle": 2,
+      "entryFrames": 41,
+      "entryDurationMs": 2247,
+      "restoredList": true
+    },
+    {
+      "mobile": false,
+      "sharedRAFClock": false,
+      "cycle": 3,
+      "entryFrames": 43,
+      "entryDurationMs": 2220,
+      "restoredList": true
+    },
+    {
+      "mobile": true,
+      "sharedRAFClock": false,
+      "cycle": 1,
+      "entryFrames": 69,
+      "entryDurationMs": 2248,
+      "restoredList": true
+    },
+    {
+      "mobile": true,
+      "sharedRAFClock": false,
+      "cycle": 2,
+      "entryFrames": 71,
+      "entryDurationMs": 2199,
+      "restoredList": true
+    },
+    {
+      "mobile": true,
+      "sharedRAFClock": false,
+      "cycle": 3,
+      "entryFrames": 74,
+      "entryDurationMs": 2223,
+      "restoredList": true
+    },
+    {
+      "mobile": false,
+      "sharedRAFClock": true,
+      "cycle": 1,
+      "entryFrames": 37,
+      "entryDurationMs": 2219,
+      "restoredList": true
+    },
+    {
+      "mobile": false,
+      "sharedRAFClock": true,
+      "cycle": 2,
+      "entryFrames": 34,
+      "entryDurationMs": 2260,
+      "restoredList": true
+    },
+    {
+      "mobile": false,
+      "sharedRAFClock": true,
+      "cycle": 3,
+      "entryFrames": 34,
+      "entryDurationMs": 2222,
+      "restoredList": true
+    },
+    {
+      "mobile": true,
+      "sharedRAFClock": true,
+      "cycle": 1,
+      "entryFrames": 83,
+      "entryDurationMs": 2213,
+      "restoredList": true
+    },
+    {
+      "mobile": true,
+      "sharedRAFClock": true,
+      "cycle": 2,
+      "entryFrames": 87,
+      "entryDurationMs": 2200,
+      "restoredList": true
+    },
+    {
+      "mobile": true,
+      "sharedRAFClock": true,
+      "cycle": 3,
+      "entryFrames": 78,
+      "entryDurationMs": 2206,
+      "restoredList": true
+    }
+  ],
+  "errors": []
+}

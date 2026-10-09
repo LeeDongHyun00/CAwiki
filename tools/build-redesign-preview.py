@@ -7,6 +7,8 @@ import hashlib
 ROOT = Path(__file__).resolve().parents[1]
 STUDY = ROOT / 'design/redesign'
 MODULES = {
+    'inside/scenario-scroll': STUDY / 'scenario-scroll.js',
+    'inside/scroll-pacing': ROOT / 'lib/inside/scroll-pacing.js',
     'inside/cpu-framing': STUDY / 'cpu-framing.js',
     'inside/scenario-detail': STUDY / 'scenario-detail.js',
     'inside/quality': ROOT / 'lib/inside/quality.js',
@@ -44,6 +46,8 @@ MODULES = {
     'inside/relation-scenarios': STUDY / 'relation-scenarios.js',
 }
 IMPORTS = {
+    './scenario-scroll.js': 'inside/scenario-scroll',
+    '../../lib/inside/scroll-pacing.js': 'inside/scroll-pacing',
     './cpu-framing.js': 'inside/cpu-framing',
     './scenario-detail.js': 'inside/scenario-detail',
     '../../lib/inside/quality.js': 'inside/quality',
