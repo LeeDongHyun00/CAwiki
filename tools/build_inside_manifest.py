@@ -30,6 +30,7 @@ for page in [room, ROOT / 'index.html']:
     text = re.sub(r'<script src="\./lib/inside/assets.js[^"]*"></script>',
                   '<script src="' + versioned(manifest) + '"></script>', text)
     if page.name == 'index.html':
+        text = re.sub(r'(href=")[^"]*assets/inside/scenario-detail.css[^"]*', lambda m:m[1]+versioned(ROOT/'assets/inside/scenario-detail.css'), text)
         text = re.sub(r'(id="cpu-intro" src=")[^"]+',lambda m:m[1]+versioned(ROOT/'assets/inside/intro/desktop.webp'),text)
         text = re.sub(r'(srcset=")[^"]+(" data-cpu-mobile)',lambda m:m[1]+versioned(ROOT/'assets/inside/intro/mobile.webp')+m[2],text)
     page.write_text(text)

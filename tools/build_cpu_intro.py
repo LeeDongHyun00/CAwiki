@@ -21,7 +21,7 @@ hook="renderFilm();window.__cpuFrame=renderer.domElement.toDataURL('image/png');
 out=ROOT/'assets/inside/intro';out.mkdir(exist_ok=True)
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--enable-unsafe-swiftshader'])
- for profile,width,height in [('desktop',1440,900),('mobile',390,844)]:
+ for profile,width,height in [('desktop',1440,900),('mobile',768,480)]:
   page=browser.new_page(viewport={'width':width,'height':height},device_scale_factor=1,is_mobile=profile=='mobile',has_touch=profile=='mobile',reduced_motion='reduce')
   page.route('**/lib/inside/study.js*',lambda route:route.fulfill(body=source.replace(anchor,hook),content_type='text/javascript'))
   page.goto(f'http://127.0.0.1:{server.server_port}/index.html#home',wait_until='domcontentloaded')
