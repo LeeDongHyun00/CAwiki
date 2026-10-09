@@ -1,0 +1,1781 @@
+{
+  "method": {
+    "version": 2,
+    "gpu": "SwiftShader",
+    "browser": "Fresh Chromium process per run",
+    "cache": "Disabled, local HTTP no-store",
+    "imageResponseDelayMs": 120,
+    "cpuThrottle": 1,
+    "entry": "From actual map button click to room idle; includes 2200 ms choreography and automation observation delay",
+    "longTasks": "Parent and child observers, aligned by timeOrigin and deduplicated to nearest millisecond; includes hidden preparation",
+    "frameP95": "Parent rAF intervals after click; not GPU rendering time",
+    "heap": "JS heap, not GPU/native memory"
+  },
+  "runs": [
+    {
+      "profile": "desktop",
+      "run": 1,
+      "entryMs": 3423.9000000059605,
+      "frameP95Ms": 33.40000000000009,
+      "maxTaskMs": 0,
+      "blockingMs": 0,
+      "longTaskEvents": [],
+      "losses": 0,
+      "jsHeapBytes": 11502280,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "true",
+        "canvas": [
+          1440,
+          900
+        ],
+        "attributes": {
+          "alpha": true,
+          "antialias": false,
+          "depth": true,
+          "desynchronized": false,
+          "failIfMajorPerformanceCaveat": false,
+          "powerPreference": "high-performance",
+          "premultipliedAlpha": true,
+          "preserveDrawingBuffer": false,
+          "stencil": false,
+          "xrCompatible": false
+        },
+        "memory": {
+          "geometries": 51,
+          "textures": 24
+        }
+      },
+      "child": {
+        "tasks": [],
+        "origin": 1791517030499.7,
+        "losses": 0,
+        "marks": [
+          {
+            "name": "inside:room-start",
+            "ms": 183.60000000149012
+          },
+          {
+            "name": "inside:room-images-ready",
+            "ms": 819.8000000044703
+          },
+          {
+            "name": "inside:room-ready",
+            "ms": 1119
+          }
+        ],
+        "images": [
+          {
+            "name": "cpu.webp",
+            "start": 176.80000000447035,
+            "end": 307.20000000298023,
+            "bytes": 12580
+          },
+          {
+            "name": "gpu.webp",
+            "start": 176.89999999850988,
+            "end": 307.3999999985099,
+            "bytes": 19818
+          },
+          {
+            "name": "npu.webp",
+            "start": 177,
+            "end": 309.80000000447035,
+            "bytes": 12628
+          },
+          {
+            "name": "coproc.webp",
+            "start": 177,
+            "end": 311.70000000298023,
+            "bytes": 10596
+          },
+          {
+            "name": "dram.webp",
+            "start": 177.10000000149012,
+            "end": 310.5,
+            "bytes": 8956
+          },
+          {
+            "name": "sram.webp",
+            "start": 177.10000000149012,
+            "end": 310.80000000447035,
+            "bytes": 9880
+          },
+          {
+            "name": "vram.webp",
+            "start": 177.20000000298023,
+            "end": 436.5,
+            "bytes": 10586
+          },
+          {
+            "name": "ssd.webp",
+            "start": 177.30000000447035,
+            "end": 434.1000000014901,
+            "bytes": 9150
+          },
+          {
+            "name": "spirom.webp",
+            "start": 177.30000000447035,
+            "end": 433.80000000447035,
+            "bytes": 10194
+          },
+          {
+            "name": "hdd.webp",
+            "start": 177.39999999850988,
+            "end": 437.3999999985099,
+            "bytes": 11430
+          },
+          {
+            "name": "power.webp",
+            "start": 177.5,
+            "end": 438,
+            "bytes": 12122
+          },
+          {
+            "name": "mainboard.webp",
+            "start": 177.5,
+            "end": 437.30000000447035,
+            "bytes": 14096
+          },
+          {
+            "name": "cooling.webp",
+            "start": 177.5,
+            "end": 558.7000000029802,
+            "bytes": 18992
+          },
+          {
+            "name": "vrm.webp",
+            "start": 177.5,
+            "end": 559.7000000029802,
+            "bytes": 15434
+          },
+          {
+            "name": "display.webp",
+            "start": 177.60000000149012,
+            "end": 562.3999999985099,
+            "bytes": 6846
+          },
+          {
+            "name": "bus.webp",
+            "start": 177.60000000149012,
+            "end": 564.8000000044703,
+            "bytes": 7170
+          },
+          {
+            "name": "input.webp",
+            "start": 179.5,
+            "end": 564.8000000044703,
+            "bytes": 11400
+          },
+          {
+            "name": "mouse.webp",
+            "start": 179.60000000149012,
+            "end": 564.8000000044703,
+            "bytes": 5120
+          },
+          {
+            "name": "audio.webp",
+            "start": 180,
+            "end": 682.5,
+            "bytes": 4104
+          },
+          {
+            "name": "camera.webp",
+            "start": 180.10000000149012,
+            "end": 683.7000000029802,
+            "bytes": 6714
+          },
+          {
+            "name": "infra.webp",
+            "start": 566.6000000014901,
+            "end": 691.8999999985099,
+            "bytes": 17500
+          },
+          {
+            "name": "nic.webp",
+            "start": 573.3999999985099,
+            "end": 696.1000000014901,
+            "bytes": 11282
+          },
+          {
+            "name": "datacenter.webp",
+            "start": 691.3999999985099,
+            "end": 816.2000000029802,
+            "bytes": 7706
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "profile": "desktop",
+      "run": 2,
+      "entryMs": 3437.2999999970198,
+      "frameP95Ms": 33.40000000000009,
+      "maxTaskMs": 0,
+      "blockingMs": 0,
+      "longTaskEvents": [],
+      "losses": 0,
+      "jsHeapBytes": 11000424,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "true",
+        "canvas": [
+          1440,
+          900
+        ],
+        "attributes": {
+          "alpha": true,
+          "antialias": false,
+          "depth": true,
+          "desynchronized": false,
+          "failIfMajorPerformanceCaveat": false,
+          "powerPreference": "high-performance",
+          "premultipliedAlpha": true,
+          "preserveDrawingBuffer": false,
+          "stencil": false,
+          "xrCompatible": false
+        },
+        "memory": {
+          "geometries": 51,
+          "textures": 24
+        }
+      },
+      "child": {
+        "tasks": [],
+        "origin": 1791517034681.2,
+        "losses": 0,
+        "marks": [
+          {
+            "name": "inside:room-start",
+            "ms": 172.80000000447035
+          },
+          {
+            "name": "inside:room-images-ready",
+            "ms": 816.5
+          },
+          {
+            "name": "inside:room-ready",
+            "ms": 1111.5
+          }
+        ],
+        "images": [
+          {
+            "name": "cpu.webp",
+            "start": 168.60000000149012,
+            "end": 303.8999999985099,
+            "bytes": 12580
+          },
+          {
+            "name": "gpu.webp",
+            "start": 168.70000000298023,
+            "end": 303.70000000298023,
+            "bytes": 19818
+          },
+          {
+            "name": "npu.webp",
+            "start": 168.89999999850988,
+            "end": 299.30000000447035,
+            "bytes": 12628
+          },
+          {
+            "name": "coproc.webp",
+            "start": 168.89999999850988,
+            "end": 301.30000000447035,
+            "bytes": 10596
+          },
+          {
+            "name": "dram.webp",
+            "start": 168.89999999850988,
+            "end": 304.80000000447035,
+            "bytes": 8956
+          },
+          {
+            "name": "sram.webp",
+            "start": 168.89999999850988,
+            "end": 305.30000000447035,
+            "bytes": 9880
+          },
+          {
+            "name": "vram.webp",
+            "start": 168.89999999850988,
+            "end": 427.20000000298023,
+            "bytes": 10586
+          },
+          {
+            "name": "ssd.webp",
+            "start": 169,
+            "end": 432.20000000298023,
+            "bytes": 9150
+          },
+          {
+            "name": "spirom.webp",
+            "start": 169,
+            "end": 433.3999999985099,
+            "bytes": 10194
+          },
+          {
+            "name": "hdd.webp",
+            "start": 169,
+            "end": 433.5,
+            "bytes": 11430
+          },
+          {
+            "name": "mainboard.webp",
+            "start": 169.10000000149012,
+            "end": 433.6000000014901,
+            "bytes": 14096
+          },
+          {
+            "name": "power.webp",
+            "start": 169.10000000149012,
+            "end": 433.8999999985099,
+            "bytes": 12122
+          },
+          {
+            "name": "cooling.webp",
+            "start": 169.10000000149012,
+            "end": 556.2000000029802,
+            "bytes": 18992
+          },
+          {
+            "name": "vrm.webp",
+            "start": 169.20000000298023,
+            "end": 559.2000000029802,
+            "bytes": 15434
+          },
+          {
+            "name": "bus.webp",
+            "start": 169.30000000447035,
+            "end": 559.8999999985099,
+            "bytes": 7170
+          },
+          {
+            "name": "display.webp",
+            "start": 169.60000000149012,
+            "end": 561.3000000044703,
+            "bytes": 6846
+          },
+          {
+            "name": "input.webp",
+            "start": 169.80000000447035,
+            "end": 561.8000000044703,
+            "bytes": 11400
+          },
+          {
+            "name": "mouse.webp",
+            "start": 169.80000000447035,
+            "end": 562.8000000044703,
+            "bytes": 5120
+          },
+          {
+            "name": "audio.webp",
+            "start": 169.80000000447035,
+            "end": 679.2000000029802,
+            "bytes": 4104
+          },
+          {
+            "name": "camera.webp",
+            "start": 169.89999999850988,
+            "end": 681.5,
+            "bytes": 6714
+          },
+          {
+            "name": "infra.webp",
+            "start": 566,
+            "end": 689.8000000044703,
+            "bytes": 17500
+          },
+          {
+            "name": "nic.webp",
+            "start": 570,
+            "end": 693.2000000029802,
+            "bytes": 11282
+          },
+          {
+            "name": "datacenter.webp",
+            "start": 688,
+            "end": 813.1000000014901,
+            "bytes": 7706
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "profile": "desktop",
+      "run": 3,
+      "entryMs": 3423.60000000149,
+      "frameP95Ms": 49.90000000000009,
+      "maxTaskMs": 0,
+      "blockingMs": 0,
+      "longTaskEvents": [],
+      "losses": 0,
+      "jsHeapBytes": 10344424,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "true",
+        "canvas": [
+          1440,
+          900
+        ],
+        "attributes": {
+          "alpha": true,
+          "antialias": false,
+          "depth": true,
+          "desynchronized": false,
+          "failIfMajorPerformanceCaveat": false,
+          "powerPreference": "high-performance",
+          "premultipliedAlpha": true,
+          "preserveDrawingBuffer": false,
+          "stencil": false,
+          "xrCompatible": false
+        },
+        "memory": {
+          "geometries": 51,
+          "textures": 24
+        }
+      },
+      "child": {
+        "tasks": [],
+        "origin": 1791517038929.6,
+        "losses": 0,
+        "marks": [
+          {
+            "name": "inside:room-start",
+            "ms": 187.20000000298023
+          },
+          {
+            "name": "inside:room-images-ready",
+            "ms": 819.1000000014901
+          },
+          {
+            "name": "inside:room-ready",
+            "ms": 1109
+          }
+        ],
+        "images": [
+          {
+            "name": "cpu.webp",
+            "start": 181,
+            "end": 312.90000000596046,
+            "bytes": 12580
+          },
+          {
+            "name": "npu.webp",
+            "start": 181.10000000149012,
+            "end": 310.70000000298023,
+            "bytes": 12628
+          },
+          {
+            "name": "gpu.webp",
+            "start": 181.10000000149012,
+            "end": 312.80000000447035,
+            "bytes": 19818
+          },
+          {
+            "name": "coproc.webp",
+            "start": 181.10000000149012,
+            "end": 313.1000000014901,
+            "bytes": 10596
+          },
+          {
+            "name": "dram.webp",
+            "start": 181.10000000149012,
+            "end": 313.70000000298023,
+            "bytes": 8956
+          },
+          {
+            "name": "sram.webp",
+            "start": 181.30000000447035,
+            "end": 314.30000000447035,
+            "bytes": 9880
+          },
+          {
+            "name": "vram.webp",
+            "start": 181.30000000447035,
+            "end": 435.70000000298023,
+            "bytes": 10586
+          },
+          {
+            "name": "spirom.webp",
+            "start": 181.30000000447035,
+            "end": 437.5,
+            "bytes": 10194
+          },
+          {
+            "name": "hdd.webp",
+            "start": 181.30000000447035,
+            "end": 439.1000000014901,
+            "bytes": 11430
+          },
+          {
+            "name": "ssd.webp",
+            "start": 181.30000000447035,
+            "end": 438.6000000014901,
+            "bytes": 9150
+          },
+          {
+            "name": "mainboard.webp",
+            "start": 181.5,
+            "end": 439,
+            "bytes": 14096
+          },
+          {
+            "name": "power.webp",
+            "start": 181.5,
+            "end": 440,
+            "bytes": 12122
+          },
+          {
+            "name": "cooling.webp",
+            "start": 181.5,
+            "end": 560.8000000044703,
+            "bytes": 18992
+          },
+          {
+            "name": "vrm.webp",
+            "start": 181.60000000149012,
+            "end": 562.1000000014901,
+            "bytes": 15434
+          },
+          {
+            "name": "bus.webp",
+            "start": 181.60000000149012,
+            "end": 563.5,
+            "bytes": 7170
+          },
+          {
+            "name": "display.webp",
+            "start": 181.60000000149012,
+            "end": 563.7000000029802,
+            "bytes": 6846
+          },
+          {
+            "name": "mouse.webp",
+            "start": 181.70000000298023,
+            "end": 564.5,
+            "bytes": 5120
+          },
+          {
+            "name": "input.webp",
+            "start": 181.70000000298023,
+            "end": 565.5,
+            "bytes": 11400
+          },
+          {
+            "name": "audio.webp",
+            "start": 181.80000000447035,
+            "end": 685.9000000059605,
+            "bytes": 4104
+          },
+          {
+            "name": "camera.webp",
+            "start": 181.80000000447035,
+            "end": 685.6000000014901,
+            "bytes": 6714
+          },
+          {
+            "name": "infra.webp",
+            "start": 568.1000000014901,
+            "end": 690.4000000059605,
+            "bytes": 17500
+          },
+          {
+            "name": "nic.webp",
+            "start": 572.1000000014901,
+            "end": 695.4000000059605,
+            "bytes": 11282
+          },
+          {
+            "name": "datacenter.webp",
+            "start": 693.2000000029802,
+            "end": 816.3000000044703,
+            "bytes": 7706
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "profile": "4k",
+      "run": 1,
+      "entryMs": 3383.39999999851,
+      "frameP95Ms": 66.70000000000005,
+      "maxTaskMs": 0,
+      "blockingMs": 0,
+      "longTaskEvents": [],
+      "losses": 0,
+      "jsHeapBytes": 12510388,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "true",
+        "canvas": [
+          1600,
+          900
+        ],
+        "attributes": {
+          "alpha": true,
+          "antialias": false,
+          "depth": true,
+          "desynchronized": false,
+          "failIfMajorPerformanceCaveat": false,
+          "powerPreference": "high-performance",
+          "premultipliedAlpha": true,
+          "preserveDrawingBuffer": false,
+          "stencil": false,
+          "xrCompatible": false
+        },
+        "memory": {
+          "geometries": 51,
+          "textures": 24
+        }
+      },
+      "child": {
+        "tasks": [],
+        "origin": 1791517043264.6,
+        "losses": 0,
+        "marks": [
+          {
+            "name": "inside:room-start",
+            "ms": 206.70000000298023
+          },
+          {
+            "name": "inside:room-images-ready",
+            "ms": 722.9000000059605
+          },
+          {
+            "name": "inside:room-ready",
+            "ms": 1046.8000000044703
+          }
+        ],
+        "images": [
+          {
+            "name": "cpu.webp",
+            "start": 201.90000000596046,
+            "end": 332,
+            "bytes": 12580
+          },
+          {
+            "name": "gpu.webp",
+            "start": 202.10000000149012,
+            "end": 333.30000000447035,
+            "bytes": 19818
+          },
+          {
+            "name": "npu.webp",
+            "start": 202.10000000149012,
+            "end": 334.6000000014901,
+            "bytes": 12628
+          },
+          {
+            "name": "dram.webp",
+            "start": 202.20000000298023,
+            "end": 340.1000000014901,
+            "bytes": 8956
+          },
+          {
+            "name": "coproc.webp",
+            "start": 202.20000000298023,
+            "end": 340.30000000447035,
+            "bytes": 10596
+          },
+          {
+            "name": "sram.webp",
+            "start": 202.60000000149012,
+            "end": 344.30000000447035,
+            "bytes": 9880
+          },
+          {
+            "name": "vram.webp",
+            "start": 202.70000000298023,
+            "end": 457.30000000447035,
+            "bytes": 10586
+          },
+          {
+            "name": "spirom.webp",
+            "start": 202.80000000447035,
+            "end": 461.6000000014901,
+            "bytes": 10194
+          },
+          {
+            "name": "ssd.webp",
+            "start": 202.80000000447035,
+            "end": 463.6000000014901,
+            "bytes": 9150
+          },
+          {
+            "name": "hdd.webp",
+            "start": 202.80000000447035,
+            "end": 472.20000000298023,
+            "bytes": 11430
+          },
+          {
+            "name": "mainboard.webp",
+            "start": 202.90000000596046,
+            "end": 471.80000000447035,
+            "bytes": 14096
+          },
+          {
+            "name": "power.webp",
+            "start": 202.90000000596046,
+            "end": 471.90000000596046,
+            "bytes": 12122
+          },
+          {
+            "name": "cooling.webp",
+            "start": 203,
+            "end": 579.3000000044703,
+            "bytes": 18992
+          },
+          {
+            "name": "bus.webp",
+            "start": 203,
+            "end": 586.6000000014901,
+            "bytes": 7170
+          },
+          {
+            "name": "vrm.webp",
+            "start": 203,
+            "end": 593.8000000044703,
+            "bytes": 15434
+          },
+          {
+            "name": "display.webp",
+            "start": 203.10000000149012,
+            "end": 582.8000000044703,
+            "bytes": 6846
+          },
+          {
+            "name": "input.webp",
+            "start": 203.10000000149012,
+            "end": 595.6000000014901,
+            "bytes": 11400
+          },
+          {
+            "name": "mouse.webp",
+            "start": 203.10000000149012,
+            "end": 596.5,
+            "bytes": 5120
+          },
+          {
+            "name": "audio.webp",
+            "start": 203.20000000298023,
+            "end": 702.3000000044703,
+            "bytes": 4104
+          },
+          {
+            "name": "camera.webp",
+            "start": 203.30000000447035,
+            "end": 706.1000000014901,
+            "bytes": 6714
+          },
+          {
+            "name": "nic.webp",
+            "start": 203.30000000447035,
+            "end": 710,
+            "bytes": 11282
+          },
+          {
+            "name": "infra.webp",
+            "start": 203.5,
+            "end": 717.3000000044703,
+            "bytes": 17500
+          },
+          {
+            "name": "datacenter.webp",
+            "start": 203.5,
+            "end": 718.4000000059605,
+            "bytes": 7706
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "profile": "4k",
+      "run": 2,
+      "entryMs": 3376.3000000044703,
+      "frameP95Ms": 66.70000000000027,
+      "maxTaskMs": 0,
+      "blockingMs": 0,
+      "longTaskEvents": [],
+      "losses": 0,
+      "jsHeapBytes": 9497964,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "true",
+        "canvas": [
+          1600,
+          900
+        ],
+        "attributes": {
+          "alpha": true,
+          "antialias": false,
+          "depth": true,
+          "desynchronized": false,
+          "failIfMajorPerformanceCaveat": false,
+          "powerPreference": "high-performance",
+          "premultipliedAlpha": true,
+          "preserveDrawingBuffer": false,
+          "stencil": false,
+          "xrCompatible": false
+        },
+        "memory": {
+          "geometries": 51,
+          "textures": 24
+        }
+      },
+      "child": {
+        "tasks": [],
+        "origin": 1791517047528.9,
+        "losses": 0,
+        "marks": [
+          {
+            "name": "inside:room-start",
+            "ms": 246.89999999850988
+          },
+          {
+            "name": "inside:room-images-ready",
+            "ms": 767.7999999970198
+          },
+          {
+            "name": "inside:room-ready",
+            "ms": 1077.6000000014901
+          }
+        ],
+        "images": [
+          {
+            "name": "cpu.webp",
+            "start": 241.19999999552965,
+            "end": 371.29999999701977,
+            "bytes": 12580
+          },
+          {
+            "name": "gpu.webp",
+            "start": 241.29999999701977,
+            "end": 375,
+            "bytes": 19818
+          },
+          {
+            "name": "npu.webp",
+            "start": 241.39999999850988,
+            "end": 374.8999999985099,
+            "bytes": 12628
+          },
+          {
+            "name": "coproc.webp",
+            "start": 241.5,
+            "end": 379.1000000014901,
+            "bytes": 10596
+          },
+          {
+            "name": "dram.webp",
+            "start": 241.60000000149012,
+            "end": 379.6000000014901,
+            "bytes": 8956
+          },
+          {
+            "name": "sram.webp",
+            "start": 241.60000000149012,
+            "end": 381.69999999552965,
+            "bytes": 9880
+          },
+          {
+            "name": "vram.webp",
+            "start": 241.60000000149012,
+            "end": 500.1000000014901,
+            "bytes": 10586
+          },
+          {
+            "name": "spirom.webp",
+            "start": 242.60000000149012,
+            "end": 508.6000000014901,
+            "bytes": 10194
+          },
+          {
+            "name": "ssd.webp",
+            "start": 242.69999999552965,
+            "end": 503.8999999985099,
+            "bytes": 9150
+          },
+          {
+            "name": "hdd.webp",
+            "start": 242.79999999701977,
+            "end": 511,
+            "bytes": 11430
+          },
+          {
+            "name": "mainboard.webp",
+            "start": 242.89999999850988,
+            "end": 509.3999999985099,
+            "bytes": 14096
+          },
+          {
+            "name": "power.webp",
+            "start": 243,
+            "end": 513.2999999970198,
+            "bytes": 12122
+          },
+          {
+            "name": "cooling.webp",
+            "start": 243,
+            "end": 632.5,
+            "bytes": 18992
+          },
+          {
+            "name": "vrm.webp",
+            "start": 243.19999999552965,
+            "end": 634.6999999955297,
+            "bytes": 15434
+          },
+          {
+            "name": "bus.webp",
+            "start": 243.29999999701977,
+            "end": 626.5,
+            "bytes": 7170
+          },
+          {
+            "name": "display.webp",
+            "start": 243.39999999850988,
+            "end": 623.1999999955297,
+            "bytes": 6846
+          },
+          {
+            "name": "input.webp",
+            "start": 243.5,
+            "end": 640.8999999985099,
+            "bytes": 11400
+          },
+          {
+            "name": "mouse.webp",
+            "start": 243.60000000149012,
+            "end": 638.8999999985099,
+            "bytes": 5120
+          },
+          {
+            "name": "audio.webp",
+            "start": 243.60000000149012,
+            "end": 746.3999999985099,
+            "bytes": 4104
+          },
+          {
+            "name": "camera.webp",
+            "start": 243.69999999552965,
+            "end": 748.8999999985099,
+            "bytes": 6714
+          },
+          {
+            "name": "nic.webp",
+            "start": 243.69999999552965,
+            "end": 756.1000000014901,
+            "bytes": 11282
+          },
+          {
+            "name": "infra.webp",
+            "start": 243.69999999552965,
+            "end": 759.1999999955297,
+            "bytes": 17500
+          },
+          {
+            "name": "datacenter.webp",
+            "start": 243.79999999701977,
+            "end": 763.6999999955297,
+            "bytes": 7706
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "profile": "4k",
+      "run": 3,
+      "entryMs": 3404.6999999955297,
+      "frameP95Ms": 66.70000000000005,
+      "maxTaskMs": 0,
+      "blockingMs": 0,
+      "longTaskEvents": [],
+      "losses": 0,
+      "jsHeapBytes": 11578024,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "true",
+        "canvas": [
+          1600,
+          900
+        ],
+        "attributes": {
+          "alpha": true,
+          "antialias": false,
+          "depth": true,
+          "desynchronized": false,
+          "failIfMajorPerformanceCaveat": false,
+          "powerPreference": "high-performance",
+          "premultipliedAlpha": true,
+          "preserveDrawingBuffer": false,
+          "stencil": false,
+          "xrCompatible": false
+        },
+        "memory": {
+          "geometries": 51,
+          "textures": 24
+        }
+      },
+      "child": {
+        "tasks": [],
+        "origin": 1791517051794.3,
+        "losses": 0,
+        "marks": [
+          {
+            "name": "inside:room-start",
+            "ms": 267.3999999985099
+          },
+          {
+            "name": "inside:room-images-ready",
+            "ms": 781.8999999985099
+          },
+          {
+            "name": "inside:room-ready",
+            "ms": 1062.5
+          }
+        ],
+        "images": [
+          {
+            "name": "cpu.webp",
+            "start": 256.5,
+            "end": 387.8999999985099,
+            "bytes": 12580
+          },
+          {
+            "name": "npu.webp",
+            "start": 256.80000000447035,
+            "end": 391.5,
+            "bytes": 12628
+          },
+          {
+            "name": "gpu.webp",
+            "start": 256.80000000447035,
+            "end": 392.20000000298023,
+            "bytes": 19818
+          },
+          {
+            "name": "coproc.webp",
+            "start": 256.8999999985099,
+            "end": 387.70000000298023,
+            "bytes": 10596
+          },
+          {
+            "name": "dram.webp",
+            "start": 256.8999999985099,
+            "end": 392.6000000014901,
+            "bytes": 8956
+          },
+          {
+            "name": "sram.webp",
+            "start": 257,
+            "end": 393.1000000014901,
+            "bytes": 9880
+          },
+          {
+            "name": "spirom.webp",
+            "start": 257.1000000014901,
+            "end": 514.8999999985099,
+            "bytes": 10194
+          },
+          {
+            "name": "vram.webp",
+            "start": 257.1000000014901,
+            "end": 518.7000000029802,
+            "bytes": 10586
+          },
+          {
+            "name": "ssd.webp",
+            "start": 257.20000000298023,
+            "end": 518.8999999985099,
+            "bytes": 9150
+          },
+          {
+            "name": "hdd.webp",
+            "start": 257.20000000298023,
+            "end": 522.7000000029802,
+            "bytes": 11430
+          },
+          {
+            "name": "power.webp",
+            "start": 257.30000000447035,
+            "end": 522.8999999985099,
+            "bytes": 12122
+          },
+          {
+            "name": "mainboard.webp",
+            "start": 257.30000000447035,
+            "end": 522.8000000044703,
+            "bytes": 14096
+          },
+          {
+            "name": "cooling.webp",
+            "start": 257.30000000447035,
+            "end": 640.8999999985099,
+            "bytes": 18992
+          },
+          {
+            "name": "bus.webp",
+            "start": 257.3999999985099,
+            "end": 636.8000000044703,
+            "bytes": 7170
+          },
+          {
+            "name": "vrm.webp",
+            "start": 257.3999999985099,
+            "end": 642.8999999985099,
+            "bytes": 15434
+          },
+          {
+            "name": "display.webp",
+            "start": 257.3999999985099,
+            "end": 646.2000000029802,
+            "bytes": 6846
+          },
+          {
+            "name": "input.webp",
+            "start": 257.6000000014901,
+            "end": 651.7000000029802,
+            "bytes": 11400
+          },
+          {
+            "name": "mouse.webp",
+            "start": 257.6000000014901,
+            "end": 651.3000000044703,
+            "bytes": 5120
+          },
+          {
+            "name": "audio.webp",
+            "start": 257.6000000014901,
+            "end": 760.2000000029802,
+            "bytes": 4104
+          },
+          {
+            "name": "camera.webp",
+            "start": 257.70000000298023,
+            "end": 764.6000000014901,
+            "bytes": 6714
+          },
+          {
+            "name": "nic.webp",
+            "start": 257.70000000298023,
+            "end": 767.2000000029802,
+            "bytes": 11282
+          },
+          {
+            "name": "infra.webp",
+            "start": 257.80000000447035,
+            "end": 771.8999999985099,
+            "bytes": 17500
+          },
+          {
+            "name": "datacenter.webp",
+            "start": 258.30000000447035,
+            "end": 775.2000000029802,
+            "bytes": 7706
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "profile": "mobile",
+      "run": 1,
+      "entryMs": 3312.6999999955297,
+      "frameP95Ms": 16.700000000000273,
+      "maxTaskMs": 0,
+      "blockingMs": 0,
+      "longTaskEvents": [],
+      "losses": 0,
+      "jsHeapBytes": 12786964,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "true",
+        "canvas": [
+          390,
+          844
+        ],
+        "attributes": {
+          "alpha": true,
+          "antialias": false,
+          "depth": true,
+          "desynchronized": false,
+          "failIfMajorPerformanceCaveat": false,
+          "powerPreference": "low-power",
+          "premultipliedAlpha": true,
+          "preserveDrawingBuffer": false,
+          "stencil": false,
+          "xrCompatible": false
+        },
+        "memory": {
+          "geometries": 39,
+          "textures": 24
+        }
+      },
+      "child": {
+        "tasks": [],
+        "origin": 1791517055958.9,
+        "losses": 0,
+        "marks": [
+          {
+            "name": "inside:room-start",
+            "ms": 145.79999999701977
+          },
+          {
+            "name": "inside:room-images-ready",
+            "ms": 785.8999999985099
+          },
+          {
+            "name": "inside:room-ready",
+            "ms": 1068.7999999970198
+          }
+        ],
+        "images": [
+          {
+            "name": "cpu.webp",
+            "start": 140.29999999701977,
+            "end": 271.79999999701977,
+            "bytes": 12580
+          },
+          {
+            "name": "gpu.webp",
+            "start": 140.5,
+            "end": 274.19999999552965,
+            "bytes": 19818
+          },
+          {
+            "name": "npu.webp",
+            "start": 140.5,
+            "end": 274.79999999701977,
+            "bytes": 12628
+          },
+          {
+            "name": "coproc.webp",
+            "start": 140.60000000149012,
+            "end": 274,
+            "bytes": 10596
+          },
+          {
+            "name": "dram.webp",
+            "start": 141,
+            "end": 274.69999999552965,
+            "bytes": 8956
+          },
+          {
+            "name": "sram.webp",
+            "start": 141,
+            "end": 275.69999999552965,
+            "bytes": 9880
+          },
+          {
+            "name": "vram.webp",
+            "start": 141,
+            "end": 396.69999999552965,
+            "bytes": 10586
+          },
+          {
+            "name": "spirom.webp",
+            "start": 141.10000000149012,
+            "end": 399.79999999701977,
+            "bytes": 10194
+          },
+          {
+            "name": "ssd.webp",
+            "start": 141.19999999552965,
+            "end": 399.1000000014901,
+            "bytes": 9150
+          },
+          {
+            "name": "hdd.webp",
+            "start": 141.19999999552965,
+            "end": 399.19999999552965,
+            "bytes": 11430
+          },
+          {
+            "name": "mainboard.webp",
+            "start": 141.69999999552965,
+            "end": 400.8999999985099,
+            "bytes": 14096
+          },
+          {
+            "name": "power.webp",
+            "start": 141.79999999701977,
+            "end": 401.79999999701977,
+            "bytes": 12122
+          },
+          {
+            "name": "cooling.webp",
+            "start": 141.89999999850988,
+            "end": 522.3999999985099,
+            "bytes": 18992
+          },
+          {
+            "name": "vrm.webp",
+            "start": 142.69999999552965,
+            "end": 524.5,
+            "bytes": 15434
+          },
+          {
+            "name": "bus.webp",
+            "start": 142.79999999701977,
+            "end": 527.7999999970198,
+            "bytes": 7170
+          },
+          {
+            "name": "display.webp",
+            "start": 408.29999999701977,
+            "end": 536.6000000014901,
+            "bytes": 6846
+          },
+          {
+            "name": "camera.webp",
+            "start": 410.1000000014901,
+            "end": 537.5,
+            "bytes": 6714
+          },
+          {
+            "name": "audio.webp",
+            "start": 526.7999999970198,
+            "end": 653.8999999985099,
+            "bytes": 4104
+          },
+          {
+            "name": "infra.webp",
+            "start": 530.7999999970198,
+            "end": 654.2999999970198,
+            "bytes": 17500
+          },
+          {
+            "name": "nic.webp",
+            "start": 542.1000000014901,
+            "end": 664.6000000014901,
+            "bytes": 11282
+          },
+          {
+            "name": "input.webp",
+            "start": 546.2999999970198,
+            "end": 668.3999999985099,
+            "bytes": 11400
+          },
+          {
+            "name": "mouse.webp",
+            "start": 658.1999999955297,
+            "end": 781.5,
+            "bytes": 5120
+          },
+          {
+            "name": "datacenter.webp",
+            "start": 659.5,
+            "end": 782.6000000014901,
+            "bytes": 7706
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "profile": "mobile",
+      "run": 2,
+      "entryMs": 3301.1999999955297,
+      "frameP95Ms": 16.700000000000273,
+      "maxTaskMs": 0,
+      "blockingMs": 0,
+      "longTaskEvents": [],
+      "losses": 0,
+      "jsHeapBytes": 10222844,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "true",
+        "canvas": [
+          390,
+          844
+        ],
+        "attributes": {
+          "alpha": true,
+          "antialias": false,
+          "depth": true,
+          "desynchronized": false,
+          "failIfMajorPerformanceCaveat": false,
+          "powerPreference": "low-power",
+          "premultipliedAlpha": true,
+          "preserveDrawingBuffer": false,
+          "stencil": false,
+          "xrCompatible": false
+        },
+        "memory": {
+          "geometries": 39,
+          "textures": 24
+        }
+      },
+      "child": {
+        "tasks": [],
+        "origin": 1791517060046.6,
+        "losses": 0,
+        "marks": [
+          {
+            "name": "inside:room-start",
+            "ms": 145
+          },
+          {
+            "name": "inside:room-images-ready",
+            "ms": 781.6999999955297
+          },
+          {
+            "name": "inside:room-ready",
+            "ms": 1063.3999999985099
+          }
+        ],
+        "images": [
+          {
+            "name": "cpu.webp",
+            "start": 140.19999999552965,
+            "end": 273.29999999701977,
+            "bytes": 12580
+          },
+          {
+            "name": "gpu.webp",
+            "start": 140.39999999850988,
+            "end": 275.09999999403954,
+            "bytes": 19818
+          },
+          {
+            "name": "npu.webp",
+            "start": 140.59999999403954,
+            "end": 271.09999999403954,
+            "bytes": 12628
+          },
+          {
+            "name": "coproc.webp",
+            "start": 140.69999999552965,
+            "end": 274.5,
+            "bytes": 10596
+          },
+          {
+            "name": "dram.webp",
+            "start": 140.79999999701977,
+            "end": 274.8999999985099,
+            "bytes": 8956
+          },
+          {
+            "name": "sram.webp",
+            "start": 140.89999999850988,
+            "end": 275.19999999552965,
+            "bytes": 9880
+          },
+          {
+            "name": "vram.webp",
+            "start": 140.89999999850988,
+            "end": 396.5,
+            "bytes": 10586
+          },
+          {
+            "name": "spirom.webp",
+            "start": 141,
+            "end": 398.69999999552965,
+            "bytes": 10194
+          },
+          {
+            "name": "ssd.webp",
+            "start": 141.09999999403954,
+            "end": 401.79999999701977,
+            "bytes": 9150
+          },
+          {
+            "name": "hdd.webp",
+            "start": 141.19999999552965,
+            "end": 402,
+            "bytes": 11430
+          },
+          {
+            "name": "mainboard.webp",
+            "start": 141.19999999552965,
+            "end": 403.79999999701977,
+            "bytes": 14096
+          },
+          {
+            "name": "power.webp",
+            "start": 141.39999999850988,
+            "end": 406.69999999552965,
+            "bytes": 12122
+          },
+          {
+            "name": "cooling.webp",
+            "start": 141.39999999850988,
+            "end": 519.2999999970198,
+            "bytes": 18992
+          },
+          {
+            "name": "vrm.webp",
+            "start": 141.5,
+            "end": 523.0999999940395,
+            "bytes": 15434
+          },
+          {
+            "name": "bus.webp",
+            "start": 141.59999999403954,
+            "end": 525.2999999970198,
+            "bytes": 7170
+          },
+          {
+            "name": "display.webp",
+            "start": 408.09999999403954,
+            "end": 531.5,
+            "bytes": 6846
+          },
+          {
+            "name": "camera.webp",
+            "start": 409.79999999701977,
+            "end": 532.8999999985099,
+            "bytes": 6714
+          },
+          {
+            "name": "audio.webp",
+            "start": 524.1999999955297,
+            "end": 648.7999999970198,
+            "bytes": 4104
+          },
+          {
+            "name": "infra.webp",
+            "start": 526.3999999985099,
+            "end": 649.7999999970198,
+            "bytes": 17500
+          },
+          {
+            "name": "nic.webp",
+            "start": 537.1999999955297,
+            "end": 660.7999999970198,
+            "bytes": 11282
+          },
+          {
+            "name": "input.webp",
+            "start": 541.6999999955297,
+            "end": 664.5,
+            "bytes": 11400
+          },
+          {
+            "name": "mouse.webp",
+            "start": 652.0999999940395,
+            "end": 776.1999999955297,
+            "bytes": 5120
+          },
+          {
+            "name": "datacenter.webp",
+            "start": 654.0999999940395,
+            "end": 777,
+            "bytes": 7706
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "profile": "mobile",
+      "run": 3,
+      "entryMs": 3323.7999999970198,
+      "frameP95Ms": 16.700000000000273,
+      "maxTaskMs": 0,
+      "blockingMs": 0,
+      "longTaskEvents": [],
+      "losses": 0,
+      "jsHeapBytes": 12278120,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "true",
+        "canvas": [
+          390,
+          844
+        ],
+        "attributes": {
+          "alpha": true,
+          "antialias": false,
+          "depth": true,
+          "desynchronized": false,
+          "failIfMajorPerformanceCaveat": false,
+          "powerPreference": "low-power",
+          "premultipliedAlpha": true,
+          "preserveDrawingBuffer": false,
+          "stencil": false,
+          "xrCompatible": false
+        },
+        "memory": {
+          "geometries": 39,
+          "textures": 24
+        }
+      },
+      "child": {
+        "tasks": [],
+        "origin": 1791517064115.3,
+        "losses": 0,
+        "marks": [
+          {
+            "name": "inside:room-start",
+            "ms": 157.30000000447035
+          },
+          {
+            "name": "inside:room-images-ready",
+            "ms": 791.3999999985099
+          },
+          {
+            "name": "inside:room-ready",
+            "ms": 1068.3999999985099
+          }
+        ],
+        "images": [
+          {
+            "name": "cpu.webp",
+            "start": 152.60000000149012,
+            "end": 283.20000000298023,
+            "bytes": 12580
+          },
+          {
+            "name": "gpu.webp",
+            "start": 152.80000000447035,
+            "end": 284.70000000298023,
+            "bytes": 19818
+          },
+          {
+            "name": "npu.webp",
+            "start": 152.89999999850988,
+            "end": 284.20000000298023,
+            "bytes": 12628
+          },
+          {
+            "name": "dram.webp",
+            "start": 153,
+            "end": 287,
+            "bytes": 8956
+          },
+          {
+            "name": "coproc.webp",
+            "start": 153,
+            "end": 286.80000000447035,
+            "bytes": 10596
+          },
+          {
+            "name": "sram.webp",
+            "start": 153.10000000149012,
+            "end": 286.8999999985099,
+            "bytes": 9880
+          },
+          {
+            "name": "vram.webp",
+            "start": 153.20000000298023,
+            "end": 408.5,
+            "bytes": 10586
+          },
+          {
+            "name": "spirom.webp",
+            "start": 153.20000000298023,
+            "end": 410.30000000447035,
+            "bytes": 10194
+          },
+          {
+            "name": "ssd.webp",
+            "start": 153.30000000447035,
+            "end": 410.3999999985099,
+            "bytes": 9150
+          },
+          {
+            "name": "hdd.webp",
+            "start": 153.30000000447035,
+            "end": 413,
+            "bytes": 11430
+          },
+          {
+            "name": "mainboard.webp",
+            "start": 153.39999999850988,
+            "end": 414.5,
+            "bytes": 14096
+          },
+          {
+            "name": "power.webp",
+            "start": 153.5,
+            "end": 414.30000000447035,
+            "bytes": 12122
+          },
+          {
+            "name": "cooling.webp",
+            "start": 153.5,
+            "end": 532.3999999985099,
+            "bytes": 18992
+          },
+          {
+            "name": "vrm.webp",
+            "start": 153.5,
+            "end": 534.6000000014901,
+            "bytes": 15434
+          },
+          {
+            "name": "bus.webp",
+            "start": 153.70000000298023,
+            "end": 536.7000000029802,
+            "bytes": 7170
+          },
+          {
+            "name": "display.webp",
+            "start": 418.6000000014901,
+            "end": 541.3999999985099,
+            "bytes": 6846
+          },
+          {
+            "name": "camera.webp",
+            "start": 420.20000000298023,
+            "end": 542.3999999985099,
+            "bytes": 6714
+          },
+          {
+            "name": "audio.webp",
+            "start": 536.1000000014901,
+            "end": 660.8999999985099,
+            "bytes": 4104
+          },
+          {
+            "name": "infra.webp",
+            "start": 538.1000000014901,
+            "end": 661.3999999985099,
+            "bytes": 17500
+          },
+          {
+            "name": "nic.webp",
+            "start": 546.3000000044703,
+            "end": 669.1000000014901,
+            "bytes": 11282
+          },
+          {
+            "name": "input.webp",
+            "start": 550.2000000029802,
+            "end": 673,
+            "bytes": 11400
+          },
+          {
+            "name": "mouse.webp",
+            "start": 664,
+            "end": 786.8999999985099,
+            "bytes": 5120
+          },
+          {
+            "name": "datacenter.webp",
+            "start": 665.7000000029802,
+            "end": 789,
+            "bytes": 7706
+          }
+        ]
+      },
+      "errors": []
+    }
+  ],
+  "browserVersion": "151.0.7922.173"
+}

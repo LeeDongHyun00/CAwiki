@@ -1,0 +1,139 @@
+{
+  "checks": [
+    {
+      "profile": "desktop",
+      "early": {
+        "chrome": 1,
+        "image": 1,
+        "interactive": true,
+        "frameVisible": false,
+        "preparing": false
+      },
+      "preparation": {
+        "chrome": 0,
+        "image": 1,
+        "interactive": true,
+        "frameVisible": false,
+        "preparing": true
+      },
+      "preparationPartContrast": 1.0,
+      "entryChrome": 0,
+      "landing": [
+        {
+          "t": 0.88,
+          "contrastRatio": 0.9810450354604281,
+          "canvasOpacity": 1,
+          "hostImageOpacity": 0,
+          "embeddedImages": 0
+        },
+        {
+          "t": 0.9,
+          "contrastRatio": 0.9887256065222343,
+          "canvasOpacity": 1,
+          "hostImageOpacity": 1,
+          "embeddedImages": 0
+        },
+        {
+          "t": 0.925,
+          "contrastRatio": 0.9943281630494853,
+          "canvasOpacity": 0.896484,
+          "hostImageOpacity": 1,
+          "embeddedImages": 0
+        },
+        {
+          "t": 0.95,
+          "contrastRatio": 0.9980515876365501,
+          "canvasOpacity": 0.5,
+          "hostImageOpacity": 1,
+          "embeddedImages": 0
+        },
+        {
+          "t": 0.975,
+          "contrastRatio": 1.0021763608825212,
+          "canvasOpacity": 0.103516,
+          "hostImageOpacity": 1,
+          "embeddedImages": 0
+        },
+        {
+          "t": 0.99,
+          "contrastRatio": 1.003163805995703,
+          "canvasOpacity": 0.00856,
+          "hostImageOpacity": 1,
+          "embeddedImages": 0
+        }
+      ],
+      "returnImageDriftPx": 0.0,
+      "sameImageNodes": true,
+      "scrolledTravelDriftPx": 0.0,
+      "scrolledReturnDriftPx": 0.0
+    },
+    {
+      "profile": "mobile",
+      "early": {
+        "chrome": 1,
+        "image": 1,
+        "interactive": true,
+        "frameVisible": false,
+        "preparing": false
+      },
+      "preparation": {
+        "chrome": 0,
+        "image": 1,
+        "interactive": true,
+        "frameVisible": false,
+        "preparing": true
+      },
+      "preparationPartContrast": 1.0,
+      "entryChrome": 0,
+      "landing": [
+        {
+          "t": 0.88,
+          "contrastRatio": 0.981847223246264,
+          "canvasOpacity": 1,
+          "hostImageOpacity": 0,
+          "embeddedImages": 0
+        },
+        {
+          "t": 0.9,
+          "contrastRatio": 0.9884432599160554,
+          "canvasOpacity": 1,
+          "hostImageOpacity": 1,
+          "embeddedImages": 0
+        },
+        {
+          "t": 0.925,
+          "contrastRatio": 0.9941062766149383,
+          "canvasOpacity": 0.896484,
+          "hostImageOpacity": 1,
+          "embeddedImages": 0
+        },
+        {
+          "t": 0.95,
+          "contrastRatio": 0.9979093693077202,
+          "canvasOpacity": 0.5,
+          "hostImageOpacity": 1,
+          "embeddedImages": 0
+        },
+        {
+          "t": 0.975,
+          "contrastRatio": 1.0021106773704602,
+          "canvasOpacity": 0.103516,
+          "hostImageOpacity": 1,
+          "embeddedImages": 0
+        },
+        {
+          "t": 0.99,
+          "contrastRatio": 1.0031330579576647,
+          "canvasOpacity": 0.00856,
+          "hostImageOpacity": 1,
+          "embeddedImages": 0
+        }
+      ],
+      "returnImageDriftPx": 0,
+      "sameImageNodes": true,
+      "scrolledTravelDriftPx": 0,
+      "scrolledReturnDriftPx": 0
+    }
+  ],
+  "pageErrors": []
+}

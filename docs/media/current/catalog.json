@@ -1,0 +1,185 @@
+{
+  "hardware": [
+    {
+      "id": "cpu",
+      "title": "CPU",
+      "name": "프로세서"
+    },
+    {
+      "id": "gpu",
+      "title": "GPU",
+      "name": "그래픽 카드"
+    },
+    {
+      "id": "npu",
+      "title": "NPU",
+      "name": "신경망 프로세서"
+    },
+    {
+      "id": "coproc",
+      "title": "CHIPSET",
+      "name": "보조 프로세서"
+    },
+    {
+      "id": "dram",
+      "title": "DDR5",
+      "name": "메모리"
+    },
+    {
+      "id": "sram",
+      "title": "SRAM",
+      "name": "캐시 메모리"
+    },
+    {
+      "id": "vram",
+      "title": "VRAM",
+      "name": "그래픽 메모리"
+    },
+    {
+      "id": "spirom",
+      "title": "SPI FLASH",
+      "name": "SPI 플래시"
+    },
+    {
+      "id": "ssd",
+      "title": "SSD",
+      "name": "솔리드 스테이트 드라이브"
+    },
+    {
+      "id": "hdd",
+      "title": "HDD",
+      "name": "하드 디스크 드라이브"
+    },
+    {
+      "id": "mainboard",
+      "title": "MAINBOARD",
+      "name": "메인보드"
+    },
+    {
+      "id": "power",
+      "title": "POWER",
+      "name": "전원 공급 장치"
+    },
+    {
+      "id": "cooling",
+      "title": "COOLING",
+      "name": "쿨링 팬"
+    },
+    {
+      "id": "vrm",
+      "title": "VRM",
+      "name": "전원부"
+    },
+    {
+      "id": "bus",
+      "title": "PCIe",
+      "name": "시스템 버스"
+    },
+    {
+      "id": "display",
+      "title": "DISPLAY",
+      "name": "모니터"
+    },
+    {
+      "id": "input",
+      "title": "KEYBOARD",
+      "name": "키보드"
+    },
+    {
+      "id": "mouse",
+      "title": "MOUSE",
+      "name": "마우스"
+    },
+    {
+      "id": "audio",
+      "title": "SPEAKER",
+      "name": "스피커"
+    },
+    {
+      "id": "camera",
+      "title": "CAMERA",
+      "name": "웹캠"
+    },
+    {
+      "id": "nic",
+      "title": "ETHERNET",
+      "name": "네트워크 카드"
+    },
+    {
+      "id": "infra",
+      "title": "ROUTER",
+      "name": "라우터"
+    },
+    {
+      "id": "datacenter",
+      "title": "SERVER",
+      "name": "서버 랙"
+    }
+  ],
+  "stories": [
+    {
+      "id": "game",
+      "title": "클릭이 픽셀이 되기까지"
+    },
+    {
+      "id": "boot",
+      "title": "전원이 켜지는 순간"
+    },
+    {
+      "id": "search",
+      "title": "검색 한 번의 여정"
+    },
+    {
+      "id": "storage",
+      "title": "파일을 여는 순간"
+    },
+    {
+      "id": "typing",
+      "title": "키 하나가 글자가 되기까지"
+    },
+    {
+      "id": "launch",
+      "title": "더블클릭에서 프로그램 실행까지"
+    },
+    {
+      "id": "save",
+      "title": "Ctrl+S 한 번의 여정"
+    },
+    {
+      "id": "music",
+      "title": "음악이 스피커에서 나오기까지"
+    },
+    {
+      "id": "streaming",
+      "title": "버퍼링 뒤에서 일어나는 일"
+    },
+    {
+      "id": "call",
+      "title": "내 얼굴이 상대방에게 닿기까지"
+    },
+    {
+      "id": "multitasking",
+      "title": "여러 프로그램이 동시에 도는 법"
+    },
+    {
+      "id": "usb",
+      "title": "USB를 꽂는 순간"
+    },
+    {
+      "id": "sleep",
+      "title": "잠들었다가 다시 깨어나는 법"
+    },
+    {
+      "id": "ai",
+      "title": "질문이 AI의 답으로 돌아오기까지"
+    },
+    {
+      "id": "loading",
+      "title": "게임 로딩 화면의 정체"
+    },
+    {
+      "id": "record",
+      "title": "화면이 영상 파일이 되기까지"
+    }
+  ]
+}

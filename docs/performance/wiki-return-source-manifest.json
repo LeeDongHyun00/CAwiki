@@ -1,0 +1,15 @@
+{
+  "baselineCommit": "1770289e75ff6de6329dd39db6c0bee4fd760bc7",
+  "files": {
+    "index.html": "2a6a55bf2842cd915bbc91e13ddf7cd4eef46590e94fd94ef3335e4fc0c2c0aa",
+    "relationship-room-study.html": "fa9e86789bb9dd3676316e7ce4b468bed4a26fae159457cc30c750ffc513645c",
+    "lib/inside/room-host.js": "5546db4140744a317764716fc5473e1424653c818210c44fdfa2546a79cbab73",
+    "lib/inside/room-study.js": "61a04c12a8b799bd0f0a0ce32ceb7ec7014559c2ceb9ed83a3c3c600534060ef",
+    "lib/inside/site.js": "81c3eb31e2bcbec1fc5b648050bf97eebfe4c1c2af6d31153b2680559568580f",
+    "tools/test_wiki_return.py": "22343c16a7739f033247fe6255c025a3059546b510db5abef26b3d3052583cf0",
+    "tools/test_wiki_return_edges.py": "3862051cabe1da12f765f8f218d797c486803809cac8ec65a16a85390fbcb5d7",
+    "tools/test_gallery_transfer.py": "889c14f7b674b1ee7bdd1ea3649fa12bee82acb98759b57a638396275d0d963a",
+    "tools/test_visual_continuity.py": "1850fd77ef0255d7a8af318418c91a67e68f45b2ce635e0c0687ed6ab6884c71",
+    "tools/measure_cold_gallery.py": "66fff96d54702e3628eabd3d2a9712f170c4884c8b4021da3e739c0368a6d63b"
+  }
+}

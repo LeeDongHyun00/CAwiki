@@ -1,0 +1,134 @@
+{
+  "method": "Fresh Chromium process per case; injected faults are explicitly named, not real driver crashes.",
+  "cases": [
+    {
+      "case": "pending-cancel",
+      "parentInteractiveDuringPreparation": true,
+      "cancelled": true,
+      "pageErrors": []
+    },
+    {
+      "case": "shader-stall",
+      "settled": true,
+      "entryMs": 8052.780776000873,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "fallback",
+        "renderer": false,
+        "canvas": null,
+        "parts": 23
+      },
+      "detailClickable": true,
+      "returned": true,
+      "pageErrors": []
+    },
+    {
+      "case": "first-frame-error",
+      "settled": true,
+      "entryMs": 524.2804820009042,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "fallback",
+        "renderer": false,
+        "canvas": null,
+        "parts": 23
+      },
+      "detailClickable": true,
+      "returned": true,
+      "pageErrors": []
+    },
+    {
+      "case": "entry-render-error",
+      "settled": true,
+      "entryMs": 507.57889099622844,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "fallback",
+        "renderer": false,
+        "canvas": null,
+        "parts": 23
+      },
+      "detailClickable": true,
+      "returned": true,
+      "pageErrors": []
+    },
+    {
+      "case": "early-film",
+      "settled": true,
+      "entryMs": 2653.5429950017715,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "true",
+        "renderer": true,
+        "canvas": [
+          1440,
+          900
+        ],
+        "parts": 23
+      },
+      "detailClickable": true,
+      "filmWhileInRoom": {
+        "complete": false,
+        "canvas": [
+          1,
+          1
+        ],
+        "target": [
+          1,
+          1
+        ]
+      },
+      "backgroundParts": [],
+      "restoredCanvas": [
+        1440,
+        900
+      ],
+      "filmResumed": true,
+      "pageErrors": []
+    },
+    {
+      "case": "4k",
+      "settled": true,
+      "entryMs": 2739.3271129985806,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "true",
+        "renderer": true,
+        "canvas": [
+          1600,
+          900
+        ],
+        "parts": 23
+      },
+      "detailClickable": true,
+      "canvasPixels": 1440000,
+      "returned": true,
+      "pageErrors": []
+    },
+    {
+      "case": "mobile",
+      "settled": true,
+      "entryMs": 2617.0455290048267,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "true",
+        "renderer": true,
+        "canvas": [
+          390,
+          844
+        ],
+        "parts": 23
+      },
+      "detailClickable": true,
+      "canvasPixels": 329160,
+      "returned": true,
+      "pageErrors": []
+    }
+  ]
+}

@@ -1,0 +1,734 @@
+{
+  "source": "/tmp/cawiki-crop-before",
+  "checks": [
+    {
+      "profile": "desktop",
+      "scroll": 0,
+      "phase": "entry",
+      "t": 0,
+      "clippedPixels": 2309,
+      "referencePixels": 68504,
+      "modelDrawCalls": 12
+    },
+    {
+      "profile": "desktop",
+      "scroll": 0,
+      "phase": "entry",
+      "t": 0.2,
+      "clippedPixels": 7658,
+      "referencePixels": 68863,
+      "modelDrawCalls": 12
+    },
+    {
+      "profile": "desktop",
+      "scroll": 0,
+      "phase": "entry",
+      "t": 0.4,
+      "clippedPixels": 27034,
+      "referencePixels": 70543,
+      "modelDrawCalls": 18
+    },
+    {
+      "profile": "desktop",
+      "scroll": 0,
+      "phase": "entry",
+      "t": 0.6,
+      "clippedPixels": 40918,
+      "referencePixels": 93933,
+      "modelDrawCalls": 36
+    },
+    {
+      "profile": "desktop",
+      "scroll": 0,
+      "phase": "entry",
+      "t": 0.8,
+      "clippedPixels": 1550,
+      "referencePixels": 99810,
+      "modelDrawCalls": 46
+    },
+    {
+      "profile": "desktop",
+      "scroll": 0,
+      "phase": "entry",
+      "t": 0.95,
+      "clippedPixels": 0,
+      "referencePixels": 94576,
+      "modelDrawCalls": 46
+    },
+    {
+      "profile": "desktop",
+      "scroll": 0,
+      "phase": "exit",
+      "t": 0,
+      "clippedPixels": 0,
+      "referencePixels": 94576,
+      "modelDrawCalls": 46
+    },
+    {
+      "profile": "desktop",
+      "scroll": 0,
+      "phase": "exit",
+      "t": 0.2,
+      "clippedPixels": 5848,
+      "referencePixels": 103461,
+      "modelDrawCalls": 46
+    },
+    {
+      "profile": "desktop",
+      "scroll": 0,
+      "phase": "exit",
+      "t": 0.4,
+      "clippedPixels": 35603,
+      "referencePixels": 77909,
+      "modelDrawCalls": 30
+    },
+    {
+      "profile": "desktop",
+      "scroll": 0,
+      "phase": "exit",
+      "t": 0.6,
+      "clippedPixels": 37265,
+      "referencePixels": 86927,
+      "modelDrawCalls": 14
+    },
+    {
+      "profile": "desktop",
+      "scroll": 0,
+      "phase": "exit",
+      "t": 0.8,
+      "clippedPixels": 2070,
+      "referencePixels": 67736,
+      "modelDrawCalls": 12
+    },
+    {
+      "profile": "desktop",
+      "scroll": 0,
+      "phase": "exit",
+      "t": 0.95,
+      "clippedPixels": 2309,
+      "referencePixels": 68504,
+      "modelDrawCalls": 12
+    },
+    {
+      "profile": "desktop",
+      "scroll": 0,
+      "listReturnMaxDriftPx": 0.0
+    },
+    {
+      "profile": "desktop",
+      "scroll": 650,
+      "phase": "entry",
+      "t": 0,
+      "clippedPixels": 51062,
+      "referencePixels": 119001,
+      "modelDrawCalls": 24
+    },
+    {
+      "profile": "desktop",
+      "scroll": 650,
+      "phase": "entry",
+      "t": 0.2,
+      "clippedPixels": 62579,
+      "referencePixels": 132806,
+      "modelDrawCalls": 24
+    },
+    {
+      "profile": "desktop",
+      "scroll": 650,
+      "phase": "entry",
+      "t": 0.4,
+      "clippedPixels": 73065,
+      "referencePixels": 137642,
+      "modelDrawCalls": 30
+    },
+    {
+      "profile": "desktop",
+      "scroll": 650,
+      "phase": "entry",
+      "t": 0.6,
+      "clippedPixels": 19008,
+      "referencePixels": 132969,
+      "modelDrawCalls": 46
+    },
+    {
+      "profile": "desktop",
+      "scroll": 650,
+      "phase": "entry",
+      "t": 0.8,
+      "clippedPixels": 359,
+      "referencePixels": 100065,
+      "modelDrawCalls": 46
+    },
+    {
+      "profile": "desktop",
+      "scroll": 650,
+      "phase": "entry",
+      "t": 0.95,
+      "clippedPixels": 0,
+      "referencePixels": 94576,
+      "modelDrawCalls": 46
+    },
+    {
+      "profile": "desktop",
+      "scroll": 650,
+      "phase": "exit",
+      "t": 0,
+      "clippedPixels": 0,
+      "referencePixels": 75374,
+      "modelDrawCalls": 46
+    },
+    {
+      "profile": "desktop",
+      "scroll": 650,
+      "phase": "exit",
+      "t": 0.2,
+      "clippedPixels": 2545,
+      "referencePixels": 89741,
+      "modelDrawCalls": 46
+    },
+    {
+      "profile": "desktop",
+      "scroll": 650,
+      "phase": "exit",
+      "t": 0.4,
+      "clippedPixels": 23534,
+      "referencePixels": 124860,
+      "modelDrawCalls": 40
+    },
+    {
+      "profile": "desktop",
+      "scroll": 650,
+      "phase": "exit",
+      "t": 0.6,
+      "clippedPixels": 100083,
+      "referencePixels": 165102,
+      "modelDrawCalls": 26
+    },
+    {
+      "profile": "desktop",
+      "scroll": 650,
+      "phase": "exit",
+      "t": 0.8,
+      "clippedPixels": 53612,
+      "referencePixels": 120001,
+      "modelDrawCalls": 24
+    },
+    {
+      "profile": "desktop",
+      "scroll": 650,
+      "phase": "exit",
+      "t": 0.95,
+      "clippedPixels": 51974,
+      "referencePixels": 119001,
+      "modelDrawCalls": 24
+    },
+    {
+      "profile": "desktop",
+      "scroll": 650,
+      "listReturnMaxDriftPx": 0.0
+    },
+    {
+      "profile": "desktop",
+      "scenario": "typing",
+      "rods": 1,
+      "keys": 87,
+      "idle": [
+        {
+          "key": "A",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ],
+      "pressed": [
+        {
+          "key": "A",
+          "transform": "matrix(1, 0, 0, 1, 0, 4)",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ],
+      "released": [
+        {
+          "key": "A",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ]
+    },
+    {
+      "profile": "desktop",
+      "scenario": "save",
+      "rods": 1,
+      "keys": 87,
+      "idle": [
+        {
+          "key": "S",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        },
+        {
+          "key": "Ctrl",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        },
+        {
+          "key": "Ctrl",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ],
+      "pressed": [
+        {
+          "key": "S",
+          "transform": "matrix(1, 0, 0, 1, 0, 4)",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        },
+        {
+          "key": "Ctrl",
+          "transform": "matrix(1, 0, 0, 1, 0, 4)",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        },
+        {
+          "key": "Ctrl",
+          "transform": "matrix(1, 0, 0, 1, 0, 4)",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ],
+      "released": [
+        {
+          "key": "S",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        },
+        {
+          "key": "Ctrl",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        },
+        {
+          "key": "Ctrl",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ]
+    },
+    {
+      "profile": "desktop",
+      "scenario": "sleep",
+      "rods": 1,
+      "keys": 87,
+      "idle": [
+        {
+          "key": "A",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ],
+      "pressed": [
+        {
+          "key": "A",
+          "transform": "matrix(1, 0, 0, 1, 0, 4)",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ],
+      "released": [
+        {
+          "key": "A",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ]
+    },
+    {
+      "profile": "desktop",
+      "reducedMotionAnimations": 0,
+      "reducedMotionKeys": [
+        {
+          "key": "A",
+          "transform": "matrix(1, 0, 0, 1, 0, 4)",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ]
+    },
+    {
+      "profile": "mobile",
+      "scroll": 0,
+      "phase": "entry",
+      "t": 0,
+      "clippedPixels": 10749,
+      "referencePixels": 31254,
+      "modelDrawCalls": 10
+    },
+    {
+      "profile": "mobile",
+      "scroll": 0,
+      "phase": "entry",
+      "t": 0.2,
+      "clippedPixels": 6959,
+      "referencePixels": 28444,
+      "modelDrawCalls": 10
+    },
+    {
+      "profile": "mobile",
+      "scroll": 0,
+      "phase": "entry",
+      "t": 0.4,
+      "clippedPixels": 4755,
+      "referencePixels": 21916,
+      "modelDrawCalls": 14
+    },
+    {
+      "profile": "mobile",
+      "scroll": 0,
+      "phase": "entry",
+      "t": 0.6,
+      "clippedPixels": 7223,
+      "referencePixels": 24508,
+      "modelDrawCalls": 28
+    },
+    {
+      "profile": "mobile",
+      "scroll": 0,
+      "phase": "entry",
+      "t": 0.8,
+      "clippedPixels": 1623,
+      "referencePixels": 18787,
+      "modelDrawCalls": 30
+    },
+    {
+      "profile": "mobile",
+      "scroll": 0,
+      "phase": "entry",
+      "t": 0.95,
+      "clippedPixels": 0,
+      "referencePixels": 17323,
+      "modelDrawCalls": 28
+    },
+    {
+      "profile": "mobile",
+      "scroll": 0,
+      "phase": "exit",
+      "t": 0,
+      "clippedPixels": 0,
+      "referencePixels": 17323,
+      "modelDrawCalls": 28
+    },
+    {
+      "profile": "mobile",
+      "scroll": 0,
+      "phase": "exit",
+      "t": 0.2,
+      "clippedPixels": 3460,
+      "referencePixels": 19914,
+      "modelDrawCalls": 30
+    },
+    {
+      "profile": "mobile",
+      "scroll": 0,
+      "phase": "exit",
+      "t": 0.4,
+      "clippedPixels": 13274,
+      "referencePixels": 26323,
+      "modelDrawCalls": 28
+    },
+    {
+      "profile": "mobile",
+      "scroll": 0,
+      "phase": "exit",
+      "t": 0.6,
+      "clippedPixels": 4644,
+      "referencePixels": 27595,
+      "modelDrawCalls": 10
+    },
+    {
+      "profile": "mobile",
+      "scroll": 0,
+      "phase": "exit",
+      "t": 0.8,
+      "clippedPixels": 10641,
+      "referencePixels": 30946,
+      "modelDrawCalls": 10
+    },
+    {
+      "profile": "mobile",
+      "scroll": 0,
+      "phase": "exit",
+      "t": 0.95,
+      "clippedPixels": 10749,
+      "referencePixels": 31254,
+      "modelDrawCalls": 10
+    },
+    {
+      "profile": "mobile",
+      "scroll": 0,
+      "listReturnMaxDriftPx": 0
+    },
+    {
+      "profile": "mobile",
+      "scroll": 650,
+      "phase": "entry",
+      "t": 0,
+      "clippedPixels": 18065,
+      "referencePixels": 37135,
+      "modelDrawCalls": 22
+    },
+    {
+      "profile": "mobile",
+      "scroll": 650,
+      "phase": "entry",
+      "t": 0.2,
+      "clippedPixels": 14254,
+      "referencePixels": 34593,
+      "modelDrawCalls": 22
+    },
+    {
+      "profile": "mobile",
+      "scroll": 650,
+      "phase": "entry",
+      "t": 0.4,
+      "clippedPixels": 27269,
+      "referencePixels": 42672,
+      "modelDrawCalls": 26
+    },
+    {
+      "profile": "mobile",
+      "scroll": 650,
+      "phase": "entry",
+      "t": 0.6,
+      "clippedPixels": 6010,
+      "referencePixels": 29339,
+      "modelDrawCalls": 34
+    },
+    {
+      "profile": "mobile",
+      "scroll": 650,
+      "phase": "entry",
+      "t": 0.8,
+      "clippedPixels": 615,
+      "referencePixels": 18851,
+      "modelDrawCalls": 30
+    },
+    {
+      "profile": "mobile",
+      "scroll": 650,
+      "phase": "entry",
+      "t": 0.95,
+      "clippedPixels": 0,
+      "referencePixels": 17323,
+      "modelDrawCalls": 28
+    },
+    {
+      "profile": "mobile",
+      "scroll": 650,
+      "phase": "exit",
+      "t": 0,
+      "clippedPixels": 0,
+      "referencePixels": 17786,
+      "modelDrawCalls": 22
+    },
+    {
+      "profile": "mobile",
+      "scroll": 650,
+      "phase": "exit",
+      "t": 0.2,
+      "clippedPixels": 1683,
+      "referencePixels": 19169,
+      "modelDrawCalls": 24
+    },
+    {
+      "profile": "mobile",
+      "scroll": 650,
+      "phase": "exit",
+      "t": 0.4,
+      "clippedPixels": 7730,
+      "referencePixels": 31909,
+      "modelDrawCalls": 34
+    },
+    {
+      "profile": "mobile",
+      "scroll": 650,
+      "phase": "exit",
+      "t": 0.6,
+      "clippedPixels": 19213,
+      "referencePixels": 38086,
+      "modelDrawCalls": 24
+    },
+    {
+      "profile": "mobile",
+      "scroll": 650,
+      "phase": "exit",
+      "t": 0.8,
+      "clippedPixels": 10951,
+      "referencePixels": 36792,
+      "modelDrawCalls": 22
+    },
+    {
+      "profile": "mobile",
+      "scroll": 650,
+      "phase": "exit",
+      "t": 0.95,
+      "clippedPixels": 11191,
+      "referencePixels": 37135,
+      "modelDrawCalls": 22
+    },
+    {
+      "profile": "mobile",
+      "scroll": 650,
+      "listReturnMaxDriftPx": 0
+    },
+    {
+      "profile": "mobile",
+      "scenario": "typing",
+      "rods": 1,
+      "keys": 87,
+      "idle": [
+        {
+          "key": "A",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ],
+      "pressed": [
+        {
+          "key": "A",
+          "transform": "matrix(1, 0, 0, 1, 0, 4)",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ],
+      "released": [
+        {
+          "key": "A",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ]
+    },
+    {
+      "profile": "mobile",
+      "scenario": "save",
+      "rods": 1,
+      "keys": 87,
+      "idle": [
+        {
+          "key": "S",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        },
+        {
+          "key": "Ctrl",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        },
+        {
+          "key": "Ctrl",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ],
+      "pressed": [
+        {
+          "key": "S",
+          "transform": "matrix(1, 0, 0, 1, 0, 4)",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        },
+        {
+          "key": "Ctrl",
+          "transform": "matrix(1, 0, 0, 1, 0, 4)",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        },
+        {
+          "key": "Ctrl",
+          "transform": "matrix(1, 0, 0, 1, 0, 4)",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ],
+      "released": [
+        {
+          "key": "S",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        },
+        {
+          "key": "Ctrl",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        },
+        {
+          "key": "Ctrl",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ]
+    },
+    {
+      "profile": "mobile",
+      "scenario": "sleep",
+      "rods": 1,
+      "keys": 87,
+      "idle": [
+        {
+          "key": "A",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ],
+      "pressed": [
+        {
+          "key": "A",
+          "transform": "matrix(1, 0, 0, 1, 0, 4)",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ],
+      "released": [
+        {
+          "key": "A",
+          "transform": "none",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ]
+    },
+    {
+      "profile": "mobile",
+      "reducedMotionAnimations": 0,
+      "reducedMotionKeys": [
+        {
+          "key": "A",
+          "transform": "matrix(1, 0, 0, 1, 0, 4)",
+          "fill": "rgb(145, 183, 161)",
+          "halo": 0
+        }
+      ]
+    }
+  ],
+  "pageErrors": []
+}

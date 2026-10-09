@@ -1,0 +1,88 @@
+{
+  "source": "https://leedonghyun00.github.io/CAwiki/",
+  "date": "2026-10-09",
+  "viewport": [
+    960,
+    640
+  ],
+  "outputWidth": 800,
+  "captures": {
+    "film": {
+      "file": "film.gif",
+      "startUrl": "https://leedonghyun00.github.io/CAwiki/#home",
+      "endUrl": "https://leedonghyun00.github.io/CAwiki/#home",
+      "frames": 31,
+      "durationMs": 11700,
+      "bytes": 583515,
+      "sha256": "c7cf4d41a58aebbaf2c9dc8d5f304f6506c48f82e715107678b313574c5e5e03",
+      "requestedPlaybackSpeed": 1.46,
+      "capturedDate": "2026-10-09",
+      "htmlSha256": "667c8beb3df7ecfd92fca3744f9dd8630b2475bbca374b47f0de33737445fe04"
+    },
+    "wiki": {
+      "file": "wiki.gif",
+      "startUrl": "https://leedonghyun00.github.io/CAwiki/#wiki",
+      "endUrl": "https://leedonghyun00.github.io/CAwiki/#wiki",
+      "frames": 31,
+      "durationMs": 6960,
+      "bytes": 708571,
+      "sha256": "04b12fde7d6e8765c6d02ee649567c5febbd6e6c2514c3a412aec16c6b5a34e4",
+      "requestedPlaybackSpeed": 1.4,
+      "capturedDate": "2026-10-09",
+      "htmlSha256": "667c8beb3df7ecfd92fca3744f9dd8630b2475bbca374b47f0de33737445fe04"
+    },
+    "hardware": {
+      "file": "hardware.gif",
+      "startUrl": "https://leedonghyun00.github.io/CAwiki/#object/cpu",
+      "endUrl": "https://leedonghyun00.github.io/CAwiki/#object/cpu",
+      "frames": 79,
+      "durationMs": 10440,
+      "bytes": 2899606,
+      "sha256": "ee266a2d939f83e0965316261077d1ada6dd9afce144a0b922935b67c1e433e7",
+      "requestedPlaybackSpeed": 4.968,
+      "capturedDate": "2026-10-09",
+      "htmlSha256": "667c8beb3df7ecfd92fca3744f9dd8630b2475bbca374b47f0de33737445fe04"
+    },
+    "map": {
+      "file": "map.gif",
+      "startUrl": "https://leedonghyun00.github.io/CAwiki/#map",
+      "endUrl": "https://leedonghyun00.github.io/CAwiki/#map/node/cpu?from=compute&tab=relations&edge=cpu--sram",
+      "frames": 37,
+      "durationMs": 7600,
+      "bytes": 539998,
+      "sha256": "83d754a1f1804af929fa964d5fc1a7d806e3ff6a6ebc0d9db627dbc758d82404",
+      "requestedPlaybackSpeed": 1.4,
+      "capturedDate": "2026-10-09",
+      "htmlSha256": "667c8beb3df7ecfd92fca3744f9dd8630b2475bbca374b47f0de33737445fe04"
+    },
+    "scenario": {
+      "file": "scenario.gif",
+      "startUrl": "https://leedonghyun00.github.io/CAwiki/#story/boot/0",
+      "endUrl": "https://leedonghyun00.github.io/CAwiki/#story/boot/5",
+      "frames": 23,
+      "durationMs": 10320,
+      "bytes": 768107,
+      "sha256": "5ed80bb4c4b51fe63f510e351118311bc8c94ada57db8d9027891ff09bba3900",
+      "requestedPlaybackSpeed": 1.4,
+      "capturedDate": "2026-10-09",
+      "htmlSha256": "667c8beb3df7ecfd92fca3744f9dd8630b2475bbca374b47f0de33737445fe04"
+    },
+    "typing": {
+      "file": "typing.gif",
+      "startUrl": "https://leedonghyun00.github.io/CAwiki/#story/typing/0",
+      "endUrl": "https://leedonghyun00.github.io/CAwiki/#story/typing/6",
+      "frames": 26,
+      "durationMs": 11250,
+      "bytes": 1116577,
+      "sha256": "d97c65bcfdbe6e55e62548b22aab74d58a0d9e0a527d232fc18752c261b5e643",
+      "requestedPlaybackSpeed": 1.658,
+      "capturedDate": "2026-10-09",
+      "htmlSha256": "667c8beb3df7ecfd92fca3744f9dd8630b2475bbca374b47f0de33737445fe04"
+    }
+  },
+  "htmlSha256": "667c8beb3df7ecfd92fca3744f9dd8630b2475bbca374b47f0de33737445fe04",
+  "sourceCommit": "cc738fe095b3f5eadf1b37d1c4e5f9884f392fae",
+  "errors": [],
+  "playback": "Edited playback timing; long captures condensed and GIF frames sampled every 120 ms",
+  "frameIntervalMs": 120
+}

@@ -1,0 +1,27 @@
+{
+  "method": "Fresh Chromium process per case; injected faults are explicitly named, not real driver crashes.",
+  "cases": [
+    {
+      "case": "pending-cancel",
+      "parentInteractiveDuringPreparation": true,
+      "cancelled": true,
+      "pageErrors": []
+    },
+    {
+      "case": "entry-render-error",
+      "settled": true,
+      "entryMs": 468.2594020050601,
+      "state": {
+        "view": "room",
+        "moving": false,
+        "ready": "fallback",
+        "renderer": false,
+        "canvas": null,
+        "parts": 23
+      },
+      "detailClickable": true,
+      "returned": true,
+      "pageErrors": []
+    }
+  ]
+}

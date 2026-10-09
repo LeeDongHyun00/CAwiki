@@ -1,0 +1,66 @@
+{
+  "checks": [
+    {
+      "case": "direct",
+      "locked": false,
+      "busy": false,
+      "inert": false,
+      "headingOpacity": "1",
+      "ready": true,
+      "usesDecodedPreview": false,
+      "hardwareVisible": true
+    },
+    {
+      "case": "slow-image",
+      "locked": false,
+      "busy": false,
+      "inert": false,
+      "headingOpacity": "1",
+      "ready": true,
+      "usesDecodedPreview": true,
+      "hardwareVisible": true
+    },
+    {
+      "case": "fallback",
+      "locked": false,
+      "busy": false,
+      "inert": false,
+      "headingOpacity": "1",
+      "ready": true,
+      "usesDecodedPreview": false,
+      "hardwareVisible": true
+    },
+    {
+      "case": "reduced-motion",
+      "locked": false,
+      "busy": false,
+      "inert": false,
+      "headingOpacity": "1",
+      "ready": true,
+      "usesDecodedPreview": false,
+      "hardwareVisible": true
+    },
+    {
+      "case": "resize",
+      "locked": false,
+      "busy": false,
+      "inert": false,
+      "headingOpacity": "1",
+      "ready": true,
+      "usesDecodedPreview": false,
+      "hardwareVisible": true
+    },
+    {
+      "case": "tab-during-preparation",
+      "cancelled": true,
+      "selectedStoriesPreserved": true
+    },
+    {
+      "case": "200ms-boundary",
+      "noFadeAt199ms": true,
+      "fadeAt200ms": true,
+      "presentationAt100msCancelsFade": true
+    }
+  ],
+  "pageErrors": []
+}

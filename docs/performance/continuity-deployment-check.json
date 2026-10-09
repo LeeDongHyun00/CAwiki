@@ -1,0 +1,136 @@
+{
+  "checkedOn": "2026-10-09 Asia/Seoul",
+  "requestedURL": "https://leedonghyun00.github.io/CAwiki/#wiki",
+  "applicationCommit": "b94342207d080ba70ea2aa7c3bdec1ce6f030aff",
+  "scope": "Deployed HTML/module byte comparison; matching local source tested in Chromium/SwiftShader. This is not a recording of the user browser or a real mobile device.",
+  "html": [
+    {
+      "file": "index.html",
+      "matches": true,
+      "sha256": "2a5fe0f05c8ed702ae4ca2b848c1a39e15528bf4a69216e9eb583f32e8135f41"
+    },
+    {
+      "file": "relationship-room-study.html",
+      "matches": true,
+      "sha256": "89bc6b87c8dc592a97de849e6256079f85f5922abe890256c3b98a10d977cb29"
+    }
+  ],
+  "modules": [
+    {
+      "module": "room-study",
+      "matches": true,
+      "sha256": "24b9da2ce123a0711b22f0f0d9733d56167b2add3a9d96f5187e7eb02bbe72a2"
+    },
+    {
+      "module": "study",
+      "matches": true,
+      "sha256": "f6b6624b2a49b5c0159b35b29bbe37a64dedb9f998174bf92aaa82e7e2d20219"
+    },
+    {
+      "module": "render-status",
+      "matches": true,
+      "sha256": "3902a1d4dbeaf9c64f9e08c416e13ec1f378cf4c2fb0996a49f7db16cfa414d8"
+    },
+    {
+      "module": "story-keyboard",
+      "matches": true,
+      "sha256": "125855fc0c58cfd7669b87c1f9f3b467006d2be23e88a543fdbbbf1796040815"
+    },
+    {
+      "module": "story-actions",
+      "matches": true,
+      "sha256": "b54bd7195accf182338f566c0aa524302cd265cb1976b70e29e6ec072b029827"
+    }
+  ],
+  "visualChecks": {
+    "checks": [
+      {
+        "profile": "desktop",
+        "cpuMeanAbsolutePixelError255": 0.0
+      },
+      {
+        "profile": "desktop",
+        "roomEntryMaxEndpointErrorPx": 1.1368683772161603e-13,
+        "roomExitMaxEndpointErrorPx": 1.1368683772161603e-13,
+        "entryFrames": 47,
+        "exitFrames": 59,
+        "cameraFixed": true,
+        "detailAndPeerGeometryUnchanged": true
+      },
+      {
+        "profile": "desktop",
+        "staleScenarioCoveredSynchronously": true
+      },
+      {
+        "profile": "desktop",
+        "keyboardKeys": 87,
+        "allKeycapsInsideDeck": true
+      },
+      {
+        "profile": "mobile",
+        "cpuMeanAbsolutePixelError255": 0.0
+      },
+      {
+        "profile": "mobile",
+        "roomEntryMaxEndpointErrorPx": 1.1368683772161603e-13,
+        "roomExitMaxEndpointErrorPx": 5.684341886080802e-14,
+        "entryFrames": 127,
+        "exitFrames": 139,
+        "cameraFixed": true,
+        "detailAndPeerGeometryUnchanged": true
+      },
+      {
+        "profile": "mobile",
+        "staleScenarioCoveredSynchronously": true
+      },
+      {
+        "profile": "mobile",
+        "keyboardKeys": 87,
+        "allKeycapsInsideDeck": true
+      }
+    ],
+    "pageErrors": []
+  },
+  "scrolledRoomHandoff": [
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "beforeScroll": 1000,
+      "afterScroll": 1000,
+      "exitScroll": 1000,
+      "maxError": 1.1368683772161603e-13,
+      "errors": []
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "beforeScroll": 1000,
+      "afterScroll": 1000,
+      "exitScroll": 1000,
+      "maxError": 2.2737367544323206e-13,
+      "errors": []
+    }
+  ],
+  "skip": [
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "skipStoppedAt": 0.92999,
+      "monitorOnlyAfterUserInput": true
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "skipStoppedAt": 0.92997,
+      "monitorOnlyAfterUserInput": true
+    }
+  ]
+}

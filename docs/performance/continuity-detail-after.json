@@ -1,0 +1,315 @@
+{
+  "method": {
+    "gpu": "SwiftShader",
+    "network": "localhost HTTP no-store via Playwright interception",
+    "runs": 3,
+    "desktop": [
+      1440,
+      900,
+      1
+    ],
+    "mobile": [
+      390,
+      844,
+      3
+    ],
+    "end": "movement finished and selected original resolution/model prepared"
+  },
+  "runs": [
+    {
+      "profile": "desktop",
+      "run": 1,
+      "phases": {
+        "cpu": {
+          "full": [
+            "cpu"
+          ],
+          "moving": false,
+          "memory": {
+            "geometries": 52,
+            "textures": 26
+          },
+          "programs": 7,
+          "elapsedMs": 1014.8000000007451,
+          "longTasks": {
+            "maxMs": 148,
+            "blockingMs": 275,
+            "n": 9
+          },
+          "render": {
+            "maxCalls": 33,
+            "maxTriangles": 66
+          }
+        },
+        "pair": {
+          "full": [
+            "cpu",
+            "sram"
+          ],
+          "moving": false,
+          "memory": {
+            "geometries": 52,
+            "textures": 27
+          },
+          "programs": 7,
+          "elapsedMs": 1325.7999999988824,
+          "longTasks": {
+            "maxMs": 81,
+            "blockingMs": 133,
+            "n": 11
+          },
+          "render": {
+            "maxCalls": 33,
+            "maxTriangles": 66
+          }
+        }
+      }
+    },
+    {
+      "profile": "desktop",
+      "run": 2,
+      "phases": {
+        "cpu": {
+          "full": [
+            "cpu"
+          ],
+          "moving": false,
+          "memory": {
+            "geometries": 52,
+            "textures": 26
+          },
+          "programs": 7,
+          "elapsedMs": 1000.9000000003725,
+          "longTasks": {
+            "maxMs": 141,
+            "blockingMs": 227,
+            "n": 10
+          },
+          "render": {
+            "maxCalls": 33,
+            "maxTriangles": 66
+          }
+        },
+        "pair": {
+          "full": [
+            "cpu",
+            "sram"
+          ],
+          "moving": false,
+          "memory": {
+            "geometries": 52,
+            "textures": 27
+          },
+          "programs": 7,
+          "elapsedMs": 1390.2000000011176,
+          "longTasks": {
+            "maxMs": 81,
+            "blockingMs": 205,
+            "n": 14
+          },
+          "render": {
+            "maxCalls": 33,
+            "maxTriangles": 66
+          }
+        }
+      }
+    },
+    {
+      "profile": "desktop",
+      "run": 3,
+      "phases": {
+        "cpu": {
+          "full": [
+            "cpu"
+          ],
+          "moving": false,
+          "memory": {
+            "geometries": 52,
+            "textures": 26
+          },
+          "programs": 7,
+          "elapsedMs": 1025.0999999996275,
+          "longTasks": {
+            "maxMs": 134,
+            "blockingMs": 304,
+            "n": 9
+          },
+          "render": {
+            "maxCalls": 33,
+            "maxTriangles": 66
+          }
+        },
+        "pair": {
+          "full": [
+            "cpu",
+            "sram"
+          ],
+          "moving": false,
+          "memory": {
+            "geometries": 52,
+            "textures": 27
+          },
+          "programs": 7,
+          "elapsedMs": 1374.0,
+          "longTasks": {
+            "maxMs": 90,
+            "blockingMs": 237,
+            "n": 13
+          },
+          "render": {
+            "maxCalls": 33,
+            "maxTriangles": 66
+          }
+        }
+      }
+    },
+    {
+      "profile": "mobile",
+      "run": 1,
+      "phases": {
+        "cpu": {
+          "full": [
+            "cpu"
+          ],
+          "moving": false,
+          "memory": {
+            "geometries": 34,
+            "textures": 16
+          },
+          "programs": 5,
+          "elapsedMs": 933.0,
+          "longTasks": {
+            "maxMs": 0,
+            "blockingMs": 0,
+            "n": 0
+          },
+          "render": {
+            "maxCalls": 25,
+            "maxTriangles": 50
+          }
+        },
+        "pair": {
+          "full": [
+            "cpu",
+            "sram"
+          ],
+          "moving": false,
+          "memory": {
+            "geometries": 34,
+            "textures": 17
+          },
+          "programs": 5,
+          "elapsedMs": 942.0,
+          "longTasks": {
+            "maxMs": 0,
+            "blockingMs": 0,
+            "n": 0
+          },
+          "render": {
+            "maxCalls": 25,
+            "maxTriangles": 50
+          }
+        }
+      }
+    },
+    {
+      "profile": "mobile",
+      "run": 2,
+      "phases": {
+        "cpu": {
+          "full": [
+            "cpu"
+          ],
+          "moving": false,
+          "memory": {
+            "geometries": 34,
+            "textures": 16
+          },
+          "programs": 5,
+          "elapsedMs": 929.8999999985099,
+          "longTasks": {
+            "maxMs": 0,
+            "blockingMs": 0,
+            "n": 0
+          },
+          "render": {
+            "maxCalls": 25,
+            "maxTriangles": 50
+          }
+        },
+        "pair": {
+          "full": [
+            "cpu",
+            "sram"
+          ],
+          "moving": false,
+          "memory": {
+            "geometries": 34,
+            "textures": 17
+          },
+          "programs": 5,
+          "elapsedMs": 937.5,
+          "longTasks": {
+            "maxMs": 0,
+            "blockingMs": 0,
+            "n": 0
+          },
+          "render": {
+            "maxCalls": 25,
+            "maxTriangles": 50
+          }
+        }
+      }
+    },
+    {
+      "profile": "mobile",
+      "run": 3,
+      "phases": {
+        "cpu": {
+          "full": [
+            "cpu"
+          ],
+          "moving": false,
+          "memory": {
+            "geometries": 34,
+            "textures": 16
+          },
+          "programs": 5,
+          "elapsedMs": 932.9000000003725,
+          "longTasks": {
+            "maxMs": 0,
+            "blockingMs": 0,
+            "n": 0
+          },
+          "render": {
+            "maxCalls": 25,
+            "maxTriangles": 50
+          }
+        },
+        "pair": {
+          "full": [
+            "cpu",
+            "sram"
+          ],
+          "moving": false,
+          "memory": {
+            "geometries": 34,
+            "textures": 17
+          },
+          "programs": 5,
+          "elapsedMs": 955.0,
+          "longTasks": {
+            "maxMs": 0,
+            "blockingMs": 0,
+            "n": 0
+          },
+          "render": {
+            "maxCalls": 25,
+            "maxTriangles": 50
+          }
+        }
+      }
+    }
+  ],
+  "browserVersion": "151.0.7922.173"
+}

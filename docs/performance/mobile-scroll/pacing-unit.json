@@ -1,0 +1,26 @@
+{
+  "cases": 40,
+  "inversePositions": 1001,
+  "bypasses": [
+    "desktop",
+    "reduced",
+    "explicit-navigation"
+  ],
+  "candidates": [
+    {
+      "rate": 0.75,
+      "shortChapterTraversalMs": 1333,
+      "peakScenesPerSecond": 0.750000000000064
+    },
+    {
+      "rate": 1,
+      "shortChapterTraversalMs": 1008,
+      "peakScenesPerSecond": 1.0000000000000497
+    },
+    {
+      "rate": 1.5,
+      "shortChapterTraversalMs": 667,
+      "peakScenesPerSecond": 1.5000000000000746
+    }
+  ]
+}

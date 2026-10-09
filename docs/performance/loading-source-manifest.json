@@ -1,0 +1,461 @@
+{
+  "baselineCommit": "7428ff78e84a882bc32c04afee76c0710560d549",
+  "files": {
+    "index.html": {
+      "bytes": 61447,
+      "sha256": "d7eaf8e034b96a0548fbb04bbe6872db5ddf9aa3b252937f509e9938e63b5974"
+    },
+    "relationship-room-study.html": {
+      "bytes": 38136,
+      "sha256": "c442dc8dfacc5c3ec771e9e3f66ee718a6b7f84d1cc7aa3cd2a91f14b6368173"
+    },
+    "lib/inside/assets.js": {
+      "bytes": 5216,
+      "sha256": "c48f3df939b7f9587a3223e7dad14c96a82c8766d7d050c4f54364e98665a136"
+    },
+    "lib/inside/catalog.js": {
+      "bytes": 5267,
+      "sha256": "c773caadae34a31ed768deee2716e8310c2e3b8c6d00d8099db291173c66290b"
+    },
+    "lib/inside/cinema-models.js": {
+      "bytes": 14396,
+      "sha256": "5e9546b53babdf7654783fda2d507120dfb1da354e3f183be7a8d2397b900008"
+    },
+    "lib/inside/cinema-timeline.js": {
+      "bytes": 2669,
+      "sha256": "be84273f422149f41a2ace206fb5f6f1d53d1acb6364c65a22b4099c6af92637"
+    },
+    "lib/inside/collection.js": {
+      "bytes": 21578,
+      "sha256": "dc63cce93899cefd120474070802f2c15d7e50ea57777ffc454f8a873eb6f3de"
+    },
+    "lib/inside/data.js": {
+      "bytes": 1258,
+      "sha256": "ebe2bc3d5a789e2f830651549eed2b5ded6c4e671f36881c6c4f1d54633dc7e9"
+    },
+    "lib/inside/experience.js": {
+      "bytes": 15589,
+      "sha256": "d31f3f0ba82ca1b8892528c540ee8c4c3420f3d1771298dafeb7dd4e70fbdbba"
+    },
+    "lib/inside/film-skip.js": {
+      "bytes": 1555,
+      "sha256": "36859ec5077e797dacd630f45cd752275a2c799a3d86b149ae483c0b6d1afcfb"
+    },
+    "lib/inside/hardware-portraits.js": {
+      "bytes": 2627,
+      "sha256": "b2391aec98bdd59c6e7fc1a7f4c60b907ba670ed20dfcdcd2f7f78af34a54975"
+    },
+    "lib/inside/hero.js": {
+      "bytes": 14235,
+      "sha256": "81ac0eebe8fecd4786081e3cfb796973c8fe9ac704f75f539402747d5108afaa"
+    },
+    "lib/inside/models.js": {
+      "bytes": 18069,
+      "sha256": "e5468e01586d5b9053989d7fcaddb77e4eff15619078fd865d8738706dea38ea"
+    },
+    "lib/inside/mouse.js": {
+      "bytes": 7845,
+      "sha256": "e7a36720ea4c0b14aeff6c7e43a464710c558d9fe7ec97bce2771eee144a659e"
+    },
+    "lib/inside/orbit.js": {
+      "bytes": 32141,
+      "sha256": "4857056c266e1a414ac03f4d25d6503328fd8030c2936a94975c77d9d6edf8cc"
+    },
+    "lib/inside/prepare-programs.js": {
+      "bytes": 1145,
+      "sha256": "0e3d53c3396970640ba60066ed3eb8fd918b1ad25ec3581c2c5d1ba5a88f5887"
+    },
+    "lib/inside/quality.js": {
+      "bytes": 1382,
+      "sha256": "62b54fc5167197cc48948457d8534f5c5d713151e53a58841587974c4e4b3d11"
+    },
+    "lib/inside/relation-scenarios.js": {
+      "bytes": 14550,
+      "sha256": "66a568413b85d1fd6c4ce91beb9e7164d9af6142897263db4772689e2214fd07"
+    },
+    "lib/inside/relation-source.js": {
+      "bytes": 151173,
+      "sha256": "5cffbe6fa231211069f8b4301dee065426732970c363314ee6c809b5fc609af0"
+    },
+    "lib/inside/relationship-map.js": {
+      "bytes": 15297,
+      "sha256": "ec1c2c2b5cd1db6ca18ec223f8ac25a4cd30fbaec8d2ac7649d1b42ed94f1c19"
+    },
+    "lib/inside/relationship-stage.js": {
+      "bytes": 13131,
+      "sha256": "56d840e1d1b7df98cfe15eb776cb7a23920ed561ae859c7e9027d13c3711b8cb"
+    },
+    "lib/inside/render-status.js": {
+      "bytes": 3324,
+      "sha256": "1bc8fc1ba49e3b6602094f94d42b1b103d156188ba2ec85136ad90138205fdc4"
+    },
+    "lib/inside/room-host.js": {
+      "bytes": 2555,
+      "sha256": "9ac0ef62d99e8e553dbd8beca44d0d0c4a8ac18a3d84b70b9e648db2e5ac80b6"
+    },
+    "lib/inside/room-study.js": {
+      "bytes": 44652,
+      "sha256": "9e5c1536bfeb9f430692cd5140ef3d762301745ee27e9a5815b5b8788c48827a"
+    },
+    "lib/inside/rounded.js": {
+      "bytes": 4632,
+      "sha256": "2d090744fc9d82729391d9475d9902419d908eb8c53c67ff07d489003a35e59c"
+    },
+    "lib/inside/scenario-data.js": {
+      "bytes": 13958,
+      "sha256": "fe3805ec1fcc2e7e993d060965fbf1a6a5a1492e8ff6e36e72d3ee6563171dc6"
+    },
+    "lib/inside/scenario-extended-data.js": {
+      "bytes": 98693,
+      "sha256": "d8cb15fdd3a6d324a48f0e98b54deb754115cbdc88cd11b41b99c81a8ad520f5"
+    },
+    "lib/inside/scenario-film.js": {
+      "bytes": 22223,
+      "sha256": "6a195f1f9d51eec6d68f68b88941db839463521bb4d307babbe5f45c1d8634ec"
+    },
+    "lib/inside/scenario-frames.js": {
+      "bytes": 2660,
+      "sha256": "e70e498ed3ea1e13638d7aa667757d7da22712d1d8ce793c5a4327919134deaf"
+    },
+    "lib/inside/scenario-mechanisms.js": {
+      "bytes": 18978,
+      "sha256": "1db7b64adb78b07a37ee036cfc93c35e53692b1ed6e2a2fc6da18b0b1abb054e"
+    },
+    "lib/inside/scenario-screen.js": {
+      "bytes": 14175,
+      "sha256": "07910a9d73c96ca93d99a0241b0cea945f300b54b25cda3ebd028d1be8a7231e"
+    },
+    "lib/inside/scenario-signals.js": {
+      "bytes": 27852,
+      "sha256": "820ea142f06f1d856f53778f41471870cc3773b2e3ae9a9f9d84d04a944b5191"
+    },
+    "lib/inside/site.js": {
+      "bytes": 16163,
+      "sha256": "0ae0d101e0b5ce2d7026b1495bcd32c640a1281216113a4756544a0de8db7601"
+    },
+    "lib/inside/story-actions.js": {
+      "bytes": 16031,
+      "sha256": "3cd0153e253f5f655cae3a123ea4002395096056edfb38c7e1d47793333ede4e"
+    },
+    "lib/inside/story-covers.js": {
+      "bytes": 14538,
+      "sha256": "6ed845df2328df64237ec68d421d4c4be0beeb5f88ad62c9d9abf7d74d61ac7d"
+    },
+    "lib/inside/story-usb-preview.js": {
+      "bytes": 3022,
+      "sha256": "fce58ca550baf59eabc6fbd876ec293140fda73b8a0409583d1906b2cd03cec2"
+    },
+    "lib/inside/study.js": {
+      "bytes": 26332,
+      "sha256": "0572934ac24bcab403afcc451cfddd8c61407b171fb76bbc693ec308e6971aef"
+    },
+    "lib/inside/three.js": {
+      "bytes": 691648,
+      "sha256": "08fd7545d13d2c7fb65ab691530a802dafefd638596501854f267d0fb13c39e7"
+    },
+    "lib/inside/usb-model.js": {
+      "bytes": 6622,
+      "sha256": "2d0c3bae282f45e203e266b4118f824d11a62b36aef0d5226566cba2c725e807"
+    },
+    "lib/inside/wiki-arrival.js": {
+      "bytes": 8371,
+      "sha256": "00ee1525fa23b389892c852edb8f89a77a98c1bf8a61e898250fa493c87ea9d2"
+    },
+    "assets/inside/audio.png": {
+      "bytes": 65369,
+      "sha256": "705e996afe961df543e206bc450412b91795b175d805a931a49660bc7ddc8e88"
+    },
+    "assets/inside/bus.png": {
+      "bytes": 32439,
+      "sha256": "18fea86c1e7eb87e9e4dca35a8f704815216a464aa5f2f3a90210c93a857b1fa"
+    },
+    "assets/inside/camera.png": {
+      "bytes": 53474,
+      "sha256": "476b8085da74894435a7654544a04b635b1d696c749aef03b9dfbbf3052a4dc5"
+    },
+    "assets/inside/cooling.png": {
+      "bytes": 49975,
+      "sha256": "1ef3fb689b248895b04d94464484e2938217301f707c43434a245e15982a5d16"
+    },
+    "assets/inside/coproc.png": {
+      "bytes": 66370,
+      "sha256": "d5ad726f51b181faec46a6b41f51068487b1f3cea3ff6552e182f50e11e470ab"
+    },
+    "assets/inside/cpu.png": {
+      "bytes": 96553,
+      "sha256": "a818bb7b7d1c6ae5a479c1daf21ca955253d94edc4b1cf2c10a4450e39a2ce6a"
+    },
+    "assets/inside/datacenter.png": {
+      "bytes": 65619,
+      "sha256": "1c50bb846fb256e808dd0d835c552656212c9f0893530c6d94646e7a5a0cbdc5"
+    },
+    "assets/inside/display.png": {
+      "bytes": 44435,
+      "sha256": "fb8d1262db1e5abf84f874b38fe1d795e0a3104c937bc376e52e15c736b9f02a"
+    },
+    "assets/inside/dram-vertical.png": {
+      "bytes": 60138,
+      "sha256": "e7a9ba2d04019066588a2170fd9b1fcfddde8d565a186a9e16fb422efe5ef864"
+    },
+    "assets/inside/dram.png": {
+      "bytes": 52230,
+      "sha256": "e2d6e6d9470e2a3f1f238ad29fab771cc97f88c83de482f087982e8c8eac64e0"
+    },
+    "assets/inside/fallback.png": {
+      "bytes": 96553,
+      "sha256": "a818bb7b7d1c6ae5a479c1daf21ca955253d94edc4b1cf2c10a4450e39a2ce6a"
+    },
+    "assets/inside/gpu.png": {
+      "bytes": 193081,
+      "sha256": "acb1d163c791581deff50aee23f14db85124593b9668e3b1bf348d4fa06c0e67"
+    },
+    "assets/inside/hdd.png": {
+      "bytes": 118114,
+      "sha256": "37944cf06dc10f89cf0ff3c8eb0c3fc2bff278ef9b3c33b8abcd9fcaf5fb4962"
+    },
+    "assets/inside/infra.png": {
+      "bytes": 61824,
+      "sha256": "57482a8b3aacbcc8a655a20446109b1ca27730c187927c1d7f810d578d451051"
+    },
+    "assets/inside/input.png": {
+      "bytes": 103916,
+      "sha256": "79c8a02eb31472464e3758fae8b38a997b3bfc49b4df1c173d81b20c1f1aca77"
+    },
+    "assets/inside/mainboard.png": {
+      "bytes": 105374,
+      "sha256": "ac806339c9644fe506182d45986393b576ecfd427c4cf366dcb7c40d1e71b495"
+    },
+    "assets/inside/monitor/desktop.png": {
+      "bytes": 199515,
+      "sha256": "5630a51f38a33d7bb826d6073ffc29a68dc5eccd79d6210df10be7bde3f37e61"
+    },
+    "assets/inside/monitor/mobile.png": {
+      "bytes": 66682,
+      "sha256": "7e575076de71988fc3b63eda5869002923ff5e91feef141be86e53d8bf9236f9"
+    },
+    "assets/inside/mouse.png": {
+      "bytes": 65969,
+      "sha256": "faf0a683d90a3a7effebd65826ef6c86846676e6a3cb351d2a6fa0683124e549"
+    },
+    "assets/inside/nic.png": {
+      "bytes": 35186,
+      "sha256": "97bf56094b9412c93e2cc3d4bd2da561b4ca8e0185fad5e68550f4e1a45e6b78"
+    },
+    "assets/inside/npu.png": {
+      "bytes": 64068,
+      "sha256": "89c74aca8c44f1ac514523e61adde2ddfba9ae1228d80ad9c0236db290dd8fbb"
+    },
+    "assets/inside/power.png": {
+      "bytes": 164640,
+      "sha256": "f909b5b0b342735ef1be64785edc309ef3e2de0d6c8e2ca7933d2576a9a8ea58"
+    },
+    "assets/inside/redesign/audio.webp": {
+      "bytes": 30636,
+      "sha256": "8303b4e690173b20f481564ea406b97e7cc193215e930508e9960cfead4380e7"
+    },
+    "assets/inside/redesign/bus.webp": {
+      "bytes": 33616,
+      "sha256": "f9dcea87eb37fec0e6018b33a2740517afc55fd74dd501507e8f6f8358dcf0df"
+    },
+    "assets/inside/redesign/camera.webp": {
+      "bytes": 47806,
+      "sha256": "7e31e79b27e63126728786870cd72fd74b8736388c08b7bc467adefe587be8ab"
+    },
+    "assets/inside/redesign/cooling.webp": {
+      "bytes": 117148,
+      "sha256": "3cd961f1daf29bccc644c964f40f1003e47abc55cecefa3c73151d278b3ce20f"
+    },
+    "assets/inside/redesign/coproc.webp": {
+      "bytes": 45028,
+      "sha256": "2f7c55ae883a733aaca2c7d8c9b973538562c238c451ce6fedc7c9b4d91f810d"
+    },
+    "assets/inside/redesign/cpu.webp": {
+      "bytes": 136494,
+      "sha256": "276eb719457faefa3a0b609c20b8ce3cfb5a69617a5212a9825f3d720a295f63"
+    },
+    "assets/inside/redesign/datacenter.webp": {
+      "bytes": 73396,
+      "sha256": "c6ec1232df680224814e37701bcd06096e6dcf89adb715f2d922d0864fc76536"
+    },
+    "assets/inside/redesign/display.webp": {
+      "bytes": 136962,
+      "sha256": "6b14c5640d81ee91f306d6f3762509959cd964f6575dff4f7a85489ed756c001"
+    },
+    "assets/inside/redesign/dram.webp": {
+      "bytes": 48732,
+      "sha256": "a8115d2def95ce8e5e7488bf93ed750ed52eaeea9fdad2e24a40b207c99d2f27"
+    },
+    "assets/inside/redesign/gpu.webp": {
+      "bytes": 94602,
+      "sha256": "70ef960e71d4f1d3c651dc3df858d2f92717c95246f40de582449ef310933c7b"
+    },
+    "assets/inside/redesign/hdd.webp": {
+      "bytes": 92550,
+      "sha256": "0151714c74e9c4d3ce49540bf10274e8f260bc2c768f0426bdb0f08edaa01c12"
+    },
+    "assets/inside/redesign/infra.webp": {
+      "bytes": 82240,
+      "sha256": "4009c0b9edf7c22b3abdb84073cbd288e07938fb911dfbad80299c1a16fadaea"
+    },
+    "assets/inside/redesign/input.webp": {
+      "bytes": 87326,
+      "sha256": "2326a39c1dbbae2464745458e68e9ea9d04e9d0ec3bf7bb3bef381ff0fdb75aa"
+    },
+    "assets/inside/redesign/mainboard.webp": {
+      "bytes": 113166,
+      "sha256": "5980f23e564ba337acb3288abca78bb3a7eee1811302f57ff19cc60c618b5bc5"
+    },
+    "assets/inside/redesign/mouse.webp": {
+      "bytes": 41712,
+      "sha256": "bfa6f8fa6d571cb7766ebc60f18ca97ceab6e0f2915190304a9c902a361facd8"
+    },
+    "assets/inside/redesign/nic.webp": {
+      "bytes": 84952,
+      "sha256": "6dfa2425111b23e9747cb9299fef6ffc420303f52f3d4da07bbf14f218f2bb8e"
+    },
+    "assets/inside/redesign/npu.webp": {
+      "bytes": 92652,
+      "sha256": "400d867087853fee2bc4deddaf10de830284ae3ce1405722af7cd3b49e3ec59b"
+    },
+    "assets/inside/redesign/power.webp": {
+      "bytes": 104136,
+      "sha256": "8afbb5c92f26b845e561a26182d86490a88d875b334326f95b361942b4d12d7f"
+    },
+    "assets/inside/redesign/spirom.webp": {
+      "bytes": 37324,
+      "sha256": "272ef22b9ab5519630aa0a7206b6347340271c6bf295e93b34a719ccbf462a72"
+    },
+    "assets/inside/redesign/sram.webp": {
+      "bytes": 44792,
+      "sha256": "9f289aa8a926afb2bc2392ba2bbcab5693224978dec1b57da57d2349f904d344"
+    },
+    "assets/inside/redesign/ssd.webp": {
+      "bytes": 41002,
+      "sha256": "760f044a837b2c4b6258be6f7b156205dd9956115b598af44fbc45e8d7e040bb"
+    },
+    "assets/inside/redesign/vram.webp": {
+      "bytes": 45958,
+      "sha256": "25564c918326144187eeb7d9312e107228401e3c1076207ac3948f4c47d1783c"
+    },
+    "assets/inside/redesign/vrm.webp": {
+      "bytes": 113444,
+      "sha256": "c42f9c39d611d8a3ed06c14bc81e52d32b8cbee7bb4317c1d99a98ef78f5d682"
+    },
+    "assets/inside/room/audio.webp": {
+      "bytes": 6672,
+      "sha256": "bcb2b9acb29993a26f53329270e7f6bd1a47686047243293c67018ff818d1fa9"
+    },
+    "assets/inside/room/bus.webp": {
+      "bytes": 9810,
+      "sha256": "ff55c471999bcf24979cb2000914ac20d0e34eb982262e424fa210558f822196"
+    },
+    "assets/inside/room/camera.webp": {
+      "bytes": 9350,
+      "sha256": "0682f841ed0d0db5fc9a46db6a0709555d5899bbb1563180ae47dadbb8020168"
+    },
+    "assets/inside/room/cooling.webp": {
+      "bytes": 44148,
+      "sha256": "274a844414cd8e0b612f112b406040914694048cf151d6f2a8d052fce2514f6a"
+    },
+    "assets/inside/room/coproc.webp": {
+      "bytes": 14466,
+      "sha256": "0ac275f85db456c8ecc6e235bf8e5678a9a0bd07849b118788656c76fdaae436"
+    },
+    "assets/inside/room/cpu.webp": {
+      "bytes": 17848,
+      "sha256": "4b6d0fac439c87ca7f3605d0fa6de513935411b00c6f45bc6570190ea8b07702"
+    },
+    "assets/inside/room/datacenter.webp": {
+      "bytes": 16186,
+      "sha256": "e1d3df51de32b8d14afa0eeb5d86e6b80b476586d8c01a999e5048c92468179b"
+    },
+    "assets/inside/room/display.webp": {
+      "bytes": 11946,
+      "sha256": "8d8c5f0d576e53d523de61727e2216cd337caeaf9321a4a694e9f505a98850a2"
+    },
+    "assets/inside/room/dram.webp": {
+      "bytes": 12466,
+      "sha256": "cb60088876553fa0b2556eed576d4b4241b5a85b2ef2c58d4464194e0b74bd2b"
+    },
+    "assets/inside/room/gpu.webp": {
+      "bytes": 29972,
+      "sha256": "a2fa7215474a2f66ed702001e024d86aca0ec25563c7ae188d97ab3f5a886c52"
+    },
+    "assets/inside/room/hdd.webp": {
+      "bytes": 18126,
+      "sha256": "eebfa2cfbfbf5bb68fd85648787427bc7172c2046eeb661a78581393e66ad23b"
+    },
+    "assets/inside/room/infra.webp": {
+      "bytes": 25474,
+      "sha256": "5009783d652c4d4b7e675c1bb91b7d0f114e4e83b9bddd788a414347b293abb7"
+    },
+    "assets/inside/room/input.webp": {
+      "bytes": 16574,
+      "sha256": "85409905f7349376088d53bd2137b33f89b1b275a27bd49b5dbc01310fd072ec"
+    },
+    "assets/inside/room/mainboard.webp": {
+      "bytes": 20666,
+      "sha256": "a37ae380faf962fa3084514a6dd2a24216049e967cf147bc85d1b52dd30f481b"
+    },
+    "assets/inside/room/mouse.webp": {
+      "bytes": 9434,
+      "sha256": "05fd333cc2ed5b18cddedd44b1cb4a5cc262f1734b1fdbc9c9f69281ff20770a"
+    },
+    "assets/inside/room/nic.webp": {
+      "bytes": 15208,
+      "sha256": "13e32d1f8ad5d6ae7eee03089f5b83e7765198df45551cc64be5527ba581cb8e"
+    },
+    "assets/inside/room/npu.webp": {
+      "bytes": 18252,
+      "sha256": "02c498382b5b35f6d9c68cdfa18119dab8267317412581ffc5d3d28d06e03571"
+    },
+    "assets/inside/room/power.webp": {
+      "bytes": 22382,
+      "sha256": "d123e60835b3fb047e1745c33d10b698c0d859bdb40b2526be38aad3feeab51f"
+    },
+    "assets/inside/room/spirom.webp": {
+      "bytes": 13874,
+      "sha256": "b0ba3080e00604d4186c8c9742293dd97a6cdb34488fc6380b123f69bccd00a0"
+    },
+    "assets/inside/room/sram.webp": {
+      "bytes": 13698,
+      "sha256": "97ebf394d8dae97d58c50ecfc7dd9696a961e9dda72b46e65c5eafc3a86baf2e"
+    },
+    "assets/inside/room/ssd.webp": {
+      "bytes": 12680,
+      "sha256": "cd2fbe09fe4a81906c4f089f10057fb2a62334105cc9e1eff57ef59ea2063003"
+    },
+    "assets/inside/room/vram.webp": {
+      "bytes": 14358,
+      "sha256": "b9bcc841b4f3ed2bc1e396b9e1e36c742a3865bf49eb87daec793cbecada09f8"
+    },
+    "assets/inside/room/vrm.webp": {
+      "bytes": 20902,
+      "sha256": "4a3fec8e9d4390e5df57e16814a303e6f2043fc367eaa96b8490bee06dc126ae"
+    },
+    "assets/inside/scenarios/usb-action-atlas.webp": {
+      "bytes": 422696,
+      "sha256": "971f9d5d01119dd60603b2741d1663d81adf86293a2e579d229d607f2231097b"
+    },
+    "assets/inside/spirom.png": {
+      "bytes": 74348,
+      "sha256": "02486d00be0eb3b2395044b936a37f8d3c2a469dfaf71fd335a5c2ff2ed3d41f"
+    },
+    "assets/inside/sram.png": {
+      "bytes": 65120,
+      "sha256": "28645b819c5d966c1693c763fb754a8440f9f5de1986f99a1bb3adba8b22aa30"
+    },
+    "assets/inside/ssd.png": {
+      "bytes": 63062,
+      "sha256": "b3d4c70048ea73b1b47c2f3ab1648a088e42888e1ec1146ae4c6f37c46096167"
+    },
+    "assets/inside/vram.png": {
+      "bytes": 64831,
+      "sha256": "6ca27967710bac8838e62a0253a9727ad34fb26c6dccbad937e2048fb645b578"
+    },
+    "assets/inside/vrm.png": {
+      "bytes": 49415,
+      "sha256": "796d0bd21aea27b4db533ad750dd6a9616d47f055382c79407e640573f8f9a5e"
+    }
+  }
+}

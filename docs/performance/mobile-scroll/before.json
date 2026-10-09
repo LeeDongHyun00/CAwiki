@@ -1,0 +1,103 @@
+{
+  "root": "/tmp/cawiki-scroll-before",
+  "rate": null,
+  "profile": {
+    "width": 390,
+    "height": 844,
+    "dpr": 3
+  },
+  "runs": [
+    {
+      "scene": "film",
+      "gesture": "strong",
+      "touches": 1,
+      "paced": false,
+      "maxScenesPerSecond": 1.2084480527053312,
+      "maxFrameSceneDelta": 0.05615023751083248,
+      "maxQueuedScenes": 0.18893627724446604,
+      "travelScenes": 0.4691715899445632,
+      "endGapScenes": 0.0003885046270424297,
+      "frameP95Ms": 16.800000000000182,
+      "longTasks": 4,
+      "maxLongTaskMs": 200
+    },
+    {
+      "scene": "film",
+      "gesture": "momentum-burst",
+      "touches": 1,
+      "paced": false,
+      "maxScenesPerSecond": 14.481568111320303,
+      "maxFrameSceneDelta": 1.5028199215628257,
+      "maxQueuedScenes": 2.3091371142413646,
+      "travelScenes": 2.885950054294539,
+      "endGapScenes": 4.387393746085877e-05,
+      "frameP95Ms": 266.60000000000036,
+      "longTasks": 13,
+      "maxLongTaskMs": 281
+    },
+    {
+      "scene": "boot",
+      "gesture": "strong",
+      "touches": 1,
+      "paced": false,
+      "maxScenesPerSecond": 0.7771459586815332,
+      "maxFrameSceneDelta": 0.11657189380222999,
+      "maxQueuedScenes": 0.11535650201278025,
+      "travelScenes": 0.5752879020751436,
+      "endGapScenes": 0.0,
+      "frameP95Ms": 133.40000000000146,
+      "longTasks": 15,
+      "maxLongTaskMs": 171
+    },
+    {
+      "scene": "boot",
+      "gesture": "momentum-burst",
+      "touches": 1,
+      "paced": false,
+      "maxScenesPerSecond": 10.865196060329481,
+      "maxFrameSceneDelta": 1.8101416636508758,
+      "maxQueuedScenes": 0.53752694322894,
+      "travelScenes": 2.916371885116792,
+      "endGapScenes": 0.0,
+      "frameP95Ms": 116.69999999999709,
+      "longTasks": 21,
+      "maxLongTaskMs": 467
+    },
+    {
+      "scene": "typing",
+      "gesture": "strong",
+      "touches": 1,
+      "paced": false,
+      "maxScenesPerSecond": 0.4049900808448559,
+      "maxFrameSceneDelta": 0.1207064450029609,
+      "maxQueuedScenes": 0.11709454340892256,
+      "travelScenes": 0.56965033452706,
+      "endGapScenes": 0.0,
+      "frameP95Ms": 299.8999999999978,
+      "longTasks": 13,
+      "maxLongTaskMs": 356
+    },
+    {
+      "scene": "typing",
+      "gesture": "momentum-burst",
+      "touches": 1,
+      "paced": false,
+      "maxScenesPerSecond": 10.919337913898994,
+      "maxFrameSceneDelta": 2.5463896015212932,
+      "maxQueuedScenes": 3.0127786954383633,
+      "travelScenes": 3.541732514654064,
+      "endGapScenes": 0.0,
+      "frameP95Ms": 316.6000000000022,
+      "longTasks": 21,
+      "maxLongTaskMs": 346
+    }
+  ],
+  "errors": [],
+  "removedCopy": {
+    "ending": false,
+    "top": false,
+    "subtitle": false,
+    "covers": false,
+    "kicker": false
+  }
+}

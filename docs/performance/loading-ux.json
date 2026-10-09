@@ -1,0 +1,27 @@
+{
+  "passed": [
+    "Below 200 ms: no veil, loading message or animation is created",
+    "Slow preparation: black exposure fades continuously with a minimum 360 ms duration",
+    "Route cancellation removes a pending exposure; stale completion cannot resurrect it",
+    {
+      "cpuBeforeRestOfComputer": {
+        "inside:cpu-preview-visible": 17.40000000037253,
+        "inside:cpu-visible": 1086.7000000011176,
+        "inside:computer-ready": 3725.2000000011176
+      }
+    },
+    "Monitor finishes background preparation while the user is still in the CPU chapter",
+    "Leaving the first CPU while remaining parts are pending safely opens Wiki",
+    "Cancelling fast-forward redraws the live film instead of exposing an old canvas",
+    {
+      "skipUsesIntermediateFramesUntilMonitorReady": {
+        "frames": 221,
+        "monitorReadyMs": 9523.800000000745
+      }
+    },
+    "Cold hardware detail draws its first frame before revealing; drag rotation remains usable",
+    "Spatial overview has zero detailed models; one selected model or two relation peers are retained, then released",
+    "Lost gallery WebGL context retains image navigation and detail text"
+  ],
+  "pageErrors": []
+}
