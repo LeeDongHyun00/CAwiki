@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "Step button and restart jump immediately",
+    "Viewport resize retains visible progress and touch pacing",
+    "Detail dialog restores the same scene",
+    "Reduced motion bypasses paced animation",
+    "SSD/HDD/cache use their own scene boundaries",
+    "Skip still ends on the assembled board before the monitor",
+    "Monitor ending retains the Wiki link without its removed caption",
+    "All 16 covers remain; bottom status copy is absent"
+  ],
+  "errors": []
+}
