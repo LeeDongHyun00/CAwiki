@@ -1,0 +1,18 @@
+{
+  "baseline": "4ff1d6675e371b472b02ad9960caa32e8d44c29d",
+  "before": {
+    "index.html": "2a5fe0f05c8ed702ae4ca2b848c1a39e15528bf4a69216e9eb583f32e8135f41",
+    "relationship-room-study.html": "89bc6b87c8dc592a97de849e6256079f85f5922abe890256c3b98a10d977cb29",
+    "lib/inside/room-host.js": "c0f7972da017a60ff6328d5916c2a4d5409d742d6d361879edb4d8d072170ae8",
+    "lib/inside/room-study.js": "24b9da2ce123a0711b22f0f0d9733d56167b2add3a9d96f5187e7eb02bbe72a2",
+    "lib/inside/site.js": "0ae0d101e0b5ce2d7026b1495bcd32c640a1281216113a4756544a0de8db7601"
+  },
+  "after": {
+    "index.html": "81a7dc77110b7fac28f1b64f5159d34ecf9a5b17db2e2f73d5653814a71a9d4d",
+    "relationship-room-study.html": "090038425e8efef376952fd7d7fb9aab983989adc2c6a83c6d8f9d8b434e580e",
+    "lib/inside/room-host.js": "6c0c0ffa9346447a83b4dde89f8f08a82eb59c4b48e82a44366fefc90ec5114e",
+    "lib/inside/room-study.js": "8ac8d9df3af9ad01d7a2195246341e09c040e5a376805e1a1c75dbbc94547f37",
+    "lib/inside/site.js": "a2835d2922412c7a7a6b70044cb185b774b578e7edb812f1849b4f09f0658aed"
+  },
+  "verification": "Production source hashes after the final functional, loading UX, continuity and handoff changes. Observation code is injected into local test responses only."
+}

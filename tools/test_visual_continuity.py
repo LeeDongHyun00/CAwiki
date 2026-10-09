@@ -13,7 +13,7 @@ server=ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=s
 url=f'http://127.0.0.1:{server.server_port}/index.html'
 results=[];errors=[]
 room=(ROOT/'lib/inside/room-study.js').read_text()+'''
-window.__gallery=()=>({view,moving,camera:camera&&[...camera.position.toArray(),...camera.quaternion.toArray(),camera.fov],items:items.map(i=>({id:i.id,group:i.group.uuid,geometry:i.group.children[0].geometry.uuid,source:i.group.children[0].material.map.image.src,full:!!i.full,bounds:i.bounds,pose:i.pose,rect:(()=>{const r=document.querySelector('#wiki-hardware img[data-id="'+i.id+'"]').getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height};})()}))});
+window.__gallery=()=>({view,moving,camera:camera&&[...camera.position.toArray(),...camera.quaternion.toArray(),camera.fov],items:items.map(i=>({id:i.id,group:i.group.uuid,geometry:i.group.children[0].geometry.uuid,source:i.group.children[0].material.map.image.src,full:!!i.full,bounds:i.bounds,pose:i.pose,rect:(()=>{const r=transfer?.layout().rects[i.id]||document.querySelector('#wiki-hardware img[data-id="'+i.id+'"]').getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height};})()}))});
 window.__trace=[];
 '''
 room=room.replace('drawScene();updatePair();','drawScene();updatePair();if(travelling())__trace.push({kind:view,t,...__gallery()});')
@@ -60,12 +60,12 @@ with sync_playwright() as p:
   page.wait_for_timeout(450);page.screenshot(path=str(OUT/f'{profile}-connection.png'))
   frame.locator('#room-close').click();frame.wait_for_function('!__gallery().moving');frame.evaluate('__trace=[]')
   # Keep exit frame alive to inspect the final projected endpoint.
-  frame.evaluate("window.__savedPost=parent.postMessage;parent.postMessage=()=>{}")
+  frame.evaluate("window.__savedFinish=__insideRoomTransfer.finish;__insideRoomTransfer.finish=()=>{}")
   frame.locator('.room-exit').click();frame.wait_for_function("__gallery().view==='wiki'")
   trace=frame.evaluate('__trace');assert all(x['camera']==trace[0]['camera'] for x in trace)
   last=trace[-1];errors_exit=[max(abs(i['bounds'][k]-fit(i['rect'])[k]) for k in ['x','y','width','height']) for i in last['items'] if 0<=i['rect']['y']<height]
   assert max(errors_exit)<1,(errors_exit,last['t'],[(i['id'],i['bounds'],i['rect'],i['pose']) for i in last['items'] if 0<=i['rect']['y']<height])
-  frame.evaluate('parent.postMessage=window.__savedPost')
+  frame.evaluate('__insideRoomTransfer.finish=window.__savedFinish')
   results.append({'profile':profile,'roomEntryMaxEndpointErrorPx':max(errors_entry),'roomExitMaxEndpointErrorPx':max(errors_exit),'entryFrames':len(entry),'exitFrames':len(trace),'cameraFixed':True,'detailAndPeerGeometryUnchanged':True})
   # A deliberately slow second scenario must cover the old canvas immediately.
   scenario=(ROOT/'lib/inside/scenario-film.js').read_text()
