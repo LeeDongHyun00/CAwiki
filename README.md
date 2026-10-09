@@ -54,6 +54,8 @@
 메인 코드나 자산을 수정한 뒤 `python3 tools/build_inside_manifest.py`로 캐시 버전 URL을 갱신합니다.
 생성된 파일을 포함해 정적 서버에 그대로 올리면 되며 런타임 빌드는 필요 없습니다.
 
+[새 Chrome의 관계지도 첫 진입 안정화](docs/cold-gallery-startup.md)에 입력 차단·초기 렌더 실패의 재현, 준비 제한 시간·자원 예산·필름 생성 중단과 전후 측정을 기록했습니다.
+
 [외형·전환 일관성 후속 수정](docs/visual-continuity.md)에 CPU 시작 화면, 관계지도 전환, 시나리오 첫 프레임 및 키보드 썸네일의 검증 결과를 정리했습니다.
 
 [문구 없는 로딩·새 공간 관계지도 개선](docs/loading-rendering.md)에 앞선 UX 개선과 측정 결과를 정리했습니다.

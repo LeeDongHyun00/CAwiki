@@ -1,0 +1,28 @@
+{
+  "baseline": "220f4e63c064c203033abf272461cd878c3c0b97",
+  "before": {
+    "index.html": "e6c07119ad6cd6a06dfc7a6d36ddd506036ff2c6e09cbe0d292cc7ac858908a4",
+    "relationship-room-study.html": "89bc6b87c8dc592a97de849e6256079f85f5922abe890256c3b98a10d977cb29",
+    "lib/inside/room-host.js": "c0f7972da017a60ff6328d5916c2a4d5409d742d6d361879edb4d8d072170ae8",
+    "lib/inside/room-study.js": "24b9da2ce123a0711b22f0f0d9733d56167b2add3a9d96f5187e7eb02bbe72a2",
+    "lib/inside/room-startup.js": null,
+    "lib/inside/site.js": "0ae0d101e0b5ce2d7026b1495bcd32c640a1281216113a4756544a0de8db7601",
+    "lib/inside/study.js": "f6b6624b2a49b5c0159b35b29bbe37a64dedb9f998174bf92aaa82e7e2d20219",
+    "lib/inside/cinema-models.js": "5e9546b53babdf7654783fda2d507120dfb1da354e3f183be7a8d2397b900008",
+    "lib/inside/prepare-programs.js": "0e3d53c3396970640ba60066ed3eb8fd918b1ad25ec3581c2c5d1ba5a88f5887",
+    "lib/inside/quality.js": "62b54fc5167197cc48948457d8534f5c5d713151e53a58841587974c4e4b3d11"
+  },
+  "after": {
+    "index.html": "8c62b9b25785457a7825b5d796c007fc966a1c7bfde2752f2602bf8769634a27",
+    "relationship-room-study.html": "e69b1aec78ffc7afa5fbf724affecd1c31f3c631bce9351a025e63f0823d82f7",
+    "lib/inside/room-host.js": "b4d412e0d6d98bc41dddc9579ce622ff6bc9b1265bf47a3fa1e3f2efc318a275",
+    "lib/inside/room-study.js": "294ab48c1fd3f0d5646ca727c6bac9fba2e9c4b98cc8c4aaca968c774d4977de",
+    "lib/inside/room-startup.js": "b0b25e9d3fc820d216050041fa8f3cb7248e2c1194572dca050849e31a84b2f0",
+    "lib/inside/site.js": "f70f7db0c4b8732c6a5049f4146d2e3f63596e989cd5851547d3c102f4198088",
+    "lib/inside/study.js": "e3f098af2a60054e62751206c0b4c537a24c279fed597a8b4e0c71fff324e7db",
+    "lib/inside/cinema-models.js": "4817f5ed0b11ef0e7c38254b1756eae8f2e2bc7b9c3a89e79f2ab53a2613074e",
+    "lib/inside/prepare-programs.js": "0e3d53c3396970640ba60066ed3eb8fd918b1ad25ec3581c2c5d1ba5a88f5887",
+    "lib/inside/quality.js": "62b54fc5167197cc48948457d8534f5c5d713151e53a58841587974c4e4b3d11"
+  },
+  "measurement": "measure_cold_gallery.py version 2, fresh Chromium 151.0.7922.173 process for each run; three runs per profile and revision"
+}

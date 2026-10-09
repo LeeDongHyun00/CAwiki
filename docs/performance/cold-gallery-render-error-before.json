@@ -1,0 +1,26 @@
+{
+  "method": "Fresh Chromium process per case; injected faults are explicitly named, not real driver crashes.",
+  "cases": [
+    {
+      "case": "entry-render-error",
+      "settled": false,
+      "entryMs": 7004.106772001251,
+      "state": {
+        "view": "entering",
+        "moving": true,
+        "ready": "true",
+        "renderer": true,
+        "canvas": [
+          1440,
+          900
+        ],
+        "parts": 23
+      },
+      "sameFaultReloadsIntoWorkingDirectMap": true,
+      "pageErrors": [
+        "Injected first-entry render failure",
+        "Injected first-entry render failure"
+      ]
+    }
+  ]
+}
