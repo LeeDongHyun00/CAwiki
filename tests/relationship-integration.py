@@ -23,7 +23,7 @@ with sync_playwright() as p:
  print('Six actual 3D rooms / contextual viewer return / single canvas PASS',flush=True)
  for id in ['boot','save','usb','call']:
   page.evaluate('(id)=>location.hash="map/scenario/"+id+"/0"',id);page.wait_for_selector('.relation-film-link');page.locator('.relation-film-link').click();settled(page,'story')
-  page.locator('#story-why').click();page.wait_for_selector('#story-detail[open]');page.locator('#story-map').click();settled(page,'map');assert not page.locator('#story-detail').evaluate('(e)=>e.open')
+  page.locator('#story-why').click();page.wait_for_selector('#story-detail[open]');assert page.locator('#story-map').count()==0;page.locator('#story-detail-close').click();page.evaluate('(id)=>location.hash="map/scenario/"+id+"/0"',id);settled(page,'map');assert not page.locator('#story-detail').evaluate('(e)=>e.open')
  print('Scenario modal / film / room renderer handoff PASS',flush=True)
  page.set_viewport_size({'width':390,'height':844});page.evaluate('location.hash="map/group/io"');page.wait_for_selector('.rr-count-7');page.wait_for_timeout(400);page.screenshot(path=str(OUT/'mobile-io.png'),full_page=True);assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
  page.locator('[data-node="mouse"]').click();page.wait_for_selector('.rr-object-link');page.locator('.rr-object-link').click();settled(page,'object');page.locator('#object-exit').click();settled(page,'map')

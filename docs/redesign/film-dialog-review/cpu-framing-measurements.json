@@ -1,0 +1,77 @@
+[
+  {
+    "profile": "desktop",
+    "width": 1440,
+    "height": 900,
+    "posterCpuWidth": 855.0,
+    "liveCpuWidth": 855,
+    "scaleChangePercent": 0.0,
+    "camera": [
+      3.963155591942721,
+      6.092103835620716,
+      9.86774049235781
+    ],
+    "fov": 31,
+    "aspect": 1.6
+  },
+  {
+    "profile": "window",
+    "width": 980,
+    "height": 820,
+    "posterCpuWidth": 581.9,
+    "liveCpuWidth": 714,
+    "scaleChangePercent": 22.7,
+    "camera": [
+      4.326074456916832,
+      6.691341961508201,
+      10.770817667991063
+    ],
+    "fov": 31,
+    "aspect": 1.1951219512195121
+  },
+  {
+    "profile": "wide",
+    "width": 1440,
+    "height": 600,
+    "posterCpuWidth": 570.0,
+    "liveCpuWidth": 569,
+    "scaleChangePercent": -0.2,
+    "camera": [
+      3.963155591942721,
+      6.092103835620716,
+      9.86774049235781
+    ],
+    "fov": 31,
+    "aspect": 2.4
+  },
+  {
+    "profile": "tablet",
+    "width": 820,
+    "height": 1180,
+    "posterCpuWidth": 486.9,
+    "liveCpuWidth": 609,
+    "scaleChangePercent": 25.1,
+    "camera": [
+      7.2991856010677765,
+      11.60043245533883,
+      18.169024468552713
+    ],
+    "fov": 31,
+    "aspect": 0.6949152542372882
+  },
+  {
+    "profile": "mobile",
+    "width": 390,
+    "height": 844,
+    "posterCpuWidth": 292.0,
+    "liveCpuWidth": 293,
+    "scaleChangePercent": 0.3,
+    "camera": [
+      10.878423320201104,
+      17.510336596233397,
+      27.0754997231403
+    ],
+    "fov": 31,
+    "aspect": 0.46208530805687204
+  }
+]
