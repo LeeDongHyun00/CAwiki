@@ -1,0 +1,41 @@
+{
+  "runs": [
+    {
+      "story": "boot",
+      "direction": 1,
+      "durationMs": 500,
+      "firstSettledUpdateMs": 572.1,
+      "observedSettledPaintMs": 858,
+      "maxFrameGapMs": 288.0,
+      "lateInertiaChangedTarget": false
+    },
+    {
+      "story": "boot",
+      "direction": -1,
+      "durationMs": 500,
+      "firstSettledUpdateMs": 521.3,
+      "observedSettledPaintMs": 850.9,
+      "maxFrameGapMs": 375.5,
+      "lateInertiaChangedTarget": false
+    },
+    {
+      "story": "typing",
+      "direction": 1,
+      "durationMs": 500,
+      "firstSettledUpdateMs": 905.7,
+      "observedSettledPaintMs": 1323.5,
+      "maxFrameGapMs": 466.5,
+      "lateInertiaChangedTarget": false
+    },
+    {
+      "story": "typing",
+      "direction": -1,
+      "durationMs": 500,
+      "firstSettledUpdateMs": 610.7,
+      "observedSettledPaintMs": 789,
+      "maxFrameGapMs": 425.8,
+      "lateInertiaChangedTarget": false
+    }
+  ],
+  "errors": []
+}
