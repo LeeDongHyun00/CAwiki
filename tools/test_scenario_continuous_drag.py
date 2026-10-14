@@ -1,4 +1,4 @@
-"""Regression: continuous held input, overflow reversal and mixed input sources."""
+"""Regression: one-scene gesture cap, overflow reversal and mixed input sources."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 import json, os
@@ -24,13 +24,13 @@ with sync_playwright() as p:
  for direction in [1,-1]:
   start(.2 if direction==1 else .8)
   origin=page.evaluate('__story.scrollPacer.position(__story.progress)')
-  # Keep the same contact down while moving through multiple scenes.
+  # Keep the same contact down: its total movement stays within one scene.
   trace=[]
   for i in range(8):
    page.evaluate('d=>scrollBy(0,d*260)',direction);page.wait_for_timeout(220)
    trace.append(page.evaluate('({p:__story.progress,t:__story.target,q:__story.scrollPacer.position(__story.target),y:scrollY})'))
-  assert (trace[-1]['q']-origin)*direction>1.3,trace
-  assert all((bb['t']-a['t'])*direction>0 for a,bb in zip(trace,trace[1:])),trace
+  assert all(abs(s['q']-origin)<=1.00001 for s in trace),trace
+  assert .9<abs(trace[-1]['q']-origin)<=1.00001,trace
   # Force excess input, then reverse only a few pixels without lifting.
   page.evaluate('d=>scrollBy(0,d*2400)',direction);page.wait_for_timeout(80)
   page.evaluate('d=>{window.__reverseFrom=__story.progress;scrollBy(0,-d*25)}',direction)
@@ -39,7 +39,7 @@ with sync_playwright() as p:
   assert not page.evaluate('__writes.some(w=>w.held)')
   touch('touchEnd');settle()
   assert page.evaluate('Math.abs(scrollY-__story.target*__story.distance())<=1.1')
-  results.append({'case':'continuous-and-reverse','direction':direction,'sceneTravel':round(abs(trace[-1]['q']-origin),3)})
+  results.append({'case':'one-scene-cap-and-reverse','direction':direction,'sceneTravel':round(abs(trace[-1]['q']-origin),3)})
  # Real browser-native touch events, not injected scroll deltas.
  start(.3)
  touch('touchMove',700)
@@ -47,7 +47,7 @@ with sync_playwright() as p:
  touch('touchEnd');settle()
  assert page.evaluate('__story.progress>.32')
  results.append({'case':'native-touch','passed':True})
- # A wheel or mouse drag can interrupt the 500ms release immediately.
+ # A wheel or mouse drag can take over immediately after touch.
  for kind in ['wheel','mouse']:
   start(.35);page.evaluate('scrollBy(0,400)');page.wait_for_timeout(60);touch('touchEnd')
   before=page.evaluate('__story.progress')
@@ -58,7 +58,7 @@ with sync_playwright() as p:
   page.wait_for_timeout(1000)
   assert page.evaluate('!__story.scrollPacer.active')
   assert page.evaluate('__story.target')>before+.01,(kind,before,page.evaluate('__story.target'))
-  results.append({'case':kind+'-interrupts-release','passed':True})
+  results.append({'case':kind+'-after-touch','passed':True})
  # Vertical touch over the chapter rail also starts fresh input.
  page.evaluate('__story.seek(.3,true)');page.wait_for_timeout(200)
  box=page.locator('#story-track').bounding_box();x=box['x']+box['width']/2;y=box['y']+box['height']/2

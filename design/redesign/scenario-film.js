@@ -7,7 +7,7 @@ import { ScenarioMechanisms } from './scenario-mechanisms.js';
 import { createUSBAssembly } from './usb-model.js';
 import { scenarioFor } from './scenario-data.js';
 import { renderScenarioDetail } from './scenario-detail.js';
-import { ScenarioScrollPacer, SCENARIO_RELEASE_MS } from './scenario-scroll.js';
+import { ScenarioScrollPacer } from './scenario-scroll.js';
 const $=s=>document.querySelector(s),mix=T.MathUtils.lerp,clamp=n=>T.MathUtils.clamp(n,0,1),v=a=>new T.Vector3(...a);
 const ease=t=>t*t*t*(t*(t*6-15)+10),range=(p,a,b)=>ease(clamp((p-a)/(b-a))),pulse=(p,a,b,c,d)=>range(p,a,b)*(1-range(p,c,d));
 const reduced=matchMedia('(prefers-reduced-motion: reduce)'),mobile=()=>innerWidth<=760;
@@ -20,7 +20,6 @@ export class ScenarioFilm{
    if(!this.active||this.preparing||this.paused||$('#story-detail').open)return;
    if(this.scrollSync!==null&&this.scrollSync!==undefined&&Math.abs(scrollY-this.scrollSync)<=1)return;
    this.scrollSync=null;
-   if(this.scrollPacer.active&&this.scrollPacer.released){this.queueScrollEnd();return;}
    this.target=this.scrollPacer.target(clamp(scrollY/this.distance()),this.progress,this.distance());
    if(this.scrollPacer.active)this.queueScrollEnd();this.wake();
   },{passive:true});
@@ -42,8 +41,7 @@ export class ScenarioFilm{
   for(const name of ['touchend','touchcancel'])addEventListener(name,e=>{
    if(!this.touching||e.touches.length)return;this.touching=false;
    if(this.scrollPacer.active){
-    this.scrollPacer.target(clamp(scrollY/this.distance()),this.progress,this.distance());
-    this.target=this.scrollPacer.release(this.progress);this.wake();
+    this.target=this.scrollPacer.target(clamp(scrollY/this.distance()),this.progress,this.distance());this.wake();
    }
    this.queueScrollEnd();
   },{passive:true});
@@ -222,13 +220,7 @@ export class ScenarioFilm{
  settleScroll(){
   if(!this.active||this.paused||this.touching||!this.scrollPacer.active||$('#story-detail').open)return;
   clearTimeout(this.scrollEndTimer);
-  // Native input and the visual release have separate lifetimes. Wait for
-  // both before retiring the touch state; fresh input can interrupt either.
-  const remaining=this.scrollPacer.released?SCENARIO_RELEASE_MS-(performance.now()-this.scrollPacer.released.at):0;
-  if(remaining>0){this.scrollEndTimer=setTimeout(()=>this.settleScroll(),remaining);return;}
-  if(this.scrollPacer.released&&Math.abs(this.progress-this.target)>.00003){
-   this.wake();this.scrollEndTimer=setTimeout(()=>this.settleScroll(),16);return;
-  }
+  // Align once when native inertia ends. There is no post-touch lockout.
   const top=Math.ceil(this.target*this.distance()-1e-7);
   this.scrollPacer.reset();
   if(Math.abs(scrollY-top)>1)this.syncScroll();

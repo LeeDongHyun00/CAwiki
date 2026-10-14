@@ -1,34 +1,42 @@
-"""Measure 500ms release completion and discard input during its inertial tail."""
+"""Post-touch input stays live within the original one-scene gesture limit."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 import json,os
-root=Path(__file__).resolve().parents[1];out=root/'docs/performance/input-stability'
+root=Path(__file__).resolve().parents[1]
 with sync_playwright() as p:
- b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--enable-unsafe-swiftshader']);page=b.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True);errors=[];results=[];page.on('pageerror',lambda e:errors.append(str(e)))
+ b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--enable-unsafe-swiftshader'])
+ page=b.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
  source=(root/'lib/inside/site.js').read_text()+'\nwindow.__story=film;'
  page.route('**/lib/inside/site.js*',lambda r:r.fulfill(body=source,content_type='text/javascript'))
- film=(root/'lib/inside/scenario-film.js').read_text().replace('  if(!moving)this.progress=goal;', "  if(!moving)this.progress=goal;if(this.scrollPacer.released){const r=this.scrollPacer.released;window.__updates.push({ms:performance.now()-r.at,p:this.progress,goal:r.to});}")
- film=film.replace('const previous=this.progress;', 'const releaseSample=this.scrollPacer.released;const previous=this.progress;').replace('this.compose(this.progress);this.dirty=false;', 'this.compose(this.progress);if(releaseSample)window.__paints.push({ms:performance.now()-releaseSample.at,p:this.progress,goal:releaseSample.to});this.dirty=false;')
- page.route('**/lib/inside/scenario-film.js*',lambda r:r.fulfill(body=film,content_type='text/javascript'))
- page.add_init_script('''window.__trace=[];window.__updates=[];window.__paints=[];function sample(){if(window.__story?.scrollPacer.released){const f=__story,r=f.scrollPacer.released;__trace.push({ms:performance.now()-r.at,p:f.progress,target:f.target,goal:r.to});}requestAnimationFrame(sample)}requestAnimationFrame(sample)''')
- page.goto(os.environ.get('TEST_BASE_URL','http://127.0.0.1:4173')+'/index.html#story/boot/0');cdp=page.context.new_cdp_session(page)
- page.wait_for_function('window.__story?.active&&!__story.preparing',timeout=120000);page.wait_for_function("!document.querySelector('.scene-exposure')",timeout=120000)
- for story in ['boot','typing']:
-  page.evaluate('s=>location.hash="story/"+s+"/0"',story);page.wait_for_function('s=>__story.id===s&&!__story.preparing',arg=story,timeout=120000);page.wait_for_function("!document.querySelector('.scene-exposure')",timeout=120000)
-  for direction in [1,-1]:
-   page.evaluate('__story.seek(.4,true);__trace=[];__updates=[];__paints=[]');page.wait_for_timeout(100)
-   cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':360,'y':500}]})
-   page.evaluate('d=>scrollBy(0,d*3000)',direction);page.wait_for_timeout(50)
-   cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
-   # Input cannot extend the target while the release is active. Once both
-   # native scroll and release finish, new scroll input is allowed again.
-   page.evaluate('''async d=>{for(let i=0;i<8;i++){scrollBy(0,d*150);await new Promise(r=>setTimeout(r,100));}}''',direction)
-   page.wait_for_timeout(250);trace=page.evaluate('__trace');done=next(f['ms'] for f in page.evaluate('__paints') if f['p']==f['goal'])
-   updates=page.evaluate('__updates');settled=next(f['ms'] for f in updates if f['p']==f['goal']);gap=max([bb['ms']-a['ms'] for a,bb in zip(updates,updates[1:])],default=0)
-   assert settled<=500+gap+30,(story,direction,settled,gap)
-   assert all(f['p']==f['goal'] for f in updates if f['ms']>=500),'Complete on the first available frame at/after the deadline'
-   assert all(abs(f['target']-f['goal'])<1e-10 for f in trace)
-   assert all((bb['p']-a['p'])*direction>=-1e-6 for a,bb in zip(trace,trace[1:]))
-   result={'story':story,'direction':direction,'durationMs':500,'firstSettledUpdateMs':round(settled,1),'observedSettledPaintMs':round(done,1),'maxFrameGapMs':round(gap,1),'inertiaChangedActiveReleaseTarget':False};results.append(result);print(result,flush=True)
- assert not errors,errors
- (out/'release-500ms.json').write_text(json.dumps({'runs':results,'errors':errors},indent=2));b.close()
+ page.goto(os.environ.get('TEST_BASE_URL','http://127.0.0.1:4173')+'/index.html#story/boot/0')
+ page.wait_for_function('window.__story?.active&&!__story.preparing',timeout=120000)
+ page.wait_for_function("!document.querySelector('.scene-exposure')",timeout=120000)
+ results=[]
+ for direction in [1,-1]:
+  result=page.evaluate('''d=>{
+   const f=__story;f.seek(.4,true);
+   const world=document.querySelector('#world'),touch=new Touch({identifier:1,target:world,clientX:350,clientY:500});
+   world.dispatchEvent(new TouchEvent('touchstart',{bubbles:true,touches:[touch]}));
+   const anchor=f.scrollPacer.position(f.progress);
+   function scroll(delta){scrollBy(0,delta);dispatchEvent(new Event('scroll'));return f.target;}
+   const held=scroll(d*100);
+   world.dispatchEvent(new TouchEvent('touchend',{bubbles:true,touches:[]}));
+   const lifted=f.target;
+   const inertia=scroll(d*200);
+   const capped=scroll(d*3000),travel=Math.abs(f.scrollPacer.position(capped)-anchor);
+   const reverse=scroll(-d*25);
+   const immediateReverse=(reverse-f.progress)*d<0;
+   // Another touch can start immediately, with a new anchor and no timer gate.
+   world.dispatchEvent(new TouchEvent('touchstart',{bubbles:true,touches:[touch]}));
+   const fresh=f.target===f.progress&&f.scrollPacer.active;
+   world.dispatchEvent(new TouchEvent('touchend',{bubbles:true,touches:[]}));
+   return {direction:d,held,lifted,inertia,travel,immediateReverse,fresh};
+  }''',direction)
+  assert result['held']==result['lifted'],result
+  assert (result['inertia']-result['lifted'])*direction>0,result
+  assert .99<=result['travel']<=1.00001,result
+  assert result['immediateReverse'] and result['fresh'],result
+  results.append(result)
+ page.wait_for_function('!__story.scrollPacer.active',timeout=15000)
+ (root/'docs/performance/input-stability/post-touch-inertia.json').write_text(json.dumps(results,indent=2))
+ print(json.dumps(results),flush=True);b.close()
