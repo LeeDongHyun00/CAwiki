@@ -346,7 +346,7 @@ function renderFallback(){
  $('#room-hardware').hidden=true;$('#room-world').hidden=true;if(detail)document.body.classList.add('detail-ready');
  let el=$('.room-fallback');if(!el){el=document.createElement('div');el.className='room-fallback';room.append(el);}
  const ids=active?RELATION_GROUPS.find(g=>g.id===active).nodes:HARDWARE.map(x=>x.id);
- el.innerHTML=ids.map(id=>`<button data-id="${id}"><img src="${asset(id)}" alt="">${esc(nodes.get(id).name)}</button>`).join('');el.querySelectorAll('button').forEach(b=>b.onclick=()=>openDetail(b.dataset.id));el.hidden=!!detail;
+ el.innerHTML=ids.map(id=>`<button data-id="${id}"><img src="${asset(id)}" alt="">${esc(nodes.get(id).name)}</button>`).join('');el.querySelectorAll('button').forEach(b=>{b.disabled=true;b.style.cursor='default';});el.hidden=!!detail;
  $('.fallback-detail')?.remove();if(detail){const peer=selectedEdge&&(selectedEdge.a===detail?selectedEdge.b:selectedEdge.a),pair=document.createElement('div');pair.className='fallback-detail'+(peer?' pair':'');pair.innerHTML=[detail,...(peer?[peer]:[])].map(id=>`<figure><img src="${asset(id)}" alt="${esc(nodes.get(id).name)}"><figcaption>${esc(nodes.get(id).name)}</figcaption></figure>`).join('');$('#room-detail').append(pair);}
 }
 
@@ -385,8 +385,8 @@ async function start(){
    shadow.rotation.set(surface==='floor'?-Math.PI/2:rx,surface==='floor'?0:ry,rz);shadow.position.set(home.x,home.y,home.z);
    if(surface==='back')shadow.position.z=-12.78;if(surface==='left')shadow.position.x=-16.98;if(surface==='right')shadow.position.x=16.98;if(surface==='ceiling')shadow.position.y=9.98;if(surface==='floor')shadow.position.y=-9.78;
    roomScene.add(shadow);
-   const button=document.createElement('button');button.className='room-part';button.dataset.hardware=id;button.dataset.wall=surface;button.innerHTML=`<span>${esc(HARDWARE.find(x=>x.id===id).title)}</span>`;button.setAttribute('aria-label',nodes.get(id).name+' 설명');
-   button.onclick=e=>{if((!blockClick||e.detail===0)&&view==='room')openDetail(id);};button.onpointerenter=button.onpointerleave=button.onblur=wake;button.onfocus=()=>{
+   const button=document.createElement('button');button.className='room-part';button.dataset.hardware=id;button.dataset.wall=surface;button.innerHTML=`<span>${esc(HARDWARE.find(x=>x.id===id).title)}</span>`;button.setAttribute('aria-label',nodes.get(id).name);
+   button.setAttribute('aria-disabled','true');button.tabIndex=-1;button.style.cursor='default';button.onpointerenter=button.onpointerleave=button.onblur=wake;button.onfocus=()=>{
     if(innerWidth<700&&!active&&!detail){const dx=x,dz=14-z;pan.x=clamp(-Math.atan2(dx,dz),-.85,.85);pan.y=clamp(Math.atan2(y-.65,Math.hypot(dx,dz)),-.35,.35);}wake();
    };$('#room-hardware').append(button);
    items.push({id,index,home,group:model.group,rotation,size:model.size,extent:Math.max(model.size.x,model.size.y),corners,shadow,pose:{...home,opacity:1},button,lift:0,hover:0});
