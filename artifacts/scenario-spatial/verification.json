@@ -1,0 +1,133 @@
+{
+  "errors": [],
+  "stages": {
+    "typing": 7,
+    "launch": 8,
+    "save": 8,
+    "music": 7,
+    "streaming": 8,
+    "call": 9,
+    "multitasking": 8,
+    "usb": 8,
+    "sleep": 7,
+    "ai": 8,
+    "loading": 8,
+    "record": 8
+  },
+  "scene_modes": [
+    "audio",
+    "capture",
+    "compute",
+    "graphics",
+    "input",
+    "memory",
+    "network",
+    "port",
+    "power",
+    "screen",
+    "server",
+    "storage",
+    "tasks"
+  ],
+  "component_motion": {
+    "multitasking/3": {
+      "change": 0.391345703125,
+      "reverse": 0.0
+    },
+    "multitasking/5": {
+      "change": 0.490169921875,
+      "reverse": 0.0
+    },
+    "streaming/3": {
+      "change": 4.986578125,
+      "reverse": 0.0
+    },
+    "save/5": {
+      "change": 1.06136328125,
+      "reverse": 0.0
+    },
+    "record/2": {
+      "change": 2.4691826171875,
+      "reverse": 0.0
+    },
+    "music/4": {
+      "change": 0.3294970703125,
+      "reverse": 0.0
+    },
+    "call/5": {
+      "change": 2.684140625,
+      "reverse": 0.0
+    },
+    "ai/4": {
+      "change": 2.57573046875,
+      "reverse": 0.0
+    }
+  },
+  "monitor_motion": {
+    "typing": {
+      "change": 0.06243055555555556,
+      "reverse": 0.0
+    },
+    "launch": {
+      "change": 23.989342206790123,
+      "reverse": 0.0
+    },
+    "save": {
+      "change": 0.1701388888888889,
+      "reverse": 0.0
+    },
+    "music": {
+      "change": 2.7194733796296298,
+      "reverse": 0.0
+    },
+    "streaming": {
+      "change": 44.93218942901235,
+      "reverse": 0.0
+    },
+    "call": {
+      "change": 47.10091049382716,
+      "reverse": 0.0
+    },
+    "multitasking": {
+      "change": 5.4945158179012346,
+      "reverse": 0.0
+    },
+    "usb": {
+      "change": 9.09009837962963,
+      "reverse": 0.0
+    },
+    "sleep": {
+      "change": 18.998180941358026,
+      "reverse": 0.0
+    },
+    "ai": {
+      "change": 1.3012075617283951,
+      "reverse": 0.0
+    },
+    "loading": {
+      "change": 12.734126157407408,
+      "reverse": 0.0
+    },
+    "record": {
+      "change": 17.008456790123457,
+      "reverse": 0.0
+    }
+  },
+  "explanation_layer": "pass",
+  "mobile": {
+    "multitasking": "pass",
+    "streaming": "pass",
+    "save": "pass",
+    "record": "pass",
+    "music": "pass",
+    "typing": "pass",
+    "usb": "pass",
+    "call": "pass",
+    "ai": "pass"
+  },
+  "main_restoration_difference": 0.0,
+  "native_states": {
+    "usb_connected_emission": 1.5,
+    "sleep_light_boundary_difference": 4.5659013785948055e-05
+  }
+}

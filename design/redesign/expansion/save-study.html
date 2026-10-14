@@ -1,0 +1,10 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ctrl+S 한 번의 여정 — 모션 시안</title><link rel="stylesheet" href="./save-study.css"></head><body>
+<canvas id="story-world" tabindex="0" role="img" aria-label="드래그로 보는 저장 과정"></canvas><div class="veil" aria-hidden="true"></div>
+<main id="journey" aria-label="저장 과정의 여섯 장면"></main>
+<div class="caption"><p class="eyebrow" id="story-phase">01 / 06</p><h1 id="story-title">수정을 남기기로 하다</h1><p id="story-copy">Ctrl과 S를 누르면 앱이 저장을 요청합니다</p><button id="why" aria-haspopup="dialog">원리 자세히 <span>↗</span></button></div>
+<div id="state-panel" aria-hidden="true"><div id="state-label">기록 전</div><div id="buffer"><i></i><i></i><i></i><i></i></div><small id="state-caption">문서에 변경 사항이 있습니다</small></div>
+<div class="bottomline"><span id="gesture">드래그하여 따라가기 ↑</span><button id="restart" hidden>처음으로 ↺</button><a href="./scenario-expansion-design.html#save">설계 목록 →</a></div>
+<div id="track" role="group" aria-label="시나리오 단계"></div><div id="line" aria-hidden="true"></div>
+<dialog id="detail"><button id="close-detail" aria-label="설명 닫기">닫기 ×</button><h2 id="detail-title"></h2><p id="detail-copy"></p><small>드래그는 설명의 순서를 제어합니다 실제 시간·데이터 크기의 축척은 다릅니다 부품 옆 타일과 빛은 처리 상태를 표현합니다</small></dialog>
+<p id="loading" role="status">장면을 준비하고 있습니다</p><p id="live" class="sr-only" aria-live="polite"></p>
+<script type="module" src="./save-study.js"></script></body></html>

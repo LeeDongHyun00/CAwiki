@@ -6,7 +6,7 @@ root=Path(__file__).resolve().parents[1]
 with sync_playwright() as p:
  b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--enable-unsafe-swiftshader'])
  page=b.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
- source=(root/'lib/inside/site.js').read_text()+'\nwindow.__story=film;'
+ source=(root/'lib/inside/site.js').read_text()+'\nObject.defineProperty(window,"__story",{configurable:true,get:()=>film});'
  page.route('**/lib/inside/site.js*',lambda r:r.fulfill(body=source,content_type='text/javascript'))
  page.goto(os.environ.get('TEST_BASE_URL','http://127.0.0.1:4173')+'/index.html#story/boot/0')
  page.wait_for_function('window.__story?.active&&!__story.preparing',timeout=120000)

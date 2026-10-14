@@ -1,0 +1,44 @@
+"""Project main's graph into the redesigned, offline-capable relationship map."""
+from pathlib import Path
+import json,re
+ROOT=Path(__file__).resolve().parents[1]
+source=json.loads((ROOT/'data/hardware-graph.json').read_text())
+def clean(s):return re.sub(r'(?<=[가-힣)])\.(?=\s|$)','',s).rstrip('.')
+def short(s):return clean(re.split(r'\.\s+',s)[0])
+labels={'cpu':'CPU','gpu':'GPU','npu':'NPU','sram':'캐시','dram':'RAM','vram':'VRAM','ssd':'SSD','hdd':'HDD','spirom':'펌웨어 플래시','mainboard':'메인보드','bus':'버스','power':'전원 공급','cooling':'냉각','display':'모니터','input':'키보드·입력','audio':'오디오','camera':'웹캠','nic':'네트워크 카드','infra':'라우터·인터넷','datacenter':'데이터센터','coproc':'보조 프로세서'}
+briefs=['명령을 실행하고 다른 장치의 작업을 조율합니다','많은 계산을 병렬로 처리해 화면을 만듭니다','신경망 계산을 효율적으로 수행합니다','자주 쓰는 정보를 연산 장치 가까이에 보관합니다','실행 중인 프로그램과 데이터를 펼쳐 둡니다','그래픽과 AI 연산에 필요한 정보를 담습니다','파일을 플래시 메모리에 보관합니다','회전하는 디스크에 많은 데이터를 보관합니다','시작에 필요한 펌웨어를 보관합니다','부품을 장착하고 신호와 전원을 이어줍니다','장치 사이에 데이터를 옮기는 연결 체계입니다','부품이 동작할 전력을 공급합니다','발생한 열을 밖으로 옮깁니다','계산한 결과를 눈에 보이는 빛으로 바꿉니다','사람의 동작을 디지털 입력으로 바꿉니다','숫자와 실제 소리를 서로 바꿉니다','빛을 받아 디지털 영상으로 바꿉니다','컴퓨터와 네트워크 사이에서 데이터를 주고받습니다','목적지를 향해 패킷을 전달합니다','여러 서버가 모여 서비스의 요청을 처리합니다','장치 안에서 특정 작업을 전담하는 작은 프로세서입니다']
+nodes=[]
+for n,brief in zip(source['nodes'],briefs):
+ nodes.append(dict(id=n['id'],name=labels[n['id']],category=n['category'],summary=brief,detail=clean(n['role']),parts=[{'name':clean(p['part']),'role':clean(p['role'])} for p in n['parts']],model=None if n['id']=='coproc' else n['id']))
+nodes.extend([
+ dict(id='mouse',name='마우스',category='입출력',summary='움직임과 버튼 상태를 입력 보고서로 전달합니다',detail='광학 센서와 스위치의 상태를 마우스 컨트롤러가 읽고 USB 또는 무선 연결로 전달합니다 입력 보고서는 운영체제와 애플리케이션을 거쳐 처리됩니다',parts=[{'name':'광학 센서','role':'표면의 변화를 읽어 상대적인 이동을 측정합니다'},{'name':'버튼 스위치','role':'누름과 뗌 상태를 감지합니다'},{'name':'컨트롤러','role':'센서와 버튼 상태를 입력 보고서로 만듭니다'}],model='mouse'),
+ dict(id='vrm',name='VRM',category='기판·버스·전원',summary='각 칩에 필요한 낮고 안정된 전압을 만듭니다',detail='전원 공급 장치에서 받은 전압을 CPU와 메모리 등이 요구하는 전압으로 바꾸고 부하 변화에도 조절합니다 메인보드와 그래픽 카드 등 여러 곳에 전압 조정 회로가 있습니다',parts=[{'name':'전력 스테이지','role':'스위칭으로 전력을 제어합니다'},{'name':'초크·커패시터','role':'전류와 전압의 변동을 완화합니다'},{'name':'제어기','role':'출력 전압을 피드백받아 스위칭을 조절합니다'}],model='vrm')])
+structure={frozenset(p.split(':')) for p in ['cpu:sram','cpu:mainboard','gpu:mainboard','gpu:vram','gpu:sram','dram:mainboard','ssd:mainboard','hdd:mainboard','spirom:mainboard','mainboard:bus','mainboard:nic','mainboard:audio','mainboard:input','mainboard:coproc']}
+context={frozenset(p.split(':')) for p in ['gpu:npu','npu:coproc','npu:vram','dram:vram','ssd:hdd','display:input']}
+def kind(a,b):
+ pair=frozenset([a,b])
+ if 'power' in pair:return 'power'
+ if 'cooling' in pair:return 'data' if 'coproc' in pair else 'thermal'
+ if 'datacenter' in pair and not pair.intersection(['nic','infra']):return 'context'
+ if pair in structure:return 'structure'
+ if pair in context:return 'context'
+ return 'data'
+overrides={('vram','bus','reason_ba'):'버스는 CPU가 접근할 VRAM 주소 공간과 장치 사이 데이터 전송 경로를 제공합니다',('vram','datacenter','reason_ba'):'AI 가속기에서는 HBM 등 전용 메모리의 용량과 대역폭이 처리 성능에 영향을 줍니다',('hdd','datacenter','reason_ba'):'데이터센터는 자주 읽지 않는 대용량 데이터의 장기 보관에 HDD를 사용합니다',('audio','camera','reason_ba'):'웹캠에 내장된 마이크나 별도 마이크가 소리를 디지털화하고 영상과 동기를 맞춥니다',('dram','datacenter','reason_ba'):'서버는 요청과 작업 데이터를 RAM에 올려 CPU가 빠르게 처리하도록 합니다'}
+edges=[dict(id=e['a']+'--'+e['b'],a=e['a'],b=e['b'],kind=kind(e['a'],e['b']),ab=overrides.get((e['a'],e['b'],'reason_ab'),short(e['reason_ab'])),ba=overrides.get((e['a'],e['b'],'reason_ba'),short(e['reason_ba']))) for e in source['edges']]
+def edge(a,b,k,ab,ba):edges.append(dict(id=a+'--'+b,a=a,b=b,kind=k,ab=ab,ba=ba))
+edge('mouse','input','structure','마우스는 움직임과 클릭을 전달하는 입력장치의 한 종류입니다','입력장치에는 키보드뿐 아니라 마우스도 포함됩니다')
+edge('mouse','bus','data','USB 등의 연결로 입력 보고서를 호스트에 보냅니다','호스트 컨트롤러가 마우스의 보고서를 받아 시스템에 전달합니다')
+edge('mouse','cpu','data','보고서는 드라이버와 운영체제를 거쳐 애플리케이션에 전달됩니다','CPU에서 실행되는 프로그램이 마우스 입력을 해석하고 상태를 갱신합니다')
+edge('mouse','power','power','유선 장치는 USB 전원으로, 무선 장치는 배터리로 동작합니다','공급된 전력이 센서와 마우스 컨트롤러를 작동시킵니다')
+edge('power','vrm','power','PSU 등의 전원에서 받은 전압이 전압 조정 회로에 들어갑니다','VRM이 칩에 필요한 전압으로 변환합니다')
+edge('vrm','cpu','power','CPU 부하에 맞춰 낮고 안정된 전압을 공급합니다','CPU가 요구하는 전류가 바뀌면 VRM도 출력을 조절합니다')
+edge('vrm','mainboard','structure','메인보드의 전원부에 실장됩니다','기판은 VRM과 CPU·메모리를 전원 배선으로 이어줍니다')
+edge('vrm','cooling','thermal','전압 변환 과정에서 발생한 열을 방출해야 합니다','방열판과 공기 흐름이 전원부의 온도를 낮춥니다')
+edge('vrm','dram','power','메모리 전원 계통은 DRAM이 사용할 전압을 조정합니다','DDR5 모듈의 PMIC 등 실제 조정 회로의 위치는 플랫폼과 규격에 따라 다릅니다')
+assert len({n['id'] for n in nodes})==len(nodes)==23
+assert len(edges)==124 and len({frozenset([e['a'],e['b']]) for e in edges})==len(edges)
+assert all(e[k] in {n['id'] for n in nodes} for e in edges for k in ['a','b'])
+assert not any('문서' in e[k] or '연관 표' in e[k] for e in edges for k in ['ab','ba'])
+payload={'source':'data/hardware-graph.json','originalRelations':115,'nodes':nodes,'edges':edges}
+(ROOT/'design/redesign/relation-source.js').write_text('// Generated by tools/build-relation-data.py from the original main graph\nexport const RELATION_SOURCE = '+json.dumps(payload,ensure_ascii=False,separators=(',',':'))+';\n')
+print(f'Relationship data: {len(nodes)} nodes / {len(edges)} relationships')

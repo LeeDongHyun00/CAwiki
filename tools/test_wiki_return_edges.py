@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Direct route, slow destination image, fallback, resize and preparation timer."""
-import functools,json,threading
+import functools,json,re,threading
 from pathlib import Path
 from http.server import SimpleHTTPRequestHandler,ThreadingHTTPServer
 from playwright.sync_api import sync_playwright
@@ -13,7 +13,8 @@ with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--enable-unsafe-swiftshader'])
  for case in ['direct','slow-image','fallback','reduced-motion','resize']:
   page=browser.new_page(viewport={'width':1440,'height':900});page.on('pageerror',lambda e:errors.append(str(e)));held=[]
-  if case=='slow-image':page.route('**/redesign/cpu.webp*',lambda r:held.append(r))
+  # Hold both list sizes: the browser picks the 576px variant at this viewport.
+  if case=='slow-image':page.route(re.compile(r'/redesign/(?:576/)?cpu\.webp'),lambda r:held.append(r))
   if case=='reduced-motion':page.emulate_media(reduced_motion='reduce')
   page.goto(url+('?quality=still#map' if case=='fallback' else '#map'),wait_until='domcontentloaded')
   page.wait_for_selector('#relationship-room-frame');frame=page.frames[-1]

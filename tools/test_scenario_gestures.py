@@ -10,7 +10,7 @@ with sync_playwright() as p:
  b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--enable-unsafe-swiftshader'])
  page=b.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True);errors=[];results=[]
  page.on('pageerror',lambda e:errors.append(str(e)))
- site=(ROOT/'lib/inside/site.js').read_text()+'\nwindow.__story=film;'
+ site=(ROOT/'lib/inside/site.js').read_text()+'\nObject.defineProperty(window,"__story",{configurable:true,get:()=>film});'
  page.route('**/lib/inside/site.js*',lambda r:r.fulfill(body=site,content_type='text/javascript'))
  page.add_init_script('''window.__nativeScrollTo=scrollTo;window.__writes=[];window.__trace=[];window.__record=false;
  window.scrollTo=(...args)=>{if(__record)__writes.push({t:performance.now(),holding:__story.touching,args});return __nativeScrollTo(...args)};

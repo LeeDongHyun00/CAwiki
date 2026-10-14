@@ -30,7 +30,7 @@ with sync_playwright() as pw:
  source=(root/'lib/inside/study.js').read_text()+"\nwindow.__filmProbe=()=>({progress,target,clock:lastTime,computerComplete,paced:typeof scrollPacer!=='undefined'&&scrollPacer.active});window.__resetFilmScroll=()=>{if(typeof scrollPacer!=='undefined')scrollPacer.reset();};"
  source=source.replace('  pointer.x=mix(',"  if(window.__record)__rendered.push({t:time,p:progress,target,dt,paced:typeof scrollPacer!=='undefined'&&scrollPacer.active});\n  pointer.x=mix(")
  page.route('**/lib/inside/study.js*',lambda r:r.fulfill(body=source,content_type='text/javascript'))
- source_site=(root/'lib/inside/site.js').read_text()+"\nwindow.__story=film;"
+ source_site=(root/'lib/inside/site.js').read_text()+"\nObject.defineProperty(window,'__story',{configurable:true,get:()=>film});"
  page.route('**/lib/inside/site.js*',lambda r:r.fulfill(body=source_site,content_type='text/javascript'))
  scenario=(root/'lib/inside/scenario-film.js').read_text().replace('  if(!moving)this.progress=goal;',"  if(!moving)this.progress=goal;if(window.__record)__rendered.push({t:now,p:this.progress,target:this.target,dt,paced:!!this.scrollPacer?.active});")
  page.route('**/lib/inside/scenario-film.js*',lambda r:r.fulfill(body=scenario,content_type='text/javascript'))

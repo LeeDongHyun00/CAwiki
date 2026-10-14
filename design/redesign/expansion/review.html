@@ -1,0 +1,13 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>시나리오 05—16 · 연출 설계</title><link rel="stylesheet" href="./review.css"></head><body>
+<header><a href="./#stories">Computer Wiki ↗</a><span>시나리오 연출 설계 · 05—16</span></header>
+<main><section class="intro"><div><p class="kicker">하나의 동작을 끝까지 따라가다</p><h1>부품은 그대로<br>흐름은 선명하게</h1><p>조립된 하드웨어 사이로 시선을 이어갑니다<br>드래그할수록 입력이 처리되고, 결과가 눈앞에 나타납니다</p></div><a class="study-link" href="./scenario-save-study.html"><span class="pill">드래그 시나리오</span><strong>Ctrl+S 한 번의 여정</strong><span>메모리의 대기부터 SSD 기록까지 <b>↗</b></span></a></section>
+<section class="principles" aria-label="공통 연출 원칙"><p><span>01</span>조립된 상태 유지</p><p><span>02</span>하나의 연속된 카메라</p><p><span>03</span>원리마다 다른 변화</p><p><span>04</span>제목과 한 문장</p></section>
+<div class="workbench"><nav id="scenario-list" aria-label="설계할 시나리오"></nav><section class="story" aria-labelledby="story-name"><div class="story-head"><span id="story-number"></span><h2 id="story-name"></h2><p id="core"></p></div>
+<div id="rail" role="group" aria-label="장면 선택"></div>
+<div class="scene"><div class="visual"><img id="part-image" alt=""><div class="image-note">부품 참고 이미지 · 장면 구성안</div><div class="scene-number" id="scene-number"></div></div><div class="scene-copy"><p class="kicker">화면에 남길 문장</p><h3 id="scene-title"></h3><p id="scene-copy"></p><div class="motion"><span>드래그로 일어날 변화</span><p id="motion"></p></div></div></div>
+<div class="scrub"><span>장면 탐색</span><input type="range" min="0" max="5" step="1" value="0" aria-label="스토리보드 장면"><span id="range-label">1 / 6</span></div>
+<div class="notes"><div><h3>이 시나리오의 시각적 차이</h3><p id="signature"></p></div><div><h3>원리 자세히</h3><p id="detail"></p></div></div><p class="scope" id="note"></p>
+</section></div>
+<section class="delivery"><div><p class="kicker">구현 순서</p><h2>기본 흐름에서<br>겹쳐 일하는 장면까지</h2></div><ol><li><strong>타이핑 · 실행 · 저장 · USB</strong><span>입력, 명령과 데이터, 버퍼를 공통 동작으로 정리</span></li><li><strong>음악 · 스트리밍 · 로딩 · 녹화</strong><span>파형, 프레임, 공급과 소비를 구별</span></li><li><strong>통화 · 멀티태스킹 · 절전 · AI</strong><span>두 공간, 동시 처리, 전력 상태, 원격 추론으로 확장</span></li></ol></section>
+<footer>12편의 설명을 검토하고 7–9개 장면의 3D 시나리오로 구현했습니다</footer>
+</main><script id="storyboards" type="application/json">STORYBOARD_DATA</script><script id="images" type="application/json">IMAGE_DATA</script><script src="./review.js"></script></body></html>

@@ -105,7 +105,11 @@ with sync_playwright() as p:
         assert before == after, (before, after)
         page.evaluate('sampleArrival(__arrival.endAt)')
         complete(page)
-        assert page.locator('#world').evaluate('e=>e.height') == 760
+        # Hidden behind the list, the film parks its buffer; returning to the
+        # film restores it at the new viewport size.
+        assert page.locator('#world').evaluate('e=>[e.width,e.height]') == [1, 1]
+        page.evaluate('location.hash="screen"')
+        page.wait_for_function('document.body.dataset.mode==="home"&&document.querySelector("#world").height===760', timeout=60000)
         print('Address-bar height change retains flight coordinates and restores backing buffer PASS', flush=True)
 
         # Rotation changes the destination layout; complete cleanly into that grid.

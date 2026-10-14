@@ -1,0 +1,10 @@
+[
+  {
+    "id": "cpu",
+    "mean_pixel_difference": 1.0869174232598358
+  },
+  {
+    "id": "gpu",
+    "mean_pixel_difference": 2.4839061824470385
+  }
+]

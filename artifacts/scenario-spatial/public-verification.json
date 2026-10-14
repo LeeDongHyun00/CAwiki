@@ -1,0 +1,19 @@
+{
+  "url": "https://leedonghyun00.github.io/CAwiki/",
+  "version": {
+    "source": "95dde2b7e682ea979b0f75adf1fbe87ab8b31c6d",
+    "stories": 16,
+    "extendedScenes": 94
+  },
+  "http": 200,
+  "matches_package": true,
+  "tls": "System-trusted urllib HTTPS; same verified public bytes rendered by Chromium request interception",
+  "errors": [],
+  "cards": 16,
+  "component_points": "pass",
+  "drag": "pass",
+  "monitor_result": "pass",
+  "mobile": "pass",
+  "dialog": "pass",
+  "webgl": "pass"
+}

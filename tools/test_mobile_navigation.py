@@ -13,14 +13,15 @@ url=f'http://127.0.0.1:{server.server_port}/index.html';checks=[];errors=[]
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--enable-unsafe-swiftshader'])
  page=browser.new_page(viewport={'width':390,'height':844},device_scale_factor=3,is_mobile=True,has_touch=True);page.on('pageerror',lambda e:errors.append(str(e)))
- source=(root/'lib/inside/site.js').read_text()+'\nwindow.__story=film;'
+ source=(root/'lib/inside/site.js').read_text()+'\nObject.defineProperty(window,"__story",{configurable:true,get:()=>film});'
  page.route('**/lib/inside/site.js*',lambda r:r.fulfill(body=source,content_type='text/javascript'))
  page.goto(url+'#story/boot/0');page.wait_for_function("window.__story?.id==='boot'&&!__story.preparing",timeout=120000)
  page.locator('#story-track button').last.click();page.wait_for_function('__story.progress===1')
  page.locator('#story-restart').click();page.wait_for_function('__story.progress===0')
  checks.append('Step button and restart jump immediately')
- page.evaluate('__story.seek(.32,true);__story.scrollPacer.start(.32,__story.distance());dispatchEvent(new Event("inside:resize"))')
- assert page.evaluate('__story.scrollPacer.active&&Math.abs(__story.progress-.32)<1e-8')
+ # Check in the same task. The seek's own scroll ends a frame later, and its
+ # scrollend rightly settles the pacer before a separate evaluate can run.
+ assert page.evaluate('__story.seek(.32,true);__story.scrollPacer.start(.32,__story.distance());dispatchEvent(new Event("inside:resize"));__story.scrollPacer.active&&Math.abs(__story.progress-.32)<1e-8')
  checks.append('Viewport resize retains visible progress and touch pacing')
  page.locator('#story-why').click();page.locator('#story-detail-close').click()
  assert page.evaluate('Math.abs(__story.progress-__story.modalProgress)<=1/__story.distance()')

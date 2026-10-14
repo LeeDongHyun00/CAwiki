@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>하드웨어 스튜디오 — CAwiki</title>
+  <meta name="description" content="실제 제품 외형과 치수를 참고해 재구성한 컴퓨터 하드웨어 3D 도감. 회전, 확대, 분해 보기로 구조를 살펴보세요.">
+  <link rel="stylesheet" href="./assets/hardware-3d.css">
+</head>
+<body>
+  <header class="studio-header"><a class="brand" href="./index.html">CA<span>wiki</span><i>HARDWARE STUDIO</i></a><nav><a href="./hardware.html">관계 지도 ↗</a><a href="./wiki.html">아키텍처 도감 ↗</a></nav></header>
+  <main class="studio">
+    <section class="exhibit" aria-label="하드웨어 3D 뷰어">
+      <div class="exhibit-heading"><span class="eyebrow"><i></i> THE PHYSICAL COMPUTER</span><span class="exhibit-number">OBJECT <b id="object-number">01</b> / <span id="object-total">23</span></span></div>
+      <div id="viewport" tabindex="0" role="img" aria-label="3D 하드웨어. 드래그로 회전, 휠로 확대. 방향키로 회전, 더하기와 빼기로 확대, 0으로 초기화."><p class="loading" role="status">3D 모델을 준비하고 있습니다…</p></div>
+      <div class="view-controls" aria-label="카메라 시점"><button data-view="perspective" class="active" aria-pressed="true">입체</button><button data-view="top" aria-pressed="false">앞면</button><button data-view="bottom" aria-pressed="false">뒷면</button><button data-view="side" aria-pressed="false">측면</button><span></span><button id="reset" aria-label="시점 초기화">↺</button></div>
+      <div class="exhibit-footer"><span><i class="drag-icon">↔</i> 드래그로 회전 <em>·</em> 스크롤로 확대</span><span class="live-badge">LIVE 3D</span></div>
+    </section>
+    <aside class="inspector">
+      <div class="object-meta"><span id="model-category" class="eyebrow"></span><span id="model-tag"></span></div>
+      <h1 id="model-name">프로세서</h1><p id="model-product" class="product"></p><p id="model-description" class="description"></p>
+      <div class="dimensions"><span>외형 기준</span><strong id="model-size"></strong></div>
+      <div class="details"><h2>가까이 들여다보기</h2><ul id="model-features"></ul></div>
+      <div class="explosion"><div><label for="explode">분해 보기</label><output id="explode-value">0%</output></div><input id="explode" type="range" min="0" max="100" value="0"><p id="explode-hint">슬라이더를 움직여 부품의 층을 분리하세요.</p></div>
+      <div class="options"><button id="rotate" aria-pressed="false">↻ 자동 회전</button><button id="wire" aria-pressed="false">◇ 와이어프레임</button></div>
+      <button id="download-model" class="download-model">↓ 3D 모델 다운로드 <span>GLB</span></button>
+      <p id="download-status" class="download-status" role="status"></p>
+      <a id="learn-link" class="learn-link" href="./hardware.html?hw=cpu">이 부품의 역할과 연결 알아보기 <span>↗</span></a>
+      <div class="reference"><span id="accuracy-note"></span> <a id="model-source" target="_blank" rel="noopener noreferrer">참고 사양 ↗</a></div>
+    </aside>
+  </main>
+  <section class="collection"><div class="collection-heading"><h2>하드웨어 컬렉션 <span id="collection-count"></span></h2><p>부품을 선택하고, 모든 면을 살펴보세요.</p></div><div id="model-list" role="group" aria-label="하드웨어 선택"></div></section>
+  <script type="module" src="./lib/hardware-viewer.js"></script>
+</body>
+</html>

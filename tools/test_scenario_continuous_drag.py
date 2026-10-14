@@ -8,7 +8,7 @@ with sync_playwright() as p:
  b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--enable-unsafe-swiftshader'])
  page=b.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
  errors=[];results=[];page.on('pageerror',lambda e:errors.append(str(e)))
- source=(root/'lib/inside/site.js').read_text()+'\nwindow.__story=film;'
+ source=(root/'lib/inside/site.js').read_text()+'\nObject.defineProperty(window,"__story",{configurable:true,get:()=>film});'
  page.route('**/lib/inside/site.js*',lambda r:r.fulfill(body=source,content_type='text/javascript'))
  page.add_init_script('''window.__writes=[];window.__record=false;const native=scrollTo;window.scrollTo=(...args)=>{if(__record)__writes.push({held:__story.touching,args});return native(...args)};''')
  page.goto(base+'/index.html#story/boot/0')

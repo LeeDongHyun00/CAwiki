@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101213">
+  <link rel="icon" href="data:,">
+  <title>실리콘 아틀라스 — CAwiki 지도 디자인</title>
+  <meta name="description" content="컴퓨터 한 대를 3D로 펼치고, 부품의 역할과 연결을 하나씩 따라가는 하드웨어 지도.">
+  <link rel="stylesheet" href="./assets/map-design.css">
+</head>
+<body>
+  <div class="journey-progress" aria-hidden="true"><i></i></div>
+  <header class="atlas-header">
+    <a class="atlas-brand" href="./index.html" aria-label="CAwiki 홈">CA<span>wiki</span><i></i><small>실리콘 아틀라스</small></a>
+    <nav class="header-nav" aria-label="주 메뉴"><a href="./map-design.html" aria-current="page">하드웨어 지도</a><a href="./wiki.html">작동 원리</a></nav>
+    <a class="header-library" href="./hardware-3d.html">부품 도감 <span>↗</span></a>
+  </header>
+  <main class="atlas-main">
+    <section class="narrative" aria-labelledby="chapter-title">
+      <div class="chapter-copy">
+        <p class="chapter-eyebrow"><span class="eyebrow-line"></span><span id="chapter-eyebrow">A COMPUTER, UNFOLDED</span></p>
+        <h1 id="chapter-title">작은 부품들이,<br><span>하나의 세계로.</span></h1>
+        <p id="chapter-description" class="chapter-description">당신의 클릭 한 번은 어디를 지나갈까요?<br>컴퓨터를 펼쳐, 그 안의 연결을 따라가 보세요.</p>
+        <div class="chapter-facts" id="chapter-facts"></div>
+        <div class="chapter-relation" id="chapter-relation" hidden><p>함께 일하는 부품</p><div id="relation-items"></div></div>
+        <a class="chapter-action" id="chapter-action" href="#cpu">첫 번째 부품, CPU부터 <span>↗</span></a>
+        <p class="chapter-footnote" id="chapter-footnote">부품을 선택해 자유롭게 둘러볼 수도 있어요.</p>
+      </div>
+      <div class="chapter-pager"><span><b id="chapter-number">00</b><i>/</i><span id="chapter-total">06</span></span><div><button id="chapter-prev" aria-label="이전 부품">←</button><button id="chapter-next" aria-label="다음 부품">→</button></div></div>
+    </section>
+    <section class="atlas-exhibit" aria-label="컴퓨터 부품 3D 지도">
+      <div class="exhibit-topline"><span><i></i> INSIDE YOUR COMPUTER</span><span id="scene-state">EXPLODED VIEW</span></div>
+      <div id="atlas-viewport" tabindex="0" role="region" aria-label="3D 지도. 스크롤이나 위아래 방향키로 부품을 탐색합니다.">
+        <p class="atlas-loading" role="status">컴퓨터를 펼치고 있습니다<span>…</span></p>
+        <div id="model-labels"></div>
+      </div>
+      <div class="scene-caption"><span id="scene-caption">컴퓨터의 부품과 연결을 펼쳐 본 모습</span><span class="view-indicator"><i></i> 3D</span></div>
+      <div class="model-toolbar"><button id="overview-button" aria-label="전체 지도 보기"><span>⊞</span> 전체 지도</button><span class="tool-divider"></span><button id="inspect-button" aria-pressed="false"><span>⤧</span> 직접 돌려보기</button><button id="reset-view" aria-label="카메라 시점 초기화">↺</button></div>
+      <div class="exhibit-corner corner-tl" aria-hidden="true"></div><div class="exhibit-corner corner-br" aria-hidden="true"></div>
+    </section>
+    <aside class="side-marker" aria-hidden="true"><span>SCROLL TO EXPLORE</span><i></i><span>↓</span></aside>
+  </main>
+  <footer class="atlas-footer">
+    <div class="journey-heading"><p><span class="scroll-symbol">↓</span> 스크롤로 한 걸음씩</p><span>부품에서 시작해, 작동 원리까지.</span></div>
+    <nav class="chapter-nav" aria-label="탐색 단계" id="chapter-nav"></nav>
+    <div class="footer-note"><span>CAWIKI <i>·</i> A FIELD GUIDE TO COMPUTERS</span><a href="./hardware.html">연결 관계 전체 보기 ↗</a></div>
+  </footer>
+  <p class="sr-only" id="atlas-live" aria-live="polite"></p>
+  <noscript><p class="no-script">이 지도의 3D 탐색에는 JavaScript가 필요합니다. <a href="./wiki.html">아키텍처 도감 열기</a></p></noscript>
+  <script src="./lib/boot-notice.js"></script>
+  <script type="module" src="./lib/map-design.js"></script>
+</body>
+</html>

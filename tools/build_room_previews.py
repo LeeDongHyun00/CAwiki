@@ -6,7 +6,8 @@ from pathlib import Path
 from PIL import Image
 root=Path(__file__).resolve().parents[1]
 out=root/'assets/inside/room';out.mkdir(exist_ok=True)
-for path in sorted((root/'assets/inside/redesign').glob('*.webp')):
+# Lossless masters: the served Wiki portraits are already lossy.
+for path in sorted((root/'assets/models/redesign').glob('*.webp')):
  image=Image.open(path).convert('RGBA')
  # Keep the exact framing/alpha padding used by the Wiki and detail image.
  image.thumbnail((512,512),Image.Resampling.LANCZOS)

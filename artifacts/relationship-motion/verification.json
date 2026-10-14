@@ -1,0 +1,56 @@
+{
+  "environment": "Chromium software WebGL, real motion enabled; mobile touch emulation",
+  "desktop": {
+    "rooms": [
+      "compute",
+      "graphics",
+      "storage",
+      "io",
+      "network",
+      "power"
+    ],
+    "localHover": true,
+    "neighborStationary": true,
+    "hoverLeaveRestored": true,
+    "pointerScrollResizeDuringTransition": true,
+    "meshMaterialsUnchanged": true,
+    "pointerCloseRestoresFocusWithoutHover": true,
+    "keyboardEnterEscape": true,
+    "interruptedReverseContinuity": true,
+    "reducedMotionChange": true
+  },
+  "mobile": {
+    "hover": null,
+    "pose": {
+      "x": -1.109115817535545,
+      "y": 3.2014588270142177,
+      "scale": 0.04978703264753967,
+      "opacity": 1,
+      "rx": 0,
+      "ry": 0
+    },
+    "to": {
+      "x": -1.109115817535545,
+      "y": 3.2014588270142177,
+      "scale": 0.04978703264753967,
+      "opacity": 1,
+      "rx": 0,
+      "ry": 0
+    },
+    "feedback": {
+      "lift": 0,
+      "zoom": 0,
+      "rx": 0,
+      "ry": 0
+    },
+    "uuid": "751cbe4f-4fbb-4c6a-bd76-135a645018b7",
+    "focus": "sram",
+    "scroll": 0
+  },
+  "visual": {
+    "midTransitionOpacity": 0.41700960219478733,
+    "midTransitionImage": "mid-transition.png",
+    "desktopReturn": "return.png",
+    "mobileReturn": "mobile-return.png"
+  }
+}
