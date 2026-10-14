@@ -22,5 +22,8 @@ with sync_playwright() as p:
  assert not errors,errors
  b.close()
  if not args.preview:
-  target=ROOT/'assets/scenarios/usb-action-atlas.webp';atlas.save(target,quality=91,method=6)
+  target=ROOT/'assets/inside/scenarios/usb-action-atlas.webp';atlas.save(target,quality=91,method=6)
   print(f'{target} ({target.stat().st_size:,} bytes)')
+  # Touch-only visitors never animate the cover: they receive the resting frame.
+  still=ROOT/'assets/inside/scenarios/usb-action-still.webp';atlas.crop((0,0,800,480)).save(still,quality=91,method=6)
+  print(f'{still} ({still.stat().st_size:,} bytes)')
