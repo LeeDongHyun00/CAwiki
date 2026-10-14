@@ -13,7 +13,7 @@ url=f'http://127.0.0.1:{server.server_port}/index.html';checks=[];errors=[]
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--enable-unsafe-swiftshader'])
  page=browser.new_page(viewport={'width':390,'height':844},device_scale_factor=3,is_mobile=True,has_touch=True);page.on('pageerror',lambda e:errors.append(str(e)))
- source=(root/'lib/inside/site.js').read_text()+'\nwindow.__story=film;'
+ source=(root/'lib/inside/site.js').read_text()+'\nObject.defineProperty(window,"__story",{configurable:true,get:()=>film});'
  page.route('**/lib/inside/site.js*',lambda r:r.fulfill(body=source,content_type='text/javascript'))
  page.goto(url+'#story/boot/0');page.wait_for_function("window.__story?.id==='boot'&&!__story.preparing",timeout=120000)
  page.locator('#story-track button').last.click();page.wait_for_function('__story.progress===1')
