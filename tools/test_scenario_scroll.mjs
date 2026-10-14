@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 const read=name=>readFileSync(new URL(`../lib/inside/${name}.js`,import.meta.url),'utf8');
 const url=source=>`data:text/javascript;base64,${Buffer.from(source).toString('base64')}`;
 const source=read('scenario-scroll').replace('inside/scroll-pacing',url(read('scroll-pacing')));
-const {ScenarioScrollPacer,MAX_PENDING_SCENES}=await import(url(source));
+const {ScenarioScrollPacer,MAX_SCENES_PER_GESTURE}=await import(url(source));
 globalThis.innerWidth=390;globalThis.scrollY=1700;
 let reduced=false,coarse=false;
 globalThis.matchMedia=query=>({matches:query.includes('pointer: coarse')?coarse:reduced});
@@ -15,12 +15,12 @@ for(const stops of [[0,.14,.32,.49,.68,.86,1],[0,.1,.25,.3,.51,.63,.7,.82,.93,1]
   pacer.start(p,9000);
   for(let frame=1;frame<=300;frame++){
    const target=pacer.target((scrollY+direction*frame*70)/9000,p,9000);
-   assert.ok(Math.abs(pacer.position(target)-pacer.position(p))<=MAX_PENDING_SCENES+1e-10);
+   assert.ok(Math.abs(pacer.position(target)-pacer.position(start))<=MAX_SCENES_PER_GESTURE+1e-10);
    const next=pacer.advance(p,target,1/fps,8);
    assert.ok((next-p)*direction>=-1e-12,'One-direction input cannot reverse the film');
    p=next;
   }
-  assert.ok(direction>0?p>.99:p<.01,'Continuous held input must continue beyond one scene');
+  assert.ok(Math.abs(pacer.position(p)-pacer.position(start))<=1+1e-10);
   const prior=pacer.value;pacer.rebase(8800,6000);
   assert.ok(Math.abs(pacer.target(6000/8800,p,8800)-prior)<1e-12,'Resize cannot seek the film');
   // Reversing inside the same gesture must not first undo discarded overflow.
@@ -46,17 +46,18 @@ for(const mode of ['desktop','reduced','explicit']){
 innerWidth=844;coarse=true;reduced=false;pacer.start(.3,10000,3000);
 assert.ok(pacer.active,'Landscape touch devices still bound pending distance');
 assert.ok(pacer.position(pacer.target(.95,.3,10000))-pacer.position(.3)<=1);
-for(const direction of [-1,1])for(const fps of [15,30,60,120]){
+// Native inertia remains live after the finger lifts, within the same cap.
+for(const direction of [-1,1]){
  const p=new ScenarioScrollPacer([0,.12,.28,.49,.68,.84,1]);
- p.start(.49,10000,4900);const goal=p.target((4900+direction*2000)/10000,.49,10000);
- p.release(.49,1000);let previous=.49;
- for(let ms=0;ms<500;ms+=1000/fps){
-  assert.equal(p.target(direction>0?1:0,previous,10000),goal,'Inertia cannot extend the release target');
-  const next=p.advance(previous,goal,1/fps,8,1000+ms);
-  assert.ok((next-previous)*direction>=-1e-12);previous=next;
- }
- assert.equal(p.advance(previous,goal,1/fps,8,1500),goal);
- p.start(.49,10000,4900);assert.equal(p.released,null,'New touch interrupts release immediately');
- p.release(.49,1000);p.reset();assert.equal(p.released,null);
+ p.start(.49,10000,4900);
+ const initial=p.target((4900+direction*100)/10000,.49,10000);
+ const inertia=p.target((4900+direction*300)/10000,initial,10000);
+ assert.ok((inertia-initial)*direction>0,'Post-touch inertia must keep changing the target');
+ const end=p.target(direction>0?1:0,inertia,10000);
+ assert.ok(Math.abs(p.position(end)-p.position(.49))<=1+1e-10);
+ // A fresh touch gets its own one-scene range without any timed wait.
+ p.start(end,10000,5000);
+ const next=p.target((5000+direction*300)/10000,end,10000);
+ assert.ok((next-end)*direction>0);
 }
-console.log(JSON.stringify({cases,maxPendingScenes:MAX_PENDING_SCENES,continuousDrag:true,overflowReversal:true,smallDrag:true,resize:true,releaseMs:500,scrollWrites:0}));
+console.log(JSON.stringify({cases,maxScenesPerGesture:MAX_SCENES_PER_GESTURE,liveInertia:true,overflowReversal:true,smallDrag:true,resize:true,scrollWrites:0}));

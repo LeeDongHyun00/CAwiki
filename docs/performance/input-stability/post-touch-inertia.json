@@ -1,0 +1,20 @@
+[
+  {
+    "direction": 1,
+    "held": 0.4155908949173683,
+    "lifted": 0.4155908949173683,
+    "inertia": 0.4467726847521048,
+    "travel": 0.9999999999999996,
+    "immediateReverse": true,
+    "fresh": true
+  },
+  {
+    "direction": -1,
+    "held": 0.3844091050826318,
+    "lifted": 0.3844091050826318,
+    "inertia": 0.3532273152478953,
+    "travel": 1,
+    "immediateReverse": true,
+    "fresh": true
+  }
+]

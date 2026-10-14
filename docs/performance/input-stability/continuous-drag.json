@@ -1,25 +1,25 @@
 {
   "runs": [
     {
-      "case": "continuous-and-reverse",
+      "case": "one-scene-cap-and-reverse",
       "direction": 1,
-      "sceneTravel": 1.983
+      "sceneTravel": 1.0
     },
     {
-      "case": "continuous-and-reverse",
+      "case": "one-scene-cap-and-reverse",
       "direction": -1,
-      "sceneTravel": 1.592
+      "sceneTravel": 1.0
     },
     {
       "case": "native-touch",
       "passed": true
     },
     {
-      "case": "wheel-interrupts-release",
+      "case": "wheel-after-touch",
       "passed": true
     },
     {
-      "case": "mouse-interrupts-release",
+      "case": "mouse-after-touch",
       "passed": true
     },
     {
