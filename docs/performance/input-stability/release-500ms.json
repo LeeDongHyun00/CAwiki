@@ -4,37 +4,37 @@
       "story": "boot",
       "direction": 1,
       "durationMs": 500,
-      "firstSettledUpdateMs": 572.1,
-      "observedSettledPaintMs": 858,
-      "maxFrameGapMs": 288.0,
-      "lateInertiaChangedTarget": false
+      "firstSettledUpdateMs": 1031,
+      "observedSettledPaintMs": 1034.8,
+      "maxFrameGapMs": 584,
+      "inertiaChangedActiveReleaseTarget": false
     },
     {
       "story": "boot",
       "direction": -1,
       "durationMs": 500,
-      "firstSettledUpdateMs": 521.3,
-      "observedSettledPaintMs": 850.9,
-      "maxFrameGapMs": 375.5,
-      "lateInertiaChangedTarget": false
+      "firstSettledUpdateMs": 805.9,
+      "observedSettledPaintMs": 808.7,
+      "maxFrameGapMs": 483.2,
+      "inertiaChangedActiveReleaseTarget": false
     },
     {
       "story": "typing",
       "direction": 1,
       "durationMs": 500,
-      "firstSettledUpdateMs": 905.7,
-      "observedSettledPaintMs": 1323.5,
-      "maxFrameGapMs": 466.5,
-      "lateInertiaChangedTarget": false
+      "firstSettledUpdateMs": 709,
+      "observedSettledPaintMs": 717.9,
+      "maxFrameGapMs": 362.6,
+      "inertiaChangedActiveReleaseTarget": false
     },
     {
       "story": "typing",
       "direction": -1,
       "durationMs": 500,
-      "firstSettledUpdateMs": 610.7,
-      "observedSettledPaintMs": 789,
-      "maxFrameGapMs": 425.8,
-      "lateInertiaChangedTarget": false
+      "firstSettledUpdateMs": 487.3,
+      "observedSettledPaintMs": 493.4,
+      "maxFrameGapMs": 320.5,
+      "inertiaChangedActiveReleaseTarget": false
     }
   ],
   "errors": []
