@@ -74,9 +74,11 @@ with sync_playwright() as p:
  up();settle();report('landscape/multitouch/resize',1)
  page.set_viewport_size({'width':390,'height':844});page.wait_for_timeout(100)
  # A new drag must reverse immediately while the previous target is pending.
- start();down(500);page.evaluate('__nativeScrollTo(0,scrollY+2400)');page.wait_for_timeout(80);up();down(500)
+ start();down(500);page.evaluate('__nativeScrollTo(0,scrollY+2400)');page.wait_for_timeout(80);up()
+ pending=page.evaluate('__story.target');down(500)
  initial=page.evaluate('({p:__story.progress,target:__story.target})')
- assert initial['p']==initial['target']
+ # The new touch keeps the pending target; only a reversal restarts from p.
+ assert initial['target']==pending
  page.evaluate('__nativeScrollTo(0,scrollY-800)');page.wait_for_timeout(100);up();settle()
  assert page.evaluate('__story.progress')<initial['p']
  page.evaluate('__record=false')

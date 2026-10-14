@@ -26,9 +26,11 @@ with sync_playwright() as p:
    const capped=scroll(d*3000),travel=Math.abs(f.scrollPacer.position(capped)-anchor);
    const reverse=scroll(-d*25);
    const immediateReverse=(reverse-f.progress)*d<0;
-   // Another touch can start immediately, with a new anchor and no timer gate.
+   // Another touch can start immediately, with a new anchor and no timer gate,
+   // and continues the pending target instead of stopping the scene.
+   const pending=f.target;
    world.dispatchEvent(new TouchEvent('touchstart',{bubbles:true,touches:[touch]}));
-   const fresh=f.target===f.progress&&f.scrollPacer.active;
+   const fresh=f.target===pending&&f.scrollPacer.active&&f.scrollPacer.anchor===f.scrollPacer.position(pending);
    world.dispatchEvent(new TouchEvent('touchend',{bubbles:true,touches:[]}));
    return {direction:d,held,lifted,inertia,travel,immediateReverse,fresh};
   }''',direction)
