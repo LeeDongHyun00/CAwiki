@@ -2,289 +2,297 @@
   "runs": [
     {
       "name": "boot/native/1",
-      "frames": 37,
-      "maxTravelScenes": 0.534132710507329,
-      "maxTargetScenes": 0.5343656146915468,
+      "frames": 36,
+      "maxPendingScenes": 0.2839142106755763,
+      "maxScenesPerFrame": 0.0971903042097697,
       "reversals": 0,
-      "scrollWrites": 0
+      "scrollWrites": 1
     },
     {
       "name": "boot/native/-1",
-      "frames": 40,
-      "maxTravelScenes": 0.540809167446211,
-      "maxTargetScenes": 0.540809167446211,
+      "frames": 41,
+      "maxPendingScenes": 0.7842991976806042,
+      "maxScenesPerFrame": 0.10000000000000009,
       "reversals": 0,
-      "scrollWrites": 0
+      "scrollWrites": 1
     },
     {
       "name": "typing/native/1",
       "frames": 37,
-      "maxTravelScenes": 0.5495552195320594,
-      "maxTargetScenes": 0.5498364098478574,
+      "maxPendingScenes": 0.39704804385019044,
+      "maxScenesPerFrame": 0.10000000000000009,
       "reversals": 0,
-      "scrollWrites": 0
+      "scrollWrites": 1
     },
     {
       "name": "typing/native/-1",
-      "frames": 37,
-      "maxTravelScenes": 0.5495552195320599,
-      "maxTargetScenes": 0.5498364098478579,
+      "frames": 45,
+      "maxPendingScenes": 0.6552204733667093,
+      "maxScenesPerFrame": 0.10000000000000031,
       "reversals": 0,
-      "scrollWrites": 0
+      "scrollWrites": 1
     },
     {
       "name": "game/burst/1",
-      "frames": 48,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 71,
+      "maxPendingScenes": 1.351273871794982,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "game/burst/-1",
-      "frames": 46,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 50,
+      "maxPendingScenes": 0.8673895150507714,
+      "maxScenesPerFrame": 0.10000000000000031,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "boot/burst/1",
-      "frames": 31,
-      "maxTravelScenes": 0.9997878310527533,
-      "maxTargetScenes": 0.9999999999999996,
+      "frames": 67,
+      "maxPendingScenes": 1.1891493170249285,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "boot/burst/-1",
-      "frames": 29,
-      "maxTravelScenes": 0.9997860294275815,
-      "maxTargetScenes": 1.0,
+      "frames": 50,
+      "maxPendingScenes": 1.0840515511815454,
+      "maxScenesPerFrame": 0.10000000000000009,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "search/burst/1",
-      "frames": 32,
-      "maxTravelScenes": 0.9997760242574869,
-      "maxTargetScenes": 1.0000000000000004,
+      "frames": 73,
+      "maxPendingScenes": 1.192702562615108,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "search/burst/-1",
-      "frames": 48,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 54,
+      "maxPendingScenes": 0.9668518195195517,
+      "maxScenesPerFrame": 0.10000000000000009,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "storage/burst/1",
-      "frames": 31,
-      "maxTravelScenes": 0.9997669138802108,
-      "maxTargetScenes": 1.0,
+      "frames": 71,
+      "maxPendingScenes": 1.2306016628832728,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "storage/burst/-1",
-      "frames": 45,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 51,
+      "maxPendingScenes": 0.8691577607965458,
+      "maxScenesPerFrame": 0.10000000000000009,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "typing/burst/1",
-      "frames": 31,
-      "maxTravelScenes": 0.9997857291082299,
-      "maxTargetScenes": 1.0,
+      "frames": 49,
+      "maxPendingScenes": 1.2541178469131804,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "typing/burst/-1",
-      "frames": 46,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 58,
+      "maxPendingScenes": 1.0916739055616191,
+      "maxScenesPerFrame": 0.10000000000000031,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "launch/burst/1",
-      "frames": 46,
-      "maxTravelScenes": 0.9999999999999996,
-      "maxTargetScenes": 0.9999999999999996,
+      "frames": 54,
+      "maxPendingScenes": 1.3194085584928175,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "launch/burst/-1",
-      "frames": 45,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 56,
+      "maxPendingScenes": 1.4203389038654155,
+      "maxScenesPerFrame": 0.10000000000000009,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "save/burst/1",
-      "frames": 46,
-      "maxTravelScenes": 0.9999999999999996,
-      "maxTargetScenes": 0.9999999999999996,
+      "frames": 53,
+      "maxPendingScenes": 1.4187382384467053,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "save/burst/-1",
-      "frames": 45,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 62,
+      "maxPendingScenes": 1.3184620220171306,
+      "maxScenesPerFrame": 0.10000000000000009,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "music/burst/1",
-      "frames": 48,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 58,
+      "maxPendingScenes": 1.2558606790327405,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "music/burst/-1",
-      "frames": 29,
-      "maxTravelScenes": 0.9997897327197212,
-      "maxTargetScenes": 1.0,
+      "frames": 59,
+      "maxPendingScenes": 1.0907354574972317,
+      "maxScenesPerFrame": 0.10000000000000031,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "streaming/burst/1",
-      "frames": 46,
-      "maxTravelScenes": 0.9999999999999996,
-      "maxTargetScenes": 0.9999999999999996,
+      "frames": 55,
+      "maxPendingScenes": 1.3188723024559206,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "streaming/burst/-1",
-      "frames": 45,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 62,
+      "maxPendingScenes": 1.3183279590278474,
+      "maxScenesPerFrame": 0.10000000000000009,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "call/burst/1",
-      "frames": 46,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 53,
+      "maxPendingScenes": 1.3711412710434896,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "call/burst/-1",
-      "frames": 44,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 65,
+      "maxPendingScenes": 1.3687281188780065,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "multitasking/burst/1",
-      "frames": 47,
-      "maxTravelScenes": 0.9999999999999996,
-      "maxTargetScenes": 0.9999999999999996,
+      "frames": 53,
+      "maxPendingScenes": 1.3204810705665375,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "multitasking/burst/-1",
-      "frames": 46,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 61,
+      "maxPendingScenes": 1.3230201636485024,
+      "maxScenesPerFrame": 0.10000000000000009,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "usb/burst/1",
-      "frames": 48,
-      "maxTravelScenes": 0.9999999999999996,
-      "maxTargetScenes": 0.9999999999999996,
+      "frames": 56,
+      "maxPendingScenes": 1.4190063664652133,
+      "maxScenesPerFrame": 0.10000000000000009,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "usb/burst/-1",
-      "frames": 46,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 63,
+      "maxPendingScenes": 1.3523982739738187,
+      "maxScenesPerFrame": 0.10000000000000009,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "sleep/burst/1",
       "frames": 47,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "maxPendingScenes": 1.2541178469131413,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "sleep/burst/-1",
-      "frames": 45,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 57,
+      "maxPendingScenes": 1.0912717135339354,
+      "maxScenesPerFrame": 0.10000000000000031,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "ai/burst/1",
-      "frames": 46,
-      "maxTravelScenes": 0.9999999999999996,
-      "maxTargetScenes": 0.9999999999999996,
+      "frames": 53,
+      "maxPendingScenes": 1.318872302456037,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "ai/burst/-1",
-      "frames": 45,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 61,
+      "maxPendingScenes": 1.324092667561752,
+      "maxScenesPerFrame": 0.10000000000000009,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "loading/burst/1",
-      "frames": 47,
-      "maxTravelScenes": 0.9999999999999996,
-      "maxTargetScenes": 0.9999999999999996,
+      "frames": 56,
+      "maxPendingScenes": 1.3186041744374517,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "loading/burst/-1",
-      "frames": 44,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 62,
+      "maxPendingScenes": 1.3181938960388373,
+      "maxScenesPerFrame": 0.10000000000000009,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "record/burst/1",
-      "frames": 47,
-      "maxTravelScenes": 0.9999999999999996,
-      "maxTargetScenes": 0.9999999999999996,
+      "frames": 55,
+      "maxPendingScenes": 1.3190063664651355,
+      "maxScenesPerFrame": 0.10000000000000009,
       "reversals": 0,
       "scrollWrites": 1
     },
     {
       "name": "record/burst/-1",
-      "frames": 44,
-      "maxTravelScenes": 1.0,
-      "maxTargetScenes": 1.0,
+      "frames": 62,
+      "maxPendingScenes": 1.3187301479955793,
+      "maxScenesPerFrame": 0.10000000000000053,
+      "reversals": 0,
+      "scrollWrites": 1
+    },
+    {
+      "name": "landscape/multitouch/resize",
+      "frames": 67,
+      "maxPendingScenes": 4.956523724016192,
+      "maxScenesPerFrame": 0.10000000000000053,
       "reversals": 0,
       "scrollWrites": 1
     }

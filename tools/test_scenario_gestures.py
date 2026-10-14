@@ -30,11 +30,13 @@ with sync_playwright() as p:
   data=page.evaluate('({trace:__trace,writes:__writes})')
   trace=data['trace'];assert len(trace)>3
   lead=max(abs(f['target']-f['q']) for f in trace)
+  # The drawn film moves at most two scenes per second (dt is capped at 50 ms).
+  speed=max(abs(bb['q']-a['q']) for a,bb in zip(trace,trace[1:]))
   reversals=sum((bb['p']-a['p'])*direction<-.000001 for a,bb in zip(trace,trace[1:]))
-  assert lead<=1.00001,(name,lead)
+  assert speed<=.1+1e-6,(name,speed)
   assert reversals==0,(name,reversals)
   assert not any(w['holding'] for w in data['writes']),(name,data['writes'])
-  result={'name':name,'frames':len(trace),'maxPendingScenes':lead,'reversals':reversals,'scrollWrites':len(data['writes'])};results.append(result);print(json.dumps(result),flush=True)
+  result={'name':name,'frames':len(trace),'maxPendingScenes':lead,'maxScenesPerFrame':speed,'reversals':reversals,'scrollWrites':len(data['writes'])};results.append(result);print(json.dumps(result),flush=True)
   page.evaluate('__record=false')
 
  ready()
@@ -63,7 +65,7 @@ with sync_playwright() as p:
    up();settle();report(story+'/burst/'+str(direction),direction)
    assert page.evaluate('Math.abs(scrollY-__story.target*__story.distance())<=1.1')
 
- # Landscape phones still cap pending visual distance, including multi-touch and
+ # Landscape phones are paced too, including multi-touch and
  # real address-bar height changes before the gesture finishes.
  page.set_viewport_size({'width':844,'height':390});page.wait_for_timeout(100)
  start();down(250);assert page.evaluate('__story.scrollPacer.active')

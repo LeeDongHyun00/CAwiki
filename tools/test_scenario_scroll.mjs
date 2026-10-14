@@ -3,8 +3,8 @@ import {readFileSync} from 'node:fs';
 const read=name=>readFileSync(new URL(`../lib/inside/${name}.js`,import.meta.url),'utf8');
 const url=source=>`data:text/javascript;base64,${Buffer.from(source).toString('base64')}`;
 const source=read('scenario-scroll').replace('inside/scroll-pacing',url(read('scroll-pacing')));
-const {ScenarioScrollPacer,MAX_SCENES_PER_GESTURE}=await import(url(source));
-globalThis.innerWidth=390;globalThis.scrollY=1700;
+const {ScenarioScrollPacer,SCENES_PER_SECOND}=await import(url(source));
+globalThis.innerWidth=390;
 let reduced=false,coarse=false;
 globalThis.matchMedia=query=>({matches:query.includes('pointer: coarse')?coarse:reduced});
 globalThis.scrollTo=()=>assert.fail('Gesture input must never correct native scrolling');
@@ -12,52 +12,39 @@ let cases=0;
 for(const stops of [[0,.14,.32,.49,.68,.86,1],[0,.1,.25,.3,.51,.63,.7,.82,.93,1]]){
  for(const start of [.001,.15,.32,.5,.75,.999])for(const direction of [-1,1])for(const fps of [15,30,60,120]){
   const pacer=new ScenarioScrollPacer(stops);let p=start;
-  pacer.start(p,9000);
+  pacer.start(start);
   for(let frame=1;frame<=300;frame++){
-   const target=pacer.target((scrollY+direction*frame*70)/9000,p,9000);
-   assert.ok(Math.abs(pacer.position(target)-pacer.position(start))<=MAX_SCENES_PER_GESTURE+1e-10);
+   const requested=Math.max(0,Math.min(1,start+direction*frame*70/9000));
+   const target=pacer.target(requested,p);
+   assert.ok(Math.abs(target-requested)<1e-12,'One-direction input follows native scrolling');
    const next=pacer.advance(p,target,1/fps,8);
    assert.ok((next-p)*direction>=-1e-12,'One-direction input cannot reverse the film');
+   assert.ok(Math.abs(pacer.position(next)-pacer.position(p))<=SCENES_PER_SECOND*Math.min(1/fps,.05)+1e-9,'Drawn speed is bounded');
    p=next;
   }
-  assert.ok(Math.abs(pacer.position(p)-pacer.position(start))<=1+1e-10);
-  const prior=pacer.value;pacer.rebase(8800,6000);
-  assert.ok(Math.abs(pacer.target(6000/8800,p,8800)-prior)<1e-12,'Resize cannot seek the film');
-  // Reversing inside the same gesture must not first undo discarded overflow.
-  const reverse=pacer.target((6000-direction*20)/8800,p,8800);
-  assert.ok((reverse-p)*direction<0);
-  pacer.start(p,9000,4500);
-  assert.ok((pacer.target((4500-direction*250)/9000,p,9000)-p)*direction<0);
+  // Reversing turns the film back at once, whatever travel is still queued.
+  const last=Math.max(0,Math.min(1,start+direction*300*70/9000));
+  const reverse=pacer.target(last-direction*20/9000,p);
+  if(last!==0&&last!==1||Math.abs(last-p)>1e-6)assert.ok((reverse-p)*direction<0||Math.abs(reverse-p)<1e-9);
   cases++;
  }
 }
 const pacer=new ScenarioScrollPacer([0,.2,.4,.6,.8,1]);
-pacer.start(.3,10000,3000);
 assert.equal(pacer.advance(.3,.1,-.01,8),.3);
-const tiny=pacer.target(3001/10000,.3,10000);
-assert.ok(tiny>.3&&tiny<.301,'No minimum drag or automatic scene snap');
-// Excessive burst is bounded, but its overflow must not produce a dead zone.
-assert.equal(pacer.target(.95,.3,10000),.5);
-assert.ok(pacer.target(.94,.3,10000)<.3,'Small reverse input after huge burst acts immediately');
-for(const mode of ['desktop','reduced','explicit']){
- innerWidth=mode==='desktop'?1440:390;reduced=mode==='reduced';if(mode==='explicit')pacer.reset();
- assert.equal(pacer.target(.95,.3,10000),.95);
+// Without a touch the target is the native position, on every device.
+for(const mode of ['desktop','reduced','idle']){
+ innerWidth=mode==='desktop'?1440:390;reduced=mode==='reduced';pacer.reset();
+ assert.equal(pacer.target(.95,.3),.95);
 }
-innerWidth=844;coarse=true;reduced=false;pacer.start(.3,10000,3000);
-assert.ok(pacer.active,'Landscape touch devices still bound pending distance');
-assert.ok(pacer.position(pacer.target(.95,.3,10000))-pacer.position(.3)<=1);
-// Native inertia remains live after the finger lifts, within the same cap.
-for(const direction of [-1,1]){
- const p=new ScenarioScrollPacer([0,.12,.28,.49,.68,.84,1]);
- p.start(.49,10000,4900);
- const initial=p.target((4900+direction*100)/10000,.49,10000);
- const inertia=p.target((4900+direction*300)/10000,initial,10000);
- assert.ok((inertia-initial)*direction>0,'Post-touch inertia must keep changing the target');
- const end=p.target(direction>0?1:0,inertia,10000);
- assert.ok(Math.abs(p.position(end)-p.position(.49))<=1+1e-10);
- // A fresh touch gets its own one-scene range without any timed wait.
- p.start(end,10000,5000);
- const next=p.target((5000+direction*300)/10000,end,10000);
- assert.ok((next-end)*direction>0);
-}
-console.log(JSON.stringify({cases,maxScenesPerGesture:MAX_SCENES_PER_GESTURE,liveInertia:true,overflowReversal:true,smallDrag:true,resize:true,scrollWrites:0}));
+innerWidth=1440;assert.ok(pacer.advance(.3,.95,.05,8)-.3>.2,'Desktop easing is not speed-limited');
+innerWidth=844;coarse=true;reduced=false;pacer.start(.3);
+assert.ok(pacer.active,'Landscape touch devices are paced too');
+// Rest point: a slight touch returns to the nearest scene, a drag moves on
+// in its direction and never pulls the drawn scene back.
+const points=[0,.25,.45,.65,.85,1];
+assert.equal(pacer.rest(points,.45,.46,.455),.45);
+assert.equal(pacer.rest(points,.45,.56,.5),.65);
+assert.equal(pacer.rest(points,.45,.34,.4),.25);
+assert.equal(pacer.rest(points,.25,.95,.5),1);
+assert.ok(pacer.rest(points,.25,.62,.6)>=.6);
+console.log(JSON.stringify({cases,scenesPerSecond:SCENES_PER_SECOND,followsNative:true,immediateReversal:true,restPoints:true,scrollWrites:0}));
