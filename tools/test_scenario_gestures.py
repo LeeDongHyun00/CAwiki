@@ -1,6 +1,6 @@
 """Real touch input plus deterministic large native-scroll bursts on all stories."""
 from pathlib import Path
-import json,sys
+import json,sys,os
 EDGES_ONLY="--edges-only" in sys.argv
 from playwright.sync_api import sync_playwright
 
@@ -15,7 +15,7 @@ with sync_playwright() as p:
  page.add_init_script('''window.__nativeScrollTo=scrollTo;window.__writes=[];window.__trace=[];window.__record=false;
  window.scrollTo=(...args)=>{if(__record)__writes.push({t:performance.now(),holding:__story.touching,args});return __nativeScrollTo(...args)};
  function sample(t){if(__record&&window.__story){const f=__story;__trace.push({t,p:f.progress,q:f.scrollPacer.position(f.progress),target:f.scrollPacer.position(f.target),y:scrollY});}requestAnimationFrame(sample)}requestAnimationFrame(sample);''')
- page.goto('http://127.0.0.1:4173/index.html#story/boot/0')
+ page.goto(os.environ.get('TEST_BASE_URL','http://127.0.0.1:4173')+'/index.html#story/boot/0')
  cdp=page.context.new_cdp_session(page)
  def down(y):cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':360,'y':y}]})
  def up():cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
@@ -27,15 +27,14 @@ with sync_playwright() as p:
   page.evaluate('__record=false;__story.seek(.4,true)');page.wait_for_timeout(150)
   page.evaluate('__writes=[];__trace=[];__record=true')
  def report(name,direction):
-  data=page.evaluate('({trace:__trace,writes:__writes,anchor:__story.scrollPacer.anchor})')
+  data=page.evaluate('({trace:__trace,writes:__writes})')
   trace=data['trace'];assert len(trace)>3
-  travel=max(abs(f['q']-data['anchor']) for f in trace)
-  target=max(abs(f['target']-data['anchor']) for f in trace)
+  lead=max(abs(f['target']-f['q']) for f in trace)
   reversals=sum((bb['p']-a['p'])*direction<-.000001 for a,bb in zip(trace,trace[1:]))
-  assert travel<=1.00001 and target<=1.00001,(name,travel,target)
+  assert lead<=1.00001,(name,lead)
   assert reversals==0,(name,reversals)
   assert not any(w['holding'] for w in data['writes']),(name,data['writes'])
-  result={'name':name,'frames':len(trace),'maxTravelScenes':travel,'maxTargetScenes':target,'reversals':reversals,'scrollWrites':len(data['writes'])};results.append(result);print(json.dumps(result),flush=True)
+  result={'name':name,'frames':len(trace),'maxPendingScenes':lead,'reversals':reversals,'scrollWrites':len(data['writes'])};results.append(result);print(json.dumps(result),flush=True)
   page.evaluate('__record=false')
 
  ready()
@@ -64,7 +63,7 @@ with sync_playwright() as p:
    up();settle();report(story+'/burst/'+str(direction),direction)
    assert page.evaluate('Math.abs(scrollY-__story.target*__story.distance())<=1.1')
 
- # Landscape phones still cap touch gestures, including multi-touch and
+ # Landscape phones still cap pending visual distance, including multi-touch and
  # real address-bar height changes before the gesture finishes.
  page.set_viewport_size({'width':844,'height':390});page.wait_for_timeout(100)
  start();down(250);assert page.evaluate('__story.scrollPacer.active')
@@ -76,7 +75,7 @@ with sync_playwright() as p:
  page.set_viewport_size({'width':390,'height':844});page.wait_for_timeout(100)
  # A new drag must reverse immediately while the previous target is pending.
  start();down(500);page.evaluate('__nativeScrollTo(0,scrollY+2400)');page.wait_for_timeout(80);up();down(500)
- initial=page.evaluate('({p:__story.progress,target:__story.target,anchor:__story.scrollPacer.anchor})')
+ initial=page.evaluate('({p:__story.progress,target:__story.target})')
  assert initial['p']==initial['target']
  page.evaluate('__nativeScrollTo(0,scrollY-800)');page.wait_for_timeout(100);up();settle()
  assert page.evaluate('__story.progress')<initial['p']
