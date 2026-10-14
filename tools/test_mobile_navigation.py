@@ -19,8 +19,9 @@ with sync_playwright() as p:
  page.locator('#story-track button').last.click();page.wait_for_function('__story.progress===1')
  page.locator('#story-restart').click();page.wait_for_function('__story.progress===0')
  checks.append('Step button and restart jump immediately')
- page.evaluate('__story.seek(.32,true);__story.scrollPacer.start(.32,__story.distance());dispatchEvent(new Event("inside:resize"))')
- assert page.evaluate('__story.scrollPacer.active&&Math.abs(__story.progress-.32)<1e-8')
+ # Check in the same task. The seek's own scroll ends a frame later, and its
+ # scrollend rightly settles the pacer before a separate evaluate can run.
+ assert page.evaluate('__story.seek(.32,true);__story.scrollPacer.start(.32,__story.distance());dispatchEvent(new Event("inside:resize"));__story.scrollPacer.active&&Math.abs(__story.progress-.32)<1e-8')
  checks.append('Viewport resize retains visible progress and touch pacing')
  page.locator('#story-why').click();page.locator('#story-detail-close').click()
  assert page.evaluate('Math.abs(__story.progress-__story.modalProgress)<=1/__story.distance()')
