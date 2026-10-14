@@ -1,14 +1,14 @@
 {
   "runs": [
     {
-      "case": "one-scene-cap-and-reverse",
+      "case": "follow-reverse-and-rest",
       "direction": 1,
-      "sceneTravel": 1.0
+      "sceneTravel": 1.983
     },
     {
-      "case": "one-scene-cap-and-reverse",
+      "case": "follow-reverse-and-rest",
       "direction": -1,
-      "sceneTravel": 1.0
+      "sceneTravel": 1.592
     },
     {
       "case": "native-touch",

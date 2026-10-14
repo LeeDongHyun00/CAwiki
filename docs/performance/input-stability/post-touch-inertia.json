@@ -1,19 +1,19 @@
 [
   {
     "direction": 1,
-    "held": 0.4155908949173683,
-    "lifted": 0.4155908949173683,
-    "inertia": 0.4467726847521048,
-    "travel": 0.9999999999999996,
+    "held": 0.4156532584970377,
+    "lifted": 0.4156532584970377,
+    "inertia": 0.44683504833177423,
+    "travel": 2.64561895852822,
     "immediateReverse": true,
     "fresh": true
   },
   {
     "direction": -1,
-    "held": 0.3844091050826318,
-    "lifted": 0.3844091050826318,
-    "inertia": 0.3532273152478953,
-    "travel": 1,
+    "held": 0.38440910508263176,
+    "lifted": 0.38440910508263176,
+    "inertia": 0.35322731524789525,
+    "travel": 2.5,
     "immediateReverse": true,
     "fresh": true
   }

@@ -1,4 +1,4 @@
-"""Regression: one-scene gesture cap, overflow reversal and mixed input sources."""
+"""Regression: native-following drag, immediate reversal, scene rest and mixed input sources."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 import json, os
@@ -17,20 +17,21 @@ with sync_playwright() as p:
  cdp=page.context.new_cdp_session(page)
  def touch(t,y=500,x=360):cdp.send('Input.dispatchTouchEvent',{'type':t,'touchPoints':[] if t=='touchEnd' else [{'x':x,'y':y}]})
  def settle():
-  page.wait_for_function('!__story.scrollPacer.active&&Math.abs(__story.progress-__story.target)<.00003',timeout=15000)
+  # Resting means on a scene, with the document and the drawn film aligned.
+  page.wait_for_function('''()=>{const f=__story,d=f.distance();return !f.scrollPacer.active&&Math.abs(f.progress-f.target)<.00003&&Math.abs(scrollY-f.target*d)<=1.1&&f.config.steps.some((_,i)=>Math.abs(scrollY-Math.ceil(f.stop(i)*d-1e-7))<=1.1)}''',timeout=30000)
  def start(at=.2):
   page.evaluate('p=>{__record=false;__story.seek(p,true)}',at);page.wait_for_timeout(200)
   page.evaluate('__writes=[];__record=true');touch('touchStart')
  for direction in [1,-1]:
   start(.2 if direction==1 else .8)
   origin=page.evaluate('__story.scrollPacer.position(__story.progress)')
-  # Keep the same contact down: its total movement stays within one scene.
+  # Keep the same contact down: the target follows the native position.
   trace=[]
   for i in range(8):
    page.evaluate('d=>scrollBy(0,d*260)',direction);page.wait_for_timeout(220)
-   trace.append(page.evaluate('({p:__story.progress,t:__story.target,q:__story.scrollPacer.position(__story.target),y:scrollY})'))
-  assert all(abs(s['q']-origin)<=1.00001 for s in trace),trace
-  assert .9<abs(trace[-1]['q']-origin)<=1.00001,trace
+   trace.append(page.evaluate('({p:__story.progress,t:__story.target,q:__story.scrollPacer.position(__story.target),y:scrollY,d:__story.distance()})'))
+  assert all(abs(s['t']*s['d']-s['y'])<=1.1 for s in trace),trace
+  assert abs(trace[-1]['q']-origin)>1,trace
   # Force excess input, then reverse only a few pixels without lifting.
   page.evaluate('d=>scrollBy(0,d*2400)',direction);page.wait_for_timeout(80)
   page.evaluate('d=>{window.__reverseFrom=__story.progress;scrollBy(0,-d*25)}',direction)
@@ -38,8 +39,7 @@ with sync_playwright() as p:
   assert page.evaluate('d=>(__story.target-__reverseFrom)*d<0',direction)
   assert not page.evaluate('__writes.some(w=>w.held)')
   touch('touchEnd');settle()
-  assert page.evaluate('Math.abs(scrollY-__story.target*__story.distance())<=1.1')
-  results.append({'case':'one-scene-cap-and-reverse','direction':direction,'sceneTravel':round(abs(trace[-1]['q']-origin),3)})
+  results.append({'case':'follow-reverse-and-rest','direction':direction,'sceneTravel':round(abs(trace[-1]['q']-origin),3)})
  # Real browser-native touch events, not injected scroll deltas.
  start(.3)
  touch('touchMove',700)

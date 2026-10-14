@@ -1,4 +1,4 @@
-"""Post-touch input stays live within the original one-scene gesture limit."""
+"""Post-touch inertia stays live; a reversal turns back at once; a new touch keeps the target."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 import json,os
@@ -30,13 +30,13 @@ with sync_playwright() as p:
    // and continues the pending target instead of stopping the scene.
    const pending=f.target;
    world.dispatchEvent(new TouchEvent('touchstart',{bubbles:true,touches:[touch]}));
-   const fresh=f.target===pending&&f.scrollPacer.active&&f.scrollPacer.anchor===f.scrollPacer.position(pending);
+   const fresh=f.target===pending&&f.scrollPacer.active;
    world.dispatchEvent(new TouchEvent('touchend',{bubbles:true,touches:[]}));
    return {direction:d,held,lifted,inertia,travel,immediateReverse,fresh};
   }''',direction)
   assert result['held']==result['lifted'],result
   assert (result['inertia']-result['lifted'])*direction>0,result
-  assert .99<=result['travel']<=1.00001,result
+  assert result['travel']>1,result
   assert result['immediateReverse'] and result['fresh'],result
   results.append(result)
  page.wait_for_function('!__story.scrollPacer.active',timeout=15000)
